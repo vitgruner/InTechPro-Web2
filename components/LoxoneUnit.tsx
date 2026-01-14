@@ -56,9 +56,9 @@ const LoxoneUnit = () => {
   ];
 
   const rail1 = [
-    { id: 'relay1', label: 'Relay Ext', type: 'ext', color: 'bg-zinc-900', width: 'w-44 md:w-56' }, 
+    { id: 'relay1', label: 'Relay Extension', type: 'ext', color: 'bg-zinc-900', width: 'w-44 md:w-56' }, 
     { id: 'audioserver', label: 'Audio Server', type: 'ext', color: 'bg-[#964c91]', width: 'w-40 md:w-48' }, 
-    { id: 'dali', label: 'DALI Ext', type: 'ext', color: 'bg-lime-600', width: 'w-40 md:w-48' }, 
+    { id: 'dali', label: 'DALI Extenstion', type: 'ext', color: 'bg-lime-600', width: 'w-40 md:w-48' }, 
     { id: 'link', label: 'Link Node', type: 'ext', color: 'bg-zinc-900', width: 'w-28 md:w-36' }, 
   ];
 
@@ -66,7 +66,7 @@ const LoxoneUnit = () => {
     { id: 'relay2', label: 'Relay Extension', type: 'ext', color: 'bg-zinc-900', width: 'w-40 md:w-48' }, 
     { id: 'dimmer', label: 'Dimmer', type: 'ext', color: 'bg-zinc-800', width: 'w-44 md:w-56' }, 
     { id: 'onewire', label: '1-Wire', type: 'ext', color: 'bg-zinc-900', width: 'w-32 md:w-40' }, 
-    { id: 'meter', label: 'Meter', type: 'meter', color: 'bg-zinc-800', width: 'w-32 md:w-40' }, 
+    { id: 'meter', label: '3-phase Meter', type: 'meter', color: 'bg-zinc-800', width: 'w-32 md:w-40' }, 
   ];
 
   const rails = [rail0, rail1, rail2];

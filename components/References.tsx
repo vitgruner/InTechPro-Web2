@@ -2,7 +2,7 @@
 import React, { useState, useMemo } from 'react';
 import { 
   Home, Zap, Search, Filter, LayoutGrid, Building2, Factory, 
-  Cpu, Thermometer, Radio, Shield, Sun, Building 
+  Cpu, Thermometer, Radio, Shield, Sun, Building, Activity 
 } from 'lucide-react';
 import { Reference, ReferenceCardProps, ReferencesProps, ReferenceService } from '../types';
 
@@ -17,16 +17,27 @@ const IconMap: Record<string, React.ElementType> = {
   'sun': Sun,
   'building': Building,
   'factory': Factory,
-  'building2': Building2
+  'building2': Building2,
+  'activity': Activity
 };
 
 const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, tech, services = [], techIcon }) => {
-  const TechIconComp = IconMap[techIcon as string] || Cpu;
+  // Defensive icon lookup with fallback to Cpu
+  const iconKey = (techIcon as string)?.toLowerCase();
+  const TechIconComp = IconMap[iconKey] || Cpu;
 
   return (
     <div className="group relative glass-panel rounded-[2.5rem] overflow-hidden border border-black/10 dark:border-white/10 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all duration-700 hover:-translate-y-2 shadow-sm hover:shadow-2xl">
       <div className="relative h-72 overflow-hidden">
-        <img src={image} alt={title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+        <img 
+          src={image || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200"} 
+          alt={title} 
+          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.src = "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200";
+          }}
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 dark:from-[#050505] via-transparent to-transparent opacity-80"></div>
         
         <div className="absolute top-6 right-6 bg-white/90 dark:bg-black/80 backdrop-blur-xl border border-black/10 dark:border-white/20 px-4 py-2 rounded-2xl flex items-center gap-2.5 shadow-xl">
@@ -43,8 +54,9 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
 
         <div className="space-y-6">
           <div className="flex flex-wrap gap-2.5">
-            {services.map((service, idx) => {
-              const ServiceIcon = IconMap[service.icon as string] || Zap;
+            {services && services.map((service, idx) => {
+              const sIconKey = (service.icon as string)?.toLowerCase();
+              const ServiceIcon = IconMap[sIconKey] || Zap;
               return (
                 <div key={idx} className="flex items-center gap-2 bg-black/5 dark:bg-white/5 px-3 py-1.5 rounded-xl border border-black/5 dark:border-white/5 transition-colors hover:bg-blue-600/5">
                   <span className="text-blue-600 dark:text-blue-400"><ServiceIcon className="w-3 h-3" /></span>
@@ -76,7 +88,9 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
 
   const filteredProjects = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
-    const safeProjects = projects || [];
+    // Safety check for projects being an array
+    const safeProjects = Array.isArray(projects) ? projects : [];
+    
     return safeProjects.filter((p: Reference) => {
       const matchesFilter = filter === 'Vše' || p.category === filter;
       if (!matchesFilter) return false;
@@ -126,7 +140,7 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
                   {cat.icon}
                   {cat.label}
                   <span className={`ml-1 text-[8px] opacity-60 ${filter === cat.label ? 'text-white' : 'text-blue-600'}`}>
-                    ({cat.label === 'Vše' ? projects.length : projects.filter((p: Reference) => p.category === cat.label).length})
+                    ({cat.label === 'Vše' ? (Array.isArray(projects) ? projects.length : 0) : (Array.isArray(projects) ? projects.filter((p: Reference) => p.category === cat.label).length : 0)})
                   </span>
                 </button>
               ))}
@@ -144,7 +158,7 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
            </div>
         </div>
 
-        {filteredProjects.length > 0 ? (
+        {filteredProjects && filteredProjects.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             {filteredProjects.map((project: Reference, idx: number) => (
               <ReferenceCard key={idx} {...project} />

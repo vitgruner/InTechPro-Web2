@@ -3,23 +3,37 @@ import { Reference } from '../types';
 
 /**
  * dbService - Abstrakce pro komunikaci s databází.
- * V reálné produkci nahraďte URL vaší API (např. Supabase, Firebase nebo vlastní Node.js endpoint).
+ * Implementuje validaci dat pro zajištění stability v deploymentu.
  */
-const MOCK_API_DELAY = 1000;
+const MOCK_API_DELAY = 800;
 
 export const dbService = {
   /**
-   * Načte všechny reference ze serveru
+   * Načte všechny reference ze serveru s validací struktury
    */
   async fetchReferences(): Promise<Reference[]> {
-    // Simulace síťového požadavku
     return new Promise((resolve) => {
       setTimeout(() => {
-        const saved = localStorage.getItem('intechpro_db_refs');
-        if (saved) {
-          resolve(JSON.parse(saved));
-        } else {
-          // Pokud v DB nic není, vrátíme prázdné pole (nebo defaulty z App.tsx)
+        try {
+          const saved = localStorage.getItem('intechpro_db_refs');
+          if (!saved) return resolve([]);
+          
+          const data = JSON.parse(saved);
+          
+          // Validace: Musí to být pole a první prvek (pokud existuje) musí mít techIcon jako string
+          if (!Array.isArray(data)) {
+            console.warn("DB Warning: Načtená data nejsou pole, resetuji...");
+            return resolve([]);
+          }
+          
+          if (data.length > 0 && typeof data[0].techIcon !== 'string') {
+            console.warn("DB Warning: Detekován starý formát dat (ikony jako objekty), resetuji...");
+            return resolve([]);
+          }
+
+          resolve(data);
+        } catch (e) {
+          console.error("DB Error: Selhalo parsování dat:", e);
           resolve([]);
         }
       }, MOCK_API_DELAY);
@@ -27,29 +41,34 @@ export const dbService = {
   },
 
   /**
-   * Uloží novou referenci do databáze
+   * Uloží novou referenci
    */
   async saveReference(reference: Reference): Promise<boolean> {
     return new Promise((resolve) => {
       setTimeout(() => {
-        const current = localStorage.getItem('intechpro_db_refs');
-        const refs = current ? JSON.parse(current) : [];
-        const updated = [...refs, reference];
-        localStorage.setItem('intechpro_db_refs', JSON.stringify(updated));
-        resolve(true);
+        try {
+          const current = localStorage.getItem('intechpro_db_refs');
+          const refs = current ? JSON.parse(current) : [];
+          const updated = [...(Array.isArray(refs) ? refs : []), reference];
+          localStorage.setItem('intechpro_db_refs', JSON.stringify(updated));
+          resolve(true);
+        } catch (e) {
+          console.error("DB Error: Selhalo ukládání:", e);
+          resolve(false);
+        }
       }, MOCK_API_DELAY);
     });
   },
 
   /**
-   * Resetuje databázi (pouze pro admin účely)
+   * Resetuje databázi na výchozí hodnoty
    */
   async resetDatabase(defaultRefs: Reference[]): Promise<void> {
     return new Promise((resolve) => {
       setTimeout(() => {
         localStorage.setItem('intechpro_db_refs', JSON.stringify(defaultRefs));
         resolve();
-      }, 500);
+      }, 300);
     });
   }
 };

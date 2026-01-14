@@ -18,8 +18,8 @@ import AdminLogin from './components/AdminLogin';
 import ReferenceForm from './components/ReferenceForm';
 import { dbService } from './services/dbService';
 import { 
-  Zap, Cpu, Thermometer, Radio, Shield, Building2, Sun, Loader2, 
-  Database, CloudUpload, Twitter, Linkedin, Instagram, Lock 
+  Zap, Building2, Sun, Loader2, 
+  CloudUpload, Twitter, Linkedin, Instagram, Lock 
 } from 'lucide-react';
 import { Reference, ViewState } from './types';
 
@@ -37,6 +37,7 @@ const FooterLogo = () => (
   </div>
 );
 
+// Konstanta s garantovanými stringovými identifikátory pro ikony
 const DEFAULT_REFERENCES: Reference[] = [
   {
     title: "Villa Avant-Garde",
@@ -81,14 +82,16 @@ const App = () => {
       setIsLoadingData(true);
       try {
         const data = await dbService.fetchReferences();
-        if (data.length === 0) {
+        // Pokud je DB prázdná nebo nevalidní, nahrajeme výchozí data
+        if (!data || data.length === 0) {
+          console.log("Inicializuji výchozí reference...");
           await dbService.resetDatabase(DEFAULT_REFERENCES);
           setReferenceProjects(DEFAULT_REFERENCES);
         } else {
           setReferenceProjects(data);
         }
       } catch (error) {
-        console.error("Chyba při stahování dat:", error);
+        console.error("Kritická chyba při startu:", error);
         setReferenceProjects(DEFAULT_REFERENCES);
       } finally {
         setIsLoadingData(false);
@@ -199,7 +202,6 @@ const App = () => {
       <footer className="bg-black text-white pt-24 pb-12 border-t border-white/5">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 mb-24">
-            {/* Brand Column */}
             <div className="lg:col-span-5 space-y-8">
               <div onClick={() => setView('home')} className="cursor-pointer">
                 <FooterLogo />
@@ -216,7 +218,6 @@ const App = () => {
               </div>
             </div>
 
-            {/* Navigation Columns */}
             <div className="lg:col-span-3 space-y-8">
               <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-white">Mapa webu</h4>
               <ul className="space-y-4">
@@ -242,7 +243,6 @@ const App = () => {
             </div>
           </div>
 
-          {/* Bottom Bar */}
           <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
             <p className="text-[10px] font-black uppercase tracking-widest text-gray-500">
               © 2024 IN TECH PRO s.r.o. Synchronizováno a zabezpečeno.

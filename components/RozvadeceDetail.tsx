@@ -72,16 +72,16 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-                    <span className="text-[10px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-[0.2em]">DISTRIBUTION.NODE.ACTIVE</span>
+                    <span className="text-[10px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-[0.2em]">INTECHPRO.ROZVADĚČ.AKTIVNÍ</span>
                   </div>
                   <div className="h-3 w-[1px] bg-slate-300 dark:bg-white/10" />
                   <div className="flex items-center gap-2">
                     <Box className="w-3.5 h-3.5 text-blue-600" />
-                    <span className="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em]">TELEMETRY.v4.0</span>
+                    <span className="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em]">TELEMETRIE.v4.0</span>
                   </div>
                 </div>
                 <div className="hidden md:flex items-center gap-4 text-[9px] font-bold text-slate-400 uppercase tracking-widest">
-                   <span>Unit Type: Miniserver</span>
+                   <span>Technologie: Loxone</span>
                    <span>Status: Online</span>
                 </div>
               </div>
