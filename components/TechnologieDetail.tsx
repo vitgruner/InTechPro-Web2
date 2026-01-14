@@ -4,6 +4,7 @@ import { Thermometer, Wind, Sun, ArrowLeft, CheckCircle2, Zap, Snowflake, Briefc
 import SolarSystem from './SolarSystem';
 import { DetailProps } from '../types';
 import SectionHeader from './SectionHeader';
+import ServicePager from './ServicePager';
 
 const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
   const techCards = [
@@ -112,21 +113,9 @@ const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
           ))}
         </div>
 
-        <div className="bg-blue-600 rounded-[3rem] p-12 text-white relative overflow-hidden group shadow-2xl">
-          <div className="absolute top-0 right-0 p-12 opacity-10 group-hover:rotate-12 transition-transform duration-1000">
-            <Zap className="w-48 h-48" />
-          </div>
-          <div className="relative z-10 text-left">
-            <h2 className="text-3xl md:text-4xl font-black mb-6 uppercase tracking-tight">Potřebujete technologii, která dává smysl?</h2>
-            <button 
-              onClick={() => setView('contact')}
-              className="bg-white text-blue-600 px-10 py-5 rounded-full font-black uppercase tracking-widest text-xs hover:bg-blue-50 transition-all shadow-2xl flex items-center justify-center gap-3 w-full sm:w-auto"
-            >
-              Zahájit návrh
-              <Settings className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
+        
+
+        <ServicePager currentView="technologie" setView={setView} />
       </div>
     </div>
   );

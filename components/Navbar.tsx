@@ -42,7 +42,6 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
       label: 'Služby', 
       value: 'services',
       dropdown: [
-        { label: 'Všechny služby', value: 'services' },
         { label: 'Smart Home Loxone', value: 'loxone-detail' },
         { label: 'Projekce elektro & Smart Home', value: 'projekce-elektro' },
         { label: 'Výroba rozvaděčů', value: 'rozvadece' },

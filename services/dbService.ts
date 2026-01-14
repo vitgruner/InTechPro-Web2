@@ -6,6 +6,7 @@ import { Reference } from '../types';
  * Implementuje validaci dat pro zajištění stability v deploymentu.
  */
 const MOCK_API_DELAY = 800;
+const DB_KEY = 'intechpro_db_refs_v2'; // Změna verze klíče pro vynucení aktualizace dat
 
 export const dbService = {
   /**
@@ -15,7 +16,7 @@ export const dbService = {
     return new Promise((resolve) => {
       setTimeout(() => {
         try {
-          const saved = localStorage.getItem('intechpro_db_refs');
+          const saved = localStorage.getItem(DB_KEY);
           if (!saved) return resolve([]);
           
           const data = JSON.parse(saved);
@@ -47,10 +48,10 @@ export const dbService = {
     return new Promise((resolve) => {
       setTimeout(() => {
         try {
-          const current = localStorage.getItem('intechpro_db_refs');
+          const current = localStorage.getItem(DB_KEY);
           const refs = current ? JSON.parse(current) : [];
           const updated = [...(Array.isArray(refs) ? refs : []), reference];
-          localStorage.setItem('intechpro_db_refs', JSON.stringify(updated));
+          localStorage.setItem(DB_KEY, JSON.stringify(updated));
           resolve(true);
         } catch (e) {
           console.error("DB Error: Selhalo ukládání:", e);
@@ -66,7 +67,7 @@ export const dbService = {
   async resetDatabase(defaultRefs: Reference[]): Promise<void> {
     return new Promise((resolve) => {
       setTimeout(() => {
-        localStorage.setItem('intechpro_db_refs', JSON.stringify(defaultRefs));
+        localStorage.setItem(DB_KEY, JSON.stringify(defaultRefs));
         resolve();
       }, 300);
     });

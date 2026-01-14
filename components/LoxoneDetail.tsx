@@ -8,6 +8,7 @@ import {
 import LoxoneSchema from './LoxoneSchema';
 import { DetailProps } from '../types';
 import SectionHeader from './SectionHeader';
+import ServicePager from './ServicePager';
 
 const LoxoneDetail: React.FC<DetailProps> = ({ setView }) => {
   const [liveMetrics, setLiveMetrics] = useState({
@@ -142,26 +143,10 @@ const LoxoneDetail: React.FC<DetailProps> = ({ setView }) => {
                </div>
             </div>
         </div>
-
-        <div className="bg-gray-900 dark:bg-blue-900/20 rounded-[3rem] p-12 text-white border border-white/5 relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:scale-110 transition-transform duration-1000">
-            <Zap className="w-64 h-64" />
-          </div>
-          <div className="relative z-10">
-            <h2 className="text-3xl font-black mb-6">Připraveni na dům, který přemýšlí za vás?</h2>
-            <p className="text-blue-100 text-lg font-medium leading-relaxed max-w-2xl mb-10">
-                Začněte úvodní konzultací a zjistěte, jak může Loxone změnit váš pohled na moderní bydlení.
-            </p>
-            <div className="flex flex-wrap gap-4">
-                <button 
-                    onClick={() => setView('contact')}
-                    className="bg-blue-600 text-white px-10 py-5 rounded-full font-black uppercase tracking-widest text-xs hover:bg-blue-700 transition-all shadow-2xl shadow-blue-500/20"
-                >
-                    Poptat realizaci Loxone
-                </button>
-            </div>
-          </div>
-        </div>
+          
+        
+        
+        <ServicePager currentView="loxone-detail" setView={setView} />
       </div>
     </div>
   );

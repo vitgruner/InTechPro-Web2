@@ -4,6 +4,7 @@ import { FileText, ClipboardList, PenTool, Layout, Layers, CheckCircle2, ArrowLe
 import ProjectionVisualizer from './ProjectionVisualizer';
 import { DetailProps } from '../types';
 import SectionHeader from './SectionHeader';
+import ServicePager from './ServicePager';
 
 const ProjekceDetail: React.FC<DetailProps> = ({ setView }) => {
   return (
@@ -64,25 +65,6 @@ const ProjekceDetail: React.FC<DetailProps> = ({ setView }) => {
           </div>
         </div>
 
-        <div className="bg-blue-600 rounded-[3rem] p-12 text-white relative overflow-hidden group shadow-2xl">
-          <div className="absolute top-0 right-0 p-12 opacity-10 group-hover:rotate-12 transition-transform duration-1000">
-            <Layout className="w-48 h-48" />
-          </div>
-          <div className="relative z-10 text-left">
-            <h2 className="text-3xl font-black mb-6">Dlouhodobá hodnota</h2>
-            <p className="text-blue-50 text-lg font-medium leading-relaxed max-w-2xl mb-10">
-              Naše projekty nejsou jen formální dokumentací – jsou navrženy tak, aby zjednodušily realizaci, minimalizovaly chyby na stavbě a zajistily bezproblémový provoz po dlouhá léta.
-            </p>
-            <button 
-              onClick={() => setView('contact')}
-              className="bg-white text-blue-600 px-10 py-5 rounded-full font-black uppercase tracking-widest text-xs hover:bg-blue-50 transition-all shadow-2xl flex items-center justify-center gap-3 w-full sm:w-auto"
-            >
-              Poptat projekci
-              <Send className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-
         <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
             { icon: <FileText />, label: 'Technická zpráva' },
@@ -98,6 +80,8 @@ const ProjekceDetail: React.FC<DetailProps> = ({ setView }) => {
             </div>
           ))}
         </div>
+        
+        <ServicePager currentView="projekce-elektro" setView={setView} />
       </div>
     </div>
   );

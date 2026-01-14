@@ -107,7 +107,7 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
     });
   }, [filter, searchQuery, projects]);
 
-  const displayProjects = isStandalone ? filteredProjects : (Array.isArray(projects) ? projects.slice(0, 2) : []);
+  const displayProjects = isStandalone ? filteredProjects : (Array.isArray(projects) ? projects.slice(0, 3) : []);
 
   const categories = [
     { label: 'Vše', icon: <LayoutGrid className="w-3.5 h-3.5" /> },

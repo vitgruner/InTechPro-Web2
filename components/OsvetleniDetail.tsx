@@ -8,6 +8,7 @@ import {
 import LightControl from './LightControl';
 import { DetailProps } from '../types';
 import SectionHeader from './SectionHeader';
+import ServicePager from './ServicePager';
 
 const OsvetleniDetail: React.FC<DetailProps> = ({ setView }) => {
   const warnings = [
@@ -124,24 +125,9 @@ const OsvetleniDetail: React.FC<DetailProps> = ({ setView }) => {
           </div>
         </div>
 
-        <div className="bg-blue-600 rounded-[3rem] p-12 text-white border border-white/5 relative overflow-hidden group shadow-2xl">
-          <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:scale-110 transition-transform duration-1000">
-            <Lightbulb className="w-64 h-64" />
-          </div>
-          <div className="relative z-10 text-left">
-            <h2 className="text-3xl md:text-4xl font-black mb-6 uppercase tracking-tight leading-tight">Máte vizi? My máme světlo.</h2>
-            <p className="text-blue-50 text-lg font-medium leading-relaxed max-w-2xl mb-10">
-              Dobře navržené osvětlení změní vnímání vašeho prostoru. Začněte s námi plánovat hned teď.
-            </p>
-            <button 
-                onClick={() => setView('contact')}
-                className="bg-white text-blue-600 px-10 py-5 rounded-full font-black uppercase tracking-widest text-xs hover:bg-blue-50 transition-all shadow-2xl flex items-center justify-center gap-3 w-full sm:w-auto"
-            >
-                Poptat návrh osvětlení
-                <Zap className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
+        
+
+        <ServicePager currentView="osvetleni" setView={setView} />
       </div>
     </div>
   );

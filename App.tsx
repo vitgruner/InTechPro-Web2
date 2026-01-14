@@ -65,6 +65,20 @@ const DEFAULT_REFERENCES: Reference[] = [
       { label: "Energie", icon: "sun" },
       { label: "Automatizace", icon: "cpu" }
     ]
+  },
+  {
+    title: "Industrial Park D1",
+    category: "Průmyslová",
+    location: "Ostrava, CZ",
+    image: "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&q=80&w=1200",
+    tech: "Loxone / Modbus",
+    techIcon: "factory",
+    services: [
+      { label: "Měření", icon: "activity" },
+      { label: "Vytápění", icon: "thermometer" },
+      { label: "Osvětlení", icon: "zap" },
+      { label: "Energie", icon: "sun" }
+    ]
   }
 ];
 
