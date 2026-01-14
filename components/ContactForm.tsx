@@ -3,6 +3,7 @@ import React, { useState, useMemo } from 'react';
 import { Send, CheckCircle2, Zap, Thermometer, Shield, Radio, Sun, Wifi, Car, Home, Factory, Building2, Waves, Sprout, Droplets, Blinds, Calculator, Sparkles, History, Mail } from 'lucide-react';
 import VisionaryAssistant from './VisionaryAssistant';
 import { Message } from '../types';
+import SectionHeader from './SectionHeader';
 
 interface FormData {
   name: string;
@@ -118,9 +119,13 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-600/5 dark:bg-blue-600/10 rounded-full blur-[150px] -z-10 pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center lg:text-left mb-8 md:mb-12">
-          <h1 className="text-4xl md:text-6xl font-black text-gray-900 dark:text-white leading-tight tracking-tighter transition-colors">Zhmotněte svou <span className="text-gradient">Vizi</span></h1>
-        </div>
+        <SectionHeader 
+          eyebrow="Kontaktujte nás"
+          title="Zhmotněte svou"
+          highlight="Vizi"
+          description="Nezávazně vyplňte formulář níže. Naši inženýři zanalyzují vaše požadavky a připraví koncept inteligentního řešení přesně na míru vašemu projektu."
+          align={isStandalone ? 'left' : 'center'}
+        />
 
         {/* Pokud jsme na hlavní stránce (isStandalone === false), skryjeme levý sloupec a vycentrujeme formulář */}
         <div className={`grid gap-10 items-stretch ${isStandalone ? 'lg:grid-cols-12' : 'grid-cols-1 max-w-4xl mx-auto'}`}>

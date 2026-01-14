@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Search, PenTool, Settings, CheckSquare, FileText, ClipboardCheck, Zap, Rocket, Sliders } from 'lucide-react';
+import SectionHeader from './SectionHeader';
 
 const Process = () => {
   const steps = [
@@ -21,17 +22,13 @@ const Process = () => {
       className="py-10 md:py-14 bg-gray-50 dark:bg-[#0a0a0a] border-y border-black/5 dark:border-white/5"
     >
       <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-8 md:mb-10">
-          <span className="text-blue-600 font-black uppercase tracking-[0.35em] text-[10px] mb-3 block">
-            Průběh realizace
-          </span>
-          <h2 className="text-3xl md:text-4xl font-black mb-3 text-gray-900 dark:text-white">
-            Jak probíhá <span className="text-gradient">spolupráce</span>
-          </h2>
-          <p className="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto text-sm">
-            Celým procesem vás provedeme krok za krokem a dohlédneme na bezproblémovou realizaci.
-          </p>
-        </div>
+        <SectionHeader 
+          eyebrow="Průběh realizace"
+          title="Jak probíhá"
+          highlight="spolupráce"
+          description="Celým procesem vás provedeme krok za krokem a dohlédneme na bezproblémovou realizaci."
+          align="center"
+        />
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {steps.map((step, idx) => (

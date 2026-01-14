@@ -3,6 +3,7 @@ import React from 'react';
 import { FileText, ClipboardList, PenTool, Layout, Layers, CheckCircle2, ArrowLeft, Info, Send } from 'lucide-react';
 import ProjectionVisualizer from './ProjectionVisualizer';
 import { DetailProps } from '../types';
+import SectionHeader from './SectionHeader';
 
 const ProjekceDetail: React.FC<DetailProps> = ({ setView }) => {
   return (
@@ -15,15 +16,17 @@ const ProjekceDetail: React.FC<DetailProps> = ({ setView }) => {
           <ArrowLeft className="w-4 h-4" /> Zpět na služby
         </button>
 
-        <div className="mb-20 flex flex-col lg:flex-row justify-between items-end gap-10">
-          <div className="max-w-3xl text-left">
-            <span className="text-blue-600 font-black uppercase tracking-[0.4em] text-[10px] mb-4 block">Specializovaná činnost</span>
-            <h1 className="text-5xl md:text-7xl font-black mb-8 leading-tight tracking-tighter">
-              Projekce elektro a <br /><span className="text-gradient">Smart Home</span>
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400 font-medium leading-relaxed max-w-2xl">
-              Zpracováváme přehledné a srozumitelné projekty elektroinstalace a chytré domácnosti Loxone. Od prvotního nákresu po detailní realizační dokumentaci.
-            </p>
+        <div className="mb-20 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10">
+          <div className="max-w-3xl text-left w-full">
+            <SectionHeader 
+              variant="page"
+              align="left"
+              eyebrow="Specializovaná činnost"
+              title="Projekce elektro a"
+              highlight="Smart Home"
+              description="Zpracováváme přehledné a srozumitelné projekty elektroinstalace a chytré domácnosti Loxone. Od prvotního nákresu po detailní realizační dokumentaci."
+              className="mb-0"
+            />
           </div>
           <div className="hidden lg:flex items-center gap-3 bg-blue-600/5 px-6 py-4 rounded-3xl border border-blue-600/20 mb-12">
             <Info className="w-5 h-5 text-blue-600" />

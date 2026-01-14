@@ -3,6 +3,7 @@ import React from 'react';
 import { Thermometer, Wind, Sun, ArrowLeft, CheckCircle2, Zap, Snowflake, Briefcase, Settings, ShieldCheck, Activity, TrendingUp } from 'lucide-react';
 import SolarSystem from './SolarSystem';
 import { DetailProps } from '../types';
+import SectionHeader from './SectionHeader';
 
 const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
   const techCards = [
@@ -45,15 +46,14 @@ const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
           <ArrowLeft className="w-4 h-4" /> Zpět na služby
         </button>
 
-        <div className="mb-20 text-left">
-          <span className="text-blue-600 font-black uppercase tracking-[0.4em] text-[10px] mb-4 block">Advanced Systems Engineering</span>
-          <h1 className="text-5xl md:text-7xl font-black mb-8 leading-tight tracking-tighter">
-            Návrh a realizace <br /><span className="text-gradient">Technologií</span>
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 font-medium leading-relaxed max-w-3xl">
-            Každý dům je jiný – a stejné to platí i pro technologie, které ho pohánějí. Zajišťujeme kompletní dodávku moderních systémů pro domy i komerční objekty.
-          </p>
-        </div>
+        <SectionHeader 
+          variant="page"
+          align="left"
+          eyebrow="Advanced Systems Engineering"
+          title="Návrh a realizace"
+          highlight="Technologií"
+          description="Každý dům je jiný – a stejné to platí i pro technologie, které ho pohánějí. Zajišťujeme kompletní dodávku moderních systémů pro domy i komerční objekty."
+        />
 
         <div className="grid lg:grid-cols-12 gap-10 mb-24 items-stretch">
           <div className="lg:col-span-5 space-y-6">

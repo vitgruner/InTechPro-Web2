@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import LightControl from './LightControl';
 import { DetailProps } from '../types';
+import SectionHeader from './SectionHeader';
 
 const OsvetleniDetail: React.FC<DetailProps> = ({ setView }) => {
   const warnings = [
@@ -47,15 +48,14 @@ const OsvetleniDetail: React.FC<DetailProps> = ({ setView }) => {
           <ArrowLeft className="w-4 h-4" /> Zpět na služby
         </button>
 
-        <div className="mb-20 text-left">
-          <span className="text-blue-600 font-black uppercase tracking-[0.4em] text-[10px] mb-4 block">Design & Engineering</span>
-          <h1 className="text-5xl md:text-7xl font-black mb-8 leading-tight tracking-tighter">
-            Návrh a realizace <br /><span className="text-gradient">Osvětlení</span>
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 font-medium leading-relaxed max-w-4xl">
-            Ne každý má k dispozici architekta nebo designéra, který by se postaral o promyšlený návrh osvětlení. Právě proto nabízíme kompletní službu – od návrhu přes výběr svítidel až po samotnou realizaci.
-          </p>
-        </div>
+        <SectionHeader 
+          variant="page"
+          align="left"
+          eyebrow="Design & Engineering"
+          title="Návrh a realizace"
+          highlight="Osvětlení"
+          description="Ne každý má k dispozici architekta nebo designéra, který by se postaral o promyšlený návrh osvětlení. Právě proto nabízíme kompletní službu – od návrhu přes výběr svítidel až po samotnou realizaci."
+        />
 
         <div className="grid lg:grid-cols-12 gap-12 mb-24 items-stretch">
           <div className="lg:col-span-5 space-y-6 flex flex-col justify-center">

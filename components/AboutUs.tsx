@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Target, ShieldCheck, Zap } from 'lucide-react';
+import SectionHeader from './SectionHeader';
 
 const AboutUs = () => {
   return (
@@ -8,11 +9,13 @@ const AboutUs = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
-            <span className="text-blue-600 font-black uppercase tracking-[0.4em] text-[10px] mb-4 block">Naše Mise</span>
-            <h1 className="text-5xl md:text-7xl font-black mb-8 leading-tight tracking-tighter text-left">Inženýři s vášní pro <span className="text-gradient">Inteligenci</span></h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400 mb-12 leading-relaxed font-medium text-left">
-              V InTechPro věříme, že technologie by měly sloužit lidem, ne naopak. Naším cílem je eliminovat chaos v moderních instalacích a nahradit jej jedním harmonickým systémem, který dává smysl.
-            </p>
+            <SectionHeader 
+              eyebrow="Naše Mise"
+              title="Inženýři s vášní pro"
+              highlight="Inteligenci"
+              description="V InTechPro věříme, že technologie by měly sloužit lidem, ne naopak. Naším cílem je eliminovat chaos v moderních instalacích a nahradit jej jedním harmonickým systémem, který dává smysl."
+              align="left"
+            />
             <div className="space-y-6">
               <div className="flex gap-4">
                 <div className="w-12 h-12 rounded-2xl bg-blue-600/10 flex items-center justify-center flex-shrink-0">

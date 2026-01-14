@@ -5,6 +5,7 @@ import {
   Cpu, Thermometer, Radio, Shield, Sun, Building, Activity, ArrowRight 
 } from 'lucide-react';
 import { Reference, ReferenceCardProps, ReferencesProps, ReferenceService } from '../types';
+import SectionHeader from './SectionHeader';
 
 // Map for resolving string keys back to Lucide components
 const IconMap: Record<string, React.ElementType> = {
@@ -118,19 +119,13 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
   return (
     <section id="references" className={`transition-all duration-700 pb-8 md:pb-16 ${isStandalone ? 'pt-24 md:pt-36' : 'pt-8 md:pt-16'}`}>
       <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-8 md:mb-12 text-left">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-600/10 dark:bg-blue-500/10 border border-blue-600/20 dark:border-blue-400/20 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-[0.3em] mb-4 md:mb-6">
-              Výběr z portfolia
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 dark:text-white tracking-tight transition-colors duration-500 mb-4 md:mb-6">
-              Naše globální <span className="text-gradient">Realizace</span>
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400 text-base md:text-lg font-medium transition-colors max-w-2xl">
-              Definitivní kolekce projektů s vysokou věrností v rezidenčním, komerčním i průmyslovém sektoru.
-            </p>
-          </div>
-        </div>
+        <SectionHeader 
+          eyebrow="Výběr z portfolia"
+          title="Naše globální"
+          highlight="Realizace"
+          description="Definitivní kolekce projektů s vysokou věrností v rezidenčním, komerčním i průmyslovém sektoru."
+          align={isStandalone ? 'left' : 'center'}
+        />
 
         {isStandalone && (
           <div className="mb-8 md:mb-10 flex flex-col lg:flex-row items-center justify-between gap-6">

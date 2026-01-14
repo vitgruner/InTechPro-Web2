@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { 
   Zap, Thermometer, Wind, Blinds, Shield, Radio, Droplets, Waves, Car, 
@@ -6,6 +7,7 @@ import {
 } from 'lucide-react';
 import LoxoneSchema from './LoxoneSchema';
 import { DetailProps } from '../types';
+import SectionHeader from './SectionHeader';
 
 const LoxoneDetail: React.FC<DetailProps> = ({ setView }) => {
   const [liveMetrics, setLiveMetrics] = useState({
@@ -39,32 +41,6 @@ const LoxoneDetail: React.FC<DetailProps> = ({ setView }) => {
     return () => clearInterval(interval);
   }, []);
 
-  const integrations = [
-    { icon: <Zap />, label: "Osvětlení", desc: "Klasické, DALI, LED pásky, Loxone světla", metric: `${liveMetrics.lighting.active}/${liveMetrics.lighting.total} ON • ${liveMetrics.lighting.pwr}kW` },
-    { icon: <Thermometer />, label: "Vytápění", desc: "Teplovodní i elektrické", metric: `${liveMetrics.heating.temp}°C • Ventily ${liveMetrics.heating.valve}%` },
-    { icon: <Wind />, label: "Chlazení", desc: "Klimatizace a fancoily", metric: `${liveMetrics.cooling.temp}°C • Režim ${liveMetrics.cooling.fan}` },
-    { icon: <Wind />, label: "Rekuperace", desc: "Čerstvý vzduch pod kontrolou", metric: `${liveMetrics.recovery.co2}ppm • Účinnost ${liveMetrics.recovery.eff}%` },
-    { icon: <Blinds />, label: "Stínění", desc: "Žaluzie, rolety, závěsy", metric: `Pozice ${liveMetrics.shading.pos}% • ${liveMetrics.shading.mode}` },
-    { icon: <Shield />, label: "Přístup", desc: "Zámky, videovrátný, brány", metric: `${liveMetrics.access.status} • ${liveMetrics.access.log}` },
-    { icon: <Zap />, label: "Energie", desc: "Management a fotovoltaika", metric: `FVE ${liveMetrics.energy.production}kW • Dům ${liveMetrics.energy.consumption}kW` },
-    { icon: <Radio />, label: "Audio", desc: "Hudba, hlášení, upozornění", metric: `Vol ${liveMetrics.audio.vol}% • ${liveMetrics.audio.zone}` },
-    { icon: <Droplets />, label: "Závlaha", desc: "Chytrá správa zahrady", metric: `Vlhkost ${liveMetrics.irrigation.moisture}% • ${liveMetrics.irrigation.status}` },
-    { icon: <Waves />, label: "Wellness", desc: "Bazén a sauna", metric: `Bazén ${liveMetrics.wellness.pool}°C • Vzduch ${liveMetrics.wellness.air}°C` },
-    { icon: <Car />, label: "E-Mobility", desc: "Wallbox pro elektromobil", metric: `SoC ${liveMetrics.emobility.charge}% • Nabíjení ${liveMetrics.emobility.pwr}kW` }
-  ];
-
-  const processSteps = [
-    { icon: <Search />, title: "1. Úvodní konzultace", desc: "Osobně nebo online projdeme vaše představy, možnosti systému Loxone a půdorysy stavby. Společně definujeme rozsah řešení." },
-    { icon: <PenTool />, title: "2. Návrh systému a cena", desc: "Na základě konzultace navrhneme systém Loxone přesně podle vašich potřeb a připravíme orientační cenový odhad." },
-    { icon: <Settings />, title: "3. Doladění rozsahu", desc: "Návrh upravíme podle vašich priorit a finančních možností. Systém lze připravit i na budoucí rozšíření kabelovou přípravou." },
-    { icon: <CheckSquare />, title: "4. Finální nabídka", desc: "Po odsouhlasení rozsahu vytvoříme přesnou cenovou nabídku. Žádná dodatečná navýšení vás nečekají." },
-    { icon: <FileText />, title: "5. Příprava podkladů", desc: "Zpracujeme detailní Loxone studii – rozmístění prvků, typy kabeláže, značení a doporučené trasy." },
-    { icon: <ClipboardCheck />, title: "6. Kontrola na stavbě", desc: "Společná kontrola s elektrikáři před zahájením kabeláže i po natažení kabelů před zaklopením." },
-    { icon: <Zap />, title: "7. Rozvaděče", desc: "Projekce a kompletní výroba rozvaděčů na dílně. Dodání hotového a revidovaného kusu na stavbu." },
-    { icon: <Rocket />, title: "8. Realizace a spuštění", desc: "Osazení koncových prvků, připojení rozvaděče a oživení systému v čistém a bezprašném prostředí." },
-    { icon: <Sliders />, title: "9. Finální nastavení", desc: "Individuální doladění systému podle vašich skutečných návyků a přání po zabydlení." }
-  ];
-
   return (
     <div className="pt-32 md:pt-40 pb-16 md:pb-24 animate-in fade-in duration-700">
       <div className="max-w-7xl mx-auto px-6">
@@ -75,15 +51,14 @@ const LoxoneDetail: React.FC<DetailProps> = ({ setView }) => {
           <ArrowLeft className="w-4 h-4" /> Zpět na služby
         </button>
 
-        <div className="mb-20">
-          <span className="text-blue-600 font-black uppercase tracking-[0.4em] text-[10px] mb-4 block">The Core Integration</span>
-          <h1 className="text-5xl md:text-7xl font-black mb-8 leading-tight tracking-tighter">
-            Návrh a realizace <br /><span className="text-gradient">Smart Home Loxone</span>
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 font-medium leading-relaxed max-w-3xl mb-12">
-            Moderní domy jsou plné technologií, které se starají o komfort, klima i úspory. Často ale fungují každá zvlášť – každá se svou aplikací. Výsledkem je chaos. Loxone vše propojí do jednoho harmonického celku.
-          </p>
-        </div>
+        <SectionHeader 
+          variant="page"
+          align="left"
+          eyebrow="The Core Integration"
+          title="Návrh a realizace"
+          highlight="Smart Home Loxone"
+          description="Moderní domy jsou plné technologií, které se starají o komfort, klima i úspory. Často ale fungují každá zvlášť – každá se svou aplikací. Výsledkem je chaos. Loxone vše propojí do jednoho harmonického celku."
+        />
 
         <div className="mb-32">
           <div className="flex flex-col lg:flex-row gap-8 items-start">

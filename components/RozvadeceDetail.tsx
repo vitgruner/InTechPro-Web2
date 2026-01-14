@@ -3,6 +3,7 @@ import React from 'react';
 import { Settings, Box, ShieldCheck, PenTool, Truck, Calculator, FileText, BadgeCheck, TrendingUp, ArrowLeft, Zap, Cpu } from 'lucide-react';
 import LoxoneUnit from './LoxoneUnit';
 import { DetailProps } from '../types';
+import SectionHeader from './SectionHeader';
 
 interface VisualizationBoxProps {
   icon: React.ElementType;
@@ -55,15 +56,17 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
           <ArrowLeft className="w-4 h-4" /> Zpět na služby
         </button>
 
-        <div className="mb-20 flex flex-col lg:flex-row justify-between items-end gap-10">
-          <div className="max-w-3xl text-left">
-            <span className="text-blue-600 font-black uppercase tracking-[0.4em] text-[10px] mb-4 block">Engineered for Reliability</span>
-            <h1 className="text-5xl md:text-7xl font-black mb-8 leading-tight tracking-tighter">
-              Realizace <br /><span className="text-gradient">rozvaděčů</span>
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400 font-medium leading-relaxed max-w-2xl">
-              Kvalitně navržený rozvaděč je základ spolehlivé elektroinstalace i chytré domácnosti. Proto klademe důraz na detailní přípravu už ve fázi projekce.
-            </p>
+        <div className="mb-20 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10">
+          <div className="max-w-3xl text-left w-full">
+            <SectionHeader 
+              variant="page"
+              align="left"
+              eyebrow="Engineered for Reliability"
+              title="Realizace"
+              highlight="rozvaděčů"
+              description="Kvalitně navržený rozvaděč je základ spolehlivé elektroinstalace i chytré domácnosti. Proto klademe důraz na detailní přípravu už ve fázi projekce."
+              className="mb-0"
+            />
           </div>
         </div>
 
