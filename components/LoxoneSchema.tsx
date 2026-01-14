@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Cpu, Radio, Lightbulb, Thermometer, Share2, Activity } from 'lucide-react';
 
@@ -17,10 +18,24 @@ const NodeConnector: React.FC<NodeConnectorProps> = ({ x, y, label, id, icon: Ic
     <circle r="55" fill={colorHex} opacity="0.02" className="group-hover:opacity-12 transition-all duration-500" />
     <circle r="38" fill="none" stroke={colorHex} strokeWidth="0.5" strokeDasharray="2 6" opacity="0.15" className="group-hover:opacity-50 transition-opacity" />
     
-    {/* Icon Container */}
-    <foreignObject x="-28" y="-28" width="56" height="56">
-      <div className={`w-full h-full flex items-center justify-center rounded-2xl border border-${colorClass}-500/20 bg-white/60 dark:bg-white/5 backdrop-blur-xl transition-all duration-500 group-hover:scale-110 group-hover:border-${colorClass}-500/40 shadow-sm`}>
-        <Icon className={`w-7 h-7 text-${colorClass}-600 dark:text-${colorClass}-400`} />
+    {/* FIX: Použití nativního SVG Rect namísto ForeignObject pro pozadí boxu. 
+       Toto řeší chybu ve WebKitu (iOS), kde se foreignObject nerespektoval transformaci parenta. */}
+    <rect 
+      x="-28" 
+      y="-28" 
+      width="56" 
+      height="56" 
+      rx="16" 
+      className="fill-white/80 dark:fill-white/5 transition-all duration-500 group-hover:scale-110"
+      stroke={colorHex}
+      strokeWidth="1"
+      strokeOpacity="0.3"
+    />
+
+    {/* Icon Container - pouze ikona je v foreignObject, což je pro Safari bezpečnější */}
+    <foreignObject x="-14" y="-14" width="28" height="28" className="pointer-events-none group-hover:scale-110 transition-transform duration-500 overflow-visible">
+      <div className="w-full h-full flex items-center justify-center">
+        <Icon className={`w-full h-full text-${colorClass}-600 dark:text-${colorClass}-400`} />
       </div>
     </foreignObject>
 
