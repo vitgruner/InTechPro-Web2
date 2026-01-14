@@ -133,7 +133,7 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
                     <h3 className="text-sm font-black uppercase tracking-tight">Krok 1: Konzultace</h3>
                 </div>
                 <p className="text-[11px] text-gray-500 font-medium leading-relaxed">
-                  Poraďte se o technických detailech. Přepis chatu automaticky odešleme na <strong>vit.gruner@gmail.com</strong> spolu s vaší poptávkou.
+                  Poraďte se o technických detailech. Přepis chatu automaticky odešleme spolu s vaší poptávkou.
                 </p>
             </div>
             <div className="flex-1 min-h-[400px] md:min-h-[500px]">

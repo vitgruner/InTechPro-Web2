@@ -14,7 +14,7 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
         <div className="text-center lg:text-left">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600/10 dark:bg-blue-500/20 border border-blue-600/20 dark:border-blue-400/30 text-blue-600 dark:text-blue-300 text-xs font-bold tracking-wider uppercase mb-6 mx-auto lg:mx-0">
             < Zap className="w-3 h-3 text-blue-600 dark:text-blue-400" />
-            Inženýrství prostorů zítřka
+            22. století již dnes
           </div>
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6 text-gray-900 dark:text-white transition-colors duration-500">
             Integrovaná <br className="hidden sm:block" />
