@@ -142,14 +142,14 @@ const SolarSystem = () => {
           color="yellow" 
           position="top-[15%] left-1/2 -translate-x-1/2 -translate-y-6 md:-translate-y-8" 
         />
-        <PowerNode 
-          icon={Battery} 
-          label="Battery Storage" 
-          value={metrics.batteryPower} 
-          unit="kW" 
-          color="green" 
-          position="bottom-[15%] left-1/2 -translate-x-1/2 -translate-y-6 md:-translate-y-8" 
-        />
+     <PowerNode
+  icon={Battery}
+  label="Battery Storage"
+  value={metrics.batteryPower}
+  unit="kW"
+  color="green"
+  position="top-[90%] left-1/2 -translate-x-1/2 -translate-y-1/2"
+/>
         <PowerNode 
           icon={Home} 
           label="House Load" 
