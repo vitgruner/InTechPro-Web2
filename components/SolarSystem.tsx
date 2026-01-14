@@ -53,28 +53,34 @@ const SolarSystem = () => {
   }, []);
 
   const PowerNode: React.FC<PowerNodeProps> = ({ icon: Icon, label, value, unit, color, position }) => (
-    <div className={`absolute ${position} flex flex-col items-center group z-20 transition-all duration-500`}>
-      <div className={`w-12 h-12 md:w-16 md:h-16 rounded-2xl glass-panel border border-${color}-400/30 flex items-center justify-center mb-2 group-hover:scale-110 transition-all duration-500 bg-white dark:bg-[#1a1d21] shadow-xl`}>
-        <Icon className={`w-5 h-5 md:w-8 md:h-8 text-${color}-600 dark:text-${color}-400 transition-colors`} />
-      </div>
-      <div className="flex flex-col items-center text-center px-2">
-        <span className="text-[7px] md:text-[9px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.15em] mb-0.5 whitespace-nowrap">
-          {label}
-        </span>
-        <div className="flex items-baseline gap-1">
-          <span className="text-sm md:text-xl font-black text-gray-900 dark:text-white tabular-nums">
-            {Math.abs(value).toFixed(1)}
-          </span>
-          <span className="text-[8px] md:text-[10px] text-gray-500 font-black uppercase">
-            {unit}
-          </span>
+    <div className={`absolute ${position} z-20`}>
+      {/* ANCHOR: ikona je přesně v bodě ukotvení */}
+      <div className="flex flex-col items-center">
+        <div className={`w-12 h-12 md:w-16 md:h-16 rounded-2xl glass-panel border border-${color}-400/30 flex items-center justify-center shadow-xl bg-white dark:bg-[#1a1d21]`}>
+          <Icon className={`w-5 h-5 md:w-8 md:h-8 text-${color}-600 dark:text-${color}-400`} />
         </div>
-      </div>
-      {label.includes('Battery') && (
-        <div className="w-10 md:w-12 h-1 bg-gray-200 dark:bg-white/5 rounded-full mt-2 overflow-hidden border border-black/5 dark:border-white/5">
-           <div className="h-full bg-green-500 transition-all duration-1000" style={{ width: `${metrics.battery}%` }} />
+
+        {/* Text už je mimo anchor – jde dolů a neovlivňuje vycentrování */}
+        <div className="mt-2 flex flex-col items-center text-center px-2">
+          <span className="text-[7px] md:text-[9px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.15em] mb-0.5 whitespace-nowrap">
+            {label}
+          </span>
+          <div className="flex items-baseline gap-1">
+            <span className="text-sm md:text-xl font-black text-gray-900 dark:text-white tabular-nums">
+              {Math.abs(value).toFixed(1)}
+            </span>
+            <span className="text-[8px] md:text-[10px] text-gray-500 font-black uppercase">
+              {unit}
+            </span>
+          </div>
         </div>
-      )}
+
+        {label.includes('Battery') && (
+          <div className="w-10 md:w-12 h-1 bg-gray-200 dark:bg-white/5 rounded-full mt-2 overflow-hidden border border-black/5 dark:border-white/5">
+            <div className="h-full bg-green-500 transition-all duration-1000" style={{ width: `${metrics.battery}%` }} />
+          </div>
+        )}
+      </div>
     </div>
   );
 
@@ -92,8 +98,8 @@ const SolarSystem = () => {
           </defs>
           
           {/* Central cross background lines */}
-          <line x1="200" y1="50" x2="200" y2="350" stroke="currentColor" strokeWidth="1" strokeDasharray="4 4" className="text-gray-200 dark:text-white/5" />
-          <line x1="50" y1="200" x2="350" y2="200" stroke="currentColor" strokeWidth="1" strokeDasharray="4 4" className="text-gray-200 dark:text-white/5" />
+          <line x1="200" y1="50" x2="200" y2="350" stroke="currentColor" strokeWidth="2" strokeDasharray="4 4" className="text-gray-300/70 dark:text-white/15" />
+          <line x1="50" y1="200" x2="350" y2="200" stroke="currentColor" strokeWidth="2" strokeDasharray="4 4" className="text-gray-300/70 dark:text-white/15" />
 
           {/* PV to Logic (Top) */}
           <path d="M 200 60 L 200 160" stroke="#fbbf24" strokeWidth="2.5" fill="none" strokeDasharray="8 12" filter="url(#solarGlow)">
@@ -123,14 +129,18 @@ const SolarSystem = () => {
           <span className="text-[7px] md:text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-[0.2em] mt-1 relative z-10">Invertor</span>
         </div>
 
-        {/* Distributed Nodes - Pushed to edges to create a perfect cross */}
+        {/* Distributed Nodes */}
+        {/* Pozice upraveny tak, aby střed ikony (h/2 = 24px/32px) seděl přesně na kotevním bodě (15% nebo 50%) */}
+        {/* translate-y-6 = 1.5rem = 24px (polovina ikony na mobilu) */}
+        {/* translate-y-8 = 2rem = 32px (polovina ikony na desktopu) */}
+        
         <PowerNode 
           icon={Sun} 
           label="PV Generation" 
           value={metrics.production} 
           unit="kW" 
           color="yellow" 
-          position="top-[4%] left-1/2 -translate-x-1/2" 
+          position="top-[15%] left-1/2 -translate-x-1/2 -translate-y-6 md:-translate-y-8" 
         />
         <PowerNode 
           icon={Battery} 
@@ -138,7 +148,7 @@ const SolarSystem = () => {
           value={metrics.batteryPower} 
           unit="kW" 
           color="green" 
-          position="bottom-[4%] left-1/2 -translate-x-1/2" 
+          position="bottom-[15%] left-1/2 -translate-x-1/2 -translate-y-6 md:-translate-y-8" 
         />
         <PowerNode 
           icon={Home} 
@@ -146,7 +156,7 @@ const SolarSystem = () => {
           value={metrics.load} 
           unit="kW" 
           color="blue" 
-          position="right-[4%] top-1/2 -translate-y-1/2" 
+          position="right-[15%] top-1/2 translate-x-1/2 -translate-y-6 md:-translate-y-8" 
         />
         <PowerNode 
           icon={Globe} 
@@ -154,7 +164,7 @@ const SolarSystem = () => {
           value={metrics.gridPower} 
           unit="kW" 
           color="purple" 
-          position="left-[4%] top-1/2 -translate-y-1/2" 
+          position="left-[15%] top-1/2 -translate-x-1/2 -translate-y-6 md:-translate-y-8" 
         />
 
       </div>
