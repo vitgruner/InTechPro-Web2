@@ -2,6 +2,7 @@
 import React from 'react';
 import { Zap, Globe } from 'lucide-react';
 import { HeroProps } from '../types';
+import SmartHomeWireframe from './SmartHomeWireframe';
 
 const Hero: React.FC<HeroProps> = ({ setView }) => {
   return (
@@ -56,28 +57,16 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
           </div>
         </div>
 
-        <div className="relative group max-w-2xl mx-auto lg:max-w-none">
-          <div className="absolute inset-0 bg-blue-500/10 dark:bg-blue-500/25 rounded-3xl blur-2xl group-hover:blur-3xl transition-all"></div>
-          <div className="relative rounded-3xl overflow-hidden glass-panel border border-black/10 dark:border-white/20 shadow-xl">
-            <img 
-              src="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=800" 
-              alt="Inteligentní infrastruktura" 
-              className="w-full aspect-[4/3] object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 dark:from-black/90 via-transparent to-transparent"></div>
-            <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-6 md:right-6 p-4 md:p-6 glass-panel rounded-2xl border-white/30 backdrop-blur-md">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-600/20 rounded-full flex items-center justify-center flex-shrink-0 border border-blue-500/30">
-                  <Globe className="text-blue-600 dark:text-blue-300 w-5 h-5 md:w-6 md:h-6" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-white text-sm md:text-base">Globální konektivita</h4>
-                  <p className="text-xs text-gray-200 font-medium">Vzdálená správa objektů v reálném čase.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div className="relative group w-full max-w-[84rem] mx-auto">
+  <div className="absolute inset-0 bg-blue-500/10 dark:bg-blue-500/25 rounded-3xl blur-2xl group-hover:blur-3xl transition-all"></div>
+
+  <div className="relative rounded-3xl overflow-hidden glass-panel border border-black/10 dark:border-white/20 shadow-xl
+                  h-[300px] md:h-[416px] lg:h-[512px] bg-black/40">
+    <SmartHomeWireframe />
+  </div>
+</div>
+
+
       </div>
     </section>
   );
