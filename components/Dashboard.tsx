@@ -15,6 +15,30 @@ interface VisualizationBoxProps {
   statusLabel?: string;
 }
 
+// Oprava: Komponenta definována vně Dashboard pro zachování stavu dětí při re-renderu
+const VisualizationBox: React.FC<VisualizationBoxProps> = ({ icon: Icon, title, subtitle, color, children, statusLabel = "Aktivní spojení" }) => (
+  <div className="glass-panel rounded-[2.5rem] p-6 md:p-12 border border-black/10 dark:border-white/20 overflow-hidden shadow-2xl flex flex-col transition-all group">
+    <div className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="flex items-center gap-6 md:gap-8 min-w-0">
+        <div className={`w-14 h-14 md:w-16 md:h-16 ${color}/10 rounded-2xl flex items-center justify-center border border-${color.split('-')[1]}-500/20 shadow-xl group-hover:bg-${color.split('-')[1]}-600 group-hover:text-white transition-all duration-500 flex-shrink-0`}>
+          <Icon className={`w-7 h-7 md:w-8 md:h-8 ${color.replace('bg-', 'text-')} group-hover:text-white transition-colors`} />
+        </div>
+        <div className="min-w-0">
+          <h3 className="text-xl md:text-3xl font-black text-gray-900 dark:text-white tracking-tight transition-colors duration-500 truncate" title={title}>{title}</h3>
+          <p className="text-[10px] md:text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mt-1 truncate" title={subtitle}>{subtitle}</p>
+        </div>
+      </div>
+      <div className={`flex-shrink-0 flex items-center gap-4 ${color}/5 px-6 py-3 rounded-full border border-${color.split('-')[1]}-600/20 self-start md:self-auto`}>
+        <div className={`w-2.5 h-2.5 ${color} rounded-full animate-pulse shadow-[0_0_12px_currentColor]`} />
+        <span className={`text-[10px] font-black ${color.replace('bg-', 'text-')} dark:text-white uppercase tracking-widest`}>{statusLabel}</span>
+      </div>
+    </div>
+    <div className="flex-grow rounded-3xl overflow-hidden border border-black/5 dark:border-white/5 bg-gray-100 dark:bg-black/60 shadow-inner">
+      {children}
+    </div>
+  </div>
+);
+
 const Dashboard = () => {
   const [sensors, setSensors] = useState([
     { id: 't1', label: 'Teplota obývací p.', value: 22.4, unit: '°C', trend: 'stable', icon: <Thermometer className="w-5 h-5" /> },
@@ -39,29 +63,6 @@ const Dashboard = () => {
     }, 3000);
     return () => clearInterval(interval);
   }, []);
-
-  const VisualizationBox: React.FC<VisualizationBoxProps> = ({ icon: Icon, title, subtitle, color, children, statusLabel = "Aktivní spojení" }) => (
-    <div className="glass-panel rounded-[2.5rem] p-6 md:p-12 border border-black/10 dark:border-white/20 overflow-hidden shadow-2xl flex flex-col transition-all group">
-      <div className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div className="flex items-center gap-6 md:gap-8 min-w-0">
-          <div className={`w-14 h-14 md:w-16 md:h-16 ${color}/10 rounded-2xl flex items-center justify-center border border-${color.split('-')[1]}-500/20 shadow-xl group-hover:bg-${color.split('-')[1]}-600 group-hover:text-white transition-all duration-500 flex-shrink-0`}>
-            <Icon className={`w-7 h-7 md:w-8 md:h-8 ${color.replace('bg-', 'text-')} group-hover:text-white transition-colors`} />
-          </div>
-          <div className="min-w-0">
-            <h3 className="text-xl md:text-3xl font-black text-gray-900 dark:text-white tracking-tight transition-colors duration-500 truncate" title={title}>{title}</h3>
-            <p className="text-[10px] md:text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mt-1 truncate" title={subtitle}>{subtitle}</p>
-          </div>
-        </div>
-        <div className={`flex-shrink-0 flex items-center gap-4 ${color}/5 px-6 py-3 rounded-full border border-${color.split('-')[1]}-600/20 self-start md:self-auto`}>
-          <div className={`w-2.5 h-2.5 ${color} rounded-full animate-pulse shadow-[0_0_12px_currentColor]`} />
-          <span className={`text-[10px] font-black ${color.replace('bg-', 'text-')} dark:text-white uppercase tracking-widest`}>{statusLabel}</span>
-        </div>
-      </div>
-      <div className="flex-grow rounded-3xl overflow-hidden border border-black/5 dark:border-white/5 bg-gray-100 dark:bg-black/60 shadow-inner">
-        {children}
-      </div>
-    </div>
-  );
 
   return (
     <section id="dashboard" className="pt-32 md:pt-40 pb-16 md:pb-24 relative bg-gray-50/50 dark:bg-[#0f1115] transition-colors duration-500">
