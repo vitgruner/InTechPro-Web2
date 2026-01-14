@@ -1,8 +1,40 @@
 
 import React from 'react';
-import { Settings, Box, ShieldCheck, PenTool, Truck, Calculator, FileText, BadgeCheck, TrendingUp, ArrowLeft, Zap } from 'lucide-react';
+import { Settings, Box, ShieldCheck, PenTool, Truck, Calculator, FileText, BadgeCheck, TrendingUp, ArrowLeft, Zap, Cpu } from 'lucide-react';
 import LoxoneUnit from './LoxoneUnit';
 import { DetailProps } from '../types';
+
+interface VisualizationBoxProps {
+  icon: React.ElementType;
+  title: string;
+  subtitle: string;
+  color: string;
+  children: React.ReactNode;
+  statusLabel?: string;
+}
+
+const VisualizationBox: React.FC<VisualizationBoxProps> = ({ icon: Icon, title, subtitle, color, children, statusLabel = "Aktivní spojení" }) => (
+  <div className="glass-panel rounded-[2.5rem] p-6 md:p-12 border border-black/10 dark:border-white/20 overflow-hidden shadow-2xl flex flex-col transition-all group">
+    <div className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="flex items-center gap-6 md:gap-8 min-w-0">
+        <div className={`w-14 h-14 md:w-16 md:h-16 ${color}/10 rounded-2xl flex items-center justify-center border border-${color.split('-')[1]}-500/20 shadow-xl group-hover:bg-${color.split('-')[1]}-600 group-hover:text-white transition-all duration-500 flex-shrink-0`}>
+          <Icon className={`w-7 h-7 md:w-8 md:h-8 ${color.replace('bg-', 'text-')} group-hover:text-white transition-colors`} />
+        </div>
+        <div className="min-w-0">
+          <h3 className="text-xl md:text-3xl font-black text-gray-900 dark:text-white tracking-tight transition-colors duration-500 truncate" title={title}>{title}</h3>
+          <p className="text-[10px] md:text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mt-1 truncate" title={subtitle}>{subtitle}</p>
+        </div>
+      </div>
+      <div className={`flex-shrink-0 flex items-center gap-4 ${color}/5 px-6 py-3 rounded-full border border-${color.split('-')[1]}-600/20 self-start md:self-auto`}>
+        <div className={`w-2.5 h-2.5 ${color} rounded-full animate-pulse shadow-[0_0_12px_currentColor]`} />
+        <span className={`text-[10px] font-black ${color.replace('bg-', 'text-')} dark:text-white uppercase tracking-widest`}>{statusLabel}</span>
+      </div>
+    </div>
+    <div className="flex-grow rounded-3xl overflow-hidden border border-black/5 dark:border-white/5 bg-gray-100 dark:bg-black/60 shadow-inner">
+      {children}
+    </div>
+  </div>
+);
 
 const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
   const whyUs = [
@@ -63,33 +95,15 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
             </div>
           </div>
           
-          <div className="lg:col-span-8">
-            <div className="w-full glass-panel rounded-[2rem] border border-slate-200 dark:border-white/10 relative overflow-hidden group select-none transition-all duration-500 shadow-xl bg-white/50 dark:bg-black/20 h-full flex flex-col">
-              <div className="absolute inset-0 opacity-[0.08] dark:opacity-[0.05] pointer-events-none" 
-                   style={{ backgroundImage: 'linear-gradient(#2563eb 1px, transparent 1px), linear-gradient(90deg, #2563eb 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-              
-              <div className="absolute top-0 left-0 right-0 p-4 px-6 flex items-center justify-between border-b border-slate-200/50 dark:border-white/5 bg-white/40 dark:bg-black/20 backdrop-blur-md z-30">
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-                    <span className="text-[10px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-[0.2em]">INTECHPRO.ROZVADĚČ.AKTIVNÍ</span>
-                  </div>
-                  <div className="h-3 w-[1px] bg-slate-300 dark:bg-white/10" />
-                  <div className="flex items-center gap-2">
-                    <Box className="w-3.5 h-3.5 text-blue-600" />
-                    <span className="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em]">TELEMETRIE.v4.0</span>
-                  </div>
-                </div>
-                <div className="hidden md:flex items-center gap-4 text-[9px] font-bold text-slate-400 uppercase tracking-widest">
-                   <span>Technologie: Loxone</span>
-                   <span>Status: Online</span>
-                </div>
-              </div>
-
-              <div className="flex-1 flex items-center justify-center pt-14 bg-slate-50/30 dark:bg-black/40 min-h-[450px]">
-                <LoxoneUnit />
-              </div>
-            </div>
+          <div className="lg:col-span-8 min-w-0 overflow-hidden">
+            <VisualizationBox 
+              icon={Cpu} 
+              title="Centrální rozvaděc Loxone" 
+              subtitle="Logika, měření a distribuční uzel" 
+              color="bg-green-600"
+            >
+              <LoxoneUnit />
+            </VisualizationBox>
           </div>
         </div>
 

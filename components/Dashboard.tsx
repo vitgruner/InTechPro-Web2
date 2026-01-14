@@ -110,7 +110,7 @@ const Dashboard = () => {
         <div className="flex flex-col gap-10 md:gap-16 pt-4">
           <VisualizationBox 
             icon={Cpu} 
-            title="Centrální klastr Loxone" 
+            title="Centrální rozvaděc Loxone" 
             subtitle="Logika, měření a distribuční uzel" 
             color="bg-green-600"
           >
