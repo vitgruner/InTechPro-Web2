@@ -75,13 +75,13 @@ const Services = ({ setView, isStandalone = false }: { setView: (v: any) => void
   ];
 
   return (
-    <section id="services" className={`py-10 md:py-24 relative transition-colors duration-500 ${isStandalone ? 'pt-32 md:pt-40' : ''}`}>
+    <section id="services" className={`py-8 md:py-16 relative transition-colors duration-500 ${isStandalone ? 'pt-28 md:pt-36' : ''}`}>
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-4 md:gap-10 mb-10 md:mb-20">
+        <div className="grid lg:grid-cols-2 gap-4 md:gap-6 mb-8 md:mb-12">
           {/* UPGRADED Loxone Section */}
           <div 
             onClick={() => setView('loxone-detail')}
-            className="lg:col-span-2 bg-[#f8fafc] dark:bg-[#0a0c10] p-8 md:p-14 rounded-[3.5rem] border border-blue-600/10 dark:border-blue-500/10 relative overflow-hidden group cursor-pointer hover:border-blue-600/40 transition-all hover:shadow-[0_0_80px_rgba(37,99,235,0.1)]"
+            className="lg:col-span-2 bg-[#f8fafc] dark:bg-[#0a0c10] p-8 md:p-12 rounded-[2.5rem] border border-blue-600/10 dark:border-blue-500/10 relative overflow-hidden group cursor-pointer hover:border-blue-600/40 transition-all hover:shadow-[0_0_80px_rgba(37,99,235,0.1)]"
           >
             {/* Engineering Grid Background */}
             <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none" 
@@ -91,20 +91,20 @@ const Services = ({ setView, isStandalone = false }: { setView: (v: any) => void
                <Cpu className="w-[500px] h-[500px] text-blue-600" />
             </div>
 
-            <div className="relative z-10 grid xl:grid-cols-2 gap-16 items-center">
+            <div className="relative z-10 grid xl:grid-cols-2 gap-10 md:gap-16 items-center">
               <div className="min-w-0 text-left">
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-600/10 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-6 border border-blue-600/20">
                   <span className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse" />
                   Vlajková loď integrace
                 </div>
-                <h3 className="text-4xl md:text-5xl font-black mb-8 leading-tight tracking-tight text-gray-900 dark:text-white">
+                <h3 className="text-3xl md:text-5xl font-black mb-6 leading-tight tracking-tight text-gray-900 dark:text-white">
                   Návrh a realizace <br />
                   <span className="text-blue-600">Smart Home Loxone</span>
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed text-lg font-medium">
+                <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed text-base md:text-lg font-medium">
                   Loxone propojí všechny technologie v domě do jednoho inteligentního systému, který je řídí jako celek. Jedna přehledná aplikace, logika automatizací a spolupráce technologií zajistí maximální komfort.
                 </p>
-                <div className="grid sm:grid-cols-2 gap-6 mb-10">
+                <div className="grid sm:grid-cols-2 gap-4 md:gap-6 mb-8">
                   <div className="flex items-start gap-4 p-4 rounded-2xl bg-white/50 dark:bg-white/5 border border-black/5 dark:border-white/10 group/feat transition-all hover:border-blue-600/20">
                     <div className="w-10 h-10 bg-blue-600/10 rounded-xl flex items-center justify-center text-blue-600 flex-shrink-0 group-hover/feat:bg-blue-600 group-hover/feat:text-white transition-all">
                       <CheckSquare className="w-5 h-5" />
@@ -124,7 +124,7 @@ const Services = ({ setView, isStandalone = false }: { setView: (v: any) => void
                     </div>
                   </div>
                 </div>
-                <button className="group/btn relative px-10 py-5 bg-blue-600 text-white rounded-2xl font-black uppercase tracking-[0.2em] text-[11px] overflow-hidden transition-all hover:bg-blue-700 shadow-2xl shadow-blue-500/30">
+                <button className="group/btn relative px-10 py-4 bg-blue-600 text-white rounded-2xl font-black uppercase tracking-[0.2em] text-[11px] overflow-hidden transition-all hover:bg-blue-700 shadow-xl shadow-blue-500/20">
                   <span className="relative z-10 flex items-center gap-3">
                     Zjistit více o Loxone
                     <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
@@ -133,13 +133,13 @@ const Services = ({ setView, isStandalone = false }: { setView: (v: any) => void
               </div>
 
               {/* Kompaktnější mřížka pro mobilní zařízení */}
-              <div className="grid grid-cols-3 sm:grid-cols-3 gap-2 md:gap-4 p-3 md:p-8 bg-black/5 dark:bg-white/5 rounded-[2rem] md:rounded-[2.5rem] border border-black/5 dark:border-white/10 backdrop-blur-sm">
+              <div className="grid grid-cols-3 sm:grid-cols-3 gap-2 md:gap-4 p-3 md:p-6 bg-black/5 dark:bg-white/5 rounded-[2rem] border border-black/5 dark:border-white/10 backdrop-blur-sm">
                 {loxoneIntegrations.map((item, i) => (
-                  <div key={i} className="flex flex-col items-center justify-center p-2 md:p-4 bg-white dark:bg-white/5 rounded-xl md:rounded-2xl border border-black/5 dark:border-white/10 hover:border-blue-600/30 transition-all text-center group/item shadow-sm hover:shadow-lg hover:-translate-y-1">
+                  <div key={i} className="flex flex-col items-center justify-center p-2 md:p-3 bg-white dark:bg-white/5 rounded-xl md:rounded-xl border border-black/5 dark:border-white/10 hover:border-blue-600/30 transition-all text-center group/item shadow-sm hover:shadow-lg hover:-translate-y-1">
                     <div className="text-blue-600 dark:text-blue-400 group-hover/item:scale-125 group-hover/item:rotate-[10deg] transition-all mb-1.5 md:mb-2 flex-shrink-0 [&>svg]:w-4 [&>svg]:h-4 md:[&>svg]:w-5 md:[&>svg]:h-5">
                       {item.icon}
                     </div>
-                    <span className="text-[8px] md:text-[10px] font-black uppercase tracking-tight text-gray-600 dark:text-gray-400 leading-tight truncate w-full px-0.5 mb-0.5 md:mb-1" title={item.label}>{item.label}</span>
+                    <span className="text-[8px] md:text-[9px] font-black uppercase tracking-tight text-gray-600 dark:text-gray-400 leading-tight truncate w-full px-0.5 mb-0.5" title={item.label}>{item.label}</span>
                     <span className="text-[7px] md:text-[8px] font-bold text-blue-600/70 dark:text-blue-400/70 uppercase tracking-widest animate-pulse">{liveStats[item.label] || "OK"}</span>
                   </div>
                 ))}

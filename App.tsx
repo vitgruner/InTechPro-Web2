@@ -155,7 +155,7 @@ const App = () => {
       case 'contact':
         return <ContactForm isStandalone={true} />;
       case 'innovation':
-        return <div className="animate-in fade-in duration-700"><Dashboard /><ContactForm /></div>;
+        return <div className="animate-in fade-in duration-700"><Dashboard /></div>;
       case 'about':
         return <AboutUs />;
       case 'admin-dashboard':

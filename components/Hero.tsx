@@ -6,12 +6,12 @@ import SmartHomeWireframe from './SmartHomeWireframe';
 
 const Hero: React.FC<HeroProps> = ({ setView }) => {
   return (
-    <section className="relative min-h-screen flex items-center pt-32 md:pt-40 pb-12 md:pb-24 overflow-hidden">
+    <section className="relative min-h-screen flex items-center pt-28 md:pt-32 pb-8 md:pb-12 overflow-hidden">
       <div className="absolute top-1/4 -left-20 w-72 h-72 bg-blue-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-10 dark:opacity-20 animate-blob"></div>
       <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-blue-400 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-10 dark:opacity-20 animate-blob animation-delay-2000"></div>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-5 dark:opacity-15 animate-blob animation-delay-4000"></div>
 
-      <div className="max-w-7xl mx-auto px-6 w-full grid lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
+      <div className="max-w-7xl mx-auto px-6 w-full grid lg:grid-cols-2 gap-10 lg:gap-12 items-center relative z-10">
         <div className="text-center lg:text-left">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600/10 dark:bg-blue-500/20 border border-blue-600/20 dark:border-blue-400/30 text-blue-600 dark:text-blue-300 text-xs font-bold tracking-wider uppercase mb-6 mx-auto lg:mx-0">
             < Zap className="w-3 h-3 text-blue-600 dark:text-blue-400" />
@@ -39,7 +39,7 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
             </button>
           </div>
 
-          <div className="mt-12 flex items-center justify-center lg:justify-start gap-6 md:gap-8">
+          <div className="mt-10 flex items-center justify-center lg:justify-start gap-6 md:gap-8">
             <div className="flex flex-col">
               <span className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">500+</span>
               <span className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold">Projektů</span>

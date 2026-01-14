@@ -18,10 +18,10 @@ const Process = () => {
   return (
     <section
       id="process"
-      className="py-12 md:py-16 bg-gray-50 dark:bg-[#0a0a0a] border-y border-black/5 dark:border-white/5"
+      className="py-10 md:py-14 bg-gray-50 dark:bg-[#0a0a0a] border-y border-black/5 dark:border-white/5"
     >
       <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-10">
+        <div className="text-center mb-8 md:mb-10">
           <span className="text-blue-600 font-black uppercase tracking-[0.35em] text-[10px] mb-3 block">
             Průběh realizace
           </span>

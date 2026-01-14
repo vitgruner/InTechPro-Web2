@@ -28,7 +28,7 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
 
   return (
     <div className="group relative glass-panel rounded-2xl md:rounded-3xl overflow-hidden border border-black/10 dark:border-white/10 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all duration-700 hover:-translate-y-1 shadow-sm hover:shadow-xl">
-      <div className="relative h-36 md:h-48 overflow-hidden">
+      <div className="relative h-36 md:h-44 overflow-hidden">
         <img 
           src={image || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200"} 
           alt={title} 
@@ -46,13 +46,13 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
         </div>
       </div>
 
-      <div className="p-4 md:p-6">
-        <div className="mb-3 md:mb-4 text-left">
+      <div className="p-4 md:p-5">
+        <div className="mb-3 text-left">
           <span className="text-[7px] md:text-[9px] font-black text-blue-600 dark:text-blue-500 uppercase tracking-[0.2em] mb-1 block truncate">{location}</span>
-          <h3 className="text-sm md:text-lg font-black text-gray-900 dark:text-white transition-colors duration-500 tracking-tight leading-tight line-clamp-2">{title}</h3>
+          <h3 className="text-sm md:text-base font-black text-gray-900 dark:text-white transition-colors duration-500 tracking-tight leading-tight line-clamp-2">{title}</h3>
         </div>
 
-        <div className="space-y-3 md:space-y-4">
+        <div className="space-y-3">
           <div className="flex flex-wrap gap-1.5 md:gap-2">
             {services && services.slice(0, 3).map((service, idx) => {
               const sIconKey = (service.icon as string)?.toLowerCase();
@@ -71,7 +71,7 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
              )}
           </div>
           
-          <div className="pt-3 md:pt-4 border-t border-black/5 dark:border-white/10 flex justify-between items-center">
+          <div className="pt-3 border-t border-black/5 dark:border-white/10 flex justify-between items-center">
             <div className="flex flex-col text-left">
               <span className="text-[7px] md:text-[8px] font-black text-gray-400 dark:text-gray-600 uppercase tracking-widest mb-1">Systém</span>
               <div className="flex gap-0.5">
@@ -106,8 +106,6 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
     });
   }, [filter, searchQuery, projects]);
 
-  // Pokud jsme na homepage (!isStandalone), zobrazíme maximálně 2 projekty (z celkového seznamu projects, ignorujeme filtr)
-  // Pokud jsme v samostatném zobrazení, zobrazíme filtrované projekty
   const displayProjects = isStandalone ? filteredProjects : (Array.isArray(projects) ? projects.slice(0, 2) : []);
 
   const categories = [
@@ -118,24 +116,24 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
   ];
 
   return (
-    <section id="references" className={`transition-all duration-700 pb-10 md:pb-24 ${isStandalone ? 'pt-24 md:pt-40' : 'pt-10 md:pt-24'}`}>
+    <section id="references" className={`transition-all duration-700 pb-8 md:pb-16 ${isStandalone ? 'pt-24 md:pt-36' : 'pt-8 md:pt-16'}`}>
       <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-10 md:mb-16 text-left">
+        <div className="mb-8 md:mb-12 text-left">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-600/10 dark:bg-blue-500/10 border border-blue-600/20 dark:border-blue-400/20 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-[0.3em] mb-4 md:mb-6">
               Výběr z portfolia
             </div>
-            <h1 className="text-4xl md:text-6xl font-black text-gray-900 dark:text-white tracking-tight transition-colors duration-500 mb-4 md:mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 dark:text-white tracking-tight transition-colors duration-500 mb-4 md:mb-6">
               Naše globální <span className="text-gradient">Realizace</span>
             </h1>
-            <p className="text-gray-600 dark:text-gray-400 text-base md:text-xl font-medium transition-colors max-w-2xl">
+            <p className="text-gray-600 dark:text-gray-400 text-base md:text-lg font-medium transition-colors max-w-2xl">
               Definitivní kolekce projektů s vysokou věrností v rezidenčním, komerčním i průmyslovém sektoru.
             </p>
           </div>
         </div>
 
         {isStandalone && (
-          <div className="mb-8 md:mb-12 flex flex-col lg:flex-row items-center justify-between gap-6">
+          <div className="mb-8 md:mb-10 flex flex-col lg:flex-row items-center justify-between gap-6">
              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 p-1.5 bg-white/50 dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-3xl shadow-sm backdrop-blur-md w-full lg:w-auto">
                 {categories.map((cat) => (
                   <button
@@ -176,7 +174,7 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
             ))}
           </div>
         ) : (
-          <div className="py-24 md:py-32 text-center glass-panel rounded-[3rem] border-dashed border-2 border-black/10 dark:border-white/10">
+          <div className="py-16 md:py-24 text-center glass-panel rounded-[3rem] border-dashed border-2 border-black/10 dark:border-white/10">
             <Filter className="w-12 h-12 text-gray-300 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-500 uppercase tracking-widest">Žádné shody nenalezeny</h3>
             <p className="text-sm text-gray-400 mt-2">Zkuste upravit filtry nebo vyhledávací dotaz.</p>

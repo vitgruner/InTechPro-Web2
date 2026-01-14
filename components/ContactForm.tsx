@@ -83,7 +83,7 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
 
   if (submitted) {
     return (
-      <div className={`py-16 md:py-24 text-center animate-in fade-in zoom-in duration-700 ${isStandalone ? 'pt-32' : ''}`}>
+      <div className={`py-12 md:py-20 text-center animate-in fade-in zoom-in duration-700 ${isStandalone ? 'pt-32' : ''}`}>
         <div className="inline-flex items-center justify-center w-20 h-20 bg-blue-600 rounded-full mb-8 glow">
           <CheckCircle2 className="w-10 h-10 text-white" />
         </div>
@@ -114,15 +114,12 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
   }
 
   return (
-    <section id="contact" className={`py-10 md:py-24 relative overflow-hidden bg-gray-50/30 dark:bg-[#080808] transition-colors duration-500 ${isStandalone ? 'pt-32 md:pt-40' : ''}`}>
+    <section id="contact" className={`py-10 md:py-20 relative overflow-hidden bg-gray-50/30 dark:bg-[#080808] transition-colors duration-500 ${isStandalone ? 'pt-28 md:pt-36' : ''}`}>
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-600/5 dark:bg-blue-600/10 rounded-full blur-[150px] -z-10 pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center lg:text-left mb-10 md:mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600/10 dark:bg-blue-500/10 border border-blue-600/20 dark:border-blue-400/20 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-[0.4em] mb-6">
-            Iniciační Protokol
-          </div>
-          <h1 className="text-5xl md:text-7xl font-black text-gray-900 dark:text-white leading-tight tracking-tighter transition-colors">Zhmotněte svou <span className="text-gradient">Vizi</span></h1>
+        <div className="text-center lg:text-left mb-8 md:mb-12">
+          <h1 className="text-4xl md:text-6xl font-black text-gray-900 dark:text-white leading-tight tracking-tighter transition-colors">Zhmotněte svou <span className="text-gradient">Vizi</span></h1>
         </div>
 
         {/* Pokud jsme na hlavní stránce (isStandalone === false), skryjeme levý sloupec a vycentrujeme formulář */}
@@ -146,7 +143,7 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
           )}
 
           <div className={`${isStandalone ? 'lg:col-span-7' : 'w-full'}`}>
-            <form onSubmit={handleSubmit} className="glass-panel p-8 md:p-10 rounded-[3rem] border border-black/10 dark:border-white/10 shadow-xl space-y-8 transition-all duration-500 h-full flex flex-col">
+            <form onSubmit={handleSubmit} className="glass-panel p-8 md:p-10 rounded-[2.5rem] border border-black/10 dark:border-white/10 shadow-xl space-y-8 transition-all duration-500 h-full flex flex-col">
               <div className="flex items-center gap-3 mb-2">
                   <div className="w-8 h-8 bg-blue-600/10 rounded-lg flex items-center justify-center text-blue-600">
                       <Calculator className="w-4 h-4" />
