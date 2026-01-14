@@ -71,16 +71,16 @@ const Dashboard = () => {
           <div className="text-center lg:text-left flex flex-col lg:flex-row justify-between items-center gap-6">
             <div className="max-w-2xl">
               <div className="flex items-center justify-center lg:justify-start gap-2 mb-4">
-                <span className="px-3 py-1 bg-blue-600/10 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[10px] font-black rounded-full uppercase border border-blue-600/20 dark:border-blue-400/20 tracking-[0.2em]">Řídicí centrum v4.2</span>
+                <span className="px-3 py-1 bg-blue-600/10 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[10px] font-black rounded-full uppercase border border-blue-600/20 dark:border-blue-400/20 tracking-[0.2em]">Řídicí centrum InTechPro v4.2</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white tracking-tight mb-2">Inteligence objektu</h2>
-              <p className="text-gray-500 dark:text-gray-500 text-sm font-medium">Globální monitoring telemetrie napříč 8 klíčovými metrikami.</p>
+              <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white tracking-tight mb-2">Online data showroom Praha</h2>
+              <p className="text-gray-500 dark:text-gray-500 text-sm font-medium">Online monitoring telemetrie napříč 8 klíčovými metrikami v našem showroomu</p>
             </div>
             <div className="flex items-center gap-3 bg-blue-600/5 dark:bg-blue-600/10 px-6 py-4 rounded-3xl border border-blue-600/10 dark:border-blue-500/20 shadow-sm w-full md:w-auto justify-center md:justify-start">
               <ShieldCheck className="w-6 h-6 text-blue-600 dark:text-blue-400" />
               <div className="flex flex-col text-left">
                 <span className="text-[10px] font-black text-blue-600 dark:text-blue-300 uppercase tracking-widest leading-none mb-1">Globální zabezpečení</span>
-                <span className="text-sm font-bold text-gray-800 dark:text-white">Šifrované spojení Nexus aktivní</span>
+                <span className="text-sm font-bold text-gray-800 dark:text-white">Šifrované spojení SSL aktivní</span>
               </div>
             </div>
           </div>
