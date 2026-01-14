@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-export type ViewState = 'home' | 'services' | 'showcase' | 'innovation' | 'contact' | 'about' | 'partners' | 'projekce-elektro' | 'osvetleni' | 'rozvadece' | 'loxone-detail' | 'technologie' | 'admin-login' | 'admin-dashboard';
+export type ViewState = 'home' | 'services' | 'showcase' | 'innovation' | 'contact' | 'about' | 'projekce-elektro' | 'osvetleni' | 'rozvadece' | 'loxone-detail' | 'technologie' | 'admin-login' | 'admin-dashboard';
 
 export interface ServiceCardProps {
   title: string;
