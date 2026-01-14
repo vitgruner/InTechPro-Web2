@@ -44,12 +44,12 @@ const DEFAULT_REFERENCES: Reference[] = [
     location: "Curych, Švýcarsko",
     image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200",
     tech: "Loxone",
-    techIcon: Cpu,
+    techIcon: "cpu",
     services: [
-      { label: "Osvětlení", icon: <Zap className="w-3 h-3" /> },
-      { label: "HVAC", icon: <Thermometer className="w-3 h-3" /> },
-      { label: "Audio", icon: <Radio className="w-3 h-3" /> },
-      { label: "Bezpečnost", icon: <Shield className="w-3 h-3" /> }
+      { label: "Osvětlení", icon: "zap" },
+      { label: "HVAC", icon: "thermometer" },
+      { label: "Audio", icon: "radio" },
+      { label: "Bezpečnost", icon: "shield" }
     ]
   },
   {
@@ -58,12 +58,12 @@ const DEFAULT_REFERENCES: Reference[] = [
     location: "Praha, CZ",
     image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200",
     tech: "DALI / KNX",
-    techIcon: Building2,
+    techIcon: "building",
     services: [
-      { label: "Osvětlení", icon: <Zap className="w-3 h-3" /> },
-      { label: "Přístup", icon: <Shield className="w-3 h-3" /> },
-      { label: "Energie", icon: <Sun className="w-3 h-3" /> },
-      { label: "Automatizace", icon: <Cpu className="w-3 h-3" /> }
+      { label: "Osvětlení", icon: "zap" },
+      { label: "Přístup", icon: "shield" },
+      { label: "Energie", icon: "sun" },
+      { label: "Automatizace", icon: "cpu" }
     ]
   }
 ];
@@ -143,6 +143,7 @@ const App = () => {
           <div className="animate-in fade-in slide-in-from-bottom-2 duration-700">
             <Hero setView={setView} />
             <Services setView={setView} />
+            <References projects={referenceProjects} />
             <Process />
             <ContactForm />
             <Partners />

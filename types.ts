@@ -48,7 +48,7 @@ export interface SmartDevice {
 
 export interface ReferenceService {
   label: string;
-  icon: React.ReactNode;
+  icon: string; // Changed to string for serialization
 }
 
 export interface Reference {
@@ -57,7 +57,7 @@ export interface Reference {
   location: string;
   image: string;
   tech: string;
-  techIcon: any;
+  techIcon: string; // Changed to string for serialization
   services: ReferenceService[];
 }
 

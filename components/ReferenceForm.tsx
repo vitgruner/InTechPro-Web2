@@ -11,15 +11,16 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel }) => {
     location: '',
     image: '',
     tech: 'Loxone',
+    techIcon: 'cpu',
     services: []
   });
 
-  const availableServices: ReferenceService[] = [
-    { label: 'Osvětlení', icon: <Zap className="w-3 h-3" /> },
-    { label: 'HVAC', icon: <Thermometer className="w-3 h-3" /> },
-    { label: 'Audio', icon: <Radio className="w-3 h-3" /> },
-    { label: 'Bezpečnost', icon: <Shield className="w-3 h-3" /> },
-    { label: 'Automatizace', icon: <Cpu className="w-3 h-3" /> }
+  const availableServices = [
+    { label: 'Osvětlení', icon: 'zap', Lucide: <Zap className="w-3 h-3" /> },
+    { label: 'HVAC', icon: 'thermometer', Lucide: <Thermometer className="w-3 h-3" /> },
+    { label: 'Audio', icon: 'radio', Lucide: <Radio className="w-3 h-3" /> },
+    { label: 'Bezpečnost', icon: 'shield', Lucide: <Shield className="w-3 h-3" /> },
+    { label: 'Automatizace', icon: 'cpu', Lucide: <Cpu className="w-3 h-3" /> }
   ];
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,14 +34,14 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel }) => {
     }
   };
 
-  const toggleService = (service: ReferenceService) => {
+  const toggleService = (label: string, icon: string) => {
     setFormData(prev => {
       const services = prev.services || [];
-      const exists = services.find(s => s.label === service.label);
+      const exists = services.find(s => s.label === label);
       if (exists) {
-        return { ...prev, services: services.filter(s => s.label !== service.label) };
+        return { ...prev, services: services.filter(s => s.label !== label) };
       }
-      return { ...prev, services: [...services, service] };
+      return { ...prev, services: [...services, { label, icon }] };
     });
   };
 
@@ -52,7 +53,7 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel }) => {
     try {
       await onAdd({
         ...formData,
-        techIcon: Cpu,
+        techIcon: formData.techIcon || 'cpu',
       } as Reference);
     } finally {
       setIsSubmitting(false);
@@ -146,7 +147,12 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel }) => {
                 <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Použitá technologie</label>
                 <select 
                   value={formData.tech}
-                  onChange={(e) => setFormData(prev => ({ ...prev, tech: e.target.value }))}
+                  onChange={(e) => {
+                    const tech = e.target.value;
+                    let icon = 'cpu';
+                    if (tech === 'KNX' || tech === 'DALI') icon = 'building';
+                    setFormData(prev => ({ ...prev, tech, techIcon: icon }));
+                  }}
                   className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none cursor-pointer dark:text-white"
                 >
                   {['Loxone', 'KNX', 'Ampio', 'DALI', 'Modbus'].map(t => (
@@ -163,14 +169,14 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel }) => {
                   <button
                     key={service.label}
                     type="button"
-                    onClick={() => toggleService(service)}
+                    onClick={() => toggleService(service.label, service.icon)}
                     className={`flex items-center gap-3 px-4 py-3 rounded-xl border text-left transition-all ${
                       formData.services?.find(s => s.label === service.label)
                       ? 'bg-blue-600 text-white border-blue-600 shadow-md'
                       : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-gray-500'
                     }`}
                   >
-                    {service.icon}
+                    {service.Lucide}
                     <span className="text-[9px] font-bold uppercase">{service.label}</span>
                   </button>
                 ))}

@@ -1,50 +1,74 @@
 
 import React, { useState, useMemo } from 'react';
-import { Home, Zap, Search, Filter, LayoutGrid, Building2, Factory } from 'lucide-react';
+import { 
+  Home, Zap, Search, Filter, LayoutGrid, Building2, Factory, 
+  Cpu, Thermometer, Radio, Shield, Sun, Building 
+} from 'lucide-react';
 import { Reference, ReferenceCardProps, ReferencesProps, ReferenceService } from '../types';
 
-const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, tech, services = [], techIcon: TechIcon }) => (
-  <div className="group relative glass-panel rounded-[2.5rem] overflow-hidden border border-black/10 dark:border-white/10 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all duration-700 hover:-translate-y-2 shadow-sm hover:shadow-2xl">
-    <div className="relative h-72 overflow-hidden">
-      <img src={image} alt={title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
-      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 dark:from-[#050505] via-transparent to-transparent opacity-80"></div>
-      
-      <div className="absolute top-6 right-6 bg-white/90 dark:bg-black/80 backdrop-blur-xl border border-black/10 dark:border-white/20 px-4 py-2 rounded-2xl flex items-center gap-2.5 shadow-xl">
-        {TechIcon && <TechIcon className="w-4 h-4 text-blue-600 dark:text-blue-400" />}
-        <span className="text-[10px] font-black text-gray-900 dark:text-white uppercase tracking-[0.15em]">{tech}</span>
-      </div>
-    </div>
+// Map for resolving string keys back to Lucide components
+const IconMap: Record<string, React.ElementType> = {
+  'home': Home,
+  'zap': Zap,
+  'cpu': Cpu,
+  'thermometer': Thermometer,
+  'radio': Radio,
+  'shield': Shield,
+  'sun': Sun,
+  'building': Building,
+  'factory': Factory,
+  'building2': Building2
+};
 
-    <div className="p-8 md:p-10">
-      <div className="mb-6 text-left">
-        <span className="text-[10px] font-black text-blue-600 dark:text-blue-500 uppercase tracking-[0.3em] mb-2 block">{location}</span>
-        <h3 className="text-2xl font-black text-gray-900 dark:text-white transition-colors duration-500 tracking-tight">{title}</h3>
-      </div>
+const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, tech, services = [], techIcon }) => {
+  const TechIconComp = IconMap[techIcon as string] || Cpu;
 
-      <div className="space-y-6">
-        <div className="flex flex-wrap gap-2.5">
-          {services.map((service, idx) => (
-            <div key={idx} className="flex items-center gap-2 bg-black/5 dark:bg-white/5 px-3 py-1.5 rounded-xl border border-black/5 dark:border-white/5 transition-colors hover:bg-blue-600/5">
-              <span className="text-blue-600 dark:text-blue-400">{service.icon}</span>
-              <span className="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-tight">{service.label}</span>
-            </div>
-          ))}
-        </div>
+  return (
+    <div className="group relative glass-panel rounded-[2.5rem] overflow-hidden border border-black/10 dark:border-white/10 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all duration-700 hover:-translate-y-2 shadow-sm hover:shadow-2xl">
+      <div className="relative h-72 overflow-hidden">
+        <img src={image} alt={title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 dark:from-[#050505] via-transparent to-transparent opacity-80"></div>
         
-        <div className="pt-6 border-t border-black/5 dark:border-white/10 flex justify-between items-center">
-          <div className="flex flex-col text-left">
-            <span className="text-[9px] font-black text-gray-400 dark:text-gray-600 uppercase tracking-widest mb-1.5">Komplexita systému</span>
-            <div className="flex gap-1">
-              {[1, 2, 3, 4, 5].map(i => (
-                <div key={i} className={`w-4 h-1.5 rounded-full transition-colors duration-500 ${i <= 4 ? 'bg-blue-600 dark:bg-blue-500 shadow-[0_0_8px_rgba(37,99,235,0.3)]' : 'bg-gray-200 dark:bg-gray-800'}`} />
-              ))}
+        <div className="absolute top-6 right-6 bg-white/90 dark:bg-black/80 backdrop-blur-xl border border-black/10 dark:border-white/20 px-4 py-2 rounded-2xl flex items-center gap-2.5 shadow-xl">
+          <TechIconComp className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+          <span className="text-[10px] font-black text-gray-900 dark:text-white uppercase tracking-[0.15em]">{tech}</span>
+        </div>
+      </div>
+
+      <div className="p-8 md:p-10">
+        <div className="mb-6 text-left">
+          <span className="text-[10px] font-black text-blue-600 dark:text-blue-500 uppercase tracking-[0.3em] mb-2 block">{location}</span>
+          <h3 className="text-2xl font-black text-gray-900 dark:text-white transition-colors duration-500 tracking-tight">{title}</h3>
+        </div>
+
+        <div className="space-y-6">
+          <div className="flex flex-wrap gap-2.5">
+            {services.map((service, idx) => {
+              const ServiceIcon = IconMap[service.icon as string] || Zap;
+              return (
+                <div key={idx} className="flex items-center gap-2 bg-black/5 dark:bg-white/5 px-3 py-1.5 rounded-xl border border-black/5 dark:border-white/5 transition-colors hover:bg-blue-600/5">
+                  <span className="text-blue-600 dark:text-blue-400"><ServiceIcon className="w-3 h-3" /></span>
+                  <span className="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-tight">{service.label}</span>
+                </div>
+              );
+            })}
+          </div>
+          
+          <div className="pt-6 border-t border-black/5 dark:border-white/10 flex justify-between items-center">
+            <div className="flex flex-col text-left">
+              <span className="text-[9px] font-black text-gray-400 dark:text-gray-600 uppercase tracking-widest mb-1.5">Komplexita systému</span>
+              <div className="flex gap-1">
+                {[1, 2, 3, 4, 5].map(i => (
+                  <div key={i} className={`w-4 h-1.5 rounded-full transition-colors duration-500 ${i <= 4 ? 'bg-blue-600 dark:bg-blue-500 shadow-[0_0_8px_rgba(37,99,235,0.3)]' : 'bg-gray-200 dark:bg-gray-800'}`} />
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = false }) => {
   const [filter, setFilter] = useState('Vše');
@@ -52,7 +76,8 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
 
   const filteredProjects = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
-    return projects.filter((p: Reference) => {
+    const safeProjects = projects || [];
+    return safeProjects.filter((p: Reference) => {
       const matchesFilter = filter === 'Vše' || p.category === filter;
       if (!matchesFilter) return false;
       if (!query) return true;
