@@ -1,0 +1,165 @@
+import React from 'react';
+import { Cpu, Radio, Lightbulb, Thermometer, Share2, Activity } from 'lucide-react';
+
+interface NodeConnectorProps {
+  x: number;
+  y: number;
+  label: string;
+  id: string;
+  icon: React.ElementType;
+  colorClass: string;
+  colorHex: string;
+}
+
+const NodeConnector: React.FC<NodeConnectorProps> = ({ x, y, label, id, icon: Icon, colorClass, colorHex }) => (
+  <g transform={`translate(${x}, ${y})`} className="cursor-pointer group">
+    {/* Ambient Glow */}
+    <circle r="55" fill={colorHex} opacity="0.02" className="group-hover:opacity-12 transition-all duration-500" />
+    <circle r="38" fill="none" stroke={colorHex} strokeWidth="0.5" strokeDasharray="2 6" opacity="0.15" className="group-hover:opacity-50 transition-opacity" />
+    
+    {/* Icon Container */}
+    <foreignObject x="-28" y="-28" width="56" height="56">
+      <div className={`w-full h-full flex items-center justify-center rounded-2xl border border-${colorClass}-500/20 bg-white/60 dark:bg-white/5 backdrop-blur-xl transition-all duration-500 group-hover:scale-110 group-hover:border-${colorClass}-500/40 shadow-sm`}>
+        <Icon className={`w-7 h-7 text-${colorClass}-600 dark:text-${colorClass}-400`} />
+      </div>
+    </foreignObject>
+
+    {/* Technical Typography */}
+    <text y="62" textAnchor="middle" className="fill-slate-400 dark:fill-gray-500 text-[10px] font-black uppercase tracking-[0.35em] pointer-events-none">{id}</text>
+    <text y="82" textAnchor="middle" className="fill-slate-900 dark:text-white text-[14px] font-black uppercase tracking-[0.2em] pointer-events-none">{label}</text>
+  </g>
+);
+
+interface DataPacketsProps {
+  path: string;
+  color: string;
+  delay?: string;
+}
+
+const DataPackets: React.FC<DataPacketsProps> = ({ path, color, delay = "0s" }) => (
+  <>
+    {[0, 0.8, 1.6, 2.4].map((d, i) => (
+      <circle key={i} r="2.8" fill={color} filter="url(#packetGlow)">
+        <animateMotion 
+          path={path} 
+          dur="4.5s" 
+          begin={`${parseFloat(delay) + d}s`} 
+          repeatCount="indefinite" 
+          calcMode="spline"
+          keySplines="0.4 0 0.6 1"
+        />
+      </circle>
+    ))}
+  </>
+);
+
+const LoxoneSchema = () => {
+  const nodes = [
+    { id: 'BUS.AIR', label: 'Senzory Air', icon: Radio, x: 130, y: 100, colorClass: 'blue', colorHex: '#2563eb' },
+    { id: 'BUS.TREE', label: 'Tree Periférie', icon: Share2, x: 670, y: 100, colorClass: 'lime', colorHex: '#84cc16' },
+    { id: 'PWM.DALI', label: 'Osvětlení', icon: Lightbulb, x: 130, y: 360, colorClass: 'orange', colorHex: '#ea580c' },
+    { id: 'IO.HVAC', label: 'Klima / Relé', icon: Thermometer, x: 670, y: 360, colorClass: 'purple', colorHex: '#9333ea' },
+  ];
+
+  return (
+    <div className="w-full bg-slate-50 dark:bg-[#080808] transition-colors duration-500 p-6 md:p-12 select-none overflow-hidden">
+      <svg 
+        viewBox="0 0 800 500" 
+        className="w-full h-auto overflow-visible" 
+        preserveAspectRatio="xMidYMid meet"
+      >
+        <defs>
+          <filter id="packetGlow" x="-100%" y="-100%" width="300%" height="300%">
+            <feGaussianBlur stdDeviation="2" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
+          
+          <linearGradient id="miniserverGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#84cc16" />
+            <stop offset="100%" stopColor="#4d7c0f" />
+          </linearGradient>
+
+          <filter id="coreGlow">
+            <feGaussianBlur stdDeviation="30" result="blur" />
+            <feFlood floodColor="#84cc16" floodOpacity="0.15" result="color" />
+            <feComposite in="color" in2="blur" operator="in" />
+            <feMerge>
+              <feMergeNode />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        <g opacity="0.3">
+          <path d="M 0 230 L 800 230 M 400 0 L 400 500" stroke="currentColor" strokeWidth="0.5" className="text-slate-300 dark:text-white/10" />
+          <circle cx="400" cy="230" r="260" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="15 15" className="text-slate-200 dark:text-white/5" />
+          <circle cx="400" cy="230" r="180" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="8 8" className="text-slate-200 dark:text-white/5" />
+          <rect x="50" y="30" width="700" height="400" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2 10" className="text-slate-200 dark:text-white/5" />
+        </g>
+
+        {nodes.map((node, i) => {
+          const path = `M 400 230 L ${node.x} ${node.y}`;
+          return (
+            <g key={`path-${i}`}>
+              <path d={path} stroke="currentColor" strokeWidth="1" className="text-slate-200 dark:text-white/10" />
+              <path d={path} stroke={node.colorHex} strokeWidth="8" strokeOpacity="0.02" fill="none" />
+              <DataPackets path={path} color={node.colorHex} delay={`${i * 0.5}s`} />
+            </g>
+          );
+        })}
+
+        <g transform="translate(400, 230)" filter="url(#coreGlow)">
+          <ellipse cx="0" cy="0" rx="180" ry="120" fill="none" stroke="#84cc16" strokeWidth="0.5" strokeDasharray="10 40" opacity="0.1">
+            <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="45s" repeatCount="indefinite" />
+          </ellipse>
+          <ellipse cx="0" cy="0" rx="160" ry="105" fill="none" stroke="#84cc16" strokeWidth="0.5" strokeDasharray="4 12" opacity="0.15">
+            <animateTransform attributeName="transform" type="rotate" from="360" to="0" dur="30s" repeatCount="indefinite" />
+          </ellipse>
+          
+          <rect x="-150" y="-70" width="300" height="140" rx="24" fill="url(#miniserverGrad)" className="shadow-2xl" />
+          <rect x="-142" y="-62" width="284" height="124" rx="20" fill="none" stroke="white" strokeOpacity="0.25" strokeWidth="1" />
+          
+          <rect x="-110" y="-48" width="220" height="38" rx="10" fill="black" fillOpacity="0.35" />
+          <foreignObject x="-100" y="-43" width="200" height="28">
+            <div className="flex justify-around items-center h-full">
+              <div className="flex gap-6">
+                <div className="w-3 h-3 rounded-full bg-green-400 animate-pulse shadow-[0_0_10px_#4ade80]" />
+                <div className="w-3 h-3 rounded-full bg-green-400 animate-pulse shadow-[0_0_10px_#4ade80]" style={{ animationDelay: '0.4s' }} />
+              </div>
+              <div className="w-[1.5px] h-5 bg-white/20 rounded-full" />
+              <div className="flex gap-6">
+                <div className="w-3 h-3 rounded-full bg-blue-400 animate-pulse shadow-[0_0_10px_#60a5fa]" style={{ animationDelay: '0.8s' }} />
+                <div className="w-3 h-3 rounded-full bg-orange-400 animate-pulse shadow-[0_0_10px_#fb923c]" style={{ animationDelay: '1.2s' }} />
+              </div>
+            </div>
+          </foreignObject>
+
+          <foreignObject x="-150" y="-10" width="300" height="80">
+            <div className="flex flex-col items-center justify-center h-full">
+              <span className="text-[18px] font-black text-white tracking-[0.15em] uppercase">Miniserver Gen.2</span>
+            </div>
+          </foreignObject>
+        </g>
+
+        {nodes.map((node) => (
+          <NodeConnector key={node.id} {...node} />
+        ))}
+
+        <foreignObject x="0" y="450" width="800" height="50">
+          <div className="flex justify-between items-center w-full h-full px-16">
+            <div className="flex items-center gap-4">
+              <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
+              <span className="text-[13px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-[0.3em]">Status: Synchronized</span>
+            </div>
+            <div className="flex items-center gap-4">
+              <span className="text-[13px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-[0.3em]">Load: 100% Efficiency</span>
+              <Activity className="w-5 h-5 text-blue-600 opacity-50" />
+            </div>
+          </div>
+        </foreignObject>
+      </svg>
+    </div>
+  );
+};
+
+export default LoxoneSchema;
