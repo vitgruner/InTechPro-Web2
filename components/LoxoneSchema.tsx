@@ -134,20 +134,22 @@ const LoxoneSchema = () => {
           <rect x="-150" y="-70" width="300" height="140" rx="24" fill="url(#miniserverGrad)" className="shadow-2xl" />
           <rect x="-142" y="-62" width="284" height="124" rx="20" fill="none" stroke="white" strokeOpacity="0.25" strokeWidth="1" />
           
+          {/* LED Strip Background */}
           <rect x="-110" y="-48" width="220" height="38" rx="10" fill="black" fillOpacity="0.35" />
-          <foreignObject x="-100" y="-43" width="200" height="28">
-            <div className="flex justify-around items-center h-full">
-              <div className="flex gap-6">
-                <div className="w-3 h-3 rounded-full bg-green-400 animate-pulse shadow-[0_0_10px_#4ade80]" />
-                <div className="w-3 h-3 rounded-full bg-green-400 animate-pulse shadow-[0_0_10px_#4ade80]" style={{ animationDelay: '0.4s' }} />
-              </div>
-              <div className="w-[1.5px] h-5 bg-white/20 rounded-full" />
-              <div className="flex gap-6">
-                <div className="w-3 h-3 rounded-full bg-blue-400 animate-pulse shadow-[0_0_10px_#60a5fa]" style={{ animationDelay: '0.8s' }} />
-                <div className="w-3 h-3 rounded-full bg-orange-400 animate-pulse shadow-[0_0_10px_#fb923c]" style={{ animationDelay: '1.2s' }} />
-              </div>
-            </div>
-          </foreignObject>
+          
+          {/* NATIVE SVG LEDs - Centered Vertically relative to the black strip (y=-48, h=38 -> center y=-29) */}
+          <g transform="translate(0, -29)">
+            {/* Left LEDs */}
+            <circle cx="-60" cy="0" r="4" className="fill-green-400 animate-pulse" />
+            <circle cx="-35" cy="0" r="4" className="fill-green-400 animate-pulse" style={{ animationDelay: '0.4s' }} />
+            
+            {/* Center Divider */}
+            <rect x="-1" y="-10" width="2" height="20" rx="1" className="fill-white/20" />
+            
+            {/* Right LEDs */}
+            <circle cx="35" cy="0" r="4" className="fill-blue-400 animate-pulse" style={{ animationDelay: '0.8s' }} />
+            <circle cx="60" cy="0" r="4" className="fill-orange-400 animate-pulse" style={{ animationDelay: '1.2s' }} />
+          </g>
 
           <foreignObject x="-150" y="-10" width="300" height="80">
             <div className="flex flex-col items-center justify-center h-full">

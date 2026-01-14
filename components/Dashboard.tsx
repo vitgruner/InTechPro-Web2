@@ -66,21 +66,22 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <section id="dashboard" className="pt-32 md:pt-40 pb-16 md:pb-24 relative bg-gray-50/50 dark:bg-[#0f1115] transition-colors duration-500">
-      <div className="max-w-7xl mx-auto px-5 md:px-6 space-y-12 md:space-y-20">
+    // Sjednoceno pt-24 md:pt-36 (stejné jako References)
+    <section id="dashboard" className="pt-24 md:pt-36 pb-16 md:pb-24 relative bg-transparent transition-colors duration-500">
+      <div className="max-w-7xl mx-auto px-6 space-y-12 md:space-y-20">
         <div className="flex flex-col gap-8 md:gap-10">
-          <div className="text-center lg:text-left flex flex-col lg:flex-row justify-between items-center gap-6">
-            <div className="max-w-2xl text-left">
+          <div className="flex flex-col lg:flex-row justify-between items-end gap-6">
+            <div className="w-full lg:max-w-3xl text-left">
               <SectionHeader 
                 eyebrow="Řídicí centrum InTechPro v4.2"
-                title="Online data showroom"
-                highlight="Praha"
+                title="Online data"
+                highlight="Showroom"
                 description="Online monitoring telemetrie napříč 8 klíčovými metrikami v našem showroomu"
                 align="left"
-                className="mb-0 md:mb-0" // Override default margin for flex layout
+                className="mb-0" 
               />
             </div>
-            <div className="flex items-center gap-3 bg-blue-600/5 dark:bg-blue-600/10 px-6 py-4 rounded-3xl border border-blue-600/10 dark:border-blue-500/20 shadow-sm w-full md:w-auto justify-center md:justify-start">
+            <div className="flex items-center gap-3 bg-blue-600/5 dark:bg-blue-600/10 px-6 py-4 rounded-3xl border border-blue-600/10 dark:border-blue-500/20 shadow-sm w-full md:w-auto justify-center md:justify-start mb-1">
               <ShieldCheck className="w-6 h-6 text-blue-600 dark:text-blue-400" />
               <div className="flex flex-col text-left">
                 <span className="text-[10px] font-black text-blue-600 dark:text-blue-300 uppercase tracking-widest leading-none mb-1">Globální zabezpečení</span>
