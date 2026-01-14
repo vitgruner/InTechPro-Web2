@@ -1,24 +1,28 @@
 
 import React, { useState, useEffect } from 'react';
-import { Home, Zap, DraftingCompass, Cpu, Lightbulb, Thermometer, Shield, Radio, Wind, Blinds, Waves, Car, Droplets, Sprout, Settings, CheckSquare } from 'lucide-react';
+import { Home, Zap, DraftingCompass, Cpu, Lightbulb, Thermometer, Shield, Radio, Wind, Blinds, Waves, Car, Droplets, Sprout, Settings, CheckSquare, Sun } from 'lucide-react';
 import { ServiceCardProps } from '../types';
 
 const ServiceCard: React.FC<ServiceCardProps & { features?: string[], onClick?: () => void }> = ({ title, description, icon, category, features, onClick }) => (
   <div 
     onClick={onClick}
-    className="group p-6 md:p-8 rounded-3xl glass-panel border border-black/5 dark:border-white/5 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all hover:-translate-y-2 cursor-pointer flex flex-col h-full shadow-sm hover:shadow-xl min-w-0"
+    className="group p-4 md:p-5 rounded-2xl glass-panel border border-black/5 dark:border-white/5 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all hover:-translate-y-1 cursor-pointer flex flex-col h-full shadow-sm hover:shadow-xl min-w-0 justify-center"
   >
-    <div className="w-12 h-12 md:w-14 md:h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition-colors">
-      <div className="text-blue-600 dark:text-blue-400 group-hover:text-white group-hover:scale-110 transition-all">{icon}</div>
+    <div className="flex items-start gap-3">
+      <div className="w-9 h-9 md:w-10 md:h-10 bg-blue-600/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 transition-colors">
+        <div className="text-blue-600 dark:text-blue-400 group-hover:text-white group-hover:scale-110 transition-all [&>svg]:w-4 [&>svg]:h-4 md:[&>svg]:w-5 md:[&>svg]:h-5">{icon}</div>
+      </div>
+      <div className="min-w-0 pt-0.5">
+        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-500 mb-1 block truncate">{category}</span>
+        <h3 className="text-sm md:text-base font-bold mb-1.5 text-gray-900 dark:text-white transition-colors duration-500 truncate" title={title}>{title}</h3>
+        <p className="text-gray-600 dark:text-gray-400 text-xs leading-relaxed mb-3 transition-colors duration-500 line-clamp-3">{description}</p>
+      </div>
     </div>
-    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-500 mb-2 block truncate">{category}</span>
-    <h3 className="text-lg md:text-xl font-bold mb-3 text-gray-900 dark:text-white transition-colors duration-500 truncate" title={title}>{title}</h3>
-    <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-6 transition-colors duration-500 line-clamp-3">{description}</p>
     
     {features && (
-      <div className="flex flex-wrap gap-2 mt-auto pt-6 border-t border-black/5 dark:border-white/10">
+      <div className="flex flex-wrap gap-1.5 mt-auto pt-3 border-t border-black/5 dark:border-white/10">
         {features.map((f, i) => (
-          <span key={i} className="text-[9px] font-bold bg-black/5 dark:bg-white/5 px-2 py-1 rounded-md text-gray-500 dark:text-gray-400 uppercase tracking-tight truncate max-w-full" title={f}>{f}</span>
+          <span key={i} className="text-[8px] md:text-[9px] font-bold bg-black/5 dark:bg-white/5 px-2 py-1 rounded-md text-gray-500 dark:text-gray-400 uppercase tracking-tight truncate max-w-full" title={f}>{f}</span>
         ))}
       </div>
     )}
@@ -37,7 +41,8 @@ const Services = ({ setView, isStandalone = false }: { setView: (v: any) => void
     "Audio": "Play",
     "Závlaha": "OFF",
     "Wellness": "28°C",
-    "Wallbox": "85%"
+    "Wallbox": "85%",
+    "FVE": "5.2kW"
   });
 
   useEffect(() => {
@@ -47,7 +52,8 @@ const Services = ({ setView, isStandalone = false }: { setView: (v: any) => void
         "Vytápění": (22 + Math.random()).toFixed(1) + "°C",
         "Energie": (1 + Math.random() * 2).toFixed(1) + "kW",
         "Rekuperace": (400 + Math.random() * 100).toFixed(0) + "ppm",
-        "Wellness": (27 + Math.random() * 2).toFixed(1) + "°C"
+        "Wellness": (27 + Math.random() * 2).toFixed(1) + "°C",
+        "FVE": (3 + Math.random() * 4).toFixed(1) + "kW"
       }));
     }, 4000);
     return () => clearInterval(interval);
@@ -65,12 +71,13 @@ const Services = ({ setView, isStandalone = false }: { setView: (v: any) => void
     { icon: <Droplets className="w-5 h-5" />, label: "Závlaha" },
     { icon: <Waves className="w-5 h-5" />, label: "Wellness" },
     { icon: <Car className="w-5 h-5" />, label: "Wallbox" },
+    { icon: <Sun className="w-5 h-5" />, label: "FVE" },
   ];
 
   return (
-    <section id="services" className={`py-16 md:py-24 relative transition-colors duration-500 ${isStandalone ? 'pt-32 md:pt-40' : ''}`}>
+    <section id="services" className={`py-10 md:py-24 relative transition-colors duration-500 ${isStandalone ? 'pt-32 md:pt-40' : ''}`}>
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-10 mb-20">
+        <div className="grid lg:grid-cols-2 gap-4 md:gap-10 mb-10 md:mb-20">
           {/* UPGRADED Loxone Section */}
           <div 
             onClick={() => setView('loxone-detail')}
@@ -125,12 +132,15 @@ const Services = ({ setView, isStandalone = false }: { setView: (v: any) => void
                 </button>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-4 p-4 md:p-8 bg-black/5 dark:bg-white/5 rounded-[2.5rem] border border-black/5 dark:border-white/10 backdrop-blur-sm">
+              {/* Kompaktnější mřížka pro mobilní zařízení */}
+              <div className="grid grid-cols-3 sm:grid-cols-3 gap-2 md:gap-4 p-3 md:p-8 bg-black/5 dark:bg-white/5 rounded-[2rem] md:rounded-[2.5rem] border border-black/5 dark:border-white/10 backdrop-blur-sm">
                 {loxoneIntegrations.map((item, i) => (
-                  <div key={i} className="flex flex-col items-center justify-center p-4 bg-white dark:bg-white/5 rounded-2xl border border-black/5 dark:border-white/10 hover:border-blue-600/30 transition-all text-center group/item shadow-sm hover:shadow-lg hover:-translate-y-1">
-                    <div className="text-blue-600 dark:text-blue-400 group-hover/item:scale-125 group-hover/item:rotate-[10deg] transition-all mb-2 flex-shrink-0">{item.icon}</div>
-                    <span className="text-[10px] font-black uppercase tracking-tight text-gray-600 dark:text-gray-400 leading-tight truncate w-full px-1 mb-1" title={item.label}>{item.label}</span>
-                    <span className="text-[8px] font-bold text-blue-600/70 dark:text-blue-400/70 uppercase tracking-widest animate-pulse">{liveStats[item.label] || "OK"}</span>
+                  <div key={i} className="flex flex-col items-center justify-center p-2 md:p-4 bg-white dark:bg-white/5 rounded-xl md:rounded-2xl border border-black/5 dark:border-white/10 hover:border-blue-600/30 transition-all text-center group/item shadow-sm hover:shadow-lg hover:-translate-y-1">
+                    <div className="text-blue-600 dark:text-blue-400 group-hover/item:scale-125 group-hover/item:rotate-[10deg] transition-all mb-1.5 md:mb-2 flex-shrink-0 [&>svg]:w-4 [&>svg]:h-4 md:[&>svg]:w-5 md:[&>svg]:h-5">
+                      {item.icon}
+                    </div>
+                    <span className="text-[8px] md:text-[10px] font-black uppercase tracking-tight text-gray-600 dark:text-gray-400 leading-tight truncate w-full px-0.5 mb-0.5 md:mb-1" title={item.label}>{item.label}</span>
+                    <span className="text-[7px] md:text-[8px] font-bold text-blue-600/70 dark:text-blue-400/70 uppercase tracking-widest animate-pulse">{liveStats[item.label] || "OK"}</span>
                   </div>
                 ))}
               </div>

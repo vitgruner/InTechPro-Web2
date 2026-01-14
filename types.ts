@@ -95,4 +95,5 @@ export interface ReferenceFormProps {
 export interface ReferencesProps {
   projects: Reference[];
   isStandalone?: boolean;
+  setView?: (view: ViewState) => void;
 }

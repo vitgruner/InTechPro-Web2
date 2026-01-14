@@ -6,7 +6,7 @@ import SmartHomeWireframe from './SmartHomeWireframe';
 
 const Hero: React.FC<HeroProps> = ({ setView }) => {
   return (
-    <section className="relative min-h-screen flex items-center pt-32 md:pt-40 pb-16 md:pb-24 overflow-hidden">
+    <section className="relative min-h-screen flex items-center pt-32 md:pt-40 pb-12 md:pb-24 overflow-hidden">
       <div className="absolute top-1/4 -left-20 w-72 h-72 bg-blue-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-10 dark:opacity-20 animate-blob"></div>
       <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-blue-400 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-10 dark:opacity-20 animate-blob animation-delay-2000"></div>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-5 dark:opacity-15 animate-blob animation-delay-4000"></div>

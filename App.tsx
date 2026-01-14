@@ -149,7 +149,7 @@ const App = () => {
             <References projects={referenceProjects} />
             <Process />
             <ContactForm />
-            <Partners />
+            
           </div>
         );
       case 'showcase':

@@ -114,40 +114,44 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
   }
 
   return (
-    <section id="contact" className={`py-16 md:py-24 relative overflow-hidden bg-gray-50/30 dark:bg-[#080808] transition-colors duration-500 ${isStandalone ? 'pt-32 md:pt-40' : ''}`}>
+    <section id="contact" className={`py-10 md:py-24 relative overflow-hidden bg-gray-50/30 dark:bg-[#080808] transition-colors duration-500 ${isStandalone ? 'pt-32 md:pt-40' : ''}`}>
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-600/5 dark:bg-blue-600/10 rounded-full blur-[150px] -z-10 pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center lg:text-left mb-12 md:mb-16">
+        <div className="text-center lg:text-left mb-10 md:mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600/10 dark:bg-blue-500/10 border border-blue-600/20 dark:border-blue-400/20 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-[0.4em] mb-6">
             Iniciační Protokol
           </div>
           <h1 className="text-5xl md:text-7xl font-black text-gray-900 dark:text-white leading-tight tracking-tighter transition-colors">Zhmotněte svou <span className="text-gradient">Vizi</span></h1>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-10 items-stretch">
-          <div className="lg:col-span-5 flex flex-col gap-6">
-            <div className="glass-panel p-6 rounded-[2rem] bg-blue-600/5 border-blue-600/20 mb-2">
-                <div className="flex items-center gap-3 mb-3">
-                    <Sparkles className="w-5 h-5 text-blue-600" />
-                    <h3 className="text-sm font-black uppercase tracking-tight">Krok 1: Konzultace</h3>
-                </div>
-                <p className="text-[11px] text-gray-500 font-medium leading-relaxed">
-                  Poraďte se o technických detailech. Přepis chatu automaticky odešleme spolu s vaší poptávkou.
-                </p>
+        {/* Pokud jsme na hlavní stránce (isStandalone === false), skryjeme levý sloupec a vycentrujeme formulář */}
+        <div className={`grid gap-10 items-stretch ${isStandalone ? 'lg:grid-cols-12' : 'grid-cols-1 max-w-4xl mx-auto'}`}>
+          
+          {isStandalone && (
+            <div className="lg:col-span-5 flex flex-col gap-6">
+              <div className="glass-panel p-6 rounded-[2rem] bg-blue-600/5 border-blue-600/20 mb-2">
+                  <div className="flex items-center gap-3 mb-3">
+                      <Sparkles className="w-5 h-5 text-blue-600" />
+                      <h3 className="text-sm font-black uppercase tracking-tight">Krok 1: Konzultace</h3>
+                  </div>
+                  <p className="text-[11px] text-gray-500 font-medium leading-relaxed">
+                    Poraďte se o technických detailech. Přepis chatu automaticky odešleme spolu s vaší poptávkou.
+                  </p>
+              </div>
+              <div className="flex-1 min-h-[400px] md:min-h-[500px]">
+                  <VisionaryAssistant messages={aiMessages} setMessages={setAiMessages} isLoading={isAiLoading} setIsLoading={setIsAiLoading} compact={true} />
+              </div>
             </div>
-            <div className="flex-1 min-h-[400px] md:min-h-[500px]">
-                <VisionaryAssistant messages={aiMessages} setMessages={setAiMessages} isLoading={isAiLoading} setIsLoading={setIsAiLoading} compact={true} />
-            </div>
-          </div>
+          )}
 
-          <div className="lg:col-span-7">
+          <div className={`${isStandalone ? 'lg:col-span-7' : 'w-full'}`}>
             <form onSubmit={handleSubmit} className="glass-panel p-8 md:p-10 rounded-[3rem] border border-black/10 dark:border-white/10 shadow-xl space-y-8 transition-all duration-500 h-full flex flex-col">
               <div className="flex items-center gap-3 mb-2">
                   <div className="w-8 h-8 bg-blue-600/10 rounded-lg flex items-center justify-center text-blue-600">
                       <Calculator className="w-4 h-4" />
                   </div>
-                  <h3 className="text-sm font-black uppercase tracking-tight">Krok 2: Specifikace projektu</h3>
+                  <h3 className="text-sm font-black uppercase tracking-tight">{isStandalone ? 'Krok 2: Specifikace projektu' : 'Specifikace projektu'}</h3>
               </div>
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2 text-left">

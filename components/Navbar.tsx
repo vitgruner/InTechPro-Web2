@@ -34,6 +34,7 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
     setView(viewName);
     setIsMobileMenuOpen(false);
     setIsServicesOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const navItems: { label: string; value: ViewState; dropdown?: { label: string; value: ViewState }[]; isLive?: boolean }[] = [
@@ -50,7 +51,7 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
       ]
     },
     { label: 'Reference', value: 'showcase' },
-    { label: 'Inovační Lab', value: 'innovation', isLive: true },
+    { label: 'Online Showroom', value: 'innovation', isLive: true },
     { label: 'O nás', value: 'about' },
     { label: 'Partneři', value: 'partners' }
   ];
