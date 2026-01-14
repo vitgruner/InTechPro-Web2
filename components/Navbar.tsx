@@ -52,8 +52,7 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
     },
     { label: 'Reference', value: 'showcase' },
     { label: 'Online Showroom', value: 'innovation', isLive: true },
-    { label: 'O nás', value: 'about' },
-    { label: 'Partneři', value: 'partners' }
+    { label: 'O nás', value: 'about' }
   ];
 
   return (

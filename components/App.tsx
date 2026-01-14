@@ -8,7 +8,6 @@ import Dashboard from './components/Dashboard';
 import References from './components/References';
 import ContactForm from './components/ContactForm';
 import AboutUs from './components/AboutUs';
-import Partners from './components/Partners';
 import ProjekceDetail from './components/ProjekceDetail';
 import OsvetleniDetail from './components/OsvetleniDetail';
 import RozvadeceDetail from './components/RozvadeceDetail';
@@ -181,7 +180,6 @@ const App = () => {
       case 'rozvadece': return <RozvadeceDetail setView={setView} />;
       case 'technologie': return <TechnologieDetail setView={setView} />;
       case 'projekce-elektro': return <ProjekceDetail setView={setView} />;
-      case 'partners': return <Partners isStandalone={true} />;
       case 'services': return (
         <div className="animate-in fade-in duration-700">
           <Services setView={setView} isStandalone={true} />
