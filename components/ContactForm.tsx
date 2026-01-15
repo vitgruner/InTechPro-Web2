@@ -1,9 +1,10 @@
 
 import React, { useState, useMemo } from 'react';
-import { Send, CheckCircle2, Zap, Thermometer, Shield, Radio, Sun, Wifi, Car, Home, Factory, Building2, Waves, Sprout, Droplets, Blinds, Calculator, Sparkles, History, Mail, Phone, MessageSquare } from 'lucide-react';
+import { Send, CheckCircle2, Zap, Thermometer, Shield, Radio, Sun, Wifi, Car, Home, Factory, Building2, Waves, Sprout, Droplets, Blinds, Calculator, Sparkles, History, Mail, Phone, MessageSquare, Loader2, AlertCircle } from 'lucide-react';
 import VisionaryAssistant from './VisionaryAssistant';
 import { Message } from '../types';
 import SectionHeader from './SectionHeader';
+import emailjs from '@emailjs/browser';
 
 interface FormData {
   name: string;
@@ -18,6 +19,8 @@ interface FormData {
 
 const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
   const [submitted, setSubmitted] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isAiLoading, setIsAiLoading] = useState(false);
   const [aiMessages, setAiMessages] = useState<Message[]>([
     { role: 'assistant', content: 'Zdravím vás. Jsem váš **digitální průvodce** světem inteligentní infrastruktury IN TECH PRO. \n\nMáte konkrétní představu o svém projektu, nebo potřebujete inspirovat možnostmi moderní automatizace?' }
@@ -74,26 +77,40 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const submissionPayload = {
-      targetEmail: 'vit.gruner@gmail.com',
-      client: { 
-        name: formData.name, 
-        email: formData.email,
-        phone: formData.phone 
-      },
-      project: { 
-        property: formData.property, 
-        system: formData.system, 
-        features: formData.features, 
-        message: formData.message,
-        estimatedBudget: estimatedTotal 
-      },
-      aiConsultationHistory: aiMessages.map(m => `[${m.role.toUpperCase()}]: ${m.content}`).join('\n\n')
+    setIsSending(true);
+    setErrorMessage(null);
+
+    // Příprava dat pro šablonu EmailJS
+    const templateParams = {
+      to_name: 'IN TECH PRO Tým',
+      from_name: formData.name,
+      from_email: formData.email,
+      phone: formData.phone,
+      property_type: formData.property,
+      selected_features: formData.features.map(f => featureOptions.find(o => o.id === f)?.label).join(', '),
+      estimated_budget: estimatedTotal.toLocaleString() + ' Kč',
+      message: formData.message,
+      ai_history: aiMessages.map(m => `[${m.role.toUpperCase()}]: ${m.content}`).join('\n\n')
     };
-    console.log("PRODUKČNÍ POPTÁVKA ODESLÁNA NA: vit.gruner@gmail.com", submissionPayload);
-    setSubmitted(true);
+
+    try {
+      // Produkční klíče nastavené uživatelem
+      const SERVICE_ID = 'service_qrgvofr';
+      const TEMPLATE_ID = 'template_76vc4mm';
+      const PUBLIC_KEY = 'JowaJUIrtXne2eHJM';
+
+      await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
+
+      console.log("Email successfully sent", templateParams);
+      setSubmitted(true);
+    } catch (error) {
+      console.error('EmailJS Error:', error);
+      setErrorMessage('Omlouváme se, došlo k chybě při odesílání. Zkontrolujte připojení k internetu a zkuste to prosím znovu.');
+    } finally {
+      setIsSending(false);
+    }
   };
 
   if (submitted) {
@@ -104,7 +121,7 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
         </div>
         <h2 className="text-4xl font-black text-gray-900 dark:text-white mb-4 transition-colors">Vize byla odeslána</h2>
         <p className="text-gray-500 dark:text-gray-400 max-w-md mx-auto transition-colors px-6 mb-8">
-          Náš inženýr vás bude kontaktovat s detailním návrhem. 
+          Náš inženýr vás bude brzy kontaktovat s detailním návrhem na základě vašich specifikací.
         </p>
         
         <div className="flex flex-col items-center gap-4 mx-auto">
@@ -143,7 +160,6 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
           align={isStandalone ? 'left' : 'center'}
         />
 
-        {/* Pokud jsme na hlavní stránce (isStandalone === false), skryjeme levý sloupec a vycentrujeme formulář */}
         <div className={`grid gap-10 items-stretch ${isStandalone ? 'lg:grid-cols-12' : 'grid-cols-1 max-w-4xl mx-auto'}`}>
           
           {isStandalone && (
@@ -234,6 +250,13 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
                   />
               </div>
 
+              {errorMessage && (
+                <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-2xl flex items-center gap-3 text-red-600 animate-in fade-in slide-in-from-top-2">
+                  <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                  <p className="text-xs font-bold">{errorMessage}</p>
+                </div>
+              )}
+
               <div className="mt-auto pt-8 border-t border-black/5 dark:border-white/5 flex flex-col sm:flex-row items-center justify-between gap-8">
                  <div className="text-left">
                     <p className="text-[9px] font-black text-blue-600 uppercase tracking-widest mb-1">Odhadovaná investice</p>
@@ -242,9 +265,22 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
                        <span className="text-xs font-bold text-blue-600">Kč</span>
                     </div>
                  </div>
-                 <button type="submit" className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-[0.2em] py-5 px-12 rounded-2xl transition-all shadow-xl flex items-center justify-center gap-3 group">
-                  Odeslat poptávku
-                  <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                 <button 
+                   type="submit" 
+                   disabled={isSending}
+                   className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-[0.2em] py-5 px-12 rounded-2xl transition-all shadow-xl flex items-center justify-center gap-3 group disabled:opacity-70 disabled:cursor-not-allowed"
+                 >
+                  {isSending ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Odesílání...
+                    </>
+                  ) : (
+                    <>
+                      Odeslat poptávku
+                      <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                    </>
+                  )}
                 </button>
               </div>
             </form>
