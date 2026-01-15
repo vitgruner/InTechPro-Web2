@@ -73,34 +73,34 @@ const LoxoneDetail: React.FC<DetailProps> = ({ setView }) => {
                   <div className="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center text-white">
                     <Info className="w-4 h-4" />
                   </div>
-                  <h3 className="font-black uppercase tracking-widest text-xs text-blue-600 truncate">Architektura systému</h3>
+                  <h3 className="font-black uppercase tracking-widest text-sm text-blue-600 truncate">Architektura systému</h3>
                 </div>
-                <p className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
+                <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
                   Vizualizace toku dat mezi centrálním Miniserverem a periferními klastry v reálném čase. Každý pohyb kuličky reprezentuje synchronizační paket sběrnice Tree nebo Air.
                 </p>
                 <div className="mt-6 pt-6 border-t border-black/5 dark:border-white/5 space-y-3">
                   <div className="flex items-center gap-3">
                     <div className="w-1.5 h-1.5 rounded-full bg-blue-600" />
-                    <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Air Sběrnice</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Air Sběrnice</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-1.5 h-1.5 rounded-full bg-lime-500" />
-                    <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Tree Sběrnice</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Tree Sběrnice</span>
                   </div>
                 </div>
               </div>
 
               <div className="glass-panel p-8 rounded-[2rem] border-black/5 dark:bg-white/5">
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Systémový Log</span>
-                  <Activity className="w-3 h-3 text-blue-600" />
+                  <span className="text-xs font-black uppercase tracking-widest text-gray-400">Systémový Log</span>
+                  <Activity className="w-4 h-4 text-blue-600" />
                 </div>
                 <div className="space-y-2">
-                  <div className="flex justify-between items-center text-[10px]">
+                  <div className="flex justify-between items-center text-xs">
                     <span className="text-gray-500 font-medium">Latence Jádra</span>
                     <span className="text-blue-600 font-black">2.4ms</span>
                   </div>
-                  <div className="flex justify-between items-center text-[10px]">
+                  <div className="flex justify-between items-center text-xs">
                     <span className="text-gray-500 font-medium">Zatížení CPU</span>
                     <span className="text-blue-600 font-black">12%</span>
                   </div>

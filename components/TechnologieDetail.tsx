@@ -89,7 +89,7 @@ const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
-                    <span className="text-[10px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-[0.2em]">ENERGY.MATRIX.ACTIVE</span>
+                    <span className="text-[10px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-[0.2em]">INFOTECH FOTOVOLTAIKA</span>
                   </div>
                 </div>
               </div>

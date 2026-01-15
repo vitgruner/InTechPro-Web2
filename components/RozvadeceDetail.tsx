@@ -57,7 +57,7 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
           <ArrowLeft className="w-4 h-4" /> Zpět na Projekci
         </button>
 
-        <div className="mb-20 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10">
+        <div className="mb-10 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10">
           <div className="max-w-3xl text-left w-full">
             <SectionHeader 
               variant="page"
