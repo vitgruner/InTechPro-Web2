@@ -16,7 +16,6 @@ interface VisualizationBoxProps {
   statusLabel?: string;
 }
 
-// Oprava: Kompaktnější design VisualizationBoxu
 const VisualizationBox: React.FC<VisualizationBoxProps> = ({ icon: Icon, title, subtitle, color, children, statusLabel = "Aktivní spojení" }) => (
   <div className="glass-panel rounded-3xl p-5 md:p-6 border border-black/10 dark:border-white/20 overflow-hidden shadow-2xl flex flex-col transition-all group">
     <div className="mb-5 flex items-center justify-between gap-4">
@@ -66,7 +65,6 @@ const Dashboard = () => {
   }, []);
 
   return (
-    // Sjednoceno pt-24 md:pt-36 (stejné jako References)
     <section id="dashboard" className="pt-24 md:pt-36 pb-16 md:pb-24 relative bg-transparent transition-colors duration-500">
       <div className="max-w-7xl mx-auto px-6 space-y-12 md:space-y-20">
         <div className="flex flex-col gap-8 md:gap-10">
@@ -105,9 +103,9 @@ const Dashboard = () => {
                         </span>
                       )}
                    </div>
-                   <h4 className="text-sm font-black text-gray-900 dark:text-white tabular-nums leading-none truncate">
+                   <h4 className="text-sm font-black text-gray-900 dark:text-white tabular-nums leading-none truncate font-mono">
                       {sensor.value}
-                      <span className="text-[9px] font-medium text-gray-500 ml-1">{sensor.unit}</span>
+                      <span className="text-[9px] font-medium text-gray-500 ml-1 font-sans">{sensor.unit}</span>
                    </h4>
                 </div>
               </div>

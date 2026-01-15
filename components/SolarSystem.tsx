@@ -66,7 +66,7 @@ const SolarSystem = () => {
             {label}
           </span>
           <div className="flex items-baseline gap-1">
-            <span className="text-sm md:text-xl font-black text-gray-900 dark:text-white tabular-nums">
+            <span className="text-sm md:text-xl font-black text-gray-900 dark:text-white tabular-nums font-mono">
               {Math.abs(value).toFixed(1)}
             </span>
             <span className="text-[8px] md:text-[10px] text-gray-500 font-black uppercase">
@@ -130,10 +130,6 @@ const SolarSystem = () => {
         </div>
 
         {/* Distributed Nodes */}
-        {/* Pozice upraveny tak, aby střed ikony (h/2 = 24px/32px) seděl přesně na kotevním bodě (15% nebo 50%) */}
-        {/* translate-y-6 = 1.5rem = 24px (polovina ikony na mobilu) */}
-        {/* translate-y-8 = 2rem = 32px (polovina ikony na desktopu) */}
-        
         <PowerNode 
           icon={Sun} 
           label="PV Generation" 
@@ -174,21 +170,21 @@ const SolarSystem = () => {
          <div className="flex flex-col items-center">
             <span className="text-[9px] font-black text-gray-400 dark:text-gray-500 tracking-[0.3em] uppercase mb-1.5">Měsíční úspora</span>
             <div className="flex items-baseline gap-1">
-              <span className="text-lg md:text-2xl font-black text-gray-900 dark:text-white">2.4</span>
+              <span className="text-lg md:text-2xl font-black text-gray-900 dark:text-white font-mono">2.4</span>
               <span className="text-[10px] font-bold text-blue-600">MWh</span>
             </div>
          </div>
          <div className="flex flex-col items-center">
             <span className="text-[9px] font-black text-gray-400 dark:text-gray-500 tracking-[0.3em] uppercase mb-1.5">CO2 Offset</span>
             <div className="flex items-baseline gap-1">
-              <span className="text-lg md:text-2xl font-black text-gray-900 dark:text-white">124</span>
+              <span className="text-lg md:text-2xl font-black text-gray-900 dark:text-white font-mono">124</span>
               <span className="text-[10px] font-bold text-green-600">kg</span>
             </div>
          </div>
          <div className="hidden sm:flex flex-col items-center">
             <span className="text-[9px] font-black text-gray-400 dark:text-gray-500 tracking-[0.3em] uppercase mb-1.5">Efektivita</span>
             <div className="flex items-baseline gap-1">
-              <span className="text-lg md:text-2xl font-black text-gray-900 dark:text-white">98.2</span>
+              <span className="text-lg md:text-2xl font-black text-gray-900 dark:text-white font-mono">98.2</span>
               <span className="text-[10px] font-bold text-yellow-600">%</span>
             </div>
          </div>

@@ -37,7 +37,7 @@ const FooterLogo = () => (
   </div>
 );
 
-// Konstanta s garantovanými stringovými identifikátory pro ikony
+// Konstanta s garantovanými stringovými identifikátory pro ikony a topologií
 const DEFAULT_REFERENCES: Reference[] = [
   {
     title: "Villa Avant-Garde",
@@ -46,6 +46,7 @@ const DEFAULT_REFERENCES: Reference[] = [
     image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200",
     tech: "Loxone",
     techIcon: "cpu",
+    topology: { sensors: 142, cablingKm: 3.2, modules: 48, racks: 2 },
     services: [
       { label: "Osvětlení", icon: "zap" },
       { label: "HVAC", icon: "thermometer" },
@@ -60,6 +61,7 @@ const DEFAULT_REFERENCES: Reference[] = [
     image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200",
     tech: "DALI / KNX",
     techIcon: "building",
+    topology: { sensors: 380, cablingKm: 12.5, modules: 124, racks: 6 },
     services: [
       { label: "Osvětlení", icon: "zap" },
       { label: "Přístup", icon: "shield" },
@@ -74,6 +76,7 @@ const DEFAULT_REFERENCES: Reference[] = [
     image: "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&q=80&w=1200",
     tech: "Loxone / Modbus",
     techIcon: "factory",
+    topology: { sensors: 850, cablingKm: 45.0, modules: 210, racks: 12 },
     services: [
       { label: "Měření", icon: "activity" },
       { label: "Vytápění", icon: "thermometer" },
@@ -171,7 +174,7 @@ const App = () => {
           </div>
         );
       case 'showcase':
-        return <References projects={referenceProjects} isStandalone={true} />;
+        return <References projects={referenceProjects} isStandalone={true} setView={setView} />;
       case 'contact':
         return <ContactForm isStandalone={true} />;
       case 'innovation':
@@ -246,11 +249,6 @@ const App = () => {
                 <li>
                   <button onClick={() => setView('admin-login')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm flex items-center gap-2">
                     Klientská zóna <Lock className="w-3.5 h-3.5" />
-                  </button>
-                </li>
-                <li>
-                  <button type="button" onClick={() => document.dispatchEvent(new CustomEvent('intechpro-open-cookies'))} className="text-gray-400 hover:text-white font-bold transition-colors text-sm flex items-center gap-2">
-                    Nastavení cookies <Settings className="w-3.5 h-3.5" />
                   </button>
                 </li>
               </ul>

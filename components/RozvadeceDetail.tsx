@@ -5,6 +5,7 @@ import LoxoneUnit from './LoxoneUnit';
 import { DetailProps } from '../types';
 import SectionHeader from './SectionHeader';
 import ServicePager from './ServicePager';
+import Breadcrumbs from './Breadcrumbs';
 
 interface VisualizationBoxProps {
   icon: React.ElementType;
@@ -50,12 +51,13 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
   return (
     <div className="pt-32 md:pt-40 pb-16 md:pb-24 animate-in fade-in duration-700">
       <div className="max-w-7xl mx-auto px-6">
-        <button 
-          onClick={() => setView('projekce-elektro')}
-          className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-black uppercase tracking-widest text-[10px] mb-12 hover:gap-4 transition-all"
-        >
-          <ArrowLeft className="w-4 h-4" /> Zpět na Projekci
-        </button>
+        <Breadcrumbs 
+          items={[
+            { label: 'Služby', view: 'services' },
+            { label: 'Výroba Rozvaděčů' }
+          ]}
+          setView={setView}
+        />
 
         <div className="mb-10 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10">
           <div className="max-w-3xl text-left w-full">
@@ -132,8 +134,6 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
             </p>
           </div>
         </div>
-
-        
 
         <ServicePager currentView="rozvadece" setView={setView} />
       </div>

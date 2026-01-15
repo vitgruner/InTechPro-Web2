@@ -51,6 +51,13 @@ export interface ReferenceService {
   icon: string; // Changed to string for serialization
 }
 
+export interface TopologyStats {
+  sensors: number;
+  cablingKm: number;
+  modules: number;
+  racks: number;
+}
+
 export interface Reference {
   title: string;
   category: string;
@@ -59,6 +66,7 @@ export interface Reference {
   tech: string;
   techIcon: string; // Changed to string for serialization
   services: ReferenceService[];
+  topology?: TopologyStats; // New field for technical complexity
 }
 
 export interface ReferenceCardProps extends Reference {}
@@ -96,4 +104,9 @@ export interface ReferencesProps {
   projects: Reference[];
   isStandalone?: boolean;
   setView?: (view: ViewState) => void;
+}
+
+export interface BreadcrumbsProps {
+  items: { label: string; view?: ViewState }[];
+  setView: (view: ViewState) => void;
 }

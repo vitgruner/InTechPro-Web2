@@ -5,6 +5,7 @@ import SolarSystem from './SolarSystem';
 import { DetailProps } from '../types';
 import SectionHeader from './SectionHeader';
 import ServicePager from './ServicePager';
+import Breadcrumbs from './Breadcrumbs';
 
 const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
   const techCards = [
@@ -40,12 +41,13 @@ const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
   return (
     <div className="pt-32 md:pt-40 pb-16 md:pb-24 animate-in fade-in duration-700">
       <div className="max-w-7xl mx-auto px-6">
-        <button 
-          onClick={() => setView('rozvadece')}
-          className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-black uppercase tracking-widest text-[10px] mb-12 hover:gap-4 transition-all"
-        >
-          <ArrowLeft className="w-4 h-4" /> Zpět na Rozvaděče
-        </button>
+        <Breadcrumbs 
+          items={[
+            { label: 'Služby', view: 'services' },
+            { label: 'Moderní Technologie' }
+          ]}
+          setView={setView}
+        />
 
         <SectionHeader 
           variant="page"
@@ -112,8 +114,6 @@ const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
             </div>
           ))}
         </div>
-
-        
 
         <ServicePager currentView="technologie" setView={setView} />
       </div>

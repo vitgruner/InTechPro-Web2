@@ -2,12 +2,12 @@
 import React, { useState, useMemo } from 'react';
 import { 
   Home, Zap, Search, Filter, LayoutGrid, Building2, Factory, 
-  Cpu, Thermometer, Radio, Shield, Sun, Building, Activity, ArrowRight 
+  Cpu, Thermometer, Radio, Shield, Sun, Building, Activity, ArrowRight,
+  Network, Share2, Ruler, Server, X
 } from 'lucide-react';
 import { Reference, ReferenceCardProps, ReferencesProps, ReferenceService } from '../types';
 import SectionHeader from './SectionHeader';
 
-// Map for resolving string keys back to Lucide components
 const IconMap: Record<string, React.ElementType> = {
   'home': Home,
   'zap': Zap,
@@ -22,65 +22,119 @@ const IconMap: Record<string, React.ElementType> = {
   'activity': Activity
 };
 
-const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, tech, services = [], techIcon }) => {
-  // Defensive icon lookup with fallback to Cpu
+const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, tech, services = [], techIcon, topology }) => {
+  const [showTopology, setShowTopology] = useState(false);
   const iconKey = (techIcon as string)?.toLowerCase();
   const TechIconComp = IconMap[iconKey] || Cpu;
 
   return (
-    <div className="group relative glass-panel rounded-2xl md:rounded-3xl overflow-hidden border border-black/10 dark:border-white/10 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all duration-700 hover:-translate-y-1 shadow-sm hover:shadow-xl">
-      <div className="relative h-36 md:h-44 overflow-hidden">
-        <img 
-          src={image || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200"} 
-          alt={title} 
-          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.src = "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200";
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 dark:from-[#050505] via-transparent to-transparent opacity-80"></div>
+    <div className="group relative glass-panel rounded-2xl md:rounded-3xl overflow-hidden border border-black/10 dark:border-white/10 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all duration-700 hover:-translate-y-1 shadow-sm hover:shadow-xl h-full flex flex-col">
+      
+      {/* Image / Topology Container */}
+      <div className="relative h-48 md:h-56 overflow-hidden bg-gray-900">
         
-        <div className="absolute top-2 right-2 md:top-3 md:right-3 bg-white/90 dark:bg-black/80 backdrop-blur-xl border border-black/10 dark:border-white/20 px-2 py-1 md:px-3 md:py-1.5 rounded-lg md:rounded-xl flex items-center gap-1.5 shadow-xl">
-          <TechIconComp className="w-3 h-3 md:w-3.5 md:h-3.5 text-blue-600 dark:text-blue-400" />
-          <span className="text-[7px] md:text-[9px] font-black text-gray-900 dark:text-white uppercase tracking-[0.15em]">{tech}</span>
+        {/* Normal Image View */}
+        <div className={`absolute inset-0 transition-all duration-500 ${showTopology ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}>
+           <img 
+            src={image || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200"} 
+            alt={title} 
+            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 dark:from-[#050505] via-transparent to-transparent opacity-90"></div>
+          
+          <div className="absolute top-3 right-3 bg-white/90 dark:bg-black/80 backdrop-blur-xl border border-black/10 dark:border-white/20 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-xl">
+            <TechIconComp className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+            <span className="text-[9px] font-black text-gray-900 dark:text-white uppercase tracking-[0.15em]">{tech}</span>
+          </div>
+        </div>
+
+        {/* Topology View (Overlay) - Compact Version */}
+        <div className={`absolute inset-0 bg-slate-900/95 backdrop-blur-sm flex flex-col items-center justify-center p-4 transition-all duration-300 ${showTopology ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
+           {/* Grid Background */}
+           <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #2563eb 1px, transparent 1px)', backgroundSize: '16px 16px' }}></div>
+           
+           {/* Header */}
+           <div className="relative z-10 flex items-center gap-2 mb-3">
+             <Network className="w-3.5 h-3.5 text-blue-500" /> 
+             <span className="text-white text-[10px] font-black uppercase tracking-widest">Topologie</span>
+           </div>
+
+           {/* Close Button - Absolute Position */}
+           <button 
+             onClick={(e) => { e.stopPropagation(); setShowTopology(false); }}
+             className="absolute top-2 right-2 p-2 text-gray-500 hover:text-white transition-colors z-20 hover:bg-white/10 rounded-full"
+           >
+             <X className="w-4 h-4" />
+           </button>
+
+           {topology ? (
+             <div className="grid grid-cols-2 gap-2 w-full max-w-[240px] relative z-10">
+                <div className="bg-white/5 border border-white/10 p-2 rounded-lg flex flex-col items-center hover:bg-white/10 transition-colors">
+                   <Share2 className="w-3.5 h-3.5 text-blue-400 mb-0.5" />
+                   <span className="text-sm font-black text-white tabular-nums leading-none">{topology.sensors}</span>
+                   <span className="text-[7px] font-bold text-gray-400 uppercase tracking-widest">Senzorů</span>
+                </div>
+                <div className="bg-white/5 border border-white/10 p-2 rounded-lg flex flex-col items-center hover:bg-white/10 transition-colors">
+                   <Ruler className="w-3.5 h-3.5 text-lime-400 mb-0.5" />
+                   <span className="text-sm font-black text-white tabular-nums leading-none">{topology.cablingKm}</span>
+                   <span className="text-[7px] font-bold text-gray-400 uppercase tracking-widest">km Kabelů</span>
+                </div>
+                <div className="bg-white/5 border border-white/10 p-2 rounded-lg flex flex-col items-center hover:bg-white/10 transition-colors">
+                   <Cpu className="w-3.5 h-3.5 text-purple-400 mb-0.5" />
+                   <span className="text-sm font-black text-white tabular-nums leading-none">{topology.modules}</span>
+                   <span className="text-[7px] font-bold text-gray-400 uppercase tracking-widest">Modulů</span>
+                </div>
+                <div className="bg-white/5 border border-white/10 p-2 rounded-lg flex flex-col items-center hover:bg-white/10 transition-colors">
+                   <Server className="w-3.5 h-3.5 text-orange-400 mb-0.5" />
+                   <span className="text-sm font-black text-white tabular-nums leading-none">{topology.racks}</span>
+                   <span className="text-[7px] font-bold text-gray-400 uppercase tracking-widest">Rozvaděče</span>
+                </div>
+             </div>
+           ) : (
+              <div className="text-gray-500 text-[10px] font-mono relative z-10">Data nedostupná</div>
+           )}
         </div>
       </div>
 
-      <div className="p-4 md:p-5">
-        <div className="mb-3 text-left">
-          <span className="text-[7px] md:text-[9px] font-black text-blue-600 dark:text-blue-500 uppercase tracking-[0.2em] mb-1 block truncate">{location}</span>
-          <h3 className="text-sm md:text-base font-black text-gray-900 dark:text-white transition-colors duration-500 tracking-tight leading-tight line-clamp-2">{title}</h3>
+      <div className="p-5 flex flex-col flex-1">
+        <div className="mb-4 text-left">
+          <span className="text-[9px] font-black text-blue-600 dark:text-blue-500 uppercase tracking-[0.2em] mb-1.5 block truncate">{location}</span>
+          <h3 className="text-lg font-black text-gray-900 dark:text-white transition-colors duration-500 tracking-tight leading-tight line-clamp-2">{title}</h3>
         </div>
 
-        <div className="space-y-3">
-          <div className="flex flex-wrap gap-1.5 md:gap-2">
+        <div className="space-y-4 mt-auto">
+          <div className="flex flex-wrap gap-2">
             {services && services.slice(0, 3).map((service, idx) => {
               const sIconKey = (service.icon as string)?.toLowerCase();
               const ServiceIcon = IconMap[sIconKey] || Zap;
               return (
-                <div key={idx} className="flex items-center gap-1.5 bg-black/5 dark:bg-white/5 px-2 py-1 rounded-lg border border-black/5 dark:border-white/5 transition-colors hover:bg-blue-600/5">
-                  <span className="text-blue-600 dark:text-blue-400"><ServiceIcon className="w-2.5 h-2.5 md:w-3 md:h-3" /></span>
-                  <span className="text-[7px] md:text-[9px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-tight truncate max-w-[80px] md:max-w-none">{service.label}</span>
+                <div key={idx} className="flex items-center gap-1.5 bg-black/5 dark:bg-white/5 px-2.5 py-1.5 rounded-lg border border-black/5 dark:border-white/5 transition-colors hover:bg-blue-600/5">
+                  <span className="text-blue-600 dark:text-blue-400"><ServiceIcon className="w-3 h-3" /></span>
+                  <span className="text-[9px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-tight truncate max-w-[100px]">{service.label}</span>
                 </div>
               );
             })}
              {services.length > 3 && (
-                <div className="flex items-center gap-1.5 bg-black/5 dark:bg-white/5 px-2 py-1 rounded-lg border border-black/5 dark:border-white/5">
-                   <span className="text-[7px] md:text-[9px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-tight">+{services.length - 3}</span>
+                <div className="flex items-center gap-1.5 bg-black/5 dark:bg-white/5 px-2.5 py-1.5 rounded-lg border border-black/5 dark:border-white/5">
+                   <span className="text-[9px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-tight">+{services.length - 3}</span>
                 </div>
              )}
           </div>
           
-          <div className="pt-3 border-t border-black/5 dark:border-white/10 flex justify-between items-center">
-            <div className="flex flex-col text-left">
-              <span className="text-[7px] md:text-[8px] font-black text-gray-400 dark:text-gray-600 uppercase tracking-widest mb-1">Systém</span>
-              <div className="flex gap-0.5">
-                {[1, 2, 3, 4, 5].map(i => (
-                  <div key={i} className={`w-2.5 md:w-3 h-1 rounded-full transition-colors duration-500 ${i <= 4 ? 'bg-blue-600 dark:bg-blue-500 shadow-[0_0_8px_rgba(37,99,235,0.3)]' : 'bg-gray-200 dark:bg-gray-800'}`} />
-                ))}
-              </div>
-            </div>
+          <div className="pt-4 border-t border-black/5 dark:border-white/10 flex justify-between items-center">
+             {topology ? (
+                <button 
+                  onClick={(e) => { e.stopPropagation(); setShowTopology(!showTopology); }}
+                  className="text-[9px] font-black uppercase tracking-widest text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
+                >
+                  <Network className="w-3 h-3" />
+                  {showTopology ? 'Zavřít data' : 'Zobrazit topologii'}
+                </button>
+             ) : (
+                <div className="w-full h-1 bg-gray-100 dark:bg-white/5 rounded-full overflow-hidden">
+                   <div className="h-full bg-blue-600 w-3/4 rounded-full opacity-50" />
+                </div>
+             )}
           </div>
         </div>
       </div>
@@ -94,7 +148,6 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
 
   const filteredProjects = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
-    // Safety check for projects being an array
     const safeProjects = Array.isArray(projects) ? projects : [];
     
     return safeProjects.filter((p: Reference) => {
@@ -128,7 +181,7 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
         />
 
         {isStandalone && (
-          <div className="mb-8 md:mb-10 flex flex-col lg:flex-row items-center justify-between gap-6">
+          <div className="mb-8 md:mb-10 flex flex-col lg:flex-row items-center justify-between gap-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 p-1.5 bg-white/50 dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-3xl shadow-sm backdrop-blur-md w-full lg:w-auto">
                 {categories.map((cat) => (
                   <button
@@ -163,7 +216,7 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
         )}
 
         {displayProjects && displayProjects.length > 0 ? (
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {displayProjects.map((project: Reference, idx: number) => (
               <ReferenceCard key={idx} {...project} />
             ))}
