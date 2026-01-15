@@ -119,10 +119,10 @@ const SolarSystem = () => {
               <animateMotion path="M 200 80 L 200 170" dur="2s" repeatCount="indefinite" />
             </circle>
 
-            {/* Center to Bottom - Extended to Y=345 */}
-            <path d="M 200 230 L 200 345" stroke="#10b981" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
+            {/* Center to Bottom - Adjusted to Y=330 to match new battery position */}
+            <path d="M 200 230 L 200 330" stroke="#10b981" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
             <circle r="3" fill="#10b981">
-              <animateMotion path="M 200 230 L 200 345" dur={metrics.batteryPower >= 0 ? "2s" : "0s"} repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" />
+              <animateMotion path="M 200 230 L 200 330" dur={metrics.batteryPower >= 0 ? "2s" : "0s"} repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" />
             </circle>
 
              {/* Left to Center (Grid) - Moved down to Y=225 to match node position */}
@@ -158,14 +158,14 @@ const SolarSystem = () => {
           color="yellow" 
           position="top-0 left-1/2 -translate-x-1/2" 
         />
-        {/* Battery Node - Moved down by 1/2 height */}
+        {/* Battery Node - Moved up by approx 1/4 length */}
         <PowerNode 
           icon={Battery} 
           label="Baterie" 
           value={metrics.batteryPower} 
           unit="kW" 
           color="green" 
-          position="bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2" 
+          position="bottom-[0%] left-1/2 -translate-x-1/2" 
           subValue={`${metrics.battery.toFixed(0)}%`}
         />
         <PowerNode 
