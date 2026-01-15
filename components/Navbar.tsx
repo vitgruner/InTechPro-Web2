@@ -56,12 +56,12 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       isScrolled 
-        ? 'py-4 mx-6 mt-6 rounded-[2rem] shadow-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#080808]' 
-        : 'py-8 bg-transparent'
+        ? 'py-4 bg-white/90 dark:bg-[#050505]/90 backdrop-blur-xl border-b border-black/5 dark:border-white/5 shadow-sm' 
+        : 'py-6 bg-transparent border-b border-transparent'
     }`}>
-      <div className="max-w-7xl mx-auto px-8 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <div onClick={() => handleNavClick('home')} className="hover:opacity-80 transition-opacity cursor-pointer">
           <Logo />
         </div>
@@ -71,7 +71,7 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
           {navItems.map((item) => (
             <div 
               key={item.label}
-              className="relative group h-full py-4"
+              className="relative group h-full py-2"
               onMouseEnter={() => item.dropdown && setIsServicesOpen(true)}
               onMouseLeave={() => item.dropdown && setIsServicesOpen(false)}
             >
@@ -94,7 +94,7 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
               </button>
 
               {item.dropdown && isServicesOpen && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 w-64 pt-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                <div className="absolute top-full left-1/2 -translate-x-1/2 w-64 pt-6 animate-in fade-in slide-in-from-top-2 duration-300">
                   <div className="p-4 rounded-3xl shadow-2xl border border-black/10 dark:border-white/10 overflow-hidden bg-white dark:bg-[#0a0a0a]">
                     {item.dropdown.map((sub) => (
                       <button
@@ -166,8 +166,8 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
 
       {/* Mobile Menu Dropdown */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden absolute top-full left-0 right-0 mx-6 mt-4 rounded-[2rem] overflow-hidden animate-in slide-in-from-top-4 duration-500 shadow-2xl border border-black/10 dark:border-white/10 max-h-[calc(100vh-140px)] flex flex-col bg-white dark:bg-[#0a0a0a] z-[60]">
-          <div className="flex-1 overflow-y-auto scrollbar-hide flex flex-col p-6 sm:p-8 gap-3 sm:gap-4">
+        <div className="lg:hidden fixed top-[80px] inset-x-0 bottom-0 bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-xl z-[60] overflow-y-auto">
+          <div className="p-6 flex flex-col gap-3 pb-20">
             {navItems.map((item) => (
               <div key={item.label} className="flex flex-col gap-1">
                 <button 

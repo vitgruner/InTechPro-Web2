@@ -43,7 +43,7 @@ const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumbs 
           items={[
-            { label: 'Služby', view: 'services' },
+            { label: 'SLUŽBY', view: 'services' },
             { label: 'Moderní Technologie' }
           ]}
           setView={setView}
