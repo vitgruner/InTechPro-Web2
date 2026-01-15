@@ -1,6 +1,6 @@
 
 import React, { useState, useMemo } from 'react';
-import { Send, CheckCircle2, Zap, Thermometer, Shield, Radio, Sun, Wifi, Car, Home, Factory, Building2, Waves, Sprout, Droplets, Blinds, Calculator, Sparkles, History, Mail } from 'lucide-react';
+import { Send, CheckCircle2, Zap, Thermometer, Shield, Radio, Sun, Wifi, Car, Home, Factory, Building2, Waves, Sprout, Droplets, Blinds, Calculator, Sparkles, History, Mail, Phone, MessageSquare } from 'lucide-react';
 import VisionaryAssistant from './VisionaryAssistant';
 import { Message } from '../types';
 import SectionHeader from './SectionHeader';
@@ -8,6 +8,8 @@ import SectionHeader from './SectionHeader';
 interface FormData {
   name: string;
   email: string;
+  phone: string;
+  message: string;
   system: string;
   property: string;
   features: string[];
@@ -24,6 +26,8 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
+    phone: '',
+    message: '',
     system: 'Loxone',
     property: 'Rezidenční',
     features: [],
@@ -74,8 +78,18 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
     e.preventDefault();
     const submissionPayload = {
       targetEmail: 'vit.gruner@gmail.com',
-      client: { name: formData.name, email: formData.email },
-      project: { property: formData.property, system: formData.system, features: formData.features, estimatedBudget: estimatedTotal },
+      client: { 
+        name: formData.name, 
+        email: formData.email,
+        phone: formData.phone 
+      },
+      project: { 
+        property: formData.property, 
+        system: formData.system, 
+        features: formData.features, 
+        message: formData.message,
+        estimatedBudget: estimatedTotal 
+      },
       aiConsultationHistory: aiMessages.map(m => `[${m.role.toUpperCase()}]: ${m.content}`).join('\n\n')
     };
     console.log("PRODUKČNÍ POPTÁVKA ODESLÁNA NA: vit.gruner@gmail.com", submissionPayload);
@@ -92,16 +106,18 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
         <p className="text-gray-500 dark:text-gray-400 max-w-md mx-auto transition-colors px-6 mb-8">
           Náš inženýr vás bude kontaktovat s detailním návrhem. 
         </p>
-        <div className="flex flex-col items-center gap-4 max-w-sm mx-auto">
-          <div className="w-full p-4 glass-panel flex items-center gap-3 rounded-2xl border-green-500/20 text-green-600">
+        
+        <div className="flex flex-col items-center gap-4 mx-auto">
+          <div className="inline-flex items-center gap-3 px-6 py-4 glass-panel rounded-2xl border-green-500/20 text-green-600">
             <History className="w-4 h-4" />
             <span className="text-[10px] font-black uppercase tracking-widest text-left">Kompletní přepis chatu přiložen</span>
           </div>
-          <div className="w-full p-4 glass-panel flex items-center gap-3 rounded-2xl border-blue-500/20 text-blue-600">
+          <div className="inline-flex items-center gap-3 px-6 py-4 glass-panel rounded-2xl border-blue-500/20 text-blue-600">
             <Mail className="w-4 h-4" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-left">Odesláno na: vit.gruner@gmail.com</span>
+            <span className="text-[10px] font-black uppercase tracking-widest text-left">Úspěšně doručeno do centrály</span>
           </div>
         </div>
+
         <div className="mt-12">
           <button 
             onClick={() => { setSubmitted(false); setAiMessages([{ role: 'assistant', content: 'Jak mohu dále pomoci s vaší další vizí?' }]); }}
@@ -155,6 +171,7 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
                   </div>
                   <h3 className="text-sm font-black uppercase tracking-tight">{isStandalone ? 'Krok 2: Specifikace projektu' : 'Specifikace projektu'}</h3>
               </div>
+              
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2 text-left">
                   <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Jméno a Příjmení</label>
@@ -164,7 +181,21 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
                   <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Váš E-mail</label>
                   <input required type="email" value={formData.email} onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))} placeholder="vysledek@projekt.cz" className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-4 px-5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-600 transition-all text-xs" />
                 </div>
+                <div className="space-y-2 text-left md:col-span-2">
+                  <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+                    <Phone className="w-3 h-3" />
+                    Telefonní číslo
+                  </label>
+                  <input 
+                    type="tel" 
+                    value={formData.phone} 
+                    onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.target.value }))} 
+                    placeholder="+420 777 000 000" 
+                    className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-4 px-5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-600 transition-all text-xs" 
+                  />
+                </div>
               </div>
+
               <div className="space-y-3 text-left">
                 <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Typ objektu</label>
                 <div className="grid grid-cols-3 gap-3">
@@ -176,6 +207,7 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
                   ))}
                 </div>
               </div>
+
               <div className="space-y-3 text-left">
                 <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Klíčové systémy</label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -187,6 +219,21 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
                   ))}
                 </div>
               </div>
+
+              <div className="space-y-2 text-left">
+                  <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+                    <MessageSquare className="w-3 h-3" />
+                    Vaše vize / Detaily
+                  </label>
+                  <textarea 
+                    rows={4}
+                    value={formData.message} 
+                    onChange={(e) => setFormData((prev) => ({ ...prev, message: e.target.value }))} 
+                    placeholder="Popište nám své specifické požadavky, dotazy nebo detaily projektu..." 
+                    className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-4 px-5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-600 transition-all text-xs resize-none" 
+                  />
+              </div>
+
               <div className="mt-auto pt-8 border-t border-black/5 dark:border-white/5 flex flex-col sm:flex-row items-center justify-between gap-8">
                  <div className="text-left">
                     <p className="text-[9px] font-black text-blue-600 uppercase tracking-widest mb-1">Odhadovaná investice</p>
