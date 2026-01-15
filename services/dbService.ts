@@ -6,7 +6,7 @@ import { Reference } from '../types';
  * Implementuje validaci dat pro zajištění stability v deploymentu.
  */
 const MOCK_API_DELAY = 800;
-const DB_KEY = 'intechpro_db_refs_v2'; // Změna verze klíče pro vynucení aktualizace dat
+const DB_KEY = 'intechpro_db_refs_v3'; // Změna verze klíče pro vynucení aktualizace dat na klientovi
 
 export const dbService = {
   /**
