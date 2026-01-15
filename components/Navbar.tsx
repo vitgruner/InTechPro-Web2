@@ -21,6 +21,7 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [mobileServicesExpanded, setMobileServicesExpanded] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -170,4 +171,63 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
             {navItems.map((item) => (
               <div key={item.label} className="flex flex-col gap-1">
                 <button 
-                  onClick
+                  onClick={() => {
+                    if (item.dropdown) {
+                      setMobileServicesExpanded(!mobileServicesExpanded);
+                    } else {
+                      handleNavClick(item.value);
+                    }
+                  }}
+                  className={`flex items-center justify-between p-4 rounded-xl text-[12px] font-black uppercase tracking-[0.2em] transition-all ${
+                    currentView === item.value 
+                    ? 'bg-blue-600/10 text-blue-600' 
+                    : 'bg-black/5 dark:bg-white/5 text-gray-500 dark:text-gray-400 hover:bg-black/10 dark:hover:bg-white/10'
+                  }`}
+                >
+                  <span className="flex items-center gap-2">
+                    {item.label}
+                    {item.isLive && (
+                      <span className="flex h-2 w-2 relative">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
+                      </span>
+                    )}
+                  </span>
+                  {item.dropdown && <ChevronDown className={`w-4 h-4 transition-transform ${mobileServicesExpanded ? 'rotate-180' : ''}`} />}
+                </button>
+                
+                {item.dropdown && mobileServicesExpanded && (
+                  <div className="pl-4 space-y-1 mt-1">
+                    {item.dropdown.map((sub) => (
+                      <button
+                        key={sub.value}
+                        onClick={() => handleNavClick(sub.value)}
+                        className={`w-full text-left p-3 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${
+                          currentView === sub.value
+                          ? 'text-blue-600 bg-blue-600/5'
+                          : 'text-gray-400 hover:text-blue-600'
+                        }`}
+                      >
+                        {sub.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+
+            <button 
+              onClick={() => handleNavClick('contact')}
+              className="w-full bg-blue-600 text-white p-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20 flex items-center justify-center gap-3 mt-4"
+            >
+              Nezávazná poptávka
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+};
+
+export default Navbar;
