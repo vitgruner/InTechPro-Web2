@@ -15,10 +15,11 @@ import LoxoneDetail from './components/LoxoneDetail';
 import TechnologieDetail from './components/TechnologieDetail';
 import AdminLogin from './components/AdminLogin';
 import ReferenceForm from './components/ReferenceForm';
+import CookieConsent from './components/CookieConsent';
 import { dbService } from './services/dbService';
 import { 
   Zap, Building2, Sun, Loader2, 
-  CloudUpload, Twitter, Linkedin, Instagram, Lock 
+  CloudUpload, Twitter, Linkedin, Instagram, Lock, Settings 
 } from 'lucide-react';
 import { Reference, ViewState } from './types';
 
@@ -215,7 +216,7 @@ const App = () => {
       <Navbar isDark={isDark} toggleTheme={() => setIsDark(!isDark)} setView={setView} currentView={view} />
       <main className="flex-grow">{renderView()}</main>
       
-      <footer className="bg-black text-white pt-24 pb-12 border-t border-white/5">
+      <footer className="bg-black text-white pt-24 pb-12 border-t border-white/5 relative z-10">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 mb-24">
             <div className="lg:col-span-5 space-y-8">
@@ -237,12 +238,19 @@ const App = () => {
             <div className="lg:col-span-3 space-y-8">
               <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-white">Mapa webu</h4>
               <ul className="space-y-4">
-                <li><button onClick={() => setView('innovation')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Centrum inteligence</button></li>
+                <li><button onClick={() => setView('about')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">O nás</button></li>
                 <li><button onClick={() => setView('services')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Služby</button></li>
                 <li><button onClick={() => setView('showcase')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Reference</button></li>
+                <li><button onClick={() => setView('innovation')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Centrum inteligence</button></li>
+                <li><button onClick={() => setView('contact')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Kontakt</button></li>
                 <li>
                   <button onClick={() => setView('admin-login')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm flex items-center gap-2">
                     Klientská zóna <Lock className="w-3.5 h-3.5" />
+                  </button>
+                </li>
+                <li>
+                  <button type="button" onClick={() => document.dispatchEvent(new CustomEvent('intechpro-open-cookies'))} className="text-gray-400 hover:text-white font-bold transition-colors text-sm flex items-center gap-2">
+                    Nastavení cookies <Settings className="w-3.5 h-3.5" />
                   </button>
                 </li>
               </ul>
@@ -255,6 +263,7 @@ const App = () => {
                 <li><button onClick={() => setView('projekce-elektro')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Projekce Elektro</button></li>
                 <li><button onClick={() => setView('rozvadece')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Výroba rozvaděčů</button></li>
                 <li><button onClick={() => setView('technologie')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Moderní technologie</button></li>
+                <li><button onClick={() => setView('osvetleni')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Návrh osvětlení</button></li>
               </ul>
             </div>
           </div>
@@ -264,13 +273,14 @@ const App = () => {
               © 2024 IN TECH PRO s.r.o. Synchronizováno a zabezpečeno.
             </p>
             <div className="flex flex-wrap justify-center gap-8">
-              {['Ochrana soukromí', 'Obchodní podmínky', 'Impresum'].map((link) => (
-                <a key={link} href="#" className="text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors">{link}</a>
-              ))}
+              <button type="button" onClick={() => document.dispatchEvent(new CustomEvent('intechpro-open-cookies'))} className="text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors">Ochrana soukromí</button>
+              <button type="button" onClick={() => document.dispatchEvent(new CustomEvent('intechpro-open-cookies'))} className="text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors">Cookies</button>
+              <a href="#" className="text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors">Impresum</a>
             </div>
           </div>
         </div>
       </footer>
+      <CookieConsent />
     </div>
   );
 };
