@@ -111,30 +111,30 @@ const SolarSystem = () => {
           <path d="M 200 40 L 200 360 M 40 200 L 360 200" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 4" className="text-slate-300 dark:text-white/10" />
           <circle cx="200" cy="200" r="100" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 4" className="text-slate-300 dark:text-white/10" />
 
-          {/* Connections */}
+          {/* Connections - Perfect Cross Lines */}
           <g filter="url(#solarGlow)">
-            {/* Top to Center */}
+            {/* Top to Center - Vertical */}
             <path d="M 200 80 L 200 170" stroke="#fbbf24" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
             <circle r="3" fill="#fbbf24">
               <animateMotion path="M 200 80 L 200 170" dur="2s" repeatCount="indefinite" />
             </circle>
 
-            {/* Center to Bottom - Adjusted to Y=330 to match new battery position */}
-            <path d="M 200 230 L 200 330" stroke="#10b981" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
+            {/* Center to Bottom - Vertical */}
+            <path d="M 200 230 L 200 320" stroke="#10b981" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
             <circle r="3" fill="#10b981">
-              <animateMotion path="M 200 230 L 200 330" dur={metrics.batteryPower >= 0 ? "2s" : "0s"} repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" />
+              <animateMotion path="M 200 230 L 200 320" dur={metrics.batteryPower >= 0 ? "2s" : "0s"} repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" />
             </circle>
 
-             {/* Left to Center (Grid) - Moved down to Y=225 to match node position */}
-             <path d="M 88 225 L 170 200" stroke="#a855f7" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
-             <circle r="3" fill="#a855f7">
-              <animateMotion path="M 88 225 L 170 200" dur="2s" repeatCount="indefinite" />
+            {/* Left to Center (Grid) - Horizontal */}
+            <path d="M 80 200 L 170 200" stroke="#a855f7" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
+            <circle r="3" fill="#a855f7">
+              <animateMotion path="M 80 200 L 170 200" dur="2s" repeatCount="indefinite" />
             </circle>
 
-            {/* Center to Right (Home) - Moved down to Y=225 to match node position */}
-            <path d="M 230 200 L 312 225" stroke="#3b82f6" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
-             <circle r="3" fill="#3b82f6">
-              <animateMotion path="M 230 200 L 312 225" dur="1.5s" repeatCount="indefinite" />
+            {/* Center to Right (Home) - Horizontal */}
+            <path d="M 230 200 L 320 200" stroke="#3b82f6" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
+            <circle r="3" fill="#3b82f6">
+              <animateMotion path="M 230 200 L 320 200" dur="1.5s" repeatCount="indefinite" />
             </circle>
           </g>
         </svg>
@@ -149,40 +149,39 @@ const SolarSystem = () => {
            </div>
         </div>
 
-        {/* Satellite Nodes */}
-        <PowerNode 
-          icon={Sun} 
-          label="Fotovoltaika" 
-          value={metrics.production} 
-          unit="kW" 
-          color="yellow" 
-          position="top-0 left-1/2 -translate-x-1/2" 
+        {/* Satellite Nodes - Perfect Cross Formation */}
+        <PowerNode
+          icon={Sun}
+          label="Fotovoltaika"
+          value={metrics.production}
+          unit="kW"
+          color="yellow"
+          position="top-0 left-1/2 -translate-x-1/2"
         />
-        {/* Battery Node - Moved up by approx 1/4 length */}
-        <PowerNode 
-          icon={Battery} 
-          label="Baterie" 
-          value={metrics.batteryPower} 
-          unit="kW" 
-          color="green" 
-          position="bottom-[0%] left-1/2 -translate-x-1/2" 
+        <PowerNode
+          icon={Battery}
+          label="Baterie"
+          value={metrics.batteryPower}
+          unit="kW"
+          color="green"
+          position="bottom-0 left-1/2 -translate-x-1/2"
           subValue={`${metrics.battery.toFixed(0)}%`}
         />
-        <PowerNode 
-          icon={Home} 
-          label="Spotřeba" 
-          value={metrics.load} 
-          unit="kW" 
-          color="blue" 
-          position="right-[22%] top-1/2 translate-x-1/2" 
+        <PowerNode
+          icon={Home}
+          label="Spotřeba"
+          value={metrics.load}
+          unit="kW"
+          color="blue"
+          position="right-0 top-1/2 -translate-y-1/2"
         />
-        <PowerNode 
-          icon={Globe} 
-          label="Síť" 
-          value={metrics.gridPower} 
-          unit="kW" 
-          color="purple" 
-          position="left-[22%] top-1/2 -translate-x-1/2" 
+        <PowerNode
+          icon={Globe}
+          label="Síť"
+          value={metrics.gridPower}
+          unit="kW"
+          color="purple"
+          position="left-0 top-1/2 -translate-y-1/2"
         />
 
       </div>
