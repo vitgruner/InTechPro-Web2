@@ -43,10 +43,10 @@ const OsvetleniDetail: React.FC<DetailProps> = ({ setView }) => {
     <div className="pt-32 md:pt-40 pb-16 md:pb-24 animate-in fade-in duration-700">
       <div className="max-w-7xl mx-auto px-6">
         <button 
-          onClick={() => setView('services')}
+          onClick={() => setView('technologie')}
           className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-black uppercase tracking-widest text-[10px] mb-12 hover:gap-4 transition-all"
         >
-          <ArrowLeft className="w-4 h-4" /> Zpět na služby
+          <ArrowLeft className="w-4 h-4" /> Zpět na Technologie
         </button>
 
         <SectionHeader 

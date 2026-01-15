@@ -12,9 +12,9 @@ const SERVICE_ORDER: ViewState[] = [
 ];
 
 const LABELS: Record<string, string> = {
-  'loxone-detail': 'Smart Home Loxone',
-  'projekce-elektro': 'Projekce Elektro',
-  'rozvadece': 'Výroba Rozvaděčů',
+  'loxone-detail': 'Smart Home',
+  'projekce-elektro': 'Projekce',
+  'rozvadece': 'Rozvaděče',
   'technologie': 'Technologie',
   'osvetleni': 'Osvětlení'
 };
@@ -29,18 +29,29 @@ const ServicePager: React.FC<ServicePagerProps> = ({ currentView, setView }) => 
   if (currentIndex === -1) return null;
 
   const isLast = currentIndex === SERVICE_ORDER.length - 1;
+  const isFirst = currentIndex === 0;
+
+  // Next Button Logic
   const nextView = isLast ? 'contact' : SERVICE_ORDER[currentIndex + 1];
   const nextLabel = isLast ? 'Nezávazná poptávka' : LABELS[nextView];
+
+  // Previous Button Logic
+  const prevView = isFirst ? 'services' : SERVICE_ORDER[currentIndex - 1];
+  const prevLabel = isFirst ? 'Zpět na služby' : `Zpět na ${LABELS[prevView]}`;
+  const PrevIcon = isFirst ? LayoutGrid : ArrowLeft;
 
   return (
     <div className="mt-24 pt-12 border-t border-black/5 dark:border-white/5">
       <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
         <button
-          onClick={() => setView('services')}
+          onClick={() => {
+            setView(prevView);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
           className="group flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white transition-colors"
         >
-          <LayoutGrid className="w-4 h-4 text-gray-400 group-hover:text-blue-600 dark:group-hover:text-white transition-colors" />
-          Zpět na služby
+          <PrevIcon className="w-4 h-4 text-gray-400 group-hover:text-blue-600 dark:group-hover:text-white transition-colors" />
+          {prevLabel}
         </button>
 
         <button
@@ -54,7 +65,7 @@ const ServicePager: React.FC<ServicePagerProps> = ({ currentView, setView }) => 
              <>Kontaktovat <Mail className="w-4 h-4 group-hover:translate-x-1 transition-transform" /></>
           ) : (
              <>
-               <span className="opacity-70">Další služba:</span> 
+               <span className="opacity-70">Další:</span> 
                {nextLabel} 
                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
              </>
