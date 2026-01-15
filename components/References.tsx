@@ -3,7 +3,7 @@ import React, { useState, useMemo } from 'react';
 import { 
   Home, Zap, Search, Filter, LayoutGrid, Building2, Factory, 
   Cpu, Thermometer, Radio, Shield, Sun, Building, Activity, ArrowRight,
-  Network, Share2, Ruler, Server, X
+  Share2, Ruler, Server
 } from 'lucide-react';
 import { Reference, ReferenceCardProps, ReferencesProps, ReferenceService } from '../types';
 import SectionHeader from './SectionHeader';
@@ -24,76 +24,24 @@ const IconMap: Record<string, React.ElementType> = {
 };
 
 const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, tech, services = [], techIcon, topology }) => {
-  const [showTopology, setShowTopology] = useState(false);
   const iconKey = (techIcon as string)?.toLowerCase();
   const TechIconComp = IconMap[iconKey] || Cpu;
 
   return (
     <div className="group relative glass-panel rounded-2xl md:rounded-3xl overflow-hidden border border-black/10 dark:border-white/10 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all duration-700 hover:-translate-y-1 shadow-sm hover:shadow-xl h-full flex flex-col">
       
-      {/* Image / Topology Container */}
+      {/* Image Container */}
       <div className="relative h-48 md:h-56 overflow-hidden bg-gray-100 dark:bg-gray-900">
+         <img 
+          src={image || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200"} 
+          alt={title} 
+          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 dark:from-[#050505] via-transparent to-transparent opacity-90"></div>
         
-        {/* Normal Image View */}
-        <div className={`absolute inset-0 transition-all duration-500 ${showTopology ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}>
-           <img 
-            src={image || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200"} 
-            alt={title} 
-            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 dark:from-[#050505] via-transparent to-transparent opacity-90"></div>
-          
-          <div className="absolute top-3 right-3 bg-white/90 dark:bg-black/80 backdrop-blur-xl border border-black/10 dark:border-white/20 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-xl">
-            <TechIconComp className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-            <span className="text-[9px] font-black text-gray-900 dark:text-white uppercase tracking-[0.15em]">{tech}</span>
-          </div>
-        </div>
-
-        {/* Topology View (Overlay) - Updated Background & Mobile Fit */}
-        <div className={`absolute inset-0 bg-[#f4f7f9]/95 dark:bg-[#050505]/95 backdrop-blur-xl flex flex-col items-center justify-center p-2 md:p-4 transition-all duration-300 ${showTopology ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
-           {/* Grid Background */}
-           <div className="absolute inset-0 opacity-10 dark:opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #2563eb 1px, transparent 1px)', backgroundSize: '12px 12px' }}></div>
-           
-           {/* Header */}
-           <div className="relative z-10 flex items-center gap-2 mb-2 md:mb-3 w-full justify-center border-b border-gray-200 dark:border-white/10 pb-1.5 md:pb-2 mx-4">
-             <Network className="w-3.5 h-3.5 text-blue-600 dark:text-blue-500" /> 
-             <span className="text-gray-900 dark:text-white text-[10px] font-black uppercase tracking-widest">Topologie</span>
-           </div>
-
-           {/* Close Button */}
-           <button 
-             onClick={(e) => { e.stopPropagation(); setShowTopology(false); }}
-             className="absolute top-2 right-2 p-1.5 text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-white transition-colors z-20 hover:bg-black/5 dark:hover:bg-white/10 rounded-full"
-           >
-             <X className="w-4 h-4" />
-           </button>
-
-           {topology ? (
-             <div className="grid grid-cols-2 gap-1.5 md:gap-2 w-full max-w-[220px] relative z-10">
-                <div className="bg-white/50 dark:bg-white/5 border border-black/5 dark:border-white/10 p-1.5 md:p-2 rounded-xl flex flex-col items-center justify-center hover:border-blue-500/30 transition-colors">
-                   <Share2 className="w-5 h-5 text-blue-600 dark:text-blue-400 mb-0.5 md:mb-1" />
-                   <span className="text-base md:text-lg font-black text-gray-900 dark:text-white tabular-nums leading-none">{topology.sensors}</span>
-                   <span className="text-[7px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mt-0.5">Senzorů</span>
-                </div>
-                <div className="bg-white/50 dark:bg-white/5 border border-black/5 dark:border-white/10 p-1.5 md:p-2 rounded-xl flex flex-col items-center justify-center hover:border-lime-500/30 transition-colors">
-                   <Ruler className="w-5 h-5 text-lime-600 dark:text-lime-400 mb-0.5 md:mb-1" />
-                   <span className="text-base md:text-lg font-black text-gray-900 dark:text-white tabular-nums leading-none">{topology.cablingKm}</span>
-                   <span className="text-[7px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mt-0.5">km Kabelů</span>
-                </div>
-                <div className="bg-white/50 dark:bg-white/5 border border-black/5 dark:border-white/10 p-1.5 md:p-2 rounded-xl flex flex-col items-center justify-center hover:border-purple-500/30 transition-colors">
-                   <Cpu className="w-5 h-5 text-purple-600 dark:text-purple-400 mb-0.5 md:mb-1" />
-                   <span className="text-base md:text-lg font-black text-gray-900 dark:text-white tabular-nums leading-none">{topology.modules}</span>
-                   <span className="text-[7px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mt-0.5">Modulů</span>
-                </div>
-                <div className="bg-white/50 dark:bg-white/5 border border-black/5 dark:border-white/10 p-1.5 md:p-2 rounded-xl flex flex-col items-center justify-center hover:border-orange-500/30 transition-colors">
-                   <Server className="w-5 h-5 text-orange-600 dark:text-orange-400 mb-0.5 md:mb-1" />
-                   <span className="text-base md:text-lg font-black text-gray-900 dark:text-white tabular-nums leading-none">{topology.racks}</span>
-                   <span className="text-[7px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mt-0.5">Rozvaděče</span>
-                </div>
-             </div>
-           ) : (
-              <div className="text-gray-500 text-[10px] font-mono relative z-10">Data nedostupná</div>
-           )}
+        <div className="absolute top-3 right-3 bg-white/90 dark:bg-black/80 backdrop-blur-xl border border-black/10 dark:border-white/20 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-xl">
+          <TechIconComp className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+          <span className="text-[9px] font-black text-gray-900 dark:text-white uppercase tracking-[0.15em]">{tech}</span>
         </div>
       </div>
 
@@ -104,6 +52,7 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
         </div>
 
         <div className="space-y-4 mt-auto">
+          {/* Services Tags */}
           <div className="flex flex-wrap gap-2">
             {services && services.slice(0, 3).map((service, idx) => {
               const sIconKey = (service.icon as string)?.toLowerCase();
@@ -122,15 +71,46 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
              )}
           </div>
           
-          <div className="pt-4 border-t border-black/5 dark:border-white/10 flex justify-between items-center">
+          {/* Topology Stats Grid */}
+          <div className="pt-4 border-t border-black/5 dark:border-white/10">
              {topology ? (
-                <button 
-                  onClick={(e) => { e.stopPropagation(); setShowTopology(!showTopology); }}
-                  className="text-[9px] font-black uppercase tracking-widest text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
-                >
-                  <Network className="w-3 h-3" />
-                  {showTopology ? 'Zavřít data' : 'Zobrazit topologii'}
-                </button>
+                <div className="grid grid-cols-2 gap-2">
+                    {/* Item 1: Sensors */}
+                    <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 px-3 py-2.5 rounded-lg border border-transparent hover:border-black/5 dark:hover:border-white/10 transition-colors">
+                        <div className="flex flex-col">
+                            <span className="text-[8px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Senzory</span>
+                            <span className="text-[11px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.sensors}</span>
+                        </div>
+                        <Share2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-500 opacity-80" />
+                    </div>
+
+                    {/* Item 2: Cabling */}
+                    <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 px-3 py-2.5 rounded-lg border border-transparent hover:border-black/5 dark:hover:border-white/10 transition-colors">
+                        <div className="flex flex-col">
+                            <span className="text-[8px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Kabeláž</span>
+                            <span className="text-[11px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.cablingKm}km</span>
+                        </div>
+                        <Ruler className="w-3.5 h-3.5 text-lime-600 dark:text-lime-500 opacity-80" />
+                    </div>
+
+                    {/* Item 3: Modules */}
+                    <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 px-3 py-2.5 rounded-lg border border-transparent hover:border-black/5 dark:hover:border-white/10 transition-colors">
+                        <div className="flex flex-col">
+                            <span className="text-[8px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Moduly</span>
+                            <span className="text-[11px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.modules}</span>
+                        </div>
+                        <Cpu className="w-3.5 h-3.5 text-purple-600 dark:text-purple-500 opacity-80" />
+                    </div>
+
+                    {/* Item 4: Racks */}
+                    <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 px-3 py-2.5 rounded-lg border border-transparent hover:border-black/5 dark:hover:border-white/10 transition-colors">
+                        <div className="flex flex-col">
+                            <span className="text-[8px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Rozvaděče</span>
+                            <span className="text-[11px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.racks}</span>
+                        </div>
+                        <Server className="w-3.5 h-3.5 text-orange-600 dark:text-orange-500 opacity-80" />
+                    </div>
+                </div>
              ) : (
                 <div className="w-full h-1 bg-gray-100 dark:bg-white/5 rounded-full overflow-hidden">
                    <div className="h-full bg-blue-600 w-3/4 rounded-full opacity-50" />
