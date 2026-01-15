@@ -49,13 +49,13 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
           </div>
         </div>
 
-        {/* Topology View (Overlay) - Updated for Light/Dark mode & Larger Icons */}
-        <div className={`absolute inset-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md flex flex-col items-center justify-center p-4 transition-all duration-300 ${showTopology ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
+        {/* Topology View (Overlay) - Updated Background & Mobile Fit */}
+        <div className={`absolute inset-0 bg-[#f4f7f9]/95 dark:bg-[#050505]/95 backdrop-blur-xl flex flex-col items-center justify-center p-2 md:p-4 transition-all duration-300 ${showTopology ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
            {/* Grid Background */}
            <div className="absolute inset-0 opacity-10 dark:opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #2563eb 1px, transparent 1px)', backgroundSize: '12px 12px' }}></div>
            
            {/* Header */}
-           <div className="relative z-10 flex items-center gap-2 mb-3 w-full justify-center border-b border-gray-200 dark:border-white/10 pb-2 mx-4">
+           <div className="relative z-10 flex items-center gap-2 mb-2 md:mb-3 w-full justify-center border-b border-gray-200 dark:border-white/10 pb-1.5 md:pb-2 mx-4">
              <Network className="w-3.5 h-3.5 text-blue-600 dark:text-blue-500" /> 
              <span className="text-gray-900 dark:text-white text-[10px] font-black uppercase tracking-widest">Topologie</span>
            </div>
@@ -69,25 +69,25 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
            </button>
 
            {topology ? (
-             <div className="grid grid-cols-2 gap-2 w-full max-w-[220px] relative z-10">
-                <div className="bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 p-2 rounded-xl flex flex-col items-center justify-center hover:border-blue-500/30 transition-colors">
-                   <Share2 className="w-5 h-5 text-blue-600 dark:text-blue-400 mb-1" />
-                   <span className="text-lg font-black text-gray-900 dark:text-white tabular-nums leading-none">{topology.sensors}</span>
+             <div className="grid grid-cols-2 gap-1.5 md:gap-2 w-full max-w-[220px] relative z-10">
+                <div className="bg-white/50 dark:bg-white/5 border border-black/5 dark:border-white/10 p-1.5 md:p-2 rounded-xl flex flex-col items-center justify-center hover:border-blue-500/30 transition-colors">
+                   <Share2 className="w-5 h-5 text-blue-600 dark:text-blue-400 mb-0.5 md:mb-1" />
+                   <span className="text-base md:text-lg font-black text-gray-900 dark:text-white tabular-nums leading-none">{topology.sensors}</span>
                    <span className="text-[7px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mt-0.5">Senzorů</span>
                 </div>
-                <div className="bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 p-2 rounded-xl flex flex-col items-center justify-center hover:border-lime-500/30 transition-colors">
-                   <Ruler className="w-5 h-5 text-lime-600 dark:text-lime-400 mb-1" />
-                   <span className="text-lg font-black text-gray-900 dark:text-white tabular-nums leading-none">{topology.cablingKm}</span>
+                <div className="bg-white/50 dark:bg-white/5 border border-black/5 dark:border-white/10 p-1.5 md:p-2 rounded-xl flex flex-col items-center justify-center hover:border-lime-500/30 transition-colors">
+                   <Ruler className="w-5 h-5 text-lime-600 dark:text-lime-400 mb-0.5 md:mb-1" />
+                   <span className="text-base md:text-lg font-black text-gray-900 dark:text-white tabular-nums leading-none">{topology.cablingKm}</span>
                    <span className="text-[7px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mt-0.5">km Kabelů</span>
                 </div>
-                <div className="bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 p-2 rounded-xl flex flex-col items-center justify-center hover:border-purple-500/30 transition-colors">
-                   <Cpu className="w-5 h-5 text-purple-600 dark:text-purple-400 mb-1" />
-                   <span className="text-lg font-black text-gray-900 dark:text-white tabular-nums leading-none">{topology.modules}</span>
+                <div className="bg-white/50 dark:bg-white/5 border border-black/5 dark:border-white/10 p-1.5 md:p-2 rounded-xl flex flex-col items-center justify-center hover:border-purple-500/30 transition-colors">
+                   <Cpu className="w-5 h-5 text-purple-600 dark:text-purple-400 mb-0.5 md:mb-1" />
+                   <span className="text-base md:text-lg font-black text-gray-900 dark:text-white tabular-nums leading-none">{topology.modules}</span>
                    <span className="text-[7px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mt-0.5">Modulů</span>
                 </div>
-                <div className="bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 p-2 rounded-xl flex flex-col items-center justify-center hover:border-orange-500/30 transition-colors">
-                   <Server className="w-5 h-5 text-orange-600 dark:text-orange-400 mb-1" />
-                   <span className="text-lg font-black text-gray-900 dark:text-white tabular-nums leading-none">{topology.racks}</span>
+                <div className="bg-white/50 dark:bg-white/5 border border-black/5 dark:border-white/10 p-1.5 md:p-2 rounded-xl flex flex-col items-center justify-center hover:border-orange-500/30 transition-colors">
+                   <Server className="w-5 h-5 text-orange-600 dark:text-orange-400 mb-0.5 md:mb-1" />
+                   <span className="text-base md:text-lg font-black text-gray-900 dark:text-white tabular-nums leading-none">{topology.racks}</span>
                    <span className="text-[7px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mt-0.5">Rozvaděče</span>
                 </div>
              </div>
@@ -171,7 +171,7 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
   ];
 
   return (
-    <section id="references" className={`transition-all duration-700 pb-8 md:pb-16 ${isStandalone ? 'pt-24 md:pt-36' : 'pt-8 md:pt-16'}`}>
+    <section id="references" className={`transition-all duration-700 ${isStandalone ? 'pt-24 md:pt-36 pb-0' : 'pt-8 md:pt-16 pb-8 md:pb-16'}`}>
       <div className="max-w-7xl mx-auto px-6">
         <SectionHeader 
           eyebrow="Výběr z portfolia"

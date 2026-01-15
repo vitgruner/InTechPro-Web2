@@ -52,7 +52,7 @@ const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
         <SectionHeader 
           variant="page"
           align="left"
-          eyebrow="Advanced Systems Engineering"
+          eyebrow="Pokročilé systémové inženýrství"
           title="Návrh a realizace"
           highlight="Technologií"
           description="Každý dům je jiný – a stejné to platí i pro technologie, které ho pohánějí. Zajišťujeme kompletní dodávku moderních systémů pro domy i komerční objekty."
@@ -82,24 +82,8 @@ const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
             </div>
           </div>
           
-          <div className="lg:col-span-7">
-            <div className="w-full glass-panel rounded-[2.5rem] border border-slate-200 dark:border-white/10 relative overflow-hidden group select-none transition-all duration-500 shadow-xl bg-white/50 dark:bg-black/20 h-full flex flex-col">
-              <div className="absolute inset-0 opacity-[0.08] dark:opacity-[0.05] pointer-events-none" 
-                   style={{ backgroundImage: 'linear-gradient(#2563eb 1px, transparent 1px), linear-gradient(90deg, #2563eb 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-              
-              <div className="absolute top-0 left-0 right-0 p-4 px-6 flex items-center justify-between border-b border-slate-200/50 dark:border-white/5 bg-white/40 dark:bg-black/20 backdrop-blur-md z-30">
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
-                    <span className="text-[10px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-[0.2em]">INFOTECH FOTOVOLTAIKA</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex-1 flex items-center justify-center pt-14 bg-slate-50/30 dark:bg-black/40 min-h-[500px]">
-                <SolarSystem />
-              </div>
-            </div>
+          <div className="lg:col-span-7 h-full">
+            <SolarSystem />
           </div>
         </div>
 

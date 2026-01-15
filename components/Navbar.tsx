@@ -55,12 +55,27 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
     { label: 'O nás', value: 'about' }
   ];
 
+  // Logic for navbar classes:
+  // 1. If menu is open -> Solid background (so header is visible against page content)
+  // 2. If scrolled -> Translucent/Blur background
+  // 3. Top of page -> Transparent
+  const getNavClasses = () => {
+    const baseClasses = "fixed top-0 left-0 right-0 z-50 transition-all duration-300";
+    const padding = isScrolled ? 'py-4' : 'py-6';
+    
+    if (isMobileMenuOpen) {
+      return `${baseClasses} ${padding} bg-white dark:bg-[#0a0a0a] border-b border-black/5 dark:border-white/5`;
+    }
+    
+    if (isScrolled) {
+      return `${baseClasses} ${padding} bg-white/90 dark:bg-[#050505]/90 backdrop-blur-xl border-b border-black/5 dark:border-white/5 shadow-sm`;
+    }
+    
+    return `${baseClasses} ${padding} bg-transparent border-b border-transparent`;
+  };
+
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled 
-        ? 'py-4 bg-white/90 dark:bg-[#050505]/90 backdrop-blur-xl border-b border-black/5 dark:border-white/5 shadow-sm' 
-        : 'py-6 bg-transparent border-b border-transparent'
-    }`}>
+    <nav className={getNavClasses()}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <div onClick={() => handleNavClick('home')} className="hover:opacity-80 transition-opacity cursor-pointer">
           <Logo />
@@ -164,10 +179,10 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Menu Dropdown - Using absolute top-full to attach perfectly to navbar bottom regardless of scroll height */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden fixed top-[80px] inset-x-0 bottom-0 bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-xl z-[60] overflow-y-auto">
-          <div className="p-6 flex flex-col gap-3 pb-20">
+        <div className="lg:hidden absolute top-full left-0 right-0 h-screen bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-xl border-t border-black/5 dark:border-white/5 overflow-y-auto pb-32 animate-in slide-in-from-top-2 duration-200">
+          <div className="p-6 flex flex-col gap-3">
             {navItems.map((item) => (
               <div key={item.label} className="flex flex-col gap-1">
                 <button 

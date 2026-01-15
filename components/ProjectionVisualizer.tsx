@@ -21,17 +21,18 @@ const ProjectionVisualizer = () => {
   ];
 
   return (
-    <div className="w-full glass-panel rounded-[2rem] border border-slate-200 dark:border-white/10 relative overflow-hidden group select-none transition-all duration-500 shadow-xl bg-white/50 dark:bg-black/20">
-      {/* Engineering Grid Overlay */}
+    <div className="w-full bg-slate-50 dark:bg-[#080808] transition-colors duration-500 p-2 md:p-12 select-none overflow-hidden rounded-[2.5rem] border border-black/5 dark:border-white/5 shadow-2xl relative">
+      
+      {/* Engineering Grid Overlay covering the whole pad */}
       <div className="absolute inset-0 opacity-[0.08] dark:opacity-[0.05] pointer-events-none" 
            style={{ backgroundImage: 'linear-gradient(#2563eb 1px, transparent 1px), linear-gradient(90deg, #2563eb 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
       
-      {/* Top Status Bar */}
-      <div className="absolute top-0 left-0 right-0 p-4 px-6 flex items-center justify-between border-b border-slate-200/50 dark:border-white/5 bg-white/40 dark:bg-black/20 backdrop-blur-md z-30">
-        <div className="flex items-center gap-4">
+      {/* Top Status Bar - HUD Style */}
+      <div className="absolute top-4 left-6 right-6 flex items-center justify-between z-30 pointer-events-none">
+        <div className="flex items-center gap-4 bg-white/80 dark:bg-black/80 backdrop-blur-md px-4 py-2 rounded-full border border-black/5 dark:border-white/10 shadow-sm pointer-events-auto">
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-[10px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-[0.2em]">VŠECHNY VRSTVY</span>
+            <span className="text-[10px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-[0.2em]">VRSTVY</span>
           </div>
           <div className="h-3 w-[1px] bg-slate-300 dark:bg-white/10" />
           <div className="flex items-center gap-2">
@@ -39,21 +40,20 @@ const ProjectionVisualizer = () => {
             <span className="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em]">IN.TECH.PRO</span>
           </div>
         </div>
-        <div className="hidden md:flex items-center gap-4 text-[9px] font-bold text-slate-400 uppercase tracking-widest">
+        <div className="hidden md:flex items-center gap-4 text-[9px] font-bold text-slate-400 uppercase tracking-widest bg-white/80 dark:bg-black/80 backdrop-blur-md px-4 py-2 rounded-full border border-black/5 dark:border-white/10 shadow-sm">
            <span>Scale 1:50</span>
            <span>Rev: 2.0.4</span>
         </div>
       </div>
 
-      {/* Main Container - Changed from flex-row to flex-col for mobile optimization */}
-      <div className="relative flex flex-col h-auto">
+      {/* Main Container */}
+      <div className="relative w-full h-full flex flex-col items-center justify-center">
         
-        {/* Blueprint Area - Forced height on mobile to stretch */}
-        <div className="flex-1 relative overflow-hidden pt-14 h-[500px] md:h-auto md:min-h-[400px]">
+        {/* Blueprint Area */}
+        <div className="w-full relative overflow-visible pt-16 pb-6">
           <svg 
             viewBox="0 0 700 450" 
-            preserveAspectRatio="none"
-            className="w-full h-full p-1 md:p-8 transition-transform duration-700 hover:scale-[1.02]"
+            className="w-full h-auto max-h-[60vh] overflow-visible drop-shadow-2xl"
           >
             {/* Background Architecture */}
             {rooms.map((room) => (
@@ -65,16 +65,17 @@ const ProjectionVisualizer = () => {
               >
                 <rect 
                   x={room.x} y={room.y} width={room.w} height={room.h} 
-                  className={`transition-all duration-500 fill-transparent stroke-slate-300 dark:stroke-white/10 ${
-                    hoveredRoom === room.name ? 'stroke-blue-500/50' : ''
+                  className={`transition-all duration-500 fill-white dark:fill-[#1a1d21] stroke-slate-300 dark:stroke-white/10 ${
+                    hoveredRoom === room.name ? 'stroke-blue-500/50 stroke-2' : 'stroke-1'
                   }`}
-                  strokeWidth="1.5"
+                  rx="4"
                 />
                 <rect 
                   x={room.x} y={room.y} width={room.w} height={room.h} 
                   className={`transition-all duration-500 pointer-events-none ${
                     hoveredRoom === room.name ? 'fill-blue-600/5' : 'fill-transparent'
                   }`}
+                  rx="4"
                 />
                 <text 
                   x={room.x + 12} y={room.y + 24} 
@@ -87,14 +88,14 @@ const ProjectionVisualizer = () => {
               </g>
             ))}
 
-            {/* Power Layer (Amber) - Opacity set to 1 (Always Visible) */}
+            {/* Power Layer (Amber) */}
             <g opacity={1} className="transition-opacity duration-700 pointer-events-none">
               <path d="M 470 110 L 470 340 L 150 340 L 150 180" stroke="#f59e0b" strokeWidth="2" fill="none" strokeDasharray="6 6" />
               <circle cx="150" cy="180" r="4" fill="#f59e0b" filter="drop-shadow(0 0 4px #f59e0b)" />
               <circle cx="470" cy="110" r="4" fill="#f59e0b" />
             </g>
 
-            {/* Smart BUS Layer (Lime) - Opacity set to 1 (Always Visible) */}
+            {/* Smart BUS Layer (Lime) */}
             <g opacity={1} className="transition-opacity duration-700 pointer-events-none">
               <path d="M 440 90 L 250 90 L 250 220 L 450 220 L 450 280" stroke="#84cc16" strokeWidth="2.5" fill="none" />
               <circle cx="440" cy="90" r="5" fill="#84cc16" />
@@ -104,7 +105,7 @@ const ProjectionVisualizer = () => {
               </circle>
             </g>
 
-            {/* Sensor Layer (Blue) - Opacity set to 1 (Always Visible) */}
+            {/* Sensor Layer (Blue) */}
             <g opacity={1} className="transition-opacity duration-700 pointer-events-none">
               <circle cx="240" cy="180" r="50" fill="none" stroke="#2563eb" strokeWidth="1" strokeDasharray="4 4" opacity="0.3">
                 <animate attributeName="stroke-dashoffset" from="100" to="0" dur="10s" repeatCount="indefinite" />
@@ -129,7 +130,7 @@ const ProjectionVisualizer = () => {
               </g>
             </g>
 
-            {/* Ethernet Layer (Sky Blue) - Opacity set to 1 (Always Visible) */}
+            {/* Ethernet Layer (Sky Blue) */}
             <g opacity={1} className="transition-opacity duration-700 pointer-events-none">
               {/* Hub in Tech Room */}
               <circle cx="520" cy="110" r="6" fill="#0ea5e9" />
@@ -160,7 +161,7 @@ const ProjectionVisualizer = () => {
           </svg>
 
           {/* Floating Detail Panel */}
-          <div className={`absolute bottom-6 left-6 right-6 md:right-auto md:w-64 glass-panel p-5 rounded-2xl border-slate-200 dark:border-white/10 bg-white/80 dark:bg-black/60 shadow-2xl transition-all duration-500 z-40 ${
+          <div className={`absolute bottom-0 right-0 md:w-64 bg-white/90 dark:bg-[#1a1d21]/90 backdrop-blur-xl p-5 rounded-2xl border border-slate-200 dark:border-white/10 shadow-2xl transition-all duration-500 z-40 transform ${
             hoveredRoom ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}>
             <div className="flex items-start gap-3">
@@ -177,61 +178,43 @@ const ProjectionVisualizer = () => {
           </div>
 
           {!hoveredRoom && (
-            <div className="absolute bottom-6 left-6 text-slate-400 dark:text-gray-600 animate-pulse pointer-events-none flex items-center gap-2">
+            <div className="absolute bottom-4 left-4 text-slate-400 dark:text-gray-600 animate-pulse pointer-events-none flex items-center gap-2">
               <MousePointer2 className="w-4 h-4" />
               <span className="text-[9px] font-black uppercase tracking-[0.2em]">Interakce: Aktivujte kurzorem</span>
             </div>
           )}
         </div>
 
-        {/* Legend / Controls - Moved below model, simplified for legend usage */}
-        <div className="w-full p-6 border-t border-slate-200 dark:border-white/5 bg-slate-50/50 dark:bg-white/[0.02]">
-          <div className="space-y-4">
-            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 dark:text-gray-500 mb-2">Legenda Vrstev</h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+        {/* Legend / Controls */}
+        <div className="w-full flex flex-col md:flex-row justify-between items-end gap-6 pt-6 border-t border-slate-200 dark:border-white/5 mt-2">
+          <div className="flex-1 w-full">
+            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 dark:text-gray-500 mb-3">Legenda Vrstev</h4>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {layers.map((layer) => (
                 <div
                   key={layer.id}
-                  className="relative flex items-center gap-3 px-4 py-3 rounded-2xl border border-slate-200 dark:border-white/5 text-slate-500 dark:text-gray-400 bg-white/50 dark:bg-white/[0.02]"
+                  className="relative flex items-center gap-3 px-3 py-2 rounded-xl border border-slate-200 dark:border-white/5 bg-white/50 dark:bg-white/[0.02] hover:bg-white dark:hover:bg-white/5 transition-colors"
                 >
-                  <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${layer.bg} text-white shadow-md`}>
-                    <layer.icon className="w-4 h-4" />
+                  <div className={`w-6 h-6 rounded-lg flex items-center justify-center ${layer.bg} text-white shadow-sm`}>
+                    <layer.icon className="w-3 h-3" />
                   </div>
-                  <div className="text-left">
-                    <span className="text-[10px] font-black uppercase tracking-widest block">{layer.label}</span>
-                    <span className="text-[8px] font-bold text-slate-400 dark:text-gray-500 uppercase tracking-tight">
-                      Viditelné
-                    </span>
-                  </div>
+                  <span className="text-[9px] font-black uppercase tracking-widest text-slate-600 dark:text-gray-400">{layer.label}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="pt-6 border-t border-slate-200 dark:border-white/5 mt-6">
-             <div className="flex items-center gap-3 mb-4">
-                <Crosshair className="w-4 h-4 text-slate-400" />
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Diagnostika Jádra</span>
+          <div className="hidden md:flex flex-col items-end gap-2 min-w-[140px]">
+             <div className="flex items-center gap-2">
+                <Crosshair className="w-3.5 h-3.5 text-slate-400" />
+                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Diagnostika</span>
              </div>
-             <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                    <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
-                      <span className="text-slate-400">Signál Tree</span>
-                      <span className="text-lime-600">98%</span>
-                    </div>
-                    <div className="w-full h-1 bg-slate-200 dark:bg-white/5 rounded-full overflow-hidden">
-                      <div className="h-full bg-lime-500 w-[98%]" />
-                    </div>
-                </div>
-                <div className="space-y-2">
-                    <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
-                        <span className="text-slate-400">Power Load</span>
-                        <span className="text-amber-500">1.2 kW</span>
-                    </div>
-                    <div className="w-full h-1 bg-slate-200 dark:bg-white/5 rounded-full overflow-hidden">
-                      <div className="h-full bg-amber-500 w-[30%]" />
-                    </div>
-                </div>
+             <div className="w-full flex justify-between items-center text-[9px] font-bold uppercase tracking-widest">
+                <span className="text-slate-500">Tree Signal</span>
+                <span className="text-lime-600">98%</span>
+             </div>
+             <div className="w-full h-1 bg-slate-200 dark:bg-white/5 rounded-full overflow-hidden">
+                <div className="h-full bg-lime-500 w-[98%]" />
              </div>
           </div>
         </div>
