@@ -113,28 +113,28 @@ const SolarSystem = () => {
 
           {/* Connections - Perfect Cross Lines */}
           <g filter="url(#solarGlow)">
-            {/* Top to Center - Vertical */}
-            <path d="M 200 80 L 200 170" stroke="#fbbf24" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
+            {/* Top Box to Center */}
+            <path d="M 200 50 L 200 170" stroke="#fbbf24" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
             <circle r="3" fill="#fbbf24">
-              <animateMotion path="M 200 80 L 200 170" dur="2s" repeatCount="indefinite" />
+              <animateMotion path="M 200 50 L 200 170" dur="2s" repeatCount="indefinite" />
             </circle>
 
-            {/* Center to Bottom - Vertical */}
-            <path d="M 200 230 L 200 320" stroke="#10b981" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
+            {/* Center to Bottom Box */}
+            <path d="M 200 230 L 200 350" stroke="#10b981" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
             <circle r="3" fill="#10b981">
-              <animateMotion path="M 200 230 L 200 320" dur={metrics.batteryPower >= 0 ? "2s" : "0s"} repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" />
+              <animateMotion path="M 200 230 L 200 350" dur={metrics.batteryPower >= 0 ? "2s" : "0s"} repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" />
             </circle>
 
-            {/* Left to Center (Grid) - Horizontal */}
-            <path d="M 80 200 L 170 200" stroke="#a855f7" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
+            {/* Left Box to Center */}
+            <path d="M 50 200 L 170 200" stroke="#a855f7" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
             <circle r="3" fill="#a855f7">
-              <animateMotion path="M 80 200 L 170 200" dur="2s" repeatCount="indefinite" />
+              <animateMotion path="M 50 200 L 170 200" dur="2s" repeatCount="indefinite" />
             </circle>
 
-            {/* Center to Right (Home) - Horizontal */}
-            <path d="M 230 200 L 320 200" stroke="#3b82f6" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
+            {/* Center to Right Box */}
+            <path d="M 230 200 L 350 200" stroke="#3b82f6" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
             <circle r="3" fill="#3b82f6">
-              <animateMotion path="M 230 200 L 320 200" dur="1.5s" repeatCount="indefinite" />
+              <animateMotion path="M 230 200 L 350 200" dur="1.5s" repeatCount="indefinite" />
             </circle>
           </g>
         </svg>
