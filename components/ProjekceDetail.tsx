@@ -17,7 +17,7 @@ const ProjekceDetail: React.FC<DetailProps> = ({ setView }) => {
           <ArrowLeft className="w-4 h-4" /> Zpět na služby
         </button>
 
-        <div className="mb-20 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10">
+        <div className="mb-10 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10">
           <div className="max-w-3xl text-left w-full">
             <SectionHeader 
               variant="page"
@@ -29,37 +29,33 @@ const ProjekceDetail: React.FC<DetailProps> = ({ setView }) => {
               className="mb-0"
             />
           </div>
-          <div className="hidden lg:flex items-center gap-3 bg-blue-600/5 px-6 py-4 rounded-3xl border border-blue-600/20 mb-12">
+          <div className="hidden lg:flex items-center gap-3 bg-blue-600/5 px-6 py-4 rounded-3xl border border-blue-600/20 mb-1 lg:mb-3">
             <Info className="w-5 h-5 text-blue-600" />
             <span className="text-[10px] font-black uppercase tracking-widest text-blue-700">Přesnost projektu = 100% spolehlivost</span>
           </div>
         </div>
 
-        <div className="mb-32">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8 px-4">
-             <h2 className="text-2xl font-black uppercase tracking-tight text-left">Interaktivní <span className="text-blue-600">Model Projektu</span></h2>
-             <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Simulace digitálního dvojčete (verze 1.4)</p>
-          </div>
+        <div className="mb-12 md:mb-20">
           <ProjectionVisualizer />
         </div>
-
-        <div className="grid md:grid-cols-2 gap-12 mb-20">
-          <div className="glass-panel p-10 rounded-[2.5rem] border-black/5 dark:border-white/5 text-left">
-            <div className="w-12 h-12 bg-blue-600/10 rounded-2xl flex items-center justify-center mb-6 text-blue-600 dark:text-blue-400">
+        
+        <div className="grid md:grid-cols-2 gap-6 md:gap-12 mb-20">
+          <div className="glass-panel p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] border-black/5 dark:border-white/5 text-left">
+            <div className="w-12 h-12 bg-blue-600/10 rounded-2xl flex items-center justify-center mb-4 md:mb-6 text-blue-600 dark:text-blue-400">
               <PenTool className="w-6 h-6" />
             </div>
-            <h3 className="text-2xl font-black mb-4">Podklad pro realizaci</h3>
-            <p className="text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
+            <h3 className="text-xl md:text-2xl font-black mb-3 md:mb-4">Podklad pro realizaci</h3>
+            <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
               Vždy vycházíme z požadavků klienta, typu stavby a plánovaného způsobu užívání. Projekt slouží jako jasný podklad pro realizaci, nacenění i koordinaci jednotlivých profesí. Důraz klademe na logiku zapojení a přehlednost.
             </p>
           </div>
 
-          <div className="glass-panel p-10 rounded-[2.5rem] border-black/5 dark:border-white/5 text-left">
-            <div className="w-12 h-12 bg-blue-600/10 rounded-2xl flex items-center justify-center mb-6 text-blue-600 dark:text-blue-400">
+          <div className="glass-panel p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] border-black/5 dark:border-white/5 text-left">
+            <div className="w-12 h-12 bg-blue-600/10 rounded-2xl flex items-center justify-center mb-4 md:mb-6 text-blue-600 dark:text-blue-400">
               <Layers className="w-6 h-6" />
             </div>
-            <h3 className="text-2xl font-black mb-4">Komplexní dokumentace</h3>
-            <p className="text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
+            <h3 className="text-xl md:text-2xl font-black mb-3 md:mb-4">Komplexní dokumentace</h3>
+            <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
               Součástí projekce může být kompletní dokumentace včetně technické zprávy, výkazu výměr, schémat zapojení, návrhu rozvaděčů a popisu funkcí chytré domácnosti.
             </p>
           </div>

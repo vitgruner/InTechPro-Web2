@@ -1,9 +1,9 @@
 
 import React, { useState } from 'react';
-import { Layers, Zap, Cpu, Eye, MousePointer2, Crosshair, Box } from 'lucide-react';
+import { Layers, Zap, Cpu, Eye, MousePointer2, Crosshair, Box, Network } from 'lucide-react';
 
 const ProjectionVisualizer = () => {
-  const [activeLayer, setActiveLayer] = useState<'power' | 'bus' | 'sensors'>('bus');
+  const [activeLayer, setActiveLayer] = useState<'power' | 'bus' | 'sensors' | 'all'>('all'); // Default to all visually in logic, though unused for opacity now
   const [hoveredRoom, setHoveredRoom] = useState<string | null>(null);
 
   const rooms = [
@@ -16,7 +16,8 @@ const ProjectionVisualizer = () => {
   const layers = [
     { id: 'power', label: 'Silnoproud', icon: Zap, color: '#f59e0b', bg: 'bg-amber-500' },
     { id: 'bus', label: 'Smart BUS', icon: Cpu, color: '#84cc16', bg: 'bg-lime-500' },
-    { id: 'sensors', label: 'Senzorika', icon: Eye, color: '#2563eb', bg: 'bg-blue-600' }
+    { id: 'sensors', label: 'Senzorika', icon: Eye, color: '#2563eb', bg: 'bg-blue-600' },
+    { id: 'data', label: 'Ethernet', icon: Network, color: '#0ea5e9', bg: 'bg-sky-500' }
   ];
 
   return (
@@ -30,12 +31,12 @@ const ProjectionVisualizer = () => {
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-[10px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-[0.2em]">CAD.ENGINE.ACTIVE</span>
+            <span className="text-[10px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-[0.2em]">VŠECHNY VRSTVY</span>
           </div>
           <div className="h-3 w-[1px] bg-slate-300 dark:bg-white/10" />
           <div className="flex items-center gap-2">
             <Layers className="w-3 h-3 text-blue-600" />
-            <span className="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em]">{activeLayer}.LAYER</span>
+            <span className="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em]">IN.TECH.PRO</span>
           </div>
         </div>
         <div className="hidden md:flex items-center gap-4 text-[9px] font-bold text-slate-400 uppercase tracking-widest">
@@ -44,10 +45,16 @@ const ProjectionVisualizer = () => {
         </div>
       </div>
 
-      <div className="relative flex flex-col md:flex-row h-[500px] md:h-[600px]">
-        {/* Blueprint Area */}
-        <div className="flex-1 relative overflow-hidden pt-14">
-          <svg viewBox="0 0 700 450" className="w-full h-full p-8 transition-transform duration-700 hover:scale-[1.02]">
+      {/* Main Container - Changed from flex-row to flex-col for mobile optimization */}
+      <div className="relative flex flex-col h-auto">
+        
+        {/* Blueprint Area - Forced height on mobile to stretch */}
+        <div className="flex-1 relative overflow-hidden pt-14 h-[500px] md:h-auto md:min-h-[400px]">
+          <svg 
+            viewBox="0 0 700 450" 
+            preserveAspectRatio="none"
+            className="w-full h-full p-1 md:p-8 transition-transform duration-700 hover:scale-[1.02]"
+          >
             {/* Background Architecture */}
             {rooms.map((room) => (
               <g 
@@ -80,28 +87,31 @@ const ProjectionVisualizer = () => {
               </g>
             ))}
 
-            {/* Power Layer (Amber) */}
-            <g opacity={activeLayer === 'power' ? 1 : 0.05} className="transition-opacity duration-700 pointer-events-none">
+            {/* Power Layer (Amber) - Opacity set to 1 (Always Visible) */}
+            <g opacity={1} className="transition-opacity duration-700 pointer-events-none">
               <path d="M 470 110 L 470 340 L 150 340 L 150 180" stroke="#f59e0b" strokeWidth="2" fill="none" strokeDasharray="6 6" />
               <circle cx="150" cy="180" r="4" fill="#f59e0b" filter="drop-shadow(0 0 4px #f59e0b)" />
               <circle cx="470" cy="110" r="4" fill="#f59e0b" />
             </g>
 
-            {/* Smart BUS Layer (Lime) */}
-            <g opacity={activeLayer === 'bus' ? 1 : 0.05} className="transition-opacity duration-700 pointer-events-none">
+            {/* Smart BUS Layer (Lime) - Opacity set to 1 (Always Visible) */}
+            <g opacity={1} className="transition-opacity duration-700 pointer-events-none">
               <path d="M 440 90 L 250 90 L 250 220 L 450 220 L 450 280" stroke="#84cc16" strokeWidth="2.5" fill="none" />
               <circle cx="440" cy="90" r="5" fill="#84cc16" />
+              <circle cx="450" cy="280" r="5" fill="#84cc16" />
               <circle r="3" fill="white">
                 <animateMotion dur="4s" repeatCount="indefinite" path="M 440 90 L 250 90 L 250 220 L 450 220 L 450 280" />
               </circle>
             </g>
 
-            {/* Sensor Layer (Blue) */}
-            <g opacity={activeLayer === 'sensors' ? 1 : 0.05} className="transition-opacity duration-700 pointer-events-none">
+            {/* Sensor Layer (Blue) - Opacity set to 1 (Always Visible) */}
+            <g opacity={1} className="transition-opacity duration-700 pointer-events-none">
               <circle cx="240" cy="180" r="50" fill="none" stroke="#2563eb" strokeWidth="1" strokeDasharray="4 4" opacity="0.3">
                 <animate attributeName="stroke-dashoffset" from="100" to="0" dur="10s" repeatCount="indefinite" />
               </circle>
               <circle cx="480" cy="320" r="40" fill="none" stroke="#2563eb" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
+              <circle cx="240" cy="345" r="45" fill="none" stroke="#2563eb" strokeWidth="1" strokeDasharray="4 4" opacity="0.3" />
+              
               <g transform="translate(240, 180)">
                 <circle r="4" fill="#2563eb">
                    <animate attributeName="r" values="3;6;3" dur="2s" repeatCount="indefinite" />
@@ -112,6 +122,40 @@ const ProjectionVisualizer = () => {
                    <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite" />
                 </circle>
               </g>
+              <g transform="translate(240, 345)">
+                <circle r="4" fill="#2563eb">
+                   <animate attributeName="r" values="3;6;3" dur="2.5s" repeatCount="indefinite" />
+                </circle>
+              </g>
+            </g>
+
+            {/* Ethernet Layer (Sky Blue) - Opacity set to 1 (Always Visible) */}
+            <g opacity={1} className="transition-opacity duration-700 pointer-events-none">
+              {/* Hub in Tech Room */}
+              <circle cx="520" cy="110" r="6" fill="#0ea5e9" />
+              
+              {/* To Living Room */}
+              <path d="M 520 110 L 410 110 L 240 110 L 240 150" stroke="#0ea5e9" strokeWidth="2" fill="none" />
+              <rect x="236" y="146" width="8" height="8" fill="#0ea5e9" />
+              
+              {/* To Bedroom */}
+              <path d="M 520 110 L 520 305" stroke="#0ea5e9" strokeWidth="2" fill="none" />
+              <rect x="516" y="301" width="8" height="8" fill="#0ea5e9" />
+              
+              {/* To Kitchen */}
+              <path d="M 520 110 L 410 110 L 410 270 L 240 270 L 240 330" stroke="#0ea5e9" strokeWidth="2" fill="none" />
+              <rect x="236" y="326" width="8" height="8" fill="#0ea5e9" />
+
+              {/* Data Flow Animation */}
+              <circle r="2" fill="white">
+                <animateMotion dur="3s" repeatCount="indefinite" path="M 520 110 L 410 110 L 240 110 L 240 150" />
+              </circle>
+              <circle r="2" fill="white">
+                <animateMotion dur="3s" repeatCount="indefinite" path="M 520 110 L 520 305" />
+              </circle>
+               <circle r="2" fill="white">
+                <animateMotion dur="4s" repeatCount="indefinite" path="M 520 110 L 410 110 L 410 270 L 240 270 L 240 330" />
+              </circle>
             </g>
           </svg>
 
@@ -140,56 +184,53 @@ const ProjectionVisualizer = () => {
           )}
         </div>
 
-        {/* Sidebar Controls (Integrated) */}
-        <div className="md:w-72 p-6 md:p-8 border-t md:border-t-0 md:border-l border-slate-200 dark:border-white/5 bg-slate-50/50 dark:bg-white/[0.02] flex flex-col justify-center gap-6 pt-14">
+        {/* Legend / Controls - Moved below model, simplified for legend usage */}
+        <div className="w-full p-6 border-t border-slate-200 dark:border-white/5 bg-slate-50/50 dark:bg-white/[0.02]">
           <div className="space-y-4">
-            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 dark:text-gray-500 mb-2">Kontrola vrstev</h4>
-            <div className="grid grid-cols-1 gap-2">
+            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 dark:text-gray-500 mb-2">Legenda Vrstev</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
               {layers.map((layer) => (
-                <button
+                <div
                   key={layer.id}
-                  onClick={() => setActiveLayer(layer.id as any)}
-                  className={`relative flex items-center gap-4 px-5 py-4 rounded-2xl transition-all border group ${
-                    activeLayer === layer.id 
-                    ? 'bg-white dark:bg-white/10 border-blue-600 dark:border-blue-500 shadow-lg' 
-                    : 'border-slate-200 dark:border-white/5 text-slate-500 dark:text-gray-400 hover:border-slate-300 dark:hover:border-white/10'
-                  }`}
+                  className="relative flex items-center gap-3 px-4 py-3 rounded-2xl border border-slate-200 dark:border-white/5 text-slate-500 dark:text-gray-400 bg-white/50 dark:bg-white/[0.02]"
                 >
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${
-                    activeLayer === layer.id ? layer.bg + ' text-white shadow-lg' : 'bg-slate-100 dark:bg-white/5'
-                  }`}>
-                    <layer.icon className="w-5 h-5" />
+                  <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${layer.bg} text-white shadow-md`}>
+                    <layer.icon className="w-4 h-4" />
                   </div>
                   <div className="text-left">
                     <span className="text-[10px] font-black uppercase tracking-widest block">{layer.label}</span>
                     <span className="text-[8px] font-bold text-slate-400 dark:text-gray-500 uppercase tracking-tight">
-                      {activeLayer === layer.id ? 'Aktivní telemetrie' : 'Zobrazit vizualizaci'}
+                      Viditelné
                     </span>
                   </div>
-                  {activeLayer === layer.id && (
-                    <div className="absolute right-4 w-1.5 h-1.5 rounded-full bg-blue-600 animate-ping" />
-                  )}
-                </button>
+                </div>
               ))}
             </div>
           </div>
 
-          <div className="pt-6 border-t border-slate-200 dark:border-white/5">
+          <div className="pt-6 border-t border-slate-200 dark:border-white/5 mt-6">
              <div className="flex items-center gap-3 mb-4">
                 <Crosshair className="w-4 h-4 text-slate-400" />
                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Diagnostika Jádra</span>
              </div>
-             <div className="space-y-3">
-                <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
-                  <span className="text-slate-400">Signál Tree</span>
-                  <span className="text-lime-600">98%</span>
+             <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                    <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
+                      <span className="text-slate-400">Signál Tree</span>
+                      <span className="text-lime-600">98%</span>
+                    </div>
+                    <div className="w-full h-1 bg-slate-200 dark:bg-white/5 rounded-full overflow-hidden">
+                      <div className="h-full bg-lime-500 w-[98%]" />
+                    </div>
                 </div>
-                <div className="w-full h-1 bg-slate-200 dark:bg-white/5 rounded-full overflow-hidden">
-                  <div className="h-full bg-lime-500 w-[98%]" />
-                </div>
-                <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest pt-1">
-                  <span className="text-slate-400">Power Load</span>
-                  <span className="text-amber-500">1.2 kW</span>
+                <div className="space-y-2">
+                    <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest">
+                        <span className="text-slate-400">Power Load</span>
+                        <span className="text-amber-500">1.2 kW</span>
+                    </div>
+                    <div className="w-full h-1 bg-slate-200 dark:bg-white/5 rounded-full overflow-hidden">
+                      <div className="h-full bg-amber-500 w-[30%]" />
+                    </div>
                 </div>
              </div>
           </div>
