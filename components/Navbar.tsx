@@ -153,15 +153,6 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
           <button onClick={toggleTheme} className="p-2 text-gray-600 dark:text-gray-400 transition-all active:scale-90">
             {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </button>
-          <button 
-            onClick={() => handleNavClick('admin-login')} 
-            className={`p-2 rounded-xl transition-all active:scale-90 ${
-              currentView === 'admin-login' ? 'text-blue-600 bg-blue-600/10' : 'text-gray-600 dark:text-gray-400'
-            }`}
-            title="Klientská zóna"
-          >
-            <Lock className="w-5 h-5" />
-          </button>
           <div className="w-[1px] h-5 bg-black/5 dark:bg-white/10 mx-0.5" />
           <button 
             className="p-2 text-gray-900 dark:text-white bg-black/5 dark:bg-white/5 rounded-xl transition-all active:scale-90"
@@ -172,71 +163,11 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown - FIXED: 100% Opaque Background */}
+      {/* Mobile Menu Dropdown */}
       {isMobileMenuOpen && (
         <div className="lg:hidden absolute top-full left-0 right-0 mx-6 mt-4 rounded-[2rem] overflow-hidden animate-in slide-in-from-top-4 duration-500 shadow-2xl border border-black/10 dark:border-white/10 max-h-[calc(100vh-140px)] flex flex-col bg-white dark:bg-[#0a0a0a] z-[60]">
           <div className="flex-1 overflow-y-auto scrollbar-hide flex flex-col p-6 sm:p-8 gap-3 sm:gap-4">
             {navItems.map((item) => (
               <div key={item.label} className="flex flex-col gap-1">
                 <button 
-                  onClick={() => !item.dropdown ? handleNavClick(item.value) : setIsServicesOpen(!isServicesOpen)}
-                  className={`text-xl sm:text-2xl font-black text-left uppercase tracking-tight flex items-center justify-between py-1 transition-colors ${
-                    (currentView === item.value || (item.dropdown?.some(d => d.value === currentView))) ? 'text-blue-600' : 'text-gray-900 dark:text-white'
-                  }`}
-                >
-                  <span className="flex items-center gap-3">
-                    {item.label}
-                    {item.isLive && <span className="text-[10px] bg-blue-600 text-white px-2 py-0.5 rounded-full font-black animate-pulse">LIVE</span>}
-                  </span>
-                  {item.dropdown ? (
-                    <ChevronDown className={`w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 ${isServicesOpen ? 'rotate-180 text-blue-600' : 'text-gray-400'}`} />
-                  ) : (
-                    <ArrowRight className={`w-5 h-5 sm:w-6 sm:h-6 transition-all ${
-                      currentView === item.value ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'
-                    }`} />
-                  )}
-                </button>
-                
-                {item.dropdown && isServicesOpen && (
-                  <div className="flex flex-col gap-1 pl-4 mt-2 border-l-2 border-blue-600/20 bg-black/5 dark:bg-white/5 rounded-r-2xl py-2 animate-in fade-in slide-in-from-left-2 duration-300">
-                    {item.dropdown.map(sub => (
-                      <button
-                        key={sub.value}
-                        onClick={() => handleNavClick(sub.value)}
-                        className={`text-[11px] sm:text-xs font-bold uppercase tracking-[0.15em] text-left py-2.5 px-3 transition-colors rounded-xl ${
-                          currentView === sub.value ? 'text-blue-600 bg-blue-600/5' : 'text-gray-500 dark:text-gray-400 hover:text-blue-600'
-                        }`}
-                      >
-                        {sub.label}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-            
-            <div className="h-[1px] bg-black/5 dark:bg-white/10 my-2" />
-            
-            <button 
-              onClick={() => handleNavClick('admin-login')}
-              className={`text-lg sm:text-xl font-black text-left uppercase tracking-tight flex items-center justify-between py-2 transition-colors ${
-                currentView === 'admin-login' ? 'text-blue-600' : 'text-gray-500 dark:text-gray-400'
-              }`}
-            >
-              Klientská zóna <Lock className="w-5 h-5" />
-            </button>
-
-            <button 
-                onClick={() => handleNavClick('contact')}
-                className="w-full bg-blue-600 text-white py-4 sm:py-5 mt-2 rounded-[2rem] font-black uppercase tracking-widest text-xs shadow-xl shadow-blue-500/20 active:scale-[0.98] transition-all"
-            >
-              Zahájit poptávku
-            </button>
-          </div>
-        </div>
-      )}
-    </nav>
-  );
-};
-
-export default Navbar;
+                  onClick

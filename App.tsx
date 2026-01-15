@@ -83,7 +83,12 @@ const DEFAULT_REFERENCES: Reference[] = [
 ];
 
 const App = () => {
-  const [isDark, setIsDark] = useState(true);
+  // Inicializace tématu podle denní doby (7:00 - 19:00 = Light, jinak Dark)
+  const [isDark, setIsDark] = useState(() => {
+    const hour = new Date().getHours();
+    return hour < 7 || hour >= 19;
+  });
+  
   const [view, setView] = useState<ViewState>('home');
   const [isAdmin, setIsAdmin] = useState(false);
   const [referenceProjects, setReferenceProjects] = useState<Reference[]>([]);
