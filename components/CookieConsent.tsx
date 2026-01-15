@@ -8,6 +8,8 @@ type ConsentType = {
   marketing: boolean;
 };
 
+const COOKIE_NAME = 'intechpro_cookie_consent_v1';
+
 const CookieConsent = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
@@ -17,18 +19,60 @@ const CookieConsent = () => {
     marketing: false,
   });
 
+  // Helper pro čtení cookies
+  const getCookie = (name: string) => {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+  };
+
+  // Helper pro zápis reálné cookies
+  const setRealCookie = (name: string, value: string, days: number) => {
+    let expires = "";
+    if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/; SameSite=Lax";
+  };
+
   useEffect(() => {
-    // 1. Kontrola, zda uživatel již vyjádřil souhlas (pouze pro autostart)
-    const savedConsent = localStorage.getItem('intechpro_cookie_consent_v1');
-    if (!savedConsent) {
+    // 1. Zkusíme načíst z localStorage nebo Cookies
+    const localData = localStorage.getItem(COOKIE_NAME);
+    const cookieData = getCookie(COOKIE_NAME);
+    
+    const savedConsent = localData || cookieData;
+    
+    if (savedConsent) {
+      try {
+        setConsent(JSON.parse(savedConsent));
+      } catch (e) {
+        console.error("Failed to parse cookie consent", e);
+      }
+    } else {
       const timer = setTimeout(() => setIsVisible(true), 1000);
       return () => clearTimeout(timer);
     }
   }, []);
 
   useEffect(() => {
-    // 2. Event listener pro otevření nastavení z patičky (funguje vždy, i když je už odsouhlaseno)
     const handleOpenSettings = () => {
+      // Při otevření nastavení se ujistíme, že máme aktuální data
+      const localData = localStorage.getItem(COOKIE_NAME);
+      const cookieData = getCookie(COOKIE_NAME);
+      const savedConsent = localData || cookieData;
+
+      if (savedConsent) {
+         try {
+            setConsent(JSON.parse(savedConsent));
+         } catch (e) {}
+      }
       setIsVisible(true);
       setShowDetails(true);
     };
@@ -52,20 +96,32 @@ const CookieConsent = () => {
   };
 
   const saveConsent = (finalConsent: ConsentType) => {
-    localStorage.setItem('intechpro_cookie_consent_v1', JSON.stringify(finalConsent));
+    // Aktualizace stavu UI okamžitě
+    setConsent(finalConsent);
+    
+    const jsonString = JSON.stringify(finalConsent);
+    
+    // 1. Uložení do LocalStorage (moderní přístup)
+    localStorage.setItem(COOKIE_NAME, jsonString);
+    
+    // 2. Uložení do reálné Cookie (aby to bylo vidět v DevTools > Application > Cookies)
+    setRealCookie(COOKIE_NAME, jsonString, 365);
+    
     setIsVisible(false);
     
-    // Zde by se inicializovaly externí skripty (GA, GTM, Pixel) podle hodnoty finalConsent
+    // Logování pro kontrolu (zde by se spouštěly reálné skripty)
+    console.log('Consent saved & active:', finalConsent);
+    
     if (finalConsent.analytics) {
-      console.log('Initializing Analytics...');
+      console.log('Initializing Analytics (mock)...');
     }
     if (finalConsent.marketing) {
-      console.log('Initializing Marketing scripts...');
+      console.log('Initializing Marketing (mock)...');
     }
   };
 
   const toggleCategory = (category: keyof ConsentType) => {
-    if (category === 'necessary') return; // Nezbytné nelze vypnout
+    if (category === 'necessary') return; 
     setConsent(prev => ({ ...prev, [category]: !prev[category] }));
   };
 
@@ -83,7 +139,7 @@ const CookieConsent = () => {
           <div className="flex-1">
             <h3 className="text-lg font-black text-gray-900 dark:text-white mb-1">Respektujeme vaše soukromí</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
-              Používáme cookies k optimalizaci funkčnosti webu a pro analytické účely. Vaše data jsou u nás v bezpečí a nikdy je neprodáváme třetím stranám.
+              Používáme cookies k optimalizaci funkčnosti webu a pro analytické účely. Vaše data jsou u nás v bezpečí.
             </p>
           </div>
         </div>
