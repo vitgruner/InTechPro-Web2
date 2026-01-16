@@ -36,7 +36,6 @@ const FooterLogo = () => (
   </div>
 );
 
-// Konstanta s garantovanými stringovými identifikátory pro ikony a topologií
 const DEFAULT_REFERENCES: Reference[] = [
   {
     title: "Villa Avant-Garde",
@@ -86,33 +85,60 @@ const DEFAULT_REFERENCES: Reference[] = [
 ];
 
 const App = () => {
-  // Inicializace tématu podle denní doby (7:00 - 19:00 = Light, jinak Dark)
   const [isDark, setIsDark] = useState(() => {
     const hour = new Date().getHours();
     return hour < 7 || hour >= 19;
   });
-  
-  const [view, setView] = useState<ViewState>('home');
+
+  const getViewStateFromHash = (): ViewState => {
+    const hash = window.location.hash.split('?')[0].replace('#', '') as ViewState;
+    const validViews: ViewState[] = [
+      'home', 'services', 'showcase', 'innovation', 'contact', 'about', 
+      'projekce-elektro', 'osvetleni', 'rozvadece', 'loxone-detail', 
+      'technologie', 'admin-login', 'admin-dashboard'
+    ];
+    return validViews.includes(hash) ? hash : 'home';
+  };
+
+  const [view, setView] = useState<ViewState>(getViewStateFromHash());
   const [isAdmin, setIsAdmin] = useState(false);
   const [referenceProjects, setReferenceProjects] = useState<Reference[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [isSyncing, setIsSyncing] = useState(false);
 
   useEffect(() => {
+    const handleHashChange = () => {
+      const newView = getViewStateFromHash();
+      setView(newView);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const navigateTo = (newView: ViewState) => {
+    const currentHash = window.location.hash.replace('#', '');
+    if (currentHash === newView || (currentHash === '' && newView === 'home')) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.location.hash = newView === 'home' ? '' : newView;
+    }
+  };
+
+  useEffect(() => {
     const loadData = async () => {
       setIsLoadingData(true);
       try {
         const data = await dbService.fetchReferences();
-        // Pokud je DB prázdná nebo nevalidní, nahrajeme výchozí data
         if (!data || data.length === 0) {
-          console.log("Inicializuji výchozí reference...");
           await dbService.resetDatabase(DEFAULT_REFERENCES);
           setReferenceProjects(DEFAULT_REFERENCES);
         } else {
           setReferenceProjects(data);
         }
       } catch (error) {
-        console.error("Kritická chyba při startu:", error);
+        console.error("Critical start error:", error);
         setReferenceProjects(DEFAULT_REFERENCES);
       } finally {
         setIsLoadingData(false);
@@ -129,20 +155,16 @@ const App = () => {
     }
   }, [isDark]);
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [view]);
-
   const handleAddReference = async (ref: Reference) => {
     setIsSyncing(true);
     try {
       const success = await dbService.saveReference(ref);
       if (success) {
         setReferenceProjects(prev => [...prev, ref]);
-        setView('showcase');
+        navigateTo('showcase');
       }
     } catch (error) {
-      alert("Chyba při ukládání na server.");
+      alert("Error saving to server.");
     } finally {
       setIsSyncing(false);
     }
@@ -165,15 +187,15 @@ const App = () => {
       case 'home':
         return (
           <div className="animate-in fade-in slide-in-from-bottom-2 duration-700">
-            <Hero setView={setView} />
-            <Services setView={setView} />
-            <References projects={referenceProjects} setView={setView} />
+            <Hero setView={navigateTo} />
+            <Services setView={navigateTo} />
+            <References projects={referenceProjects} setView={navigateTo} />
             <Process />
             <ContactForm />
           </div>
         );
       case 'showcase':
-        return <References projects={referenceProjects} isStandalone={true} setView={setView} />;
+        return <References projects={referenceProjects} isStandalone={true} setView={navigateTo} />;
       case 'contact':
         return <ContactForm isStandalone={true} />;
       case 'innovation':
@@ -181,6 +203,7 @@ const App = () => {
       case 'about':
         return <AboutUs />;
       case 'admin-dashboard':
+        if (!isAdmin) return <AdminLogin onLogin={() => { setIsAdmin(true); navigateTo('admin-dashboard'); }} />;
         return (
           <div className="pt-32 pb-24 bg-slate-50 dark:bg-[#050505]">
             <div className="max-w-7xl mx-auto px-6">
@@ -189,43 +212,43 @@ const App = () => {
                   <h1 className="text-4xl font-black uppercase tracking-tight">Databáze <span className="text-blue-600">Projektů</span></h1>
                   {isSyncing && <div className="flex items-center gap-2 text-blue-600 animate-pulse text-[10px] font-black uppercase tracking-widest bg-blue-600/10 px-3 py-1 rounded-full"><CloudUpload className="w-3 h-3" /> Syncing</div>}
                 </div>
-                <button onClick={() => { setIsAdmin(false); setView('home'); }} className="px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest bg-slate-200 dark:bg-white/10">Odhlásit se</button>
+                <button onClick={() => { setIsAdmin(false); navigateTo('home'); }} className="px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest bg-slate-200 dark:bg-white/10">Odhlásit se</button>
               </div>
-              <ReferenceForm onAdd={handleAddReference} onCancel={() => setView('home')} />
+              <ReferenceForm onAdd={handleAddReference} onCancel={() => navigateTo('home')} />
             </div>
           </div>
         );
       case 'admin-login':
-        return <AdminLogin onLogin={() => { setIsAdmin(true); setView('admin-dashboard'); }} />;
-      case 'loxone-detail': return <LoxoneDetail setView={setView} />;
-      case 'osvetleni': return <OsvetleniDetail setView={setView} />;
-      case 'rozvadece': return <RozvadeceDetail setView={setView} />;
-      case 'technologie': return <TechnologieDetail setView={setView} />;
-      case 'projekce-elektro': return <ProjekceDetail setView={setView} />;
+        return <AdminLogin onLogin={() => { setIsAdmin(true); navigateTo('admin-dashboard'); }} />;
+      case 'loxone-detail': return <LoxoneDetail setView={navigateTo} />;
+      case 'osvetleni': return <OsvetleniDetail setView={navigateTo} />;
+      case 'rozvadece': return <RozvadeceDetail setView={navigateTo} />; 
+      case 'technologie': return <TechnologieDetail setView={navigateTo} />;
+      case 'projekce-elektro': return <ProjekceDetail setView={navigateTo} />;
       case 'services': return (
         <div className="animate-in fade-in duration-700">
-          <Services setView={setView} isStandalone={true} />
+          <Services setView={navigateTo} isStandalone={true} />
           <Process />
         </div>
       );
       default:
-        return <Hero setView={setView} />;
+        return <Hero setView={navigateTo} />;
     }
   };
 
   return (
     <div className="min-h-screen bg-[#f4f7f9] dark:bg-[#050505] text-[#1a1d21] dark:text-white transition-colors duration-500 font-sans flex flex-col">
-      <Navbar isDark={isDark} toggleTheme={() => setIsDark(!isDark)} setView={setView} currentView={view} />
+      <Navbar isDark={isDark} toggleTheme={() => setIsDark(!isDark)} setView={navigateTo} currentView={view} />
       <main className="flex-grow">{renderView()}</main>
       
       <footer className="bg-black text-white pt-24 pb-12 border-t border-white/5 relative z-10">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 mb-24">
             <div className="lg:col-span-5 space-y-8">
-              <div onClick={() => setView('home')} className="cursor-pointer">
+              <div onClick={() => navigateTo('home')} className="cursor-pointer">
                 <FooterLogo />
               </div>
-              <p className="text-gray-400 text-lg font-medium leading-relaxed max-w-sm">
+              <p className="text-gray-400 text-lg font-medium leading-relaxed max-sm:text-sm">
                 Průkopníci další generace inteligentní infrastruktury prostřednictvím precizního inženýrství, futuristického designu a bezchybné realizace.
               </p>
               <div className="flex gap-4">
@@ -240,13 +263,13 @@ const App = () => {
             <div className="lg:col-span-3 space-y-8">
               <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-white">Mapa webu</h4>
               <ul className="space-y-4">
-                <li><button onClick={() => setView('about')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">O nás</button></li>
-                <li><button onClick={() => setView('services')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Služby</button></li>
-                <li><button onClick={() => setView('showcase')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Reference</button></li>
-                <li><button onClick={() => setView('innovation')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Centrum inteligence</button></li>
-                <li><button onClick={() => setView('contact')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Kontakt</button></li>
+                <li><button onClick={() => navigateTo('about')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">O nás</button></li>
+                <li><button onClick={() => navigateTo('services')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Služby</button></li>
+                <li><button onClick={() => navigateTo('showcase')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Reference</button></li>
+                <li><button onClick={() => navigateTo('innovation')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Centrum inteligence</button></li>
+                <li><button onClick={() => navigateTo('contact')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Kontakt</button></li>
                 <li>
-                  <button onClick={() => setView('admin-login')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm flex items-center gap-2">
+                  <button onClick={() => navigateTo('admin-login')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm flex items-center gap-2 text-left">
                     Klientská zóna <Lock className="w-3.5 h-3.5" />
                   </button>
                 </li>
@@ -256,17 +279,17 @@ const App = () => {
             <div className="lg:col-span-4 space-y-8">
               <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-white">Expertíza</h4>
               <ul className="space-y-4">
-                <li><button onClick={() => setView('loxone-detail')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Smart Home Loxone</button></li>
-                <li><button onClick={() => setView('projekce-elektro')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Projekce Elektro</button></li>
-                <li><button onClick={() => setView('rozvadece')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Výroba rozvaděčů</button></li>
-                <li><button onClick={() => setView('technologie')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Moderní technologie</button></li>
-                <li><button onClick={() => setView('osvetleni')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Návrh osvětlení</button></li>
+                <li><button onClick={() => navigateTo('loxone-detail')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Smart Home Loxone</button></li>
+                <li><button onClick={() => navigateTo('projekce-elektro')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Projekce Elektro</button></li>
+                <li><button onClick={() => navigateTo('rozvadece')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Výroba rozvaděčů</button></li>
+                <li><button onClick={() => navigateTo('technologie')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Moderní technologie</button></li>
+                <li><button onClick={() => navigateTo('osvetleni')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Návrh osvětlení</button></li>
               </ul>
             </div>
           </div>
 
           <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
-            <p className="text-[10px] font-black uppercase tracking-widest text-gray-500">
+            <p className="text-[10px] font-black uppercase tracking-widest text-gray-500 text-center md:text-left">
               © 2024 IN TECH PRO s.r.o. Synchronizováno a zabezpečeno.
             </p>
             <div className="flex flex-wrap justify-center gap-8">
