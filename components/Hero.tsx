@@ -54,7 +54,7 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
       // Determine theme colors (simple check, ideally passed via props or context)
       const isDark = document.documentElement.classList.contains('dark');
       const particleColor = isDark ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.3)';
-      const lineColor = isDark ? 'rgba(37, 99, 235,' : 'rgba(37, 99, 235,'; // Blue base
+      const lineColor = isDark ? 'rgba(37, 99, 235, 0.6)' : 'rgba(37, 99, 235, 0.5)'; // Slightly more visible
 
       // Update and draw particles
       particles.forEach((p, i) => {
@@ -128,14 +128,23 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
 
   return (
     <section className="relative min-h-screen flex items-center pt-28 md:pt-32 pb-8 md:pb-12 overflow-hidden">
-      {/* Interactive Background Canvas */}
-      <canvas 
-        ref={canvasRef} 
-        className="absolute inset-0 z-0 pointer-events-auto opacity-60"
-      />
       
-      {/* Subtle Gradient Overlay to ensure text readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#f4f7f9] dark:to-[#050505] z-0 pointer-events-none"></div>
+      {/* --- High-End Technical Background --- */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        
+        {/* 1. Base Mesh Gradient */}
+        <div className="absolute top-[-10%] right-[-10%] w-[70%] h-[70%] rounded-full bg-blue-600/10 dark:bg-blue-500/10 blur-[120px] animate-pulse" style={{ animationDuration: '8s' }} />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-blue-400/5 dark:bg-blue-600/5 blur-[100px] animate-pulse" style={{ animationDuration: '12s' }} />
+
+        {/* 2. Interactive Background Canvas */}
+        <canvas 
+          ref={canvasRef} 
+          className="absolute inset-0 z-0 pointer-events-auto opacity-60"
+        />
+        
+        {/* 3. Radial Fade (Focusing center) */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#f4f7f9] dark:to-[#050505]" />
+      </div>
 
       <div className="max-w-7xl mx-auto px-6 w-full grid lg:grid-cols-2 gap-10 lg:gap-12 items-center relative z-10">
         <div className="text-center lg:text-left">

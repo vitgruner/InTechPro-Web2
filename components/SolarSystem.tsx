@@ -55,20 +55,29 @@ const SolarSystem = () => {
 
   const PowerNode: React.FC<PowerNodeProps> = ({ icon: Icon, label, value, unit, color, position, subValue }) => (
     <div className={`absolute ${position} z-20 flex flex-col items-center group`}>
-      <div className={`w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-white dark:bg-[#1a1d21] border border-${color}-500/30 shadow-xl flex items-center justify-center relative transition-transform duration-300`}>
-        <div className={`absolute inset-0 bg-${color}-500/10 rounded-xl md:rounded-2xl animate-pulse`} />
-        <Icon className={`w-4 h-4 md:w-6 md:h-6 text-${color}-600 dark:text-${color}-400 relative z-10`} />
-        {/* Connector Dot */}
-        <div className={`absolute w-1.5 h-1.5 md:w-2 md:h-2 bg-${color}-500 rounded-full border-2 border-white dark:border-[#1a1d21] z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity`} />
+      
+      {/* ICON ANCHOR (THIS IS THE REAL NODE CENTER) */}
+      <div className="relative flex items-center justify-center">
+        <div className={`w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-white dark:bg-[#1a1d21] border border-${color}-500/30 shadow-xl flex items-center justify-center relative transition-transform duration-300`}>
+          <div className={`absolute inset-0 bg-${color}-500/10 rounded-xl md:rounded-2xl animate-pulse`} />
+          <Icon className={`w-4 h-4 md:w-6 md:h-6 text-${color}-600 dark:text-${color}-400 relative z-10`} />
+          {/* Connector Dot */}
+          <div className={`absolute w-1.5 h-1.5 md:w-2 md:h-2 bg-${color}-500 rounded-full border-2 border-white dark:border-[#1a1d21] z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity`} />
+        </div>
       </div>
 
-      <div className="mt-2 md:mt-3 bg-white/90 dark:bg-black/80 backdrop-blur-md border border-black/5 dark:border-white/10 px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-xl text-center shadow-lg transform transition-all min-w-[60px] md:min-w-[80px]">
+      {/* INFO BOX – DOES NOT AFFECT CENTER */}
+      <div className="mt-2 md:mt-3 bg-white/90 dark:bg-black/80 backdrop-blur-md border border-black/5 dark:border-white/10 px-2 py-1 md:px-3 md:py-2 rounded-lg md:rounded-xl text-center shadow-lg min-w-[60px] md:min-w-[80px]">
         <div className="text-[7px] md:text-[8px] font-black text-gray-400 uppercase tracking-widest mb-0.5">{label}</div>
         <div className="flex items-baseline justify-center gap-0.5">
           <span className="text-xs md:text-sm font-black text-gray-900 dark:text-white tabular-nums font-mono">{Math.abs(value).toFixed(1)}</span>
           <span className="text-[7px] md:text-[8px] font-bold text-gray-500">{unit}</span>
         </div>
-        {subValue && <div className="text-[7px] md:text-[8px] font-bold text-blue-500 mt-0.5 border-t border-black/5 dark:border-white/5 pt-0.5">{subValue}</div>}
+        {subValue && (
+          <div className="text-[7px] md:text-[8px] font-bold text-blue-500 mt-0.5 border-t border-black/5 dark:border-white/5 pt-0.5">
+            {subValue}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -125,16 +134,16 @@ const SolarSystem = () => {
               <animateMotion path="M 200 230 L 200 330" dur={metrics.batteryPower >= 0 ? "2s" : "0s"} repeatCount="indefinite" keyPoints="0;1" keyTimes="0;1" />
             </circle>
 
-             {/* Left to Center (Grid) - Moved down to Y=225 to match node position */}
-             <path d="M 88 225 L 170 200" stroke="#a855f7" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
+             {/* Left to Center - Regular cross */}
+             <path d="M 50 200 L 170 200" stroke="#a855f7" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
              <circle r="3" fill="#a855f7">
-              <animateMotion path="M 88 225 L 170 200" dur="2s" repeatCount="indefinite" />
+              <animateMotion path="M 50 200 L 170 200" dur="2s" repeatCount="indefinite" />
             </circle>
 
-            {/* Center to Right (Home) - Moved down to Y=225 to match node position */}
-            <path d="M 230 200 L 312 225" stroke="#3b82f6" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
+            {/* Center to Right - Regular cross */}
+            <path d="M 230 200 L 350 200" stroke="#3b82f6" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
              <circle r="3" fill="#3b82f6">
-              <animateMotion path="M 230 200 L 312 225" dur="1.5s" repeatCount="indefinite" />
+              <animateMotion path="M 230 200 L 350 200" dur="1.5s" repeatCount="indefinite" />
             </circle>
           </g>
         </svg>
@@ -174,7 +183,7 @@ const SolarSystem = () => {
           value={metrics.load} 
           unit="kW" 
           color="blue" 
-          position="right-[22%] top-1/2 translate-x-1/2" 
+          position="right-0 top-1/2 -translate-y-5.1" 
         />
         <PowerNode 
           icon={Globe} 
@@ -182,7 +191,7 @@ const SolarSystem = () => {
           value={metrics.gridPower} 
           unit="kW" 
           color="purple" 
-          position="left-[22%] top-1/2 -translate-x-1/2" 
+          position="left-0 top-1/2 -translate-y-1/2" 
         />
 
       </div>
