@@ -1,6 +1,5 @@
-
 import React, { useState, useMemo } from 'react';
-import { Send, CheckCircle2, Zap, Thermometer, Shield, Radio, Sun, Wifi, Car, Home, Factory, Building2, Waves, Sprout, Droplets, Blinds, Calculator, Sparkles, History, Mail, Phone, MessageSquare, Loader2, AlertCircle } from 'lucide-react';
+import { Send, CheckCircle2, Zap, Thermometer, Shield, Radio, Sun, Wifi, Car, Home, Factory, Building2, Waves, Sprout, Droplets, Blinds, Calculator, Sparkles, History, Mail, Phone, MessageSquare, Loader2, AlertCircle, Check } from 'lucide-react';
 import VisionaryAssistant from './VisionaryAssistant';
 import { Message } from '../types';
 import SectionHeader from './SectionHeader';
@@ -15,6 +14,7 @@ interface FormData {
   property: string;
   features: string[];
   timeline: string;
+  gdprConsent: boolean;
 }
 
 const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
@@ -34,7 +34,8 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
     system: 'Loxone',
     property: 'Rezidenční',
     features: [],
-    timeline: 'Aktivní vývoj (1-3 měsíce)'
+    timeline: 'Aktivní vývoj (1-3 měsíce)',
+    gdprConsent: false
   });
 
   const featureOptions = [
@@ -79,14 +80,20 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!formData.gdprConsent) {
+      setErrorMessage('Pro odeslání poptávky musíte souhlasit se zpracováním osobních údajů.');
+      return;
+    }
+
     setIsSending(true);
     setErrorMessage(null);
 
-    // Příprava dat pro šablonu EmailJS
     const templateParams = {
       to_name: 'IN TECH PRO Tým',
       from_name: formData.name,
       from_email: formData.email,
+      customer_email: formData.email,
       phone: formData.phone,
       property_type: formData.property,
       selected_features: formData.features.map(f => featureOptions.find(o => o.id === f)?.label).join(', '),
@@ -96,14 +103,22 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
     };
 
     try {
-      // Produkční klíče nastavené uživatelem
       const SERVICE_ID = 'service_qrgvofr';
-      const TEMPLATE_ID = 'template_76vc4mm';
+      const TEMPLATE_ADMIN_ID = 'template_76vc4mm';
+      const TEMPLATE_CUSTOMER_ID = 'template_customer_confirm'; 
       const PUBLIC_KEY = 'JowaJUIrtXne2eHJM';
 
-      await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
+      // 1) e-mail vám (admin)
+      await emailjs.send(SERVICE_ID, TEMPLATE_ADMIN_ID, templateParams, PUBLIC_KEY);
 
-      console.log("Email successfully sent", templateParams);
+      // 2) potvrzení zákazníkovi
+      await emailjs.send(SERVICE_ID, TEMPLATE_CUSTOMER_ID, {
+        customer_email: formData.email,
+        customer_name: formData.name,
+        message: formData.message,
+        estimated_budget: estimatedTotal.toLocaleString() + ' Kč',
+      }, PUBLIC_KEY);
+
       setSubmitted(true);
     } catch (error) {
       console.error('EmailJS Error:', error);
@@ -115,35 +130,21 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
 
   if (submitted) {
     return (
-      <div className={`py-12 md:py-20 text-center animate-in fade-in zoom-in duration-700 ${isStandalone ? 'pt-32' : ''}`}>
-        <div className="inline-flex items-center justify-center w-20 h-20 bg-blue-600 rounded-full mb-8 glow">
-          <CheckCircle2 className="w-10 h-10 text-white" />
+      <section className="py-20 flex flex-col items-center justify-center text-center px-6 min-h-[60vh] animate-in fade-in duration-700">
+        <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center text-green-500 mb-6 border border-green-500/20 shadow-xl shadow-green-500/5">
+          <CheckCircle2 className="w-10 h-10" />
         </div>
-        <h2 className="text-4xl font-black text-gray-900 dark:text-white mb-4 transition-colors">Vize byla odeslána</h2>
-        <p className="text-gray-500 dark:text-gray-400 max-w-md mx-auto transition-colors px-6 mb-8">
-          Náš inženýr vás bude brzy kontaktovat s detailním návrhem na základě vašich specifikací.
+        <h2 className="text-3xl font-black mb-4 uppercase tracking-tight text-gray-900 dark:text-white">Poptávka odeslána</h2>
+        <p className="text-gray-500 dark:text-gray-400 max-w-md mx-auto mb-10 font-medium leading-relaxed">
+          Děkujeme za váš zájem. Vaši poptávku jsme přijali ke zpracování. Brzy vás budeme kontaktovat s návrhem dalšího postupu.
         </p>
-        
-        <div className="flex flex-col items-center gap-4 mx-auto">
-          <div className="inline-flex items-center gap-3 px-6 py-4 glass-panel rounded-2xl border-green-500/20 text-green-600">
-            <History className="w-4 h-4" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-left">Kompletní přepis chatu přiložen</span>
-          </div>
-          <div className="inline-flex items-center gap-3 px-6 py-4 glass-panel rounded-2xl border-blue-500/20 text-blue-600">
-            <Mail className="w-4 h-4" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-left">Úspěšně doručeno do centrály</span>
-          </div>
-        </div>
-
-        <div className="mt-12">
-          <button 
-            onClick={() => { setSubmitted(false); setAiMessages([{ role: 'assistant', content: 'Jak mohu dále pomoci s vaší další vizí?' }]); }}
-            className="text-blue-600 dark:text-blue-400 font-bold uppercase tracking-widest text-[10px] hover:text-blue-800 dark:hover:text-white transition-colors"
-          >
-            Zahájit novou poptávku
-          </button>
-        </div>
-      </div>
+        <button 
+          onClick={() => window.location.reload()}
+          className="px-10 py-4 bg-blue-600 text-white rounded-full font-bold uppercase tracking-widest text-[10px] hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20 active:scale-95"
+        >
+          Nová poptávka
+        </button>
+      </section>
     );
   }
 
@@ -250,6 +251,18 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
                   />
               </div>
 
+              {/* GDPR Consent Checkbox */}
+              <div className="flex items-start gap-4 p-4 rounded-2xl bg-blue-600/5 border border-blue-600/10 cursor-pointer group" onClick={() => setFormData(p => ({...p, gdprConsent: !p.gdprConsent}))}>
+                <div className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all flex-shrink-0 ${formData.gdprConsent ? 'bg-blue-600 border-blue-600 shadow-lg' : 'border-black/10 dark:border-white/20'}`}>
+                  {formData.gdprConsent && <Check className="w-4 h-4 text-white" />}
+                </div>
+                <div className="flex-1 text-left">
+                  <p className="text-[10px] text-gray-600 dark:text-gray-400 font-medium leading-relaxed">
+                    Souhlasím se <button type="button" onClick={(e) => { e.stopPropagation(); document.dispatchEvent(new CustomEvent('intechpro-open-cookies')); }} className="text-blue-600 dark:text-blue-400 font-bold hover:underline">zpracováním osobních údajů</button> pro účely vyřízení této poptávky a technické konzultace.
+                  </p>
+                </div>
+              </div>
+
               {errorMessage && (
                 <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-2xl flex items-center gap-3 text-red-600 animate-in fade-in slide-in-from-top-2">
                   <AlertCircle className="w-5 h-5 flex-shrink-0" />
@@ -267,8 +280,8 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
                  </div>
                  <button 
                    type="submit" 
-                   disabled={isSending}
-                   className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-[0.2em] py-5 px-12 rounded-2xl transition-all shadow-xl flex items-center justify-center gap-3 group disabled:opacity-70 disabled:cursor-not-allowed"
+                   disabled={isSending || !formData.gdprConsent}
+                   className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-[0.2em] py-5 px-12 rounded-2xl transition-all shadow-xl flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed"
                  >
                   {isSending ? (
                     <>

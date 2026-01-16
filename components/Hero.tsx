@@ -1,85 +1,52 @@
-
 import React from 'react';
 import { Zap } from 'lucide-react';
 import { HeroProps } from '../types';
 import SmartHomeWireframe from './SmartHomeWireframe';
 
-const PCBBackground = () => (
+const NeuralGrid = () => (
   <svg 
     className="absolute inset-0 w-full h-full opacity-[0.25] dark:opacity-[0.15]" 
-    viewBox="0 0 1000 1000" 
-    preserveAspectRatio="xMidYMid slice"
+    viewBox="0 0 100 100" 
+    preserveAspectRatio="none"
     xmlns="http://www.w3.org/2000/svg"
   >
     <defs>
-      <filter id="signal-glow" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur stdDeviation="3" result="blur" />
+      <pattern id="neural-grid-pattern" width="10" height="10" patternUnits="userSpaceOnUse">
+        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="currentColor" strokeWidth="0.05" className="text-blue-500/20" />
+      </pattern>
+      <filter id="node-glow">
+        <feGaussianBlur stdDeviation="0.5" result="blur" />
         <feComposite in="SourceGraphic" in2="blur" operator="over" />
       </filter>
-      
-      {/* Definice tras pro animaci pulsů */}
-      <path id="path1" d="M 0 200 L 200 200 L 250 250 L 500 250 L 550 300 L 550 500" fill="none" />
-      <path id="path2" d="M 1000 800 L 800 800 L 750 750 L 500 750 L 450 700 L 450 500" fill="none" />
-      <path id="path3" d="M 100 1000 L 100 800 L 150 750 L 300 750" fill="none" />
-      <path id="path4" d="M 900 0 L 900 200 L 850 250 L 700 250" fill="none" />
     </defs>
-
-    {/* Statické trasy (Měděné cesty) */}
-    <g stroke="currentColor" strokeWidth="1" fill="none" className="text-blue-500/20 dark:text-blue-400/10">
-      <path d="M 0 200 L 200 200 L 250 250 L 500 250 L 550 300 L 550 500" />
-      <path d="M 1000 800 L 800 800 L 750 750 L 500 750 L 450 700 L 450 500" />
-      <path d="M 100 1000 L 100 800 L 150 750 L 300 750" />
-      <path d="M 900 0 L 900 200 L 850 250 L 700 250" />
-      <path d="M 300 400 L 350 450 L 650 450 L 700 500" strokeDasharray="4 4" />
-      <path d="M 200 100 L 250 150 L 400 150" />
-      <path d="M 800 900 L 750 850 L 600 850" />
+    <rect width="100" height="100" fill="url(#neural-grid-pattern)" />
+    
+    {/* Interconnected points and lines */}
+    <g className="text-blue-600/30 dark:text-blue-400/20" filter="url(#node-glow)">
+      {[...Array(15)].map((_, i) => (
+        <React.Fragment key={i}>
+          <circle r="0.4" fill="currentColor">
+            <animate attributeName="cx" values={`${Math.random()*100};${Math.random()*100};${Math.random()*100}`} dur={`${20+Math.random()*30}s`} repeatCount="indefinite" />
+            <animate attributeName="cy" values={`${Math.random()*100};${Math.random()*100};${Math.random()*100}`} dur={`${20+Math.random()*30}s`} repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.2;0.8;0.2" dur={`${4+Math.random()*6}s`} repeatCount="indefinite" />
+          </circle>
+        </React.Fragment>
+      ))}
     </g>
 
-    {/* Pájecí plošky (Pads) a Vias */}
-    <g fill="currentColor" className="text-blue-600/30 dark:text-blue-400/20">
-      {/* Uzly a zakončení */}
-      <rect x="195" y="195" width="10" height="10" rx="2" />
-      <circle cx="250" cy="250" r="4" />
-      <circle cx="500" cy="250" r="4" />
-      <rect x="795" y="795" width="10" height="10" rx="2" />
-      <circle cx="750" cy="750" r="4" />
-      <circle cx="500" cy="750" r="4" />
-      
-      {/* Dekorační "komponenty" */}
-      <rect x="525" y="475" width="50" height="50" rx="4" stroke="currentColor" strokeWidth="1" fill="none" />
-      <text x="530" y="515" className="text-[10px] font-black fill-current opacity-40">CPU-X</text>
-      
-      <rect x="425" y="475" width="50" height="50" rx="4" stroke="currentColor" strokeWidth="1" fill="none" />
-      <text x="430" y="515" className="text-[10px] font-black fill-current opacity-40">SYNC</text>
-    </g>
-
-    {/* Animované signály (Datové pulsy) */}
-    <g filter="url(#signal-glow)">
-      {/* Puls 1 */}
-      <circle r="3" fill="#2563eb" className="text-blue-600">
-        <animateMotion dur="6s" repeatCount="indefinite">
-          <mpath href="#path1" />
+    {/* Moving data pulses along specific paths */}
+    <g className="text-blue-500/40">
+      <path id="flow1" d="M -10 20 Q 30 10 50 50 T 110 80" fill="none" />
+      <circle r="0.6" fill="currentColor">
+        <animateMotion dur="12s" repeatCount="indefinite">
+          <mpath href="#flow1" />
         </animateMotion>
       </circle>
       
-      {/* Puls 2 (Zpětná vazba) */}
-      <circle r="3" fill="#3b82f6" className="text-blue-500">
-        <animateMotion dur="8s" repeatCount="indefinite" begin="2s">
-          <mpath href="#path2" />
-        </animateMotion>
-      </circle>
-
-      {/* Puls 3 */}
-      <circle r="2" fill="#60a5fa" className="text-blue-400">
-        <animateMotion dur="5s" repeatCount="indefinite" begin="1s">
-          <mpath href="#path3" />
-        </animateMotion>
-      </circle>
-
-      {/* Puls 4 */}
-      <circle r="2" fill="#2563eb" className="text-blue-600">
-        <animateMotion dur="7s" repeatCount="indefinite" begin="4s">
-          <mpath href="#path4" />
+      <path id="flow2" d="M 110 10 Q 70 40 50 50 T -10 90" fill="none" />
+      <circle r="0.6" fill="currentColor">
+        <animateMotion dur="15s" repeatCount="indefinite" begin="2s">
+          <mpath href="#flow2" />
         </animateMotion>
       </circle>
     </g>
@@ -97,8 +64,8 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
         <div className="absolute top-[-10%] right-[-10%] w-[70%] h-[70%] rounded-full bg-blue-600/10 dark:bg-blue-500/10 blur-[120px] animate-pulse" style={{ animationDuration: '8s' }} />
         <div className="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-blue-400/5 dark:bg-blue-600/5 blur-[100px] animate-pulse" style={{ animationDuration: '12s' }} />
 
-        {/* 2. PCB Inspired Background */}
-        <PCBBackground />
+        {/* 2. Neural Mesh Background */}
+        <NeuralGrid />
 
         {/* 3. Radial Fade (Focusing center) */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#f4f7f9] dark:to-[#050505]" />
