@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { 
   Home, Zap, Search, Filter, LayoutGrid, Building2, Factory, 
@@ -28,7 +27,7 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
   const TechIconComp = IconMap[iconKey] || Cpu;
 
   return (
-    <div className="group relative glass-panel rounded-2xl md:rounded-3xl overflow-hidden border border-black/10 dark:border-white/10 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all duration-700 hover:-translate-y-1 shadow-sm hover:shadow-xl h-full flex flex-col">
+    <div className="group relative glass-panel rounded-2xl md:rounded-3xl overflow-hidden border border-black/10 dark:border-white/10 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all duration-700 shadow-sm hover:shadow-xl h-full flex flex-col">
       
       {/* Image Container */}
       <div className="relative h-48 md:h-56 overflow-hidden bg-gray-100 dark:bg-gray-900">
@@ -170,7 +169,7 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
                     onClick={() => setFilter(cat.label)}
                     className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-2xl text-[9px] font-black uppercase tracking-widest transition-all whitespace-nowrap w-full ${
                       filter === cat.label 
-                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30' 
+                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' 
                       : 'text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'
                     }`}
                   >

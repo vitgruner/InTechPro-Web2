@@ -90,8 +90,9 @@ const App = () => {
     return hour < 7 || hour >= 19;
   });
 
+  // Helper to parse the hash into a valid ViewState
   const getViewStateFromHash = (): ViewState => {
-    const hash = window.location.hash.split('?')[0].replace('#', '') as ViewState;
+    const hash = window.location.hash.replace('#', '') as ViewState;
     const validViews: ViewState[] = [
       'home', 'services', 'showcase', 'innovation', 'contact', 'about', 
       'projekce-elektro', 'osvetleni', 'rozvadece', 'loxone-detail', 
@@ -106,6 +107,7 @@ const App = () => {
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [isSyncing, setIsSyncing] = useState(false);
 
+  // Sync state with URL hash on mount and on hash change
   useEffect(() => {
     const handleHashChange = () => {
       const newView = getViewStateFromHash();
@@ -117,13 +119,10 @@ const App = () => {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
+  // Wrapper for setView that updates the hash
   const navigateTo = (newView: ViewState) => {
-    const currentHash = window.location.hash.replace('#', '');
-    if (currentHash === newView || (currentHash === '' && newView === 'home')) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      window.location.hash = newView === 'home' ? '' : newView;
-    }
+    window.location.hash = newView === 'home' ? '' : newView;
+    // Note: State will be updated by the hashchange listener
   };
 
   useEffect(() => {
@@ -203,7 +202,6 @@ const App = () => {
       case 'about':
         return <AboutUs />;
       case 'admin-dashboard':
-        if (!isAdmin) return <AdminLogin onLogin={() => { setIsAdmin(true); navigateTo('admin-dashboard'); }} />;
         return (
           <div className="pt-32 pb-24 bg-slate-50 dark:bg-[#050505]">
             <div className="max-w-7xl mx-auto px-6">
@@ -222,7 +220,7 @@ const App = () => {
         return <AdminLogin onLogin={() => { setIsAdmin(true); navigateTo('admin-dashboard'); }} />;
       case 'loxone-detail': return <LoxoneDetail setView={navigateTo} />;
       case 'osvetleni': return <OsvetleniDetail setView={navigateTo} />;
-      case 'rozvadece': return <RozvadeceDetail setView={navigateTo} />; 
+      case 'rozvadece': return <RozvadeceDetail setView={setView} />; // Detail views keep handle as direct to avoid double trigger
       case 'technologie': return <TechnologieDetail setView={navigateTo} />;
       case 'projekce-elektro': return <ProjekceDetail setView={navigateTo} />;
       case 'services': return (
