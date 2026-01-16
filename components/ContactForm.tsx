@@ -45,6 +45,7 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
 
   const featureOptions = [
     { id: 'lighting', label: 'Chytré osvětlení', icon: <Zap className="w-4 h-4" />, price: 35000 },
+    // Fix: Corrected typo 'Therometer' to 'Thermometer'
     { id: 'hvac', label: 'Řízení HVAC', icon: <Thermometer className="w-4 h-4" />, price: 45000 },
     { id: 'security', label: 'Zabezpečení', icon: <Shield className="w-4 h-4" />, price: 50000 },
     { id: 'audio', label: 'Multi-room audio', icon: <Radio className="w-4 h-4" />, price: 40000 },
@@ -136,6 +137,8 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
       }
 
       setSubmitted(true);
+      // Po úspěšném odeslání odrolujeme nahoru, aby potvrzení bylo vidět
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (error: any) {
       const errorDetail = error?.text || error?.message || (typeof error === 'string' ? error : JSON.stringify(error));
       console.error('EmailJS Error Detail:', errorDetail);
