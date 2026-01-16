@@ -22,11 +22,14 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
   const [isSending, setIsSending] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isAiLoading, setIsAiLoading] = useState(false);
-  const [aiMessages, setAiMessages] = useState<Message[]>([
-    { role: 'assistant', content: 'Zdravím vás. Jsem váš **digitální průvodce** světem inteligentní infrastruktury IN TECH PRO. \n\nMáte konkrétní představu o svém projektu, nebo potřebujete inspirovat možnostmi moderní automatizace?' }
-  ]);
   
-  const [formData, setFormData] = useState<FormData>({
+  const initialAiMessages: Message[] = [
+    { role: 'assistant', content: 'Zdravím vás. Jsem váš **digitální průvodce** světem inteligentní infrastruktury IN TECH PRO. \n\nMáte konkrétní představu o svém projektu, nebo potřebujete inspirovat možnostmi moderní automatizace?' }
+  ];
+
+  const [aiMessages, setAiMessages] = useState<Message[]>(initialAiMessages);
+  
+  const initialFormData: FormData = {
     name: '',
     email: '',
     phone: '',
@@ -36,7 +39,9 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
     features: [],
     timeline: 'Aktivní vývoj (1-3 měsíce)',
     gdprConsent: false
-  });
+  };
+
+  const [formData, setFormData] = useState<FormData>(initialFormData);
 
   const featureOptions = [
     { id: 'lighting', label: 'Chytré osvětlení', icon: <Zap className="w-4 h-4" />, price: 35000 },
@@ -78,6 +83,14 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
     }));
   };
 
+  const handleReset = () => {
+    setFormData(initialFormData);
+    setAiMessages(initialAiMessages);
+    setSubmitted(false);
+    setErrorMessage(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -90,15 +103,15 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
     setErrorMessage(null);
 
     const templateParams = {
-      to_name: 'IN TECH PRO Tým',
-      from_name: formData.name,
-      from_email: formData.email,
+      customer_name: formData.name,
       customer_email: formData.email,
       phone: formData.phone,
       property_type: formData.property,
-      selected_features: formData.features.map(f => featureOptions.find(o => o.id === f)?.label).join(', '),
-      estimated_budget: estimatedTotal.toLocaleString() + ' Kč',
-      message: formData.message,
+      selected_features: formData.features.length > 0 
+        ? formData.features.map(f => featureOptions.find(o => o.id === f)?.label).join(', ')
+        : 'Žádné specifické systémy nevybrány',
+      estimated_budget: estimatedTotal.toLocaleString('cs-CZ') + ' Kč',
+      message: formData.message || 'Bez doplňující zprávy.',
       ai_history: aiMessages.map(m => `[${m.role.toUpperCase()}]: ${m.content}`).join('\n\n')
     };
 
@@ -108,21 +121,25 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
       const TEMPLATE_CUSTOMER_ID = 'template_customer_confirm'; 
       const PUBLIC_KEY = 'JowaJUIrtXne2eHJM';
 
-      // 1) e-mail vám (admin)
-      await emailjs.send(SERVICE_ID, TEMPLATE_ADMIN_ID, templateParams, PUBLIC_KEY);
+      // Inicializace EmailJS
+      emailjs.init(PUBLIC_KEY);
 
-      // 2) potvrzení zákazníkovi
-      await emailjs.send(SERVICE_ID, TEMPLATE_CUSTOMER_ID, {
-        customer_email: formData.email,
-        customer_name: formData.name,
-        message: formData.message,
-        estimated_budget: estimatedTotal.toLocaleString() + ' Kč',
-      }, PUBLIC_KEY);
+      // 1) Odeslání poptávky adminovi (Klíčové)
+      const resAdmin = await emailjs.send(SERVICE_ID, TEMPLATE_ADMIN_ID, templateParams);
+      console.log('Admin email response:', resAdmin.status, resAdmin.text);
+
+      // 2) Odeslání potvrzení zákazníkovi (Sekundární)
+      try {
+        await emailjs.send(SERVICE_ID, TEMPLATE_CUSTOMER_ID, templateParams);
+      } catch (custErr: any) {
+        console.warn('Upozornění: Potvrzení zákazníkovi nebylo odesláno. Zkontrolujte, zda existuje šablona "template_customer_confirm" v EmailJS dashboardu.', custErr?.text || custErr);
+      }
 
       setSubmitted(true);
-    } catch (error) {
-      console.error('EmailJS Error:', error);
-      setErrorMessage('Omlouváme se, došlo k chybě při odesílání. Zkontrolujte připojení k internetu a zkuste to prosím znovu.');
+    } catch (error: any) {
+      const errorDetail = error?.text || error?.message || (typeof error === 'string' ? error : JSON.stringify(error));
+      console.error('EmailJS Error Detail:', errorDetail);
+      setErrorMessage(`Chyba při odesílání: ${error?.status === 404 ? 'Šablona nebo služba nebyla nalezena' : errorDetail}`);
     } finally {
       setIsSending(false);
     }
@@ -139,7 +156,7 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
           Děkujeme za váš zájem. Vaši poptávku jsme přijali ke zpracování. Brzy vás budeme kontaktovat s návrhem dalšího postupu.
         </p>
         <button 
-          onClick={() => window.location.reload()}
+          onClick={handleReset}
           className="px-10 py-4 bg-blue-600 text-white rounded-full font-bold uppercase tracking-widest text-[10px] hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20 active:scale-95"
         >
           Nová poptávka
@@ -157,7 +174,7 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
           eyebrow="Kontaktujte nás"
           title="Zhmotněte svou"
           highlight="Vizi"
-          description="Nezávazně vyplňte formulář níže. Naši inženýři zanalyzují vaše požadavky a připraví koncept inteligentního řešení přesně na míru vašemu projektu."
+          description="Nezávazně vyplňte formulář níže. Naši inženýři zanalyzují vaše požadavky and připraví koncept inteligentního řešení přesně na míru vašemu projektu."
           align={isStandalone ? 'left' : 'center'}
         />
 
