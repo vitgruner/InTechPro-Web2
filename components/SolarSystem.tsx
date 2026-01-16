@@ -41,7 +41,13 @@ const SolarSystem = () => {
     gridPower: 0.5,
   });
 
+  const [isMobile, setIsMobile] = useState(false);
+
   useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    
     const interval = setInterval(() => {
       setMetrics(prev => {
         const productionChange = (Math.random() - 0.5) * 0.1;
@@ -70,8 +76,17 @@ const SolarSystem = () => {
         };
       });
     }, 2000);
-    return () => clearInterval(interval);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
+
+  // Center Y shift for mobile: 140 (Inverter plane)
+  const cy = isMobile ? 140 : 200;
+  // PV Y shift for mobile: move higher (20 instead of 60)
+  const pvy = isMobile ? 20 : 60;
 
   return (
     <div className="w-full h-full bg-white/5 dark:bg-black/20 transition-colors duration-500 p-2 md:p-12 select-none overflow-hidden relative min-h-[450px] md:min-h-[600px] flex flex-col items-center justify-center">
@@ -83,7 +98,7 @@ const SolarSystem = () => {
       {/* Main Diagram Area */}
       <div className="relative w-full max-w-[280px] md:max-w-lg aspect-square">
         
-        {/* Animated Flux Paths */}
+        {/* Animated Flux Paths - Dynamically synced to cy and pvy */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 400 400">
           <defs>
              <filter id="solarGlow">
@@ -92,40 +107,40 @@ const SolarSystem = () => {
              </filter>
           </defs>
           
-          {/* Background Crosshairs - Symmetrical */}
-          <path d="M 200 60 L 200 340 M 60 200 L 340 200" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 4" className="text-slate-300 dark:text-white/10" />
-          <circle cx="200" cy="200" r="100" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 4" className="text-slate-300 dark:text-white/10" />
+          {/* Background Crosshairs */}
+          <path d={`M 200 ${pvy} L 200 340 M 60 ${cy} L 340 ${cy}`} stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 4" className="text-slate-300 dark:text-white/10" />
+          <circle cx="200" cy={cy} r="100" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 4" className="text-slate-300 dark:text-white/10" />
 
-          {/* Connections - Straightened for Horizontal/Vertical Plane */}
+          {/* Connections */}
           <g filter="url(#solarGlow)">
             {/* Top (PV) to Center */}
-            <path d="M 200 60 L 200 160" stroke="#fbbf24" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
+            <path d={`M 200 ${pvy} L 200 ${cy - 40}`} stroke="#fbbf24" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
             <circle r="3" fill="#fbbf24">
-              <animateMotion path="M 200 60 L 200 160" dur="2s" repeatCount="indefinite" />
+              <animateMotion path={`M 200 ${pvy} L 200 ${cy - 40}`} dur="2s" repeatCount="indefinite" />
             </circle>
 
             {/* Center to Bottom (Battery) */}
-            <path d="M 200 240 L 200 340" stroke="#10b981" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
+            <path d={`M 200 ${cy + 40} L 200 340`} stroke="#10b981" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
             <circle r="3" fill="#10b981">
-              <animateMotion path={metrics.batteryPower >= 0 ? "M 200 240 L 200 340" : "M 200 340 L 200 240"} dur="2.5s" repeatCount="indefinite" />
+              <animateMotion path={metrics.batteryPower >= 0 ? `M 200 ${cy + 40} L 200 340` : `M 200 340 L 200 ${cy + 40}`} dur="2.5s" repeatCount="indefinite" />
             </circle>
 
-             {/* Left (Grid) to Center - Perfectly Horizontal at y=200 */}
-             <path d="M 60 200 L 160 200" stroke="#a855f7" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
+             {/* Left (Grid) to Center */}
+             <path d={`M 60 ${cy} L 160 ${cy}`} stroke="#a855f7" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
              <circle r="3" fill="#a855f7">
-              <animateMotion path={metrics.gridPower >= 0 ? "M 160 200 L 60 200" : "M 60 200 L 160 200"} dur="3s" repeatCount="indefinite" />
+              <animateMotion path={metrics.gridPower >= 0 ? `M 160 ${cy} L 60 ${cy}` : `M 60 ${cy} L 160 ${cy}`} dur="3s" repeatCount="indefinite" />
             </circle>
 
-            {/* Center to Right (Home) - Perfectly Horizontal at y=200 */}
-            <path d="M 240 200 L 340 200" stroke="#3b82f6" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
+            {/* Center to Right (Home) */}
+            <path d={`M 240 ${cy} L 340 ${cy}`} stroke="#3b82f6" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
              <circle r="3" fill="#3b82f6">
-              <animateMotion path="M 240 200 L 340 200" dur="1.8s" repeatCount="indefinite" />
+              <animateMotion path={`M 240 ${cy} L 340 ${cy}`} dur="1.8s" repeatCount="indefinite" />
             </circle>
           </g>
         </svg>
 
         {/* Central Inverter Node */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
+        <div className="absolute top-[35%] md:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 transition-all duration-700">
            <div className="w-20 h-20 md:w-28 md:h-28 rounded-2xl md:rounded-[2.5rem] bg-white dark:bg-[#1a1d21] border-2 border-yellow-500/20 shadow-[0_0_40px_rgba(234,179,8,0.2)] flex flex-col items-center justify-center relative group">
               <div className="absolute inset-0 bg-yellow-500/5 rounded-2xl md:rounded-[2.5rem] animate-pulse pointer-events-none" />
               <Zap className="w-6 h-6 md:w-10 md:h-10 text-yellow-500 mb-1 md:mb-2 transition-transform group-hover:scale-110" />
@@ -134,14 +149,15 @@ const SolarSystem = () => {
            </div>
         </div>
 
-        {/* Satellite Nodes - Aligned to Center Axes */}
+        {/* Satellite Nodes */}
+        {/* Photovoltaic - Moved higher on mobile (-top-10 instead of top-0) */}
         <PowerNode 
           icon={Sun} 
           label="Fotovoltaika" 
           value={metrics.production} 
           unit="kW" 
           color="yellow" 
-          position="top-0 left-1/2 -translate-x-1/2" 
+          position="-top-10 md:top-0 left-1/2 -translate-x-1/2 transition-all duration-700" 
         />
         
         <PowerNode 
@@ -154,24 +170,22 @@ const SolarSystem = () => {
           subValue={`${metrics.battery.toFixed(0)}%`}
         />
         
-        {/* Right: Load - Centered horizontally to inverter axis */}
         <PowerNode 
           icon={Home} 
           label="Spotřeba" 
           value={metrics.load} 
           unit="kW" 
           color="blue" 
-          position="right-0 top-1/2 -translate-y-1/2" 
+          position="right-0 top-[35%] md:top-1/2 -translate-y-1/2 transition-all duration-700" 
         />
         
-        {/* Left: Grid - Centered horizontally to inverter axis */}
         <PowerNode 
           icon={Globe} 
           label="Síť" 
           value={metrics.gridPower} 
           unit="kW" 
           color="purple" 
-          position="left-0 top-1/2 -translate-y-1/2" 
+          position="left-0 top-[35%] md:top-1/2 -translate-y-1/2 transition-all duration-700" 
         />
 
       </div>
