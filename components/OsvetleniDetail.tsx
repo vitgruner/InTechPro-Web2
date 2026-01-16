@@ -15,33 +15,33 @@ const OsvetleniDetail: React.FC<DetailProps> = ({ setView }) => {
   const warnings = [
     {
       title: 'Dostatek světla v každé místnosti',
-      desc: 'Každý prostor má jiné nároky – jinak se svítí kuchyň, jinak koupelna nebo obývák. Podcenění intenzity světla je častá chyba.',
+      desc: 'Každý prostor má jiné nároky na intenzitu. Podcenění je častá chyba.',
       icon: <Sun className="w-5 h-5" />
     },
     {
       title: 'Kombinace více typů osvětlení',
-      desc: 'Základní, pracovní, náladové i orientační světlo by měly fungovat společně. Jedno centrální světlo u stropu většinou nestačí.',
+      desc: 'Základní, pracovní i náladové by měly fungovat v jednom celku.',
       icon: <Layers className="w-5 h-5" />
     },
     {
       title: 'Teplota a barva světla',
-      desc: 'Studené světlo se hodí na práci, teplé na relax. Správná volba má velký vliv na vaši celkovou pohodu i zdraví.',
+      desc: 'Správná volba má vliv na pohodu, zdraví i produktivitu práce.',
       icon: <Thermometer className="w-5 h-5" />
     },
     {
       title: 'Ovládání a scénáře',
-      desc: 'Světlo by se mělo přizpůsobit vám. Díky chytré domácnosti lze měnit scény podle denní doby, přítomnosti nebo nálady.',
+      desc: 'Automatizujeme scény podle denní doby, přítomnosti nebo nálady.',
       icon: <Activity className="w-5 h-5" />
     },
     {
       title: 'Budoucí flexibilita',
-      desc: 'Myslíme na to, že se vaše potřeby mohou časem změnit. Dobře navržené osvětlení se dá snadno upravit nebo rozšířit.',
+      desc: 'Dobře navržené osvětlení se dá v budoucnu snadno upravit.',
       icon: <Scaling className="w-5 h-5" />
     }
   ];
 
   return (
-    <div className="pt-32 md:pt-40 pb-16 md:pb-24 animate-in fade-in duration-700">
+    <div className="pt-32 md:pt-40 pb-12 md:pb-16 animate-in fade-in duration-700">
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumbs 
           items={[
@@ -51,20 +51,23 @@ const OsvetleniDetail: React.FC<DetailProps> = ({ setView }) => {
           setView={setView}
         />
 
-        <SectionHeader 
-          variant="page"
-          align="left"
-          eyebrow="Design & Engineering"
-          title="Návrh a realizace"
-          highlight="Osvětlení"
-          description="Ne každý má k dispozici architekta nebo designéra, který by se postaral o promyšlený návrh osvětlení. Právě proto nabízíme kompletní službu – od návrhu přes výběr svítidel až po samotnou realizaci."
-        />
+        <div className="mb-6">
+          <SectionHeader 
+            variant="page"
+            align="left"
+            eyebrow="Design & Engineering"
+            title="Návrh a realizace"
+            highlight="Osvětlení"
+            description="Nabízíme kompletní službu – od návrhu přes výběr svítidel až po samotnou realizaci a automatizaci scénických režimů."
+            className="mb-0"
+          />
+        </div>
 
-        <div className="grid lg:grid-cols-12 gap-12 mb-24 items-stretch">
+        <div className="grid lg:grid-cols-12 gap-8 md:gap-12 mb-10 items-stretch">
           <div className="lg:col-span-5 space-y-6 flex flex-col justify-center">
-            <div className="glass-panel p-8 md:p-10 rounded-[2.5rem] border border-slate-200 dark:border-white/10 bg-white/50 dark:bg-black/20 text-left shadow-xl">
-              <p className="text-gray-600 dark:text-gray-400 leading-relaxed font-medium mb-8">
-                Pomůžeme vám zorientovat se v možnostech, doporučíme vhodná svítidla a navrhneme osvětlení tak, aby každý prostor fungoval přesně tak, jak má. Hlídáme intenzitu pro práci i běžné činnosti, ale myslíme i na atmosféru a relaxaci.
+            <div className="glass-panel p-8 md:p-10 rounded-[2rem] border border-slate-200 dark:border-white/10 bg-white/50 dark:bg-black/20 text-left shadow-xl">
+              <p className="text-gray-600 dark:text-gray-400 leading-relaxed font-medium mb-8 text-sm md:text-base">
+                Pomůžeme vám zorientovat se v možnostech a navrhneme osvětlení tak, aby každý prostor fungoval přesně tak, jak má. Hlídáme intenzitu i atmosféru.
               </p>
               
               <div className="p-6 bg-blue-600/5 rounded-2xl border border-blue-600/20">
@@ -72,10 +75,10 @@ const OsvetleniDetail: React.FC<DetailProps> = ({ setView }) => {
                   <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg">
                     <Zap className="w-5 h-5 fill-white" />
                   </div>
-                  <h3 className="font-black uppercase tracking-widest text-sm text-blue-600">Loxone integrace</h3>
+                  <h3 className="font-black uppercase tracking-widest text-xs text-blue-600">Loxone integrace</h3>
                 </div>
-                <p className="text-gray-600 dark:text-gray-400 text-xs leading-relaxed font-bold uppercase tracking-tight">
-                  Díky propojení s chytrou domácností osvětlení automatizujeme a scénicky řídíme. Světlo se stane přirozenou součástí domova, ne jen vypínačem na zdi.
+                <p className="text-gray-600 dark:text-gray-400 text-[10px] leading-relaxed font-bold uppercase tracking-tight">
+                  Díky propojení s chytrou domácností osvětlení automatizujeme a scénicky řídíme. Světlo se stane přirozenou součástí domova.
                 </p>
               </div>
             </div>
@@ -93,35 +96,33 @@ const OsvetleniDetail: React.FC<DetailProps> = ({ setView }) => {
                     <span className="text-[10px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-[0.2em]">CHROMA.ENGINE.ACTIVE</span>
                   </div>
                 </div>
-                <div className="hidden md:flex items-center gap-4 text-[9px] font-bold text-slate-400 uppercase tracking-widest">
-                   <span>CCT Adaptive</span>
-                   <span>DALI / KNX Support</span>
-                </div>
               </div>
 
-              <div className="flex-1 flex items-center justify-center pt-14 bg-slate-50/30 dark:bg-black/40 min-h-[450px]">
+              <div className="flex-1 flex items-center justify-center pt-14 bg-slate-50/30 dark:bg-black/40 min-h-[400px]">
                 <LightControl />
               </div>
             </div>
           </div>
         </div>
 
-        <div className="mb-24">
-          <div className="text-left mb-12">
+        <div className="mb-10">
+          <div className="text-left mb-8">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600/10 dark:bg-blue-500/10 border border-blue-600/20 dark:border-blue-400/20 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-[0.3em] mb-4">
               Odborné poradenství
             </div>
-            <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-left">Na co si dát v návrhu <br />osvětlení <span className="text-blue-600">pozor?</span></h2>
+            <h2 className="text-2xl md:text-4xl font-black uppercase tracking-tight text-left">Na co si dát v návrhu <span className="text-blue-600">pozor?</span></h2>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {warnings.map((warning, i) => (
-              <div key={i} className="glass-panel p-8 rounded-3xl border border-slate-200 dark:border-white/5 text-left bg-white/40 dark:bg-white/[0.02] hover:border-blue-500/30 transition-all group shadow-sm">
-                <div className="w-12 h-12 bg-blue-600/10 rounded-xl flex items-center justify-center mb-6 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all">
-                  {warning.icon}
+              <div key={i} className="glass-panel p-6 md:p-8 rounded-2xl md:rounded-3xl border border-slate-200 dark:border-white/5 text-left bg-white/40 dark:bg-white/[0.02] hover:border-blue-500/30 transition-all group shadow-sm">
+                <div className="flex items-center gap-4 md:block">
+                  <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-600/10 rounded-xl md:rounded-xl flex items-center justify-center md:mb-6 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all shrink-0">
+                    {warning.icon}
+                  </div>
+                  <h4 className="text-sm md:text-lg font-black uppercase tracking-tight leading-tight">{warning.title}</h4>
                 </div>
-                <h4 className="text-lg font-black mb-3 uppercase tracking-tight leading-tight">{warning.title}</h4>
-                <p className="text-xs text-gray-500 font-medium leading-relaxed">{warning.desc}</p>
+                <p className="mt-4 md:mt-0 text-[11px] md:text-xs text-gray-500 font-medium leading-relaxed">{warning.desc}</p>
               </div>
             ))}
           </div>

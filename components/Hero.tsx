@@ -1,142 +1,38 @@
 
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { Zap } from 'lucide-react';
 import { HeroProps } from '../types';
 import SmartHomeWireframe from './SmartHomeWireframe';
 
 const Hero: React.FC<HeroProps> = ({ setView }) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
-
-    const particles: { x: number; y: number; vx: number; vy: number; size: number }[] = [];
-    const particleCount = Math.min(Math.floor((width * height) / 15000), 100); // Responsive count
-    const connectionDistance = 150;
-    const mouseDistance = 200;
-
-    let mouse = { x: -1000, y: -1000 };
-
-    // Initialize particles
-    for (let i = 0; i < particleCount; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-        size: Math.random() * 2 + 1,
-      });
-    }
-
-    const handleResize = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-    };
-
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('mousemove', handleMouseMove);
-
-    const animate = () => {
-      ctx.clearRect(0, 0, width, height);
-      
-      // Determine theme colors (simple check, ideally passed via props or context)
-      const isDark = document.documentElement.classList.contains('dark');
-      const particleColor = isDark ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.3)';
-      const lineColor = isDark ? 'rgba(37, 99, 235,' : 'rgba(37, 99, 235,'; // Blue base
-
-      // Update and draw particles
-      particles.forEach((p, i) => {
-        // Move
-        p.x += p.vx;
-        p.y += p.vy;
-
-        // Bounce
-        if (p.x < 0 || p.x > width) p.vx *= -1;
-        if (p.y < 0 || p.y > height) p.vy *= -1;
-
-        // Mouse interaction (push away gently)
-        const dx = p.x - mouse.x;
-        const dy = p.y - mouse.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        if (distance < mouseDistance) {
-          const forceDirectionX = dx / distance;
-          const forceDirectionY = dy / distance;
-          const force = (mouseDistance - distance) / mouseDistance;
-          p.vx += forceDirectionX * force * 0.05;
-          p.vy += forceDirectionY * force * 0.05;
-        }
-
-        // Draw particle
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = particleColor;
-        ctx.fill();
-
-        // Connect
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dx2 = p.x - p2.x;
-          const dy2 = p.y - p2.y;
-          const dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
-
-          if (dist2 < connectionDistance) {
-            const opacity = 1 - dist2 / connectionDistance;
-            ctx.beginPath();
-            ctx.strokeStyle = `${lineColor} ${opacity * 0.2})`;
-            ctx.lineWidth = 1;
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
-          }
-        }
-        
-        // Connect to mouse
-        if (distance < mouseDistance) {
-             const opacity = 1 - distance / mouseDistance;
-             ctx.beginPath();
-             ctx.strokeStyle = `${lineColor} ${opacity * 0.4})`;
-             ctx.lineWidth = 1;
-             ctx.moveTo(p.x, p.y);
-             ctx.lineTo(mouse.x, mouse.y);
-             ctx.stroke();
-        }
-      });
-
-      requestAnimationFrame(animate);
-    };
-
-    animate();
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
-
   return (
-    <section className="relative min-h-screen flex items-center pt-28 md:pt-32 pb-8 md:pb-12 overflow-hidden">
-      {/* Interactive Background Canvas */}
-      <canvas 
-        ref={canvasRef} 
-        className="absolute inset-0 z-0 pointer-events-auto opacity-60"
-      />
+    <section className="relative min-h-screen flex items-center pt-28 md:pt-32 pb-8 md:pb-12 overflow-hidden bg-[#f8fafc] dark:bg-[#050505] transition-colors duration-500">
       
-      {/* Subtle Gradient Overlay to ensure text readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#f4f7f9] dark:to-[#050505] z-0 pointer-events-none"></div>
+      {/* --- High-End Technical Background --- */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        
+        {/* 1. Base Mesh Gradient */}
+        <div className="absolute top-[-10%] right-[-10%] w-[70%] h-[70%] rounded-full bg-blue-600/10 dark:bg-blue-500/10 blur-[120px] animate-pulse" style={{ animationDuration: '8s' }} />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-blue-400/5 dark:bg-blue-600/5 blur-[100px] animate-pulse" style={{ animationDuration: '12s' }} />
 
+        {/* 2. Engineering Grid (Subtle) */}
+        <div 
+          className="absolute inset-0 opacity-[0.05] dark:opacity-[0.03]" 
+          style={{ 
+            backgroundImage: `linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)`,
+            backgroundSize: '40px 40px',
+            color: 'rgb(37, 99, 235)'
+          }} 
+        />
+
+        {/* 3. Radial Fade (Focusing center) */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#f4f7f9] dark:to-[#050505]" />
+        
+        {/* 4. Subtle Noise Texture Overlay */}
+        <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03] pointer-events-none mix-blend-overlay"
+             style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }} />
+      </div>
+      
       <div className="max-w-7xl mx-auto px-6 w-full grid lg:grid-cols-2 gap-10 lg:gap-12 items-center relative z-10">
         <div className="text-center lg:text-left">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600/10 dark:bg-blue-500/20 border border-blue-600/20 dark:border-blue-400/30 text-blue-600 dark:text-blue-300 text-xs font-bold tracking-wider uppercase mb-6 mx-auto lg:mx-0 animate-in slide-in-from-bottom-4 fade-in duration-700">

@@ -9,7 +9,7 @@ import Breadcrumbs from './Breadcrumbs';
 
 const ProjekceDetail: React.FC<DetailProps> = ({ setView }) => {
   return (
-    <div className="pt-32 md:pt-40 pb-16 md:pb-24 animate-in fade-in duration-700">
+    <div className="pt-32 md:pt-40 pb-12 md:pb-16 animate-in fade-in duration-700">
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumbs 
           items={[
@@ -19,7 +19,7 @@ const ProjekceDetail: React.FC<DetailProps> = ({ setView }) => {
           setView={setView}
         />
 
-        <div className="mb-10 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10">
+        <div className="mb-6 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10">
           <div className="max-w-3xl text-left w-full">
             <SectionHeader 
               variant="page"
@@ -37,33 +37,37 @@ const ProjekceDetail: React.FC<DetailProps> = ({ setView }) => {
           </div>
         </div>
 
-        <div className="mb-12 md:mb-20">
+        <div className="mb-10">
           <ProjectionVisualizer />
         </div>
         
-        <div className="grid md:grid-cols-2 gap-6 md:gap-12 mb-20">
-          <div className="glass-panel p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] border-black/5 dark:border-white/5 text-left">
-            <div className="w-12 h-12 bg-blue-600/10 rounded-2xl flex items-center justify-center mb-4 md:mb-6 text-blue-600 dark:text-blue-400">
-              <PenTool className="w-6 h-6" />
+        <div className="grid md:grid-cols-2 gap-4 md:gap-8 mb-10">
+          <div className="glass-panel p-6 md:p-10 rounded-2xl md:rounded-[2.5rem] border border-slate-200 dark:border-white/5 text-left bg-white/40 dark:bg-white/[0.02]">
+            <div className="flex items-center gap-4 md:block">
+              <div className="w-10 h-10 md:w-14 md:h-14 bg-blue-600/10 rounded-xl md:rounded-2xl flex items-center justify-center md:mb-6 text-blue-600 shrink-0">
+                <PenTool className="w-5 h-5 md:w-7 md:h-7" />
+              </div>
+              <h3 className="text-sm md:text-2xl font-black uppercase tracking-tight">Podklad pro realizaci</h3>
             </div>
-            <h3 className="text-xl md:text-2xl font-black mb-3 md:mb-4">Podklad pro realizaci</h3>
-            <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
-              Vždy vycházíme z požadavků klienta, typu stavby a plánovaného způsobu užívání. Projekt slouží jako jasný podklad pro realizaci, nacenění i koordinaci jednotlivých profesí. Důraz klademe na logiku zapojení a přehlednost.
+            <p className="mt-4 md:mt-0 text-[11px] md:text-base text-gray-500 font-medium leading-relaxed">
+              Vždy vycházíme z požadavků klienta, typu stavby a plánovaného způsobu užívání. Projekt slouží jako jasný podklad pro realizaci, nacenění i koordinaci jednotlivých profesí.
             </p>
           </div>
 
-          <div className="glass-panel p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] border-black/5 dark:border-white/5 text-left">
-            <div className="w-12 h-12 bg-blue-600/10 rounded-2xl flex items-center justify-center mb-4 md:mb-6 text-blue-600 dark:text-blue-400">
-              <Layers className="w-6 h-6" />
+          <div className="glass-panel p-6 md:p-10 rounded-2xl md:rounded-[2.5rem] border border-slate-200 dark:border-white/5 text-left bg-white/40 dark:bg-white/[0.02]">
+            <div className="flex items-center gap-4 md:block">
+              <div className="w-10 h-10 md:w-14 md:h-14 bg-blue-600/10 rounded-xl md:rounded-2xl flex items-center justify-center md:mb-6 text-blue-600 shrink-0">
+                <Layers className="w-5 h-5 md:w-7 md:h-7" />
+              </div>
+              <h3 className="text-sm md:text-2xl font-black uppercase tracking-tight">Komplexní dokumentace</h3>
             </div>
-            <h3 className="text-xl md:text-2xl font-black mb-3 md:mb-4">Komplexní dokumentace</h3>
-            <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
+            <p className="mt-4 md:mt-0 text-[11px] md:text-base text-gray-500 font-medium leading-relaxed">
               Součástí projekce může být kompletní dokumentace včetně technické zprávy, výkazu výměr, schémat zapojení, návrhu rozvaděčů a popisu funkcí chytré domácnosti.
             </p>
           </div>
         </div>
 
-        <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
             { icon: <FileText />, label: 'Technická zpráva' },
             { icon: <ClipboardList />, label: 'Výkaz výměr' },
@@ -71,10 +75,12 @@ const ProjekceDetail: React.FC<DetailProps> = ({ setView }) => {
             { icon: <Layout />, label: 'Návrh rozvaděčů' }
           ].map((item, i) => (
             <div key={i} className="flex flex-col items-center gap-4 text-center">
-              <div className="w-14 h-14 bg-gray-100 dark:bg-white/5 rounded-2xl flex items-center justify-center text-blue-600 dark:text-blue-400">
-                {item.icon}
+              <div className="w-10 h-10 md:w-14 md:h-14 bg-gray-100 dark:bg-white/5 rounded-xl md:rounded-2xl flex items-center justify-center text-blue-600 dark:text-blue-400">
+                <div className="[&>svg]:w-5 [&>svg]:h-5 md:[&>svg]:w-6 md:[&>svg]:h-6">
+                  {item.icon}
+                </div>
               </div>
-              <span className="text-[10px] font-black uppercase tracking-widest text-gray-500">{item.label}</span>
+              <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-gray-500">{item.label}</span>
             </div>
           ))}
         </div>

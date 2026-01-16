@@ -41,8 +41,8 @@ const ServicePager: React.FC<ServicePagerProps> = ({ currentView, setView }) => 
   const PrevIcon = isFirst ? LayoutGrid : ArrowLeft;
 
   return (
-    <div className="mt-24 pt-12 border-t border-black/5 dark:border-white/5">
-      <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
+    <div className="mt-12 w-full py-10 border-t border-black/5 dark:border-white/5">
+      <div className="mx-auto flex w-full flex-row flex-wrap justify-center items-center gap-6 sm:gap-12">
         <button
           onClick={() => {
             setView(prevView);

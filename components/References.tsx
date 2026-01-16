@@ -28,14 +28,14 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
   const TechIconComp = IconMap[iconKey] || Cpu;
 
   return (
-    <div className="group relative glass-panel rounded-2xl md:rounded-3xl overflow-hidden border border-black/10 dark:border-white/10 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all duration-700 shadow-sm hover:shadow-xl h-full flex flex-col">
+    <div className="group relative glass-panel rounded-2xl md:rounded-3xl overflow-hidden border border-black/10 dark:border-white/10 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all duration-700 hover:-translate-y-1 shadow-sm hover:shadow-xl h-full flex flex-col">
       
       {/* Image Container */}
       <div className="relative h-48 md:h-56 overflow-hidden bg-gray-100 dark:bg-gray-900">
          <img 
           src={image || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200"} 
           alt={title} 
-          className="w-full h-full object-cover" 
+          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
         />
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 dark:from-[#050505] via-transparent to-transparent opacity-90"></div>
         

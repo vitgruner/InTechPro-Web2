@@ -1,23 +1,26 @@
 
 import React, { useState, useEffect } from 'react';
-import { Home, Zap, DraftingCompass, Cpu, Lightbulb, Thermometer, Shield, Radio, Wind, Blinds, Waves, Car, Droplets, Sprout, Settings, CheckSquare, Sun } from 'lucide-react';
+import { Home, Zap, DraftingCompass, Cpu, Lightbulb, Thermometer, Shield, Radio, Wind, Blinds, Waves, Car, Droplets, Sprout, Settings, CheckSquare, Sun, ArrowRight } from 'lucide-react';
 import { ServiceCardProps } from '../types';
 
 const ServiceCard: React.FC<ServiceCardProps & { features?: string[], onClick?: () => void }> = ({ title, description, icon, category, features, onClick }) => (
   <div 
     onClick={onClick}
-    className="group p-4 md:p-5 rounded-2xl glass-panel border border-black/5 dark:border-white/5 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all hover:-translate-y-1 cursor-pointer flex flex-col h-full shadow-sm hover:shadow-xl min-w-0 justify-center"
+    className="group p-3.5 md:p-6 rounded-2xl glass-panel border border-black/5 dark:border-white/5 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all hover:-translate-y-1 cursor-pointer flex flex-col h-full shadow-sm hover:shadow-xl min-w-0"
   >
-    <div className="flex items-start gap-3">
-      <div className="w-9 h-9 md:w-10 md:h-10 bg-blue-600/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 transition-colors">
-        <div className="text-blue-600 dark:text-blue-400 group-hover:text-white group-hover:scale-110 transition-all [&>svg]:w-4 [&>svg]:h-4 md:[&>svg]:w-5 md:[&>svg]:h-5">{icon}</div>
+    <div className="flex items-center md:items-start gap-3 mb-3 md:mb-0">
+      <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-600/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 transition-colors">
+        <div className="text-blue-600 dark:text-blue-400 group-hover:text-white group-hover:scale-110 transition-all [&>svg]:w-5 [&>svg]:h-5 md:[&>svg]:w-6 md:[&>svg]:h-6">{icon}</div>
       </div>
-      <div className="min-w-0 pt-0.5">
-        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-500 mb-1 block truncate">{category}</span>
-        <h3 className="text-sm md:text-base font-bold mb-1.5 text-gray-900 dark:text-white transition-colors duration-500 truncate" title={title}>{title}</h3>
-        <p className="text-gray-600 dark:text-gray-400 text-xs leading-relaxed mb-3 transition-colors duration-500 line-clamp-3">{description}</p>
+      <div className="min-w-0 md:pt-1">
+        <span className="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-500 mb-0.5 block truncate">{category}</span>
+        <h3 className="text-sm md:text-lg font-black text-gray-900 dark:text-white transition-colors duration-500 truncate leading-tight" title={title}>{title}</h3>
       </div>
     </div>
+    
+    <p className="text-gray-600 dark:text-gray-400 text-[11px] md:text-sm leading-relaxed mb-4 md:mt-4 transition-colors duration-500 line-clamp-2 md:line-clamp-3">
+      {description}
+    </p>
     
     {features && (
       <div className="flex flex-wrap gap-1.5 mt-auto pt-3 border-t border-black/5 dark:border-white/10">
@@ -81,7 +84,7 @@ const Services = ({ setView, isStandalone = false }: { setView: (v: any) => void
           {/* UPGRADED Loxone Section */}
           <div 
             onClick={() => setView('loxone-detail')}
-            className="lg:col-span-2 bg-[#f8fafc] dark:bg-[#0a0c10] p-8 md:p-12 rounded-[2.5rem] border border-blue-600/10 dark:border-blue-500/10 relative overflow-hidden group cursor-pointer hover:border-blue-600/40 transition-all hover:shadow-[0_0_80px_rgba(37,99,235,0.1)]"
+            className="lg:col-span-2 bg-[#f8fafc] dark:bg-[#0a0c10] p-6 md:p-12 rounded-[2rem] md:rounded-[2.5rem] border border-blue-600/10 dark:border-blue-500/10 relative overflow-hidden group cursor-pointer hover:border-blue-600/40 transition-all hover:shadow-[0_0_80px_rgba(37,99,235,0.1)]"
           >
             {/* Engineering Grid Background */}
             <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none" 
@@ -91,41 +94,41 @@ const Services = ({ setView, isStandalone = false }: { setView: (v: any) => void
                <Cpu className="w-[500px] h-[500px] text-blue-600" />
             </div>
 
-            <div className="relative z-10 grid xl:grid-cols-2 gap-10 md:gap-16 items-center">
+            <div className="relative z-10 grid xl:grid-cols-2 gap-8 md:gap-16 items-center">
               <div className="min-w-0 text-left">
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-600/10 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-6 border border-blue-600/20">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-600/10 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-4 md:mb-6 border border-blue-600/20">
                   <span className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse" />
                   Vlajková loď integrace
                 </div>
-                <h3 className="text-3xl md:text-5xl font-black mb-6 leading-tight tracking-tight text-gray-900 dark:text-white">
+                <h3 className="text-2xl md:text-5xl font-black mb-4 md:mb-6 leading-tight tracking-tight text-gray-900 dark:text-white">
                   Návrh a realizace <br />
                   <span className="text-blue-600">Smart Home Loxone</span>
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed text-base md:text-lg font-medium">
+                <p className="text-gray-600 dark:text-gray-400 mb-6 md:mb-8 leading-relaxed text-xs md:text-lg font-medium">
                   Loxone propojí všechny technologie v domě do jednoho inteligentního systému, který je řídí jako celek. Jedna přehledná aplikace, logika automatizací a spolupráce technologií zajistí maximální komfort.
                 </p>
-                <div className="grid sm:grid-cols-2 gap-4 md:gap-6 mb-8">
-                  <div className="flex items-start gap-4 p-4 rounded-2xl bg-white/50 dark:bg-white/5 border border-black/5 dark:border-white/10 group/feat transition-all hover:border-blue-600/20">
-                    <div className="w-10 h-10 bg-blue-600/10 rounded-xl flex items-center justify-center text-blue-600 flex-shrink-0 group-hover/feat:bg-blue-600 group-hover/feat:text-white transition-all">
-                      <CheckSquare className="w-5 h-5" />
+                <div className="grid sm:grid-cols-2 gap-3 md:gap-6 mb-6 md:mb-8">
+                  <div className="flex items-center md:items-start gap-3 p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/50 dark:bg-white/5 border border-black/5 dark:border-white/10 group/feat transition-all hover:border-blue-600/20">
+                    <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-600/10 rounded-lg md:rounded-xl flex items-center justify-center text-blue-600 flex-shrink-0 group/feat:bg-blue-600 group/feat:text-white transition-all">
+                      <CheckSquare className="w-4 h-4 md:w-5 md:h-5" />
                     </div>
-                    <div>
-                      <h4 className="text-xs font-black uppercase tracking-widest text-gray-900 dark:text-white mb-1">Adaptivní systém</h4>
-                      <p className="text-[11px] text-gray-500 leading-snug">Dům se přizpůsobuje denní době i ročnímu období.</p>
+                    <div className="min-w-0">
+                      <h4 className="text-[10px] md:text-xs font-black uppercase tracking-widest text-gray-900 dark:text-white mb-0.5">Adaptivní systém</h4>
+                      <p className="text-[9px] md:text-[11px] text-gray-500 leading-tight">Dům se přizpůsobuje době i ročnímu období.</p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-4 p-4 rounded-2xl bg-white/50 dark:bg-white/5 border border-black/5 dark:border-white/10 group/feat transition-all hover:border-blue-600/20">
-                    <div className="w-10 h-10 bg-blue-600/10 rounded-xl flex items-center justify-center text-blue-600 flex-shrink-0 group-hover/feat:bg-blue-600 group-hover/feat:text-white transition-all">
-                      <Settings className="w-5 h-5" />
+                  <div className="flex items-center md:items-start gap-3 p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/50 dark:bg-white/5 border border-black/5 dark:border-white/10 group/feat transition-all hover:border-blue-600/20">
+                    <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-600/10 rounded-lg md:rounded-xl flex items-center justify-center text-blue-600 flex-shrink-0 group/feat:bg-blue-600 group/feat:text-white transition-all">
+                      <Settings className="w-4 h-4 md:w-5 md:h-5" />
                     </div>
-                    <div>
-                      <h4 className="text-xs font-black uppercase tracking-widest text-gray-900 dark:text-white mb-1">Hybridní řízení</h4>
-                      <p className="text-[11px] text-gray-500 leading-snug">Manuální tlačítka i plná mobilní automatizace.</p>
+                    <div className="min-w-0">
+                      <h4 className="text-[10px] md:text-xs font-black uppercase tracking-widest text-gray-900 dark:text-white mb-0.5">Hybridní řízení</h4>
+                      <p className="text-[9px] md:text-[11px] text-gray-500 leading-tight">Manuální tlačítka i mobilní automatizace.</p>
                     </div>
                   </div>
                 </div>
-                <button className="group/btn relative px-10 py-4 bg-blue-600 text-white rounded-2xl font-black uppercase tracking-[0.2em] text-[11px] overflow-hidden transition-all hover:bg-blue-700 shadow-xl shadow-blue-500/20">
-                  <span className="relative z-10 flex items-center gap-3">
+                <button className="group/btn relative px-8 md:px-10 py-3 md:py-4 bg-blue-600 text-white rounded-xl md:rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] md:text-[11px] overflow-hidden transition-all hover:bg-blue-700 shadow-xl shadow-blue-500/20 w-full md:w-auto">
+                  <span className="relative z-10 flex items-center justify-center md:justify-start gap-3">
                     Zjistit více o Loxone
                     <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                   </span>
@@ -133,7 +136,7 @@ const Services = ({ setView, isStandalone = false }: { setView: (v: any) => void
               </div>
 
               {/* Kompaktnější mřížka pro mobilní zařízení */}
-              <div className="grid grid-cols-3 sm:grid-cols-3 gap-2 md:gap-4 p-3 md:p-6 bg-black/5 dark:bg-white/5 rounded-[2rem] border border-black/5 dark:border-white/10 backdrop-blur-sm">
+              <div className="grid grid-cols-3 sm:grid-cols-3 gap-2 md:gap-4 p-3 md:p-6 bg-black/5 dark:bg-white/5 rounded-2xl md:rounded-[2rem] border border-black/5 dark:border-white/10 backdrop-blur-sm">
                 {loxoneIntegrations.map((item, i) => (
                   <div key={i} className="flex flex-col items-center justify-center p-2 md:p-3 bg-white dark:bg-white/5 rounded-xl md:rounded-xl border border-black/5 dark:border-white/10 hover:border-blue-600/30 transition-all text-center group/item shadow-sm hover:shadow-lg hover:-translate-y-1">
                     <div className="text-blue-600 dark:text-blue-400 group-hover/item:scale-125 group-hover/item:rotate-[10deg] transition-all mb-1.5 md:mb-2 flex-shrink-0 [&>svg]:w-4 [&>svg]:h-4 md:[&>svg]:w-5 md:[&>svg]:h-5">
@@ -184,11 +187,5 @@ const Services = ({ setView, isStandalone = false }: { setView: (v: any) => void
     </section>
   );
 };
-
-const ArrowRight = ({ className }: { className?: string }) => (
-  <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-  </svg>
-);
 
 export default Services;

@@ -49,7 +49,7 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
   ];
 
   return (
-    <div className="pt-32 md:pt-40 pb-16 md:pb-24 animate-in fade-in duration-700">
+    <div className="pt-32 md:pt-40 pb-12 md:pb-16 animate-in fade-in duration-700">
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumbs 
           items={[
@@ -59,7 +59,7 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
           setView={setView}
         />
 
-        <div className="mb-10 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10">
+        <div className="mb-6 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10">
           <div className="max-w-3xl text-left w-full">
             <SectionHeader 
               variant="page"
@@ -73,7 +73,7 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-10 mb-20 items-stretch">
+        <div className="grid lg:grid-cols-12 gap-10 mb-10 items-stretch">
           <div className="lg:col-span-4 space-y-6">
             <div className="glass-panel p-8 rounded-[2rem] border border-slate-200 dark:border-white/10 bg-white/50 dark:bg-black/20 text-left h-full flex flex-col justify-center shadow-xl">
               <div className="flex items-center gap-4 mb-6">
@@ -113,23 +113,27 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 mb-20">
-          <div className="glass-panel p-10 rounded-[2.5rem] border border-slate-200 dark:border-white/5 text-left bg-white/40 dark:bg-white/[0.02]">
-            <div className="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center mb-8 text-blue-600">
-              <Calculator className="w-7 h-7" />
+        <div className="grid md:grid-cols-2 gap-4 md:gap-8 mb-5">
+          <div className="glass-panel p-6 md:p-10 rounded-2xl md:rounded-[2.5rem] border border-slate-200 dark:border-white/5 text-left bg-white/40 dark:bg-white/[0.02]">
+            <div className="flex items-center gap-4 md:block">
+              <div className="w-10 h-10 md:w-14 md:h-14 bg-blue-600/10 rounded-xl md:rounded-2xl flex items-center justify-center md:mb-8 text-blue-600 shrink-0">
+                <Calculator className="w-5 h-5 md:w-7 md:h-7" />
+              </div>
+              <h3 className="text-sm md:text-2xl font-black uppercase tracking-tight">Přesné nacenění bez překvapení</h3>
             </div>
-            <h3 className="text-2xl font-black mb-4 uppercase tracking-tight">Přesné nacenění bez překvapení</h3>
-            <p className="text-gray-500 font-medium leading-relaxed">
+            <p className="mt-4 md:mt-0 text-[11px] md:text-base text-gray-500 font-medium leading-relaxed">
               Na základě návrhu rozvaděče připravíme detailní a přesné nacenění, díky kterému máte jasnou představu o finální ceně ještě před zahájením výroby.
             </p>
           </div>
           
-          <div className="glass-panel p-10 rounded-[2.5rem] border border-slate-200 dark:border-white/5 text-left bg-white/40 dark:bg-white/[0.02]">
-            <div className="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center mb-8 text-blue-600">
-              <Truck className="w-7 h-7" />
+          <div className="glass-panel p-6 md:p-10 rounded-2xl md:rounded-[2.5rem] border border-slate-200 dark:border-white/5 text-left bg-white/40 dark:bg-white/[0.02]">
+            <div className="flex items-center gap-4 md:block">
+              <div className="w-10 h-10 md:w-14 md:h-14 bg-blue-600/10 rounded-xl md:rounded-2xl flex items-center justify-center md:mb-8 text-blue-600 shrink-0">
+                <Truck className="w-5 h-5 md:w-7 md:h-7" />
+              </div>
+              <h3 className="text-sm md:text-2xl font-black uppercase tracking-tight">Výroba a rychlá montáž</h3>
             </div>
-            <h3 className="text-2xl font-black mb-4 uppercase tracking-tight">Výroba a rychlá montáž</h3>
-            <p className="text-gray-500 font-medium leading-relaxed">
+            <p className="mt-4 md:mt-0 text-[11px] md:text-base text-gray-500 font-medium leading-relaxed">
               Zajistíme kompletní výrobu rozvaděče na dílně. Hotový rozvaděč je poté dopraven přímo na stavbu, kde se pouze připojuje k připravené kabeláži.
             </p>
           </div>
