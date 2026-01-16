@@ -4,6 +4,29 @@ import { Zap } from 'lucide-react';
 import { HeroProps } from '../types';
 import SmartHomeWireframe from './SmartHomeWireframe';
 
+const NeuralGrid = () => (
+  <svg className="absolute inset-0 w-full h-full opacity-[0.15] dark:opacity-[0.1]" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="neural-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+        {/* Nodes */}
+        <circle cx="2" cy="2" r="1.5" fill="currentColor" className="text-blue-600" />
+        <circle cx="52" cy="52" r="1" fill="currentColor" className="text-blue-400" />
+        
+        {/* Connections */}
+        <path d="M 2 2 L 50 2 L 50 50 L 100 50" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-blue-500/30" />
+        <path d="M 50 50 L 50 100" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-blue-500/30" />
+        <path d="M 2 2 L 2 50 L 50 50" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-blue-500/20" />
+        
+        {/* Animated Data Bits */}
+        <circle r="1" fill="currentColor" className="text-blue-600">
+          <animateMotion dur="8s" repeatCount="indefinite" path="M 2 2 L 50 2 L 50 50 L 100 50" />
+        </circle>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#neural-pattern)" />
+  </svg>
+);
+
 const Hero: React.FC<HeroProps> = ({ setView }) => {
   return (
     <section className="relative min-h-screen flex items-center pt-28 md:pt-32 pb-8 md:pb-12 overflow-hidden bg-[#f8fafc] dark:bg-[#050505] transition-colors duration-500">
@@ -15,15 +38,8 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
         <div className="absolute top-[-10%] right-[-10%] w-[70%] h-[70%] rounded-full bg-blue-600/10 dark:bg-blue-500/10 blur-[120px] animate-pulse" style={{ animationDuration: '8s' }} />
         <div className="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-blue-400/5 dark:bg-blue-600/5 blur-[100px] animate-pulse" style={{ animationDuration: '12s' }} />
 
-        {/* 2. Engineering Grid (Subtle) */}
-        <div 
-          className="absolute inset-0 opacity-[0.05] dark:opacity-[0.03]" 
-          style={{ 
-            backgroundImage: `linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)`,
-            backgroundSize: '40px 40px',
-            color: 'rgb(37, 99, 235)'
-          }} 
-        />
+        {/* 2. Neural Grid Background */}
+        <NeuralGrid />
 
         {/* 3. Radial Fade (Focusing center) */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#f4f7f9] dark:to-[#050505]" />
