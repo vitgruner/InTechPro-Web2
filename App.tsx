@@ -247,6 +247,14 @@ const App = () => {
                 <li><button onClick={() => setView('innovation')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Centrum inteligence</button></li>
                 <li><button onClick={() => setView('contact')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Kontakt</button></li>
                 <li>
+                  <button 
+                    onClick={() => document.dispatchEvent(new CustomEvent('intechpro-open-cookies'))} 
+                    className="text-gray-400 hover:text-white font-bold transition-colors text-sm"
+                  >
+                    Nastavení cookies
+                  </button>
+                </li>
+                <li>
                   <button onClick={() => setView('admin-login')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm flex items-center gap-2">
                     Klientská zóna <Lock className="w-3.5 h-3.5" />
                   </button>
