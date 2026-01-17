@@ -108,11 +108,15 @@ const App = () => {
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [isSyncing, setIsSyncing] = useState(false);
 
+  // Global scroll-to-top handler on view change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [view]);
+
   useEffect(() => {
     const handleHashChange = () => {
       const newView = getViewStateFromHash();
       setView(newView);
-      window.scrollTo(0, 0);
     };
 
     window.addEventListener('hashchange', handleHashChange);
