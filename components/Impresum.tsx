@@ -1,5 +1,5 @@
 import React from 'react';
-import { Building2, MapPin, Hash, Scale, ShieldCheck, Mail, Phone, ArrowLeft, Landmark } from 'lucide-react';
+import { Building2, MapPin, Hash, Scale, ShieldCheck, Mail, Phone, ArrowLeft, Landmark, Briefcase } from 'lucide-react';
 import { DetailProps } from '../types';
 import Breadcrumbs from './Breadcrumbs';
 import SectionHeader from './SectionHeader';
@@ -13,7 +13,7 @@ const Impresum: React.FC<DetailProps> = ({ setView }) => {
     },
     {
       label: "Sídlo",
-      value: "Jiráskova 398, Zelené Předměstí, 530 02 Pardubice",
+      value: "Střížkovská 630/112, 180 00 Praha 8",
       icon: <MapPin className="w-5 h-5" />
     },
     {
@@ -27,15 +27,21 @@ const Impresum: React.FC<DetailProps> = ({ setView }) => {
       icon: <Landmark className="w-5 h-5" />
     },
     {
-      label: "Spisová značka",
-      value: "C 54199 vedená u Krajského soudu v Hradci Králové",
-      icon: <Scale className="w-5 h-5" />
+      label: "Statutární orgán",
+      value: "Daniel Hron, Petr Staňura (jednatelé)",
+      icon: <ShieldCheck className="w-5 h-5" />
     },
     {
-      label: "Statutární orgán",
-      value: "Michal Ingr, jednatel",
-      icon: <ShieldCheck className="w-5 h-5" />
+      label: "Působnost",
+      value: "Centrála Praha, realizace po celé České republice",
+      icon: <Scale className="w-5 h-5" />
     }
+  ];
+
+  const businessActivities = [
+    "Výroba, instalace, opravy elektrických strojů a přístrojů, elektronických a telekomunikačních zařízení.",
+    "Velkoobchod a maloobchod, zprostředkování obchodu a služeb.",
+    "Přípravné a dokončovací práce, specializované stavební činnosti."
   ];
 
   return (
@@ -52,7 +58,7 @@ const Impresum: React.FC<DetailProps> = ({ setView }) => {
           eyebrow="Právní identifikace"
           title="Impresum &"
           highlight="Provozovatel"
-          description="Oficiální identifikační údaje společnosti v souladu s § 7 zákona č. 90/2012 Sb., o obchodních korporacích."
+          description="Oficiální identifikační údaje společnosti v souladu s právními předpisy ČR."
         />
 
         <div className="grid md:grid-cols-2 gap-6 mt-12">
@@ -69,6 +75,21 @@ const Impresum: React.FC<DetailProps> = ({ setView }) => {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="mt-8 glass-panel p-8 rounded-[2rem] border border-black/5 dark:border-white/10">
+          <div className="flex items-center gap-3 mb-6">
+             <Briefcase className="w-5 h-5 text-blue-600" />
+             <h3 className="text-xl font-black uppercase tracking-tight">Předmět podnikání</h3>
+          </div>
+          <ul className="space-y-4">
+            {businessActivities.map((activity, i) => (
+              <li key={i} className="flex gap-4 items-start">
+                <div className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 shrink-0" />
+                <p className="text-sm text-gray-600 dark:text-gray-400 font-medium leading-relaxed">{activity}</p>
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div className="mt-12 glass-panel p-10 rounded-[2.5rem] bg-slate-50 dark:bg-white/5 border border-black/5 dark:border-white/10">

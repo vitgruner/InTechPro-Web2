@@ -9,7 +9,7 @@ const PrivacyPolicy: React.FC<DetailProps> = ({ setView }) => {
     {
       title: "1. Správce údajů",
       icon: <UserCheck className="w-5 h-5" />,
-      content: "Správcem vašich osobních údajů je společnost IN TECH PRO s.r.o., se sídlem v České republice. Zodpovídáme za bezpečné zpracování dat získaných prostřednictvím našich webových stránek a poptávkových formulářů."
+      content: "Správcem vašich osobních údajů je společnost INTECHPRO system s.r.o., se sídlem Střížkovská 630/112, 180 00 Praha 8. Zodpovídáme za bezpečné zpracování dat získaných prostřednictvím našich webových stránek a poptávkových formulářů."
     },
     {
       title: "2. Rozsah zpracování",

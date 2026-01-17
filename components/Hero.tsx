@@ -1,194 +1,202 @@
-import React, { useState, useEffect } from 'react';
-import { Zap, Activity, Crosshair, Terminal } from 'lucide-react';
+
+import React, { useEffect, useRef } from 'react';
+import { Zap } from 'lucide-react';
 import { HeroProps } from '../types';
 import SmartHomeWireframe from './SmartHomeWireframe';
 
-const HudMetadata = () => {
-  const [vals, setVals] = useState({ x: 42.021, y: 19.882, freq: 50.02 });
+const Hero: React.FC<HeroProps> = ({ setView }) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setVals({
-        x: parseFloat((42 + Math.random()).toFixed(3)),
-        y: parseFloat((19 + Math.random()).toFixed(3)),
-        freq: parseFloat((50 + (Math.random() - 0.5) * 0.1).toFixed(2))
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    const particles: { x: number; y: number; vx: number; vy: number; size: number }[] = [];
+    const particleCount = Math.min(Math.floor((width * height) / 15000), 100); // Responsive count
+    const connectionDistance = 150;
+    const mouseDistance = 200;
+
+    let mouse = { x: -1000, y: -1000 };
+
+    // Initialize particles
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        size: Math.random() * 2 + 1,
       });
-    }, 2000);
-    return () => clearInterval(interval);
+    }
+
+    const handleResize = () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+    };
+
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('mousemove', handleMouseMove);
+
+    const animate = () => {
+      ctx.clearRect(0, 0, width, height);
+      
+      // Determine theme colors (simple check, ideally passed via props or context)
+      const isDark = document.documentElement.classList.contains('dark');
+      const particleColor = isDark ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.3)';
+      const lineColor = isDark ? 'rgba(37, 99, 235, 0.6)' : 'rgba(37, 99, 235, 0.5)'; // Slightly more visible
+
+      // Update and draw particles
+      particles.forEach((p, i) => {
+        // Move
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Bounce
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+
+        // Mouse interaction (push away gently)
+        const dx = p.x - mouse.x;
+        const dy = p.y - mouse.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance < mouseDistance) {
+          const forceDirectionX = dx / distance;
+          const forceDirectionY = dy / distance;
+          const force = (mouseDistance - distance) / mouseDistance;
+          p.vx += forceDirectionX * force * 0.05;
+          p.vy += forceDirectionY * force * 0.05;
+        }
+
+        // Draw particle
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = particleColor;
+        ctx.fill();
+
+        // Connect
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dx2 = p.x - p2.x;
+          const dy2 = p.y - p2.y;
+          const dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+
+          if (dist2 < connectionDistance) {
+            const opacity = 1 - dist2 / connectionDistance;
+            ctx.beginPath();
+            ctx.strokeStyle = `${lineColor} ${opacity * 0.2})`;
+            ctx.lineWidth = 1;
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
+        }
+        
+        // Connect to mouse
+        if (distance < mouseDistance) {
+             const opacity = 1 - distance / mouseDistance;
+             ctx.beginPath();
+             ctx.strokeStyle = `${lineColor} ${opacity * 0.4})`;
+             ctx.lineWidth = 1;
+             ctx.moveTo(p.x, p.y);
+             ctx.lineTo(mouse.x, mouse.y);
+             ctx.stroke();
+        }
+      });
+
+      requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
   }, []);
 
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-40 dark:opacity-20 select-none">
-      {/* Top Left HUD */}
-      <div className="absolute top-32 left-10 font-mono text-[8px] md:text-[10px] text-blue-600 space-y-1 uppercase tracking-[0.2em]">
-        <div className="flex items-center gap-2"><div className="w-1 h-1 bg-blue-600 animate-ping" /> SYSTEM_SCAN: ACTIVE</div>
-        <div>VECTOR_X: {vals.x}</div>
-        <div>VECTOR_Y: {vals.y}</div>
-      </div>
+    <section className="relative min-h-screen flex items-center pt-28 md:pt-32 pb-8 md:pb-12 overflow-hidden">
       
-      {/* Bottom Right HUD */}
-      <div className="absolute bottom-20 right-10 font-mono text-[8px] md:text-[10px] text-blue-600 space-y-1 uppercase tracking-[0.2em] text-right">
-        <div className="flex items-center justify-end gap-2">FREQ_MONITOR: {vals.freq} HZ <Activity className="w-3 h-3" /></div>
-        <div>ENCRYPT_LAYER: AES_256_GCM</div>
-        <div>NODE_STATUS: SYNCHRONIZED</div>
-      </div>
-
-      {/* Crosshair accents */}
-      <div className="absolute top-1/4 left-1/3 text-blue-400/30"><Crosshair className="w-8 h-8" /></div>
-      <div className="absolute bottom-1/3 right-1/4 text-blue-400/30"><Crosshair className="w-12 h-12" /></div>
-    </div>
-  );
-};
-
-const NeuralGrid = () => {
-  const lines = [
-    "M10,20 L30,40 L50,10 L70,30 L90,10", 
-    "M0,50 L20,30 L40,60 L60,40 L80,70 L100,50",
-    "M10,80 L40,70 L60,90 L90,60",
-    "M20,10 L15,40 L35,50 L55,30 L75,60 L85,40",
-    "M0,90 C20,70 40,100 60,80 S80,60 100,70"
-  ];
-
-  return (
-    <svg 
-      className="absolute inset-0 w-full h-full opacity-[0.6] dark:opacity-[0.15]" 
-      viewBox="0 0 100 100" 
-      preserveAspectRatio="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <defs>
-        <filter id="lightGlow">
-          <feGaussianBlur stdDeviation="0.4" result="blur" />
-          <feComposite in="SourceGraphic" in2="blur" operator="over" />
-        </filter>
-        <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-          <path d="M 10 0 L 0 0 0 10" fill="none" stroke="currentColor" strokeWidth="0.05" className="text-blue-500/20" />
-        </pattern>
-        <style>{`
-          @keyframes data-flow {
-            0% { offset-distance: 0%; opacity: 0; }
-            20% { opacity: 1; }
-            80% { opacity: 1; }
-            100% { offset-distance: 100%; opacity: 0; }
-          }
-          .data-packet {
-            animation: data-flow 5s linear infinite;
-            fill: #2563eb;
-          }
-          .neural-line {
-            stroke: #3b82f6;
-            stroke-width: 0.15;
-            opacity: 0.2;
-          }
-        `}</style>
-      </defs>
-      
-      {/* Background Engineering Grid */}
-      <rect width="100" height="100" fill="url(#grid)" />
-      
-      <g fill="none" filter="url(#lightGlow)">
-        {lines.map((d, i) => (
-          <React.Fragment key={i}>
-            <path d={d} className="neural-line" />
-            <circle r="0.4" className="data-packet" style={{ 
-              offsetPath: `path("${d}")`, 
-              animationDelay: `${i * 1.2}s`,
-              animationDuration: `${4 + Math.random() * 3}s`
-            }} />
-          </React.Fragment>
-        ))}
-      </g>
-
-      {/* Static Junction Nodes */}
-      <g fill="#2563eb" opacity="0.4">
-        <circle cx="30" cy="40" r="0.4" />
-        <circle cx="50" cy="10" r="0.4" />
-        <circle cx="40" cy="60" r="0.4" />
-        <circle cx="70" cy="30" r="0.4" />
-        <circle cx="80" cy="70" r="0.4" />
-      </g>
-    </svg>
-  );
-};
-
-const Hero: React.FC<HeroProps> = ({ setView }) => {
-  return (
-    <section className="relative min-h-screen flex items-center pt-28 md:pt-32 pb-8 md:pb-12 overflow-hidden bg-[#f8fafc] dark:bg-[#050505] transition-colors duration-500">
-      
-      {/* --- Hi-Tech Architectural Background --- */}
+      {/* --- High-End Technical Background --- */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         
-        {/* 1. Base Gradients & Lighting */}
-        <div className="absolute top-[-10%] right-[-10%] w-[70%] h-[70%] rounded-full bg-blue-400/10 dark:bg-blue-600/20 blur-[120px]" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-indigo-400/5 dark:bg-indigo-600/10 blur-[100px]" />
+        {/* 1. Base Mesh Gradient */}
+        <div className="absolute top-[-10%] right-[-10%] w-[70%] h-[70%] rounded-full bg-blue-600/10 dark:bg-blue-500/10 blur-[120px] animate-pulse" style={{ animationDuration: '8s' }} />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-blue-400/5 dark:bg-blue-600/5 blur-[100px] animate-pulse" style={{ animationDuration: '12s' }} />
 
-        {/* 2. Neural Mesh & Engineering Grid */}
-        <NeuralGrid />
-
-        {/* 3. HUD Overlay Elements */}
-        <HudMetadata />
-
-        {/* 4. Scanning Line Effect */}
-        <div className="absolute inset-0 opacity-[0.015] dark:opacity-[0.03] pointer-events-none"
-             style={{ backgroundImage: 'linear-gradient(rgba(0,0,0,1) 1px, transparent 1px)', backgroundSize: '100% 3px' }} />
-
-        {/* 5. Radial Vignette */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#f8fafc_90%)] dark:bg-[radial-gradient(circle_at_center,transparent_0%,#050505_90%)]" />
+        {/* 2. Interactive Background Canvas */}
+        <canvas 
+          ref={canvasRef} 
+          className="absolute inset-0 z-0 pointer-events-auto opacity-60"
+        />
+        
+        {/* 3. Radial Fade (Focusing center) */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#f4f7f9] dark:to-[#050505]" />
       </div>
-      
+
       <div className="max-w-7xl mx-auto px-6 w-full grid lg:grid-cols-2 gap-10 lg:gap-12 items-center relative z-10">
         <div className="text-center lg:text-left">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-600/10 dark:bg-blue-500/20 border border-blue-600/20 dark:border-blue-400/30 text-blue-600 dark:text-blue-300 text-[10px] font-black tracking-[0.2em] uppercase mb-8 mx-auto lg:mx-0 animate-in slide-in-from-bottom-4 fade-in duration-700 shadow-sm backdrop-blur-md">
-            < Zap className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 fill-blue-600/20" />
-            Core Technology v2.5
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600/10 dark:bg-blue-500/20 border border-blue-600/20 dark:border-blue-400/30 text-blue-600 dark:text-blue-300 text-xs font-bold tracking-wider uppercase mb-6 mx-auto lg:mx-0 animate-in slide-in-from-bottom-4 fade-in duration-700">
+            < Zap className="w-3 h-3 text-blue-600 dark:text-blue-400" />
+            22. století již dnes
           </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black leading-[1.1] mb-6 text-gray-900 dark:text-white transition-colors duration-500 animate-in slide-in-from-bottom-6 fade-in duration-1000 tracking-tighter">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6 text-gray-900 dark:text-white transition-colors duration-500 animate-in slide-in-from-bottom-6 fade-in duration-1000">
             Integrovaná <br className="hidden sm:block" />
             <span className="text-gradient">Inteligence</span>
           </h1>
-          <p className="text-base md:text-xl text-gray-600 dark:text-gray-200 max-w-lg mb-10 leading-relaxed mx-auto lg:mx-0 font-medium transition-colors duration-500 animate-in slide-in-from-bottom-8 fade-in duration-1000">
-            Projektujeme a oživujeme nervovou soustavu moderních budov. Od autonomních rezidencí po inteligentní průmyslové klastry.
+          <p className="text-base md:text-lg text-gray-600 dark:text-gray-200 max-w-lg mb-8 leading-relaxed mx-auto lg:mx-0 font-medium transition-colors duration-500 animate-in slide-in-from-bottom-8 fade-in duration-1000">
+            Plánujeme, projektujeme a realizujeme špičkovou inteligentní infrastrukturu. Od automatizovaných domovů po inteligentní průmyslové areály.
           </p>
-          <div className="flex flex-wrap gap-5 justify-center lg:justify-start animate-in slide-in-from-bottom-10 fade-in duration-1000">
+          <div className="flex flex-wrap gap-4 justify-center lg:justify-start animate-in slide-in-from-bottom-10 fade-in duration-1000">
             <button 
-              onClick={() => setView('sluzby')}
-              className="btn-magnetic px-10 py-5 bg-blue-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-blue-700 transition-all glow shadow-xl shadow-blue-500/30 relative overflow-hidden group"
+              onClick={() => setView('services')}
+              className="btn-magnetic px-8 py-4 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition-all glow text-sm md:text-base shadow-lg shadow-blue-500/30 relative overflow-hidden group"
             >
-              <span className="relative z-10 flex items-center gap-3">
-                Inženýrské služby <Terminal className="w-4 h-4 opacity-70" />
-              </span>
+              <span className="relative z-10">Naše služby</span>
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
             </button>
             <button 
-              onClick={() => setView('reference')}
-              className="btn-magnetic px-10 py-5 glass-panel rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-black/5 dark:hover:bg-white/10 transition-all text-[#1a1d21] dark:text-white border border-black/10 dark:border-white/20 backdrop-blur-3xl"
+              onClick={() => setView('showcase')}
+              className="btn-magnetic px-8 py-4 glass-panel rounded-full font-bold hover:bg-black/5 dark:hover:bg-white/10 transition-all text-[#1a1d21] dark:text-white text-sm md:text-base border border-black/10 dark:border-white/20"
             >
-              Realizace
+              Reference
             </button>
           </div>
 
-          <div className="mt-14 flex items-center justify-center lg:justify-start gap-10 animate-in slide-in-from-bottom-12 fade-in duration-1000">
+          <div className="mt-10 flex items-center justify-center lg:justify-start gap-6 md:gap-8 animate-in slide-in-from-bottom-12 fade-in duration-1000">
             <div className="flex flex-col">
-              <span className="text-2xl md:text-3xl font-black font-mono text-gray-900 dark:text-white tracking-tighter">500<span className="text-blue-600">+</span></span>
-              <span className="text-[9px] text-gray-500 dark:text-gray-400 uppercase tracking-[0.3em] font-black">Projektů</span>
+              <span className="text-xl md:text-2xl font-black font-mono text-gray-900 dark:text-white">500+</span>
+              <span className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold">Projektů</span>
             </div>
-            <div className="h-12 w-[1px] bg-blue-600/20"></div>
+            <div className="h-10 w-[1px] bg-black/10 dark:bg-white/10"></div>
             <div className="flex flex-col">
-              <span className="text-2xl md:text-3xl font-black font-mono text-gray-900 dark:text-white tracking-tighter">15<span className="text-blue-600">+</span></span>
-              <span className="text-[9px] text-gray-500 dark:text-gray-400 uppercase tracking-[0.3em] font-black">Ocenění</span>
+              <span className="text-xl md:text-2xl font-black font-mono text-gray-900 dark:text-white">15+</span>
+              <span className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold">Ocenění</span>
             </div>
-            <div className="h-12 w-[1px] bg-blue-600/20"></div>
+            <div className="h-10 w-[1px] bg-black/10 dark:bg-white/10"></div>
             <div className="flex flex-col">
-              <span className="text-2xl md:text-3xl font-black font-mono text-gray-900 dark:text-white tracking-tighter">100<span className="text-blue-600">%</span></span>
-              <span className="text-[9px] text-gray-500 dark:text-gray-400 uppercase tracking-[0.3em] font-black">Shoda norem</span>
+              <span className="text-xl md:text-2xl font-black font-mono text-gray-900 dark:text-white">100%</span>
+              <span className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold">Shoda norem</span>
             </div>
           </div>
         </div>
 
         <div className="relative group w-full max-w-[84rem] mx-auto animate-in fade-in zoom-in duration-1000 delay-200">
-          <div className="absolute inset-0 bg-blue-500/20 dark:bg-blue-500/25 rounded-3xl blur-3xl group-hover:blur-[100px] transition-all duration-1000"></div>
-          <div className="relative rounded-[2.5rem] overflow-hidden glass-panel border border-white/40 dark:border-white/20 shadow-2xl
-                          h-[320px] md:h-[450px] lg:h-[550px] bg-white/40 dark:bg-black/60 backdrop-blur-[50px] transform transition-transform duration-700 hover:scale-[1.02]">
+          <div className="absolute inset-0 bg-blue-500/10 dark:bg-blue-500/25 rounded-3xl blur-2xl group-hover:blur-3xl transition-all"></div>
+          <div className="relative rounded-3xl overflow-hidden glass-panel border border-black/10 dark:border-white/20 shadow-xl
+                          h-[300px] md:h-[416px] lg:h-[512px] bg-black/40 backdrop-blur-md transform transition-transform duration-500 hover:scale-[1.01]">
             <SmartHomeWireframe />
           </div>
         </div>

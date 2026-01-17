@@ -1,21 +1,96 @@
-
 <!DOCTYPE html>
 <html lang="cs" class="scroll-smooth dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IN TECH PRO | Inteligentní infrastruktura • Smart Home • Projekce</title>
-    <meta name="description" content="Expertíza v oblasti Loxone Smart Home, průmyslové automatizace a elektroprojekce. Navrhujeme a realizujeme budoucnost budov.">
-    
-    <!-- Favicon (SVG Data URI pro okamžité zobrazení bez externích souborů) -->
+    <meta name="description" content="Expertíza v oblasti Loxone Smart Home, průmyslové automatizace a elektroprojekce v Praze a po celé ČR. Navrhujeme a realizujeme budoucnost budov s certifikací Loxone Silver Partner.">
+    <meta name="keywords" content="Smart Home, Loxone Praha, inteligentní dům, elektroprojekce, revize elektro, automatizace budov, chytrá domácnost, FVE řízení, IN TECH PRO">
+    <meta name="author" content="IN TECH PRO system s.r.o.">
+    <link rel="canonical" href="https://intechpro.cz/">
+
+    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%232563eb%22 /><path d=%22M55 15 L35 55 L50 55 L40 85 L65 45 L50 45 L55 15 Z%22 fill=%22white%22 stroke=%22white%22 stroke-width=%225%22 stroke-linejoin=%22round%22/></svg>">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://intechpro.cz/">
     <meta property="og:title" content="IN TECH PRO | Jádro inteligentní infrastruktury">
-    <meta property="og:description" content="Projektujeme a realizujeme špičkovou inteligentní infrastrukturu. Od automatizovaných domovů po průmyslové areály.">
+    <meta property="og:description" content="Projektujeme a realizujeme špičkovou inteligentní infrastrukturu v Praze i po celé ČR. Od automatizovaných domovů po průmyslové areály.">
     <meta property="og:image" content="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=1200">
+    <meta property="og:locale" content="cs_CZ">
+
+    <!-- JSON-LD Strukturovaná data pro AI (GEO) a Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "IN TECH PRO system s.r.o.",
+      "image": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=1200",
+      "@id": "https://intechpro.cz",
+      "url": "https://intechpro.cz",
+      "telephone": "+420777000000",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Střížkovská 630/112",
+        "addressLocality": "Praha 8",
+        "postalCode": "180 00",
+        "addressCountry": "CZ"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 50.1192,
+        "longitude": 14.4844
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Czech Republic"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "08:00",
+        "closes": "17:00"
+      },
+      "sameAs": [
+        "https://www.linkedin.com/company/intechpro",
+        "https://www.instagram.com/intechpro"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Inženýrské služby",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Loxone Smart Home integrace"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Elektroprojekce a dokumentace"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Výroba elektrických rozvaděčů"
+            }
+          }
+        ]
+      }
+    }
+    </script>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -79,7 +154,6 @@
             box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
         }
         
-        /* Nové animace pro tlačítka */
         .btn-magnetic {
             transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
