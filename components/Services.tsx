@@ -1,12 +1,11 @@
-
 import React, { useState, useEffect } from 'react';
 import { Home, Zap, DraftingCompass, Cpu, Lightbulb, Thermometer, Shield, Radio, Wind, Blinds, Waves, Car, Droplets, Sprout, Settings, CheckSquare, Sun, ArrowRight } from 'lucide-react';
-import { ServiceCardProps } from '../types';
+import { ServiceCardProps, ServicesProps } from '../types';
 
 const ServiceCard: React.FC<ServiceCardProps & { features?: string[], onClick?: () => void }> = ({ title, description, icon, category, features, onClick }) => (
   <div 
     onClick={onClick}
-    className="group p-3.5 md:p-6 rounded-2xl glass-panel border border-black/5 dark:border-white/5 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all hover:-translate-y-1 cursor-pointer flex flex-col h-full shadow-sm hover:shadow-xl min-w-0"
+    className="group p-3.5 md:p-6 rounded-2xl glass-panel border border-black/5 dark:border-white/5 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all cursor-pointer flex flex-col h-full shadow-sm hover:shadow-xl min-w-0"
   >
     <div className="flex items-center md:items-start gap-3 mb-3 md:mb-0">
       <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-600/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 transition-colors">
@@ -32,7 +31,7 @@ const ServiceCard: React.FC<ServiceCardProps & { features?: string[], onClick?: 
   </div>
 );
 
-const Services = ({ setView, isStandalone = false }: { setView: (v: any) => void, isStandalone?: boolean }) => {
+const Services: React.FC<ServicesProps> = ({ setView, isStandalone = false }) => {
   const [liveStats, setLiveStats] = useState<Record<string, string>>({
     "Osvětlení": "8 ON",
     "Vytápění": "22.4°C",
@@ -81,12 +80,11 @@ const Services = ({ setView, isStandalone = false }: { setView: (v: any) => void
     <section id="services" className={`py-8 md:py-16 relative transition-colors duration-500 ${isStandalone ? 'pt-28 md:pt-36' : ''}`}>
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-4 md:gap-6 mb-8 md:mb-12">
-          {/* UPGRADED Loxone Section */}
+          {/* Loxone Section */}
           <div 
-            onClick={() => setView('loxone-detail')}
+            onClick={() => setView('loxone-smart-home')}
             className="lg:col-span-2 bg-[#f8fafc] dark:bg-[#0a0c10] p-6 md:p-12 rounded-[2rem] md:rounded-[2.5rem] border border-blue-600/10 dark:border-blue-500/10 relative overflow-hidden group cursor-pointer hover:border-blue-600/40 transition-all hover:shadow-[0_0_80px_rgba(37,99,235,0.1)]"
           >
-            {/* Engineering Grid Background */}
             <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none" 
                  style={{ backgroundImage: 'linear-gradient(#2563eb 1px, transparent 1px), linear-gradient(90deg, #2563eb 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
             
@@ -135,10 +133,9 @@ const Services = ({ setView, isStandalone = false }: { setView: (v: any) => void
                 </button>
               </div>
 
-              {/* Kompaktnější mřížka pro mobilní zařízení */}
               <div className="grid grid-cols-3 sm:grid-cols-3 gap-2 md:gap-4 p-3 md:p-6 bg-black/5 dark:bg-white/5 rounded-2xl md:rounded-[2rem] border border-black/5 dark:border-white/10 backdrop-blur-sm">
                 {loxoneIntegrations.map((item, i) => (
-                  <div key={i} className="flex flex-col items-center justify-center p-2 md:p-3 bg-white dark:bg-white/5 rounded-xl md:rounded-xl border border-black/5 dark:border-white/10 hover:border-blue-600/30 transition-all text-center group/item shadow-sm hover:shadow-lg hover:-translate-y-1">
+                  <div key={i} className="flex flex-col items-center justify-center p-2 md:p-3 bg-white dark:bg-white/5 rounded-xl md:rounded-xl border border-black/5 dark:border-white/10 hover:border-blue-600/30 transition-all text-center group/item shadow-sm hover:shadow-lg">
                     <div className="text-blue-600 dark:text-blue-400 group-hover/item:scale-125 group-hover/item:rotate-[10deg] transition-all mb-1.5 md:mb-2 flex-shrink-0 [&>svg]:w-4 [&>svg]:h-4 md:[&>svg]:w-5 md:[&>svg]:h-5">
                       {item.icon}
                     </div>
@@ -159,7 +156,7 @@ const Services = ({ setView, isStandalone = false }: { setView: (v: any) => void
             features={["Technická zpráva", "Výkaz výměr", "Schémata zapojení"]}
           />
           <ServiceCard 
-            onClick={() => setView('rozvadece')}
+            onClick={() => setView('vyroba-rozvadecu')}
             title="Projekce, návrh a realizace rozvaděčů"
             description="Kvalitní rozvaděč je základ. Zajišťujeme kompletní výrobu na dílně, čímž zkracujeme dobu montáže a minimalizujeme chyby."
             icon={<Settings />}
@@ -167,7 +164,7 @@ const Services = ({ setView, isStandalone = false }: { setView: (v: any) => void
             features={["Loxone části", "Silnoproud", "Revizní podklady"]}
           />
           <ServiceCard 
-            onClick={() => setView('technologie')}
+            onClick={() => setView('moderni-technologie')}
             title="Návrh a realizace technologií"
             description="Navrhneme vhodné řešení a konkrétní značky technologií – od tepelných čerpadel po fotovoltaiku. Vše pod kontrolou Loxone."
             icon={<Cpu />}
@@ -175,7 +172,7 @@ const Services = ({ setView, isStandalone = false }: { setView: (v: any) => void
             features={["Tepelná čerpadla", "Rekuperace", "Fotovoltaika"]}
           />
           <ServiceCard 
-            onClick={() => setView('osvetleni')}
+            onClick={() => setView('navrh-osvetleni')}
             title="Návrh a realizace osvětlení"
             description="Kompletní služba od návrhu přes výběr svítidel až po samotnou realizaci a automatizaci scénických režimů."
             icon={<Lightbulb />}

@@ -1,7 +1,6 @@
-
 import React from 'react';
 
-export type ViewState = 'home' | 'services' | 'showcase' | 'innovation' | 'contact' | 'about' | 'projekce-elektro' | 'osvetleni' | 'rozvadece' | 'loxone-detail' | 'technologie' | 'admin-login' | 'admin-dashboard';
+export type ViewState = 'home' | 'sluzby' | 'reference' | 'online-showroom' | 'kontakt' | 'o-nas' | 'projekce-elektro' | 'navrh-osvetleni' | 'vyroba-rozvadecu' | 'loxone-smart-home' | 'moderni-technologie' | 'admin-login' | 'admin-dashboard' | 'ochrana-soukromi' | 'impresum';
 
 export interface ServiceCardProps {
   title: string;
@@ -48,7 +47,7 @@ export interface SmartDevice {
 
 export interface ReferenceService {
   label: string;
-  icon: string; // Changed to string for serialization
+  icon: string;
 }
 
 export interface TopologyStats {
@@ -64,14 +63,13 @@ export interface Reference {
   location: string;
   image: string;
   tech: string;
-  techIcon: string; // Changed to string for serialization
+  techIcon: string;
   services: ReferenceService[];
-  topology?: TopologyStats; // New field for technical complexity
+  topology?: TopologyStats;
 }
 
 export interface ReferenceCardProps extends Reference {}
 
-// Prop Interfaces for Components
 export interface NavProps {
   isDark: boolean;
   toggleTheme: () => void;
@@ -85,6 +83,7 @@ export interface HeroProps {
 
 export interface ServicesProps {
   setView: (view: ViewState) => void;
+  isStandalone?: boolean;
 }
 
 export interface DetailProps {

@@ -212,7 +212,7 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
         {!isStandalone && setView && (
            <div className="mt-8 md:mt-12 flex justify-center">
              <button 
-               onClick={() => setView('showcase')}
+               onClick={() => setView('reference')}
                className="group flex items-center gap-3 px-8 py-4 bg-blue-600 text-white rounded-full font-black uppercase tracking-widest text-xs hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20"
              >
                Zobrazit všechny reference

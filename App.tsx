@@ -15,6 +15,8 @@ import TechnologieDetail from './components/TechnologieDetail';
 import AdminLogin from './components/AdminLogin';
 import ReferenceForm from './components/ReferenceForm';
 import CookieConsent from './components/CookieConsent';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import Impresum from './components/Impresum';
 import { dbService } from './services/dbService';
 import { 
   Zap, Building2, Sun, Loader2, 
@@ -90,13 +92,12 @@ const App = () => {
     return hour < 7 || hour >= 19;
   });
 
-  // Helper to parse the hash into a valid ViewState
   const getViewStateFromHash = (): ViewState => {
     const hash = window.location.hash.replace('#', '') as ViewState;
     const validViews: ViewState[] = [
-      'home', 'services', 'showcase', 'innovation', 'contact', 'about', 
-      'projekce-elektro', 'osvetleni', 'rozvadece', 'loxone-detail', 
-      'technologie', 'admin-login', 'admin-dashboard'
+      'home', 'sluzby', 'reference', 'online-showroom', 'kontakt', 'o-nas', 
+      'projekce-elektro', 'navrh-osvetleni', 'vyroba-rozvadecu', 'loxone-smart-home', 
+      'moderni-technologie', 'admin-login', 'admin-dashboard', 'ochrana-soukromi', 'impresum'
     ];
     return validViews.includes(hash) ? hash : 'home';
   };
@@ -107,22 +108,24 @@ const App = () => {
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [isSyncing, setIsSyncing] = useState(false);
 
-  // Sync state with URL hash on mount and on hash change
   useEffect(() => {
     const handleHashChange = () => {
       const newView = getViewStateFromHash();
       setView(newView);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo(0, 0);
     };
 
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  // Wrapper for setView that updates the hash
   const navigateTo = (newView: ViewState) => {
-    window.location.hash = newView === 'home' ? '' : newView;
-    // Note: State will be updated by the hashchange listener
+    const currentHash = window.location.hash.replace('#', '') || 'home';
+    if (currentHash === newView) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.location.hash = newView === 'home' ? '' : newView;
+    }
   };
 
   useEffect(() => {
@@ -160,7 +163,7 @@ const App = () => {
       const success = await dbService.saveReference(ref);
       if (success) {
         setReferenceProjects(prev => [...prev, ref]);
-        navigateTo('showcase');
+        navigateTo('reference');
       }
     } catch (error) {
       alert("Error saving to server.");
@@ -193,14 +196,25 @@ const App = () => {
             <ContactForm />
           </div>
         );
-      case 'showcase':
+      case 'sluzby':
+        return (
+          <div className="animate-in fade-in duration-700">
+            <Services setView={navigateTo} isStandalone={true} />
+            <Process />
+          </div>
+        );
+      case 'reference':
         return <References projects={referenceProjects} isStandalone={true} setView={navigateTo} />;
-      case 'contact':
+      case 'kontakt':
         return <ContactForm isStandalone={true} />;
-      case 'innovation':
+      case 'online-showroom':
         return <div className="animate-in fade-in duration-700"><Dashboard /></div>;
-      case 'about':
+      case 'o-nas':
         return <AboutUs />;
+      case 'ochrana-soukromi':
+        return <PrivacyPolicy setView={navigateTo} />;
+      case 'impresum':
+        return <Impresum setView={navigateTo} />;
       case 'admin-dashboard':
         return (
           <div className="pt-32 pb-24 bg-slate-50 dark:bg-[#050505]">
@@ -218,17 +232,11 @@ const App = () => {
         );
       case 'admin-login':
         return <AdminLogin onLogin={() => { setIsAdmin(true); navigateTo('admin-dashboard'); }} />;
-      case 'loxone-detail': return <LoxoneDetail setView={navigateTo} />;
-      case 'osvetleni': return <OsvetleniDetail setView={navigateTo} />;
-      case 'rozvadece': return <RozvadeceDetail setView={setView} />; // Detail views keep handle as direct to avoid double trigger
-      case 'technologie': return <TechnologieDetail setView={navigateTo} />;
+      case 'loxone-smart-home': return <LoxoneDetail setView={navigateTo} />;
+      case 'navrh-osvetleni': return <OsvetleniDetail setView={navigateTo} />;
+      case 'vyroba-rozvadecu': return <RozvadeceDetail setView={navigateTo} />;
+      case 'moderni-technologie': return <TechnologieDetail setView={navigateTo} />;
       case 'projekce-elektro': return <ProjekceDetail setView={navigateTo} />;
-      case 'services': return (
-        <div className="animate-in fade-in duration-700">
-          <Services setView={navigateTo} isStandalone={true} />
-          <Process />
-        </div>
-      );
       default:
         return <Hero setView={navigateTo} />;
     }
@@ -261,11 +269,15 @@ const App = () => {
             <div className="lg:col-span-3 space-y-8">
               <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-white">Mapa webu</h4>
               <ul className="space-y-4">
-                <li><button onClick={() => navigateTo('about')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">O nás</button></li>
-                <li><button onClick={() => navigateTo('services')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Služby</button></li>
-                <li><button onClick={() => navigateTo('showcase')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Reference</button></li>
-                <li><button onClick={() => navigateTo('innovation')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Centrum inteligence</button></li>
-                <li><button onClick={() => navigateTo('contact')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Kontakt</button></li>
+                <li><button onClick={() => navigateTo('o-nas')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">O nás</button></li>
+                <li><button onClick={() => navigateTo('sluzby')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Služby</button></li>
+                <li><button onClick={() => navigateTo('reference')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Reference</button></li>
+                <li>
+                  <button onClick={() => navigateTo('online-showroom')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm flex items-center gap-2">
+                    Online Showroom <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" />
+                  </button>
+                </li>
+                <li><button onClick={() => navigateTo('kontakt')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Kontakt</button></li>
                 <li>
                   <button onClick={() => navigateTo('admin-login')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm flex items-center gap-2 text-left">
                     Klientská zóna <Lock className="w-3.5 h-3.5" />
@@ -277,11 +289,11 @@ const App = () => {
             <div className="lg:col-span-4 space-y-8">
               <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-white">Expertíza</h4>
               <ul className="space-y-4">
-                <li><button onClick={() => navigateTo('loxone-detail')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Smart Home Loxone</button></li>
+                <li><button onClick={() => navigateTo('loxone-smart-home')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Smart Home Loxone</button></li>
                 <li><button onClick={() => navigateTo('projekce-elektro')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Projekce Elektro</button></li>
-                <li><button onClick={() => navigateTo('rozvadece')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Výroba rozvaděčů</button></li>
-                <li><button onClick={() => navigateTo('technologie')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Moderní technologie</button></li>
-                <li><button onClick={() => navigateTo('osvetleni')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Návrh osvětlení</button></li>
+                <li><button onClick={() => navigateTo('vyroba-rozvadecu')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Výroba rozvaděčů</button></li>
+                <li><button onClick={() => navigateTo('moderni-technologie')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Moderní technologie</button></li>
+                <li><button onClick={() => navigateTo('navrh-osvetleni')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Návrh osvětlení</button></li>
               </ul>
             </div>
           </div>
@@ -291,9 +303,9 @@ const App = () => {
               © 2024 IN TECH PRO s.r.o. Synchronizováno a zabezpečeno.
             </p>
             <div className="flex flex-wrap justify-center gap-8">
-              <button type="button" onClick={() => document.dispatchEvent(new CustomEvent('intechpro-open-cookies'))} className="text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors">Ochrana soukromí</button>
+              <button type="button" onClick={() => navigateTo('ochrana-soukromi')} className="text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors">Ochrana soukromí</button>
               <button type="button" onClick={() => document.dispatchEvent(new CustomEvent('intechpro-open-cookies'))} className="text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors">Cookies</button>
-              <a href="#" className="text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors">Impresum</a>
+              <button type="button" onClick={() => navigateTo('impresum')} className="text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors">Impresum</button>
             </div>
           </div>
         </div>

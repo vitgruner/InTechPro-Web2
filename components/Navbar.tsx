@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Menu, X, ArrowRight, Sun, Moon, Zap, ChevronDown, Lock, Activity } from 'lucide-react';
 import { NavProps, ViewState } from '../types';
@@ -35,30 +34,25 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
     setView(viewName);
     setIsMobileMenuOpen(false);
     setIsServicesOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const navItems: { label: string; value: ViewState; dropdown?: { label: string; value: ViewState }[]; isLive?: boolean }[] = [
     { 
       label: 'Služby', 
-      value: 'services',
+      value: 'sluzby',
       dropdown: [
-        { label: 'Smart Home Loxone', value: 'loxone-detail' },
+        { label: 'Smart Home Loxone', value: 'loxone-smart-home' },
         { label: 'Projekce elektro & Smart Home', value: 'projekce-elektro' },
-        { label: 'Výroba rozvaděčů', value: 'rozvadece' },
-        { label: 'Moderní technologie', value: 'technologie' },
-        { label: 'Návrh osvětlení', value: 'osvetleni' }
+        { label: 'Výroba rozvaděčů', value: 'vyroba-rozvadecu' },
+        { label: 'Moderní technologie', value: 'moderni-technologie' },
+        { label: 'Návrh osvětlení', value: 'navrh-osvetleni' }
       ]
     },
-    { label: 'Reference', value: 'showcase' },
-    { label: 'Online Showroom', value: 'innovation', isLive: true },
-    { label: 'O nás', value: 'about' }
+    { label: 'Reference', value: 'reference' },
+    { label: 'Online Showroom', value: 'online-showroom', isLive: true },
+    { label: 'O nás', value: 'o-nas' }
   ];
 
-  // Logic for navbar classes:
-  // 1. If menu is open -> Solid background (so header is visible against page content)
-  // 2. If scrolled -> Translucent/Blur background
-  // 3. Top of page -> Transparent
   const getNavClasses = () => {
     const baseClasses = "fixed top-0 left-0 right-0 z-50 transition-all duration-300";
     const padding = isScrolled ? 'py-4' : 'py-6';
@@ -131,9 +125,9 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
           ))}
           
           <button 
-            onClick={() => handleNavClick('contact')}
+            onClick={() => handleNavClick('kontakt')}
             className={`px-7 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-3 group glow ${
-              currentView === 'contact' 
+              currentView === 'kontakt' 
               ? 'bg-white text-blue-600 border border-blue-600'
               : 'bg-blue-600 text-white hover:bg-blue-700'
             }`}
@@ -164,7 +158,7 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
           </div>
         </div>
 
-        {/* Mobile Toggle Container */}
+        {/* Mobile Menu */}
         <div className="lg:hidden flex items-center gap-1.5">
           <button onClick={toggleTheme} className="p-2 text-gray-600 dark:text-gray-400 transition-all active:scale-90">
             {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
@@ -179,7 +173,6 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown - Using absolute top-full to attach perfectly to navbar bottom regardless of scroll height */}
       {isMobileMenuOpen && (
         <div className="lg:hidden absolute top-full left-0 right-0 h-screen bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-xl border-t border-black/5 dark:border-white/5 overflow-y-auto pb-32 animate-in slide-in-from-top-2 duration-200">
           <div className="p-6 flex flex-col gap-3">
@@ -232,7 +225,7 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
             ))}
 
             <button 
-              onClick={() => handleNavClick('contact')}
+              onClick={() => handleNavClick('kontakt')}
               className="w-full bg-blue-600 text-white p-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20 flex items-center justify-center gap-3 mt-4"
             >
               Nezávazná poptávka

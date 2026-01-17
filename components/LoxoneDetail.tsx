@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { 
   Zap, Thermometer, Wind, Blinds, Shield, Radio, Droplets, Waves, Car, 
@@ -48,7 +47,7 @@ const LoxoneDetail: React.FC<DetailProps> = ({ setView }) => {
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumbs 
           items={[
-            { label: 'SLUŽBY', view: 'services' },
+            { label: 'SLUŽBY', view: 'sluzby' },
             { label: 'Loxone Smart Home' }
           ]}
           setView={setView}
@@ -57,7 +56,7 @@ const LoxoneDetail: React.FC<DetailProps> = ({ setView }) => {
         <SectionHeader 
           variant="page"
           align="left"
-          eyebrow="The Core Integration"
+          eyebrow="Mozek inteligentní infrastruktury"
           title="Návrh a realizace"
           highlight="Smart Home Loxone"
           description="Moderní domy jsou plné technologií, které se starají o komfort, klima i úspory. Často ale fungují každá zvlášť – každá se svou aplikací. Výsledkem je chaos. Loxone vše propojí do jednoho harmonického celku."
@@ -146,7 +145,7 @@ const LoxoneDetail: React.FC<DetailProps> = ({ setView }) => {
             </div>
         </div>
         
-        <ServicePager currentView="loxone-detail" setView={setView} />
+        <ServicePager currentView="loxone-smart-home" setView={setView} />
       </div>
     </div>
   );

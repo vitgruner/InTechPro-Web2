@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Thermometer, Wind, Sun, ArrowLeft, CheckCircle2, Zap, Snowflake, Briefcase, Settings, ShieldCheck, Activity, TrendingUp } from 'lucide-react';
 import SolarSystem from './SolarSystem';
@@ -43,7 +42,7 @@ const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumbs 
           items={[
-            { label: 'SLUŽBY', view: 'services' },
+            { label: 'SLUŽBY', view: 'sluzby' },
             { label: 'Moderní Technologie' }
           ]}
           setView={setView}
@@ -118,7 +117,7 @@ const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
           ))}
         </div>
 
-        <ServicePager currentView="technologie" setView={setView} />
+        <ServicePager currentView="moderni-technologie" setView={setView} />
       </div>
     </div>
   );

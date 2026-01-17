@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { FileText, ClipboardList, PenTool, Layout, Layers, CheckCircle2, ArrowLeft, Info, Send } from 'lucide-react';
 import ProjectionVisualizer from './ProjectionVisualizer';
@@ -13,7 +12,7 @@ const ProjekceDetail: React.FC<DetailProps> = ({ setView }) => {
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumbs 
           items={[
-            { label: 'SLUŽBY', view: 'services' },
+            { label: 'SLUŽBY', view: 'sluzby' },
             { label: 'Projekce Elektro' }
           ]}
           setView={setView}
@@ -32,7 +31,9 @@ const ProjekceDetail: React.FC<DetailProps> = ({ setView }) => {
             />
           </div>
           <div className="hidden lg:flex items-center gap-3 bg-blue-600/5 px-6 py-4 rounded-3xl border border-blue-600/20 mb-1 lg:mb-3">
-            <Info className="w-5 h-5 text-blue-600" />
+            <div className="w-10 h-10 bg-blue-600/10 rounded-full flex items-center justify-center">
+              <Info className="w-5 h-5 text-blue-600" />
+            </div>
             <span className="text-[10px] font-black uppercase tracking-widest text-blue-700">Přesnost projektu = 100% spolehlivost</span>
           </div>
         </div>

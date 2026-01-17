@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   Palette, Sun, Moon, Eye, Settings, ArrowLeft, CheckCircle2, 
@@ -45,7 +44,7 @@ const OsvetleniDetail: React.FC<DetailProps> = ({ setView }) => {
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumbs 
           items={[
-            { label: 'SLUŽBY', view: 'services' },
+            { label: 'SLUŽBY', view: 'sluzby' },
             { label: 'Návrh Osvětlení' }
           ]}
           setView={setView}
@@ -55,7 +54,7 @@ const OsvetleniDetail: React.FC<DetailProps> = ({ setView }) => {
           <SectionHeader 
             variant="page"
             align="left"
-            eyebrow="Design & Engineering"
+            eyebrow="Design a technické řešení"
             title="Návrh a realizace"
             highlight="Osvětlení"
             description="Nabízíme kompletní službu – od návrhu přes výběr svítidel až po samotnou realizaci a automatizaci scénických režimů."
@@ -128,7 +127,7 @@ const OsvetleniDetail: React.FC<DetailProps> = ({ setView }) => {
           </div>
         </div>
 
-        <ServicePager currentView="osvetleni" setView={setView} />
+        <ServicePager currentView="navrh-osvetleni" setView={setView} />
       </div>
     </div>
   );

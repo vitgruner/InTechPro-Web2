@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Settings, Box, ShieldCheck, PenTool, Truck, Calculator, FileText, BadgeCheck, TrendingUp, ArrowLeft, Zap, Cpu } from 'lucide-react';
 import LoxoneUnit from './LoxoneUnit';
@@ -53,7 +52,7 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumbs 
           items={[
-            { label: 'SLUŽBY', view: 'services' },
+            { label: 'SLUŽBY', view: 'sluzby' },
             { label: 'Výroba Rozvaděčů' }
           ]}
           setView={setView}
@@ -64,7 +63,7 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
             <SectionHeader 
               variant="page"
               align="left"
-              eyebrow="Engineered for Reliability"
+              eyebrow="Navrženo s důrazem na spolehlivost"
               title="Realizace"
               highlight="rozvaděčů"
               description="Kvalitně navržený rozvaděč je základ spolehlivé elektroinstalace i chytré domácnosti. Proto klademe důraz na detailní přípravu už ve fázi projekce."
@@ -139,7 +138,7 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
           </div>
         </div>
 
-        <ServicePager currentView="rozvadece" setView={setView} />
+        <ServicePager currentView="vyroba-rozvadecu" setView={setView} />
       </div>
     </div>
   );

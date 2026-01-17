@@ -1,22 +1,21 @@
-
 import React from 'react';
 import { ArrowRight, ArrowLeft, Mail, LayoutGrid } from 'lucide-react';
 import { ViewState } from '../types';
 
 const SERVICE_ORDER: ViewState[] = [
-  'loxone-detail',
+  'loxone-smart-home',
   'projekce-elektro',
-  'rozvadece',
-  'technologie',
-  'osvetleni'
+  'vyroba-rozvadecu',
+  'moderni-technologie',
+  'navrh-osvetleni'
 ];
 
 const LABELS: Record<string, string> = {
-  'loxone-detail': 'Smart Home',
+  'loxone-smart-home': 'Smart Home',
   'projekce-elektro': 'Projekce',
-  'rozvadece': 'Rozvaděče',
-  'technologie': 'Technologie',
-  'osvetleni': 'Osvětlení'
+  'vyroba-rozvadecu': 'Rozvaděče',
+  'moderni-technologie': 'Technologie',
+  'navrh-osvetleni': 'Osvětlení'
 };
 
 interface ServicePagerProps {
@@ -31,12 +30,10 @@ const ServicePager: React.FC<ServicePagerProps> = ({ currentView, setView }) => 
   const isLast = currentIndex === SERVICE_ORDER.length - 1;
   const isFirst = currentIndex === 0;
 
-  // Next Button Logic
-  const nextView = isLast ? 'contact' : SERVICE_ORDER[currentIndex + 1];
+  const nextView = isLast ? 'kontakt' : SERVICE_ORDER[currentIndex + 1];
   const nextLabel = isLast ? 'Nezávazná poptávka' : LABELS[nextView];
 
-  // Previous Button Logic
-  const prevView = isFirst ? 'services' : SERVICE_ORDER[currentIndex - 1];
+  const prevView = isFirst ? 'sluzby' : SERVICE_ORDER[currentIndex - 1];
   const prevLabel = isFirst ? 'Zpět na služby' : `Zpět na ${LABELS[prevView]}`;
   const PrevIcon = isFirst ? LayoutGrid : ArrowLeft;
 
@@ -45,7 +42,7 @@ const ServicePager: React.FC<ServicePagerProps> = ({ currentView, setView }) => 
       <div className="mx-auto flex w-full flex-row flex-wrap justify-center items-center gap-6 sm:gap-12">
         <button
           onClick={() => {
-            setView(prevView);
+            setView(prevView as ViewState);
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
           className="group flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white transition-colors"
@@ -56,7 +53,7 @@ const ServicePager: React.FC<ServicePagerProps> = ({ currentView, setView }) => 
 
         <button
           onClick={() => {
-              setView(nextView);
+              setView(nextView as ViewState);
               window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
           className="group flex items-center gap-3 bg-blue-600 text-white px-8 py-4 rounded-full font-black uppercase tracking-widest text-xs hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20"
