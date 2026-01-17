@@ -161,14 +161,14 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
           </p>
           <div className="flex flex-wrap gap-4 justify-center lg:justify-start animate-in slide-in-from-bottom-10 fade-in duration-1000">
             <button 
-              onClick={() => setView('services')}
+              onClick={() => setView('sluzby')}
               className="btn-magnetic px-8 py-4 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition-all glow text-sm md:text-base shadow-lg shadow-blue-500/30 relative overflow-hidden group"
             >
               <span className="relative z-10">Naše služby</span>
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
             </button>
             <button 
-              onClick={() => setView('showcase')}
+              onClick={() => setView('online-showroom')}
               className="btn-magnetic px-8 py-4 glass-panel rounded-full font-bold hover:bg-black/5 dark:hover:bg-white/10 transition-all text-[#1a1d21] dark:text-white text-sm md:text-base border border-black/10 dark:border-white/20"
             >
               Reference
