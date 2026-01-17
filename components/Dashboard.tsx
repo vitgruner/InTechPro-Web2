@@ -67,13 +67,13 @@ const Dashboard: React.FC<DetailProps> = ({ setView }) => {
 
   return (
     <section id="dashboard" className="pt-28 md:pt-32 pb-16 md:pb-24 relative bg-transparent transition-colors duration-500">
-      <div className="max-w-7xl mx-auto px-6 space-y-6 md:space-y-10">
+      <div className="max-w-7xl mx-auto px-6">
         <Breadcrumbs 
           items={[{ label: 'Online Showroom' }]}
           setView={setView}
         />
         
-        <div className="flex flex-col lg:flex-row justify-between items-end gap-6">
+        <div className="flex flex-col lg:flex-row justify-between items-end gap-6 mb-8 md:mb-10">
           <div className="w-full lg:max-w-3xl text-left">
             <SectionHeader 
               eyebrow="Řídicí centrum InTechPro v4.2"
@@ -93,7 +93,7 @@ const Dashboard: React.FC<DetailProps> = ({ setView }) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-12 md:mb-20">
           {sensors.map((sensor) => (
             <div key={sensor.id} className="glass-panel p-3 rounded-2xl border border-black/5 dark:border-white/10 flex items-center gap-3 group hover:border-blue-600/40 dark:hover:border-blue-500/40 transition-all hover:bg-white/80 dark:hover:bg-white/[0.07] shadow-sm hover:shadow-md duration-500 min-w-0">
               <div className="w-10 h-10 bg-blue-600/10 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all border border-blue-500/10 flex-shrink-0">
@@ -117,7 +117,7 @@ const Dashboard: React.FC<DetailProps> = ({ setView }) => {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 pt-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
           <VisualizationBox 
             icon={Cpu} 
             title="Centrální rozvaděc" 
