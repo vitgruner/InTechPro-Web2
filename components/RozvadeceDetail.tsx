@@ -48,7 +48,7 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
   ];
 
   return (
-    <div className="pt-32 md:pt-40 pb-12 md:pb-16 animate-in fade-in duration-700">
+    <div className="pt-28 md:pt-32 pb-12 md:pb-16 animate-in fade-in duration-700">
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumbs 
           items={[

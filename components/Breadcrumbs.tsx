@@ -4,7 +4,7 @@ import { BreadcrumbsProps } from '../types';
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, setView }) => {
   return (
-    <nav aria-label="Breadcrumb" className="mb-8 md:mb-12 animate-in slide-in-from-left-4 fade-in duration-500">
+    <nav aria-label="Breadcrumb" className="mb-4 md:mb-5 animate-in slide-in-from-left-4 fade-in duration-500">
       <ol className="flex items-center flex-wrap gap-2 text-[10px] font-black uppercase tracking-widest">
         <li className="flex items-center">
           <button 

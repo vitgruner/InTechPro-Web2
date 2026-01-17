@@ -208,9 +208,9 @@ const App = () => {
       case 'kontakt':
         return <ContactForm isStandalone={true} />;
       case 'online-showroom':
-        return <div className="animate-in fade-in duration-700"><Dashboard /></div>;
+        return <div className="animate-in fade-in duration-700"><Dashboard setView={navigateTo} /></div>;
       case 'o-nas':
-        return <AboutUs />;
+        return <AboutUs setView={navigateTo} />;
       case 'ochrana-soukromi':
         return <PrivacyPolicy setView={navigateTo} />;
       case 'impresum':

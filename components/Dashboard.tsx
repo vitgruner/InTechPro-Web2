@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Thermometer, Droplets, Zap, Activity, ShieldCheck, Wifi, Battery, Droplet, Lock, Cpu, Sun, Palette, Wind } from 'lucide-react';
 import LoxoneUnit from './LoxoneUnit';
@@ -6,6 +5,8 @@ import SolarSystem from './SolarSystem';
 import LightControl from './LightControl';
 import ClimateControl from './ClimateControl';
 import SectionHeader from './SectionHeader';
+import Breadcrumbs from './Breadcrumbs';
+import { DetailProps } from '../types';
 
 interface VisualizationBoxProps {
   icon: React.ElementType;
@@ -39,7 +40,7 @@ const VisualizationBox: React.FC<VisualizationBoxProps> = ({ icon: Icon, title, 
   </div>
 );
 
-const Dashboard = () => {
+const Dashboard: React.FC<DetailProps> = ({ setView }) => {
   const [sensors, setSensors] = useState([
     { id: 't1', label: 'Teplota obývací p.', value: 22.4, unit: '°C', trend: 'stable', icon: <Thermometer className="w-4 h-4" /> },
     { id: 'h1', label: 'Vlhkost vzduchu', value: 48, unit: '%', trend: 'down', icon: <Droplets className="w-4 h-4" /> },
@@ -65,52 +66,55 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <section id="dashboard" className="pt-24 md:pt-36 pb-16 md:pb-24 relative bg-transparent transition-colors duration-500">
-      <div className="max-w-7xl mx-auto px-6 space-y-12 md:space-y-20">
-        <div className="flex flex-col gap-8 md:gap-10">
-          <div className="flex flex-col lg:flex-row justify-between items-end gap-6">
-            <div className="w-full lg:max-w-3xl text-left">
-              <SectionHeader 
-                eyebrow="Řídicí centrum InTechPro v4.2"
-                title="Online data"
-                highlight="Showroom"
-                description="Online monitoring telemetrie napříč 8 klíčovými metrikami v našem showroomu"
-                align="left"
-                className="mb-0" 
-              />
-            </div>
-            <div className="flex items-center gap-3 bg-blue-600/5 dark:bg-blue-600/10 px-6 py-4 rounded-3xl border border-blue-600/10 dark:border-blue-500/20 shadow-sm w-full md:w-auto justify-center md:justify-start mb-1">
-              <ShieldCheck className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-              <div className="flex flex-col text-left">
-                <span className="text-[10px] font-black text-blue-600 dark:text-blue-300 uppercase tracking-widest leading-none mb-1">Globální zabezpečení</span>
-                <span className="text-sm font-bold text-gray-800 dark:text-white">Šifrované spojení SSL aktivní</span>
-              </div>
+    <section id="dashboard" className="pt-28 md:pt-32 pb-16 md:pb-24 relative bg-transparent transition-colors duration-500">
+      <div className="max-w-7xl mx-auto px-6 space-y-6 md:space-y-10">
+        <Breadcrumbs 
+          items={[{ label: 'Online Showroom' }]}
+          setView={setView}
+        />
+        
+        <div className="flex flex-col lg:flex-row justify-between items-end gap-6">
+          <div className="w-full lg:max-w-3xl text-left">
+            <SectionHeader 
+              eyebrow="Řídicí centrum InTechPro v4.2"
+              title="Online data"
+              highlight="Showroom"
+              description="Online monitoring telemetrie napříč 8 klíčovými metrikami v našem showroomu"
+              align="left"
+              className="mb-0" 
+            />
+          </div>
+          <div className="flex items-center gap-3 bg-blue-600/5 dark:bg-blue-600/10 px-6 py-4 rounded-3xl border border-blue-600/10 dark:border-blue-500/20 shadow-sm w-full md:w-auto justify-center md:justify-start mb-1">
+            <ShieldCheck className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+            <div className="flex flex-col text-left">
+              <span className="text-[10px] font-black text-blue-600 dark:text-blue-300 uppercase tracking-widest leading-none mb-1">Globální zabezpečení</span>
+              <span className="text-sm font-bold text-gray-800 dark:text-white">Šifrované spojení SSL aktivní</span>
             </div>
           </div>
+        </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-            {sensors.map((sensor) => (
-              <div key={sensor.id} className="glass-panel p-3 rounded-2xl border border-black/5 dark:border-white/10 flex items-center gap-3 group hover:border-blue-600/40 dark:hover:border-blue-500/40 transition-all hover:bg-white/80 dark:hover:bg-white/[0.07] shadow-sm hover:shadow-md duration-500 min-w-0">
-                <div className="w-10 h-10 bg-blue-600/10 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all border border-blue-500/10 flex-shrink-0">
-                    {sensor.icon}
-                </div>
-                <div className="min-w-0 flex flex-col justify-center">
-                   <div className="flex items-center gap-2 mb-0.5">
-                      <p className="text-[9px] text-gray-400 dark:text-gray-500 font-black uppercase tracking-widest truncate" title={sensor.label}>{sensor.label}</p>
-                      {sensor.trend !== 'stable' && (
-                        <span className={`text-[9px] font-bold ${sensor.trend === 'up' ? 'text-blue-600' : 'text-red-500'}`}>
-                           {sensor.trend === 'up' ? '↑' : '↓'}
-                        </span>
-                      )}
-                   </div>
-                   <h4 className="text-sm font-black text-gray-900 dark:text-white tabular-nums leading-none truncate font-mono">
-                      {sensor.value}
-                      <span className="text-[9px] font-medium text-gray-500 ml-1 font-sans">{sensor.unit}</span>
-                   </h4>
-                </div>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+          {sensors.map((sensor) => (
+            <div key={sensor.id} className="glass-panel p-3 rounded-2xl border border-black/5 dark:border-white/10 flex items-center gap-3 group hover:border-blue-600/40 dark:hover:border-blue-500/40 transition-all hover:bg-white/80 dark:hover:bg-white/[0.07] shadow-sm hover:shadow-md duration-500 min-w-0">
+              <div className="w-10 h-10 bg-blue-600/10 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all border border-blue-500/10 flex-shrink-0">
+                  {sensor.icon}
               </div>
-            ))}
-          </div>
+              <div className="min-w-0 flex flex-col justify-center">
+                 <div className="flex items-center gap-2 mb-0.5">
+                    <p className="text-[9px] text-gray-400 dark:text-gray-500 font-black uppercase tracking-widest truncate" title={sensor.label}>{sensor.label}</p>
+                    {sensor.trend !== 'stable' && (
+                      <span className={`text-[9px] font-bold ${sensor.trend === 'up' ? 'text-blue-600' : 'text-red-500'}`}>
+                         {sensor.trend === 'up' ? '↑' : '↓'}
+                      </span>
+                    )}
+                 </div>
+                 <h4 className="text-sm font-black text-gray-900 dark:text-white tabular-nums leading-none truncate font-mono">
+                    {sensor.value}
+                    <span className="text-[9px] font-medium text-gray-500 ml-1 font-sans">{sensor.unit}</span>
+                 </h4>
+              </div>
+            </div>
+          ))}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 pt-4">

@@ -146,7 +146,7 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
             Integrovaná <br className="hidden sm:block" />
             <span className="text-gradient">Inteligence</span>
           </h1>
-          <p className="text-base md:text-xl text-gray-600 dark:text-gray-200 max-w-lg mb-10 leading-relaxed mx-auto lg:mx-0 font-medium transition-colors duration-500 animate-in slide-in-from-bottom-8 fade-in duration-1000 border-l-2 border-blue-600/30 pl-6">
+          <p className="text-base md:text-xl text-gray-600 dark:text-gray-200 max-w-lg mb-10 leading-relaxed mx-auto lg:mx-0 font-medium transition-colors duration-500 animate-in slide-in-from-bottom-8 fade-in duration-1000">
             Projektujeme a oživujeme nervovou soustavu moderních budov. Od autonomních rezidencí po inteligentní průmyslové klastry.
           </p>
           <div className="flex flex-wrap gap-5 justify-center lg:justify-start animate-in slide-in-from-bottom-10 fade-in duration-1000">

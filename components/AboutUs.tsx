@@ -1,12 +1,18 @@
-
 import React from 'react';
 import { Target, ShieldCheck, Zap } from 'lucide-react';
 import SectionHeader from './SectionHeader';
+import Breadcrumbs from './Breadcrumbs';
+import { DetailProps } from '../types';
 
-const AboutUs = () => {
+const AboutUs: React.FC<DetailProps> = ({ setView }) => {
   return (
-    <section className="pt-32 md:pt-40 pb-16 md:pb-24 relative overflow-hidden bg-transparent transition-colors duration-500">
+    <section className="pt-28 md:pt-32 pb-16 md:pb-24 relative overflow-hidden bg-transparent transition-colors duration-500">
       <div className="max-w-7xl mx-auto px-6">
+        <Breadcrumbs 
+          items={[{ label: 'O nás' }]}
+          setView={setView}
+        />
+
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
             <SectionHeader 

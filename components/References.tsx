@@ -7,6 +7,7 @@ import {
 import { Reference, ReferenceCardProps, ReferencesProps, ReferenceService } from '../types';
 import SectionHeader from './SectionHeader';
 import Partners from './Partners';
+import Breadcrumbs from './Breadcrumbs';
 
 const IconMap: Record<string, React.ElementType> = {
   'home': Home,
@@ -150,8 +151,15 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
   ];
 
   return (
-    <section id="references" className={`transition-all duration-700 ${isStandalone ? 'pt-24 md:pt-36 pb-0' : 'pt-8 md:pt-16 pb-8 md:pb-16'}`}>
+    <section id="references" className={`transition-all duration-700 ${isStandalone ? 'pt-28 md:pt-32 pb-0' : 'pt-8 md:pt-16 pb-8 md:pb-16'}`}>
       <div className="max-w-7xl mx-auto px-6">
+        {isStandalone && setView && (
+          <Breadcrumbs 
+            items={[{ label: 'Reference' }]}
+            setView={setView}
+          />
+        )}
+
         <SectionHeader 
           eyebrow="Výběr z portfolia"
           title="Naše globální"
