@@ -108,7 +108,7 @@ const App = () => {
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [isSyncing, setIsSyncing] = useState(false);
 
-  // Global scroll-to-top handler on view change
+  // Global scroll-to-top handler on view change (safety net)
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [view]);
@@ -117,6 +117,7 @@ const App = () => {
     const handleHashChange = () => {
       const newView = getViewStateFromHash();
       setView(newView);
+      window.scrollTo(0, 0);
     };
 
     window.addEventListener('hashchange', handleHashChange);
@@ -125,9 +126,15 @@ const App = () => {
 
   const navigateTo = (newView: ViewState) => {
     const currentHash = window.location.hash.replace('#', '') || 'home';
+    
+    // Always trigger top scroll
+    window.scrollTo(0, 0);
+
     if (currentHash === newView) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // If same view, just ensure we are at top
+      window.scrollTo({ top: 0, behavior: 'auto' });
     } else {
+      // Update hash which triggers handleHashChange
       window.location.hash = newView === 'home' ? '' : newView;
     }
   };
@@ -228,7 +235,7 @@ const App = () => {
                   <h1 className="text-4xl font-black uppercase tracking-tight">Databáze <span className="text-blue-600">Projektů</span></h1>
                   {isSyncing && <div className="flex items-center gap-2 text-blue-600 animate-pulse text-[10px] font-black uppercase tracking-widest bg-blue-600/10 px-3 py-1 rounded-full"><CloudUpload className="w-3 h-3" /> Syncing</div>}
                 </div>
-                <button onClick={() => { setIsAdmin(false); navigateTo('home'); }} className="px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest bg-slate-200 dark:bg-white/10">Odhlásit se</button>
+                <button type="button" onClick={() => { setIsAdmin(false); navigateTo('home'); }} className="px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest bg-slate-200 dark:bg-white/10">Odhlásit se</button>
               </div>
               <ReferenceForm onAdd={handleAddReference} onCancel={() => navigateTo('home')} />
             </div>
@@ -263,7 +270,7 @@ const App = () => {
               </p>
               <div className="flex gap-4">
                 {[Twitter, Linkedin, Instagram].map((Icon, i) => (
-                  <a key={i} href="#" className="w-12 h-12 rounded-xl border border-white/10 flex items-center justify-center hover:bg-white/5 transition-all text-gray-300 hover:text-white">
+                  <a key={i} href="javascript:void(0)" onClick={(e) => e.preventDefault()} className="w-12 h-12 rounded-xl border border-white/10 flex items-center justify-center hover:bg-white/5 transition-all text-gray-300 hover:text-white">
                     <Icon className="w-5 h-5" />
                   </a>
                 ))}
@@ -273,17 +280,17 @@ const App = () => {
             <div className="lg:col-span-3 space-y-8">
               <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-white">Mapa webu</h4>
               <ul className="space-y-4">
-                <li><button onClick={() => navigateTo('o-nas')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">O nás</button></li>
-                <li><button onClick={() => navigateTo('sluzby')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Služby</button></li>
-                <li><button onClick={() => navigateTo('reference')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Reference</button></li>
+                <li><button type="button" onClick={() => navigateTo('o-nas')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">O nás</button></li>
+                <li><button type="button" onClick={() => navigateTo('sluzby')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Služby</button></li>
+                <li><button type="button" onClick={() => navigateTo('reference')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Reference</button></li>
                 <li>
-                  <button onClick={() => navigateTo('online-showroom')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm flex items-center gap-2">
+                  <button type="button" onClick={() => navigateTo('online-showroom')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm flex items-center gap-2">
                     Online Showroom <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" />
                   </button>
                 </li>
-                <li><button onClick={() => navigateTo('kontakt')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Kontakt</button></li>
+                <li><button type="button" onClick={() => navigateTo('kontakt')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Kontakt</button></li>
                 <li>
-                  <button onClick={() => navigateTo('admin-login')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm flex items-center gap-2 text-left">
+                  <button type="button" onClick={() => navigateTo('admin-login')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm flex items-center gap-2 text-left">
                     Klientská zóna <Lock className="w-3.5 h-3.5" />
                   </button>
                 </li>
@@ -293,11 +300,11 @@ const App = () => {
             <div className="lg:col-span-4 space-y-8">
               <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-white">Expertíza</h4>
               <ul className="space-y-4">
-                <li><button onClick={() => navigateTo('loxone-smart-home')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Smart Home Loxone</button></li>
-                <li><button onClick={() => navigateTo('projekce-elektro')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Projekce Elektro</button></li>
-                <li><button onClick={() => navigateTo('vyroba-rozvadecu')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Výroba rozvaděčů</button></li>
-                <li><button onClick={() => navigateTo('moderni-technologie')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Moderní technologie</button></li>
-                <li><button onClick={() => navigateTo('navrh-osvetleni')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Návrh osvětlení</button></li>
+                <li><button type="button" onClick={() => navigateTo('loxone-smart-home')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Smart Home Loxone</button></li>
+                <li><button type="button" onClick={() => navigateTo('projekce-elektro')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Projekce Elektro</button></li>
+                <li><button type="button" onClick={() => navigateTo('vyroba-rozvadecu')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Výroba rozvaděčů</button></li>
+                <li><button type="button" onClick={() => navigateTo('moderni-technologie')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Moderní technologie</button></li>
+                <li><button type="button" onClick={() => navigateTo('navrh-osvetleni')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Návrh osvětlení</button></li>
               </ul>
             </div>
           </div>

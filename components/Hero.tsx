@@ -10,27 +10,27 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
 
     let width = canvas.width = window.innerWidth;
     let height = canvas.height = window.innerHeight;
 
     const particles: { x: number; y: number; vx: number; vy: number; size: number }[] = [];
-    const particleCount = Math.min(Math.floor((width * height) / 15000), 100); // Responsive count
-    const connectionDistance = 150;
-    const mouseDistance = 200;
+    // Snížený počet částic pro lepší výkon na mobilních zařízeních
+    const particleCount = Math.min(Math.floor((width * height) / 25000), 60); 
+    const connectionDistance = 140;
+    const mouseDistance = 180;
 
     let mouse = { x: -1000, y: -1000 };
 
-    // Initialize particles
     for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-        size: Math.random() * 2 + 1,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        size: Math.random() * 1.5 + 1,
       });
     }
 
@@ -40,52 +40,43 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
     };
 
     const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
     };
 
     window.addEventListener('resize', handleResize);
     window.addEventListener('mousemove', handleMouseMove);
 
+    let animationFrameId: number;
     const animate = () => {
       ctx.clearRect(0, 0, width, height);
       
-      // Determine theme colors (simple check, ideally passed via props or context)
       const isDark = document.documentElement.classList.contains('dark');
-      const particleColor = isDark ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.3)';
-      const lineColor = isDark ? 'rgba(37, 99, 235, 0.6)' : 'rgba(37, 99, 235, 0.5)'; // Slightly more visible
+      const particleColor = isDark ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.2)';
+      const lineColor = isDark ? 'rgba(37, 99, 235, 0.4)' : 'rgba(37, 99, 235, 0.3)';
 
-      // Update and draw particles
       particles.forEach((p, i) => {
-        // Move
         p.x += p.vx;
         p.y += p.vy;
 
-        // Bounce
         if (p.x < 0 || p.x > width) p.vx *= -1;
         if (p.y < 0 || p.y > height) p.vy *= -1;
 
-        // Mouse interaction (push away gently)
         const dx = p.x - mouse.x;
         const dy = p.y - mouse.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
         if (distance < mouseDistance) {
-          const forceDirectionX = dx / distance;
-          const forceDirectionY = dy / distance;
           const force = (mouseDistance - distance) / mouseDistance;
-          p.vx += forceDirectionX * force * 0.05;
-          p.vy += forceDirectionY * force * 0.05;
+          p.vx += (dx / distance) * force * 0.03;
+          p.vy += (dy / distance) * force * 0.03;
         }
 
-        // Draw particle
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fillStyle = particleColor;
         ctx.fill();
 
-        // Connect
         for (let j = i + 1; j < particles.length; j++) {
           const p2 = particles[j];
           const dx2 = p.x - p2.x;
@@ -93,29 +84,18 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
           const dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
 
           if (dist2 < connectionDistance) {
-            const opacity = 1 - dist2 / connectionDistance;
+            const opacity = (1 - dist2 / connectionDistance) * 0.15;
             ctx.beginPath();
-            ctx.strokeStyle = `${lineColor} ${opacity * 0.2})`;
-            ctx.lineWidth = 1;
+            ctx.strokeStyle = lineColor.replace('0.4', opacity.toString()).replace('0.3', opacity.toString());
+            ctx.lineWidth = 0.8;
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
             ctx.stroke();
           }
         }
-        
-        // Connect to mouse
-        if (distance < mouseDistance) {
-             const opacity = 1 - distance / mouseDistance;
-             ctx.beginPath();
-             ctx.strokeStyle = `${lineColor} ${opacity * 0.4})`;
-             ctx.lineWidth = 1;
-             ctx.moveTo(p.x, p.y);
-             ctx.lineTo(mouse.x, mouse.y);
-             ctx.stroke();
-        }
       });
 
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     };
 
     animate();
@@ -123,26 +103,15 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
+      cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
   return (
     <section className="relative min-h-screen flex items-center pt-28 md:pt-32 pb-8 md:pb-12 overflow-hidden">
-      
-      {/* --- High-End Technical Background --- */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        
-        {/* 1. Base Mesh Gradient */}
-        <div className="absolute top-[-10%] right-[-10%] w-[70%] h-[70%] rounded-full bg-blue-600/10 dark:bg-blue-500/10 blur-[120px] animate-pulse" style={{ animationDuration: '8s' }} />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-blue-400/5 dark:bg-blue-600/5 blur-[100px] animate-pulse" style={{ animationDuration: '12s' }} />
-
-        {/* 2. Interactive Background Canvas */}
-        <canvas 
-          ref={canvasRef} 
-          className="absolute inset-0 z-0 pointer-events-auto opacity-60"
-        />
-        
-        {/* 3. Radial Fade (Focusing center) */}
+        <div className="absolute top-[-10%] right-[-10%] w-[70%] h-[70%] rounded-full bg-blue-600/10 dark:bg-blue-500/10 blur-[120px]" />
+        <canvas ref={canvasRef} className="absolute inset-0 z-0 pointer-events-none opacity-40" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#f4f7f9] dark:to-[#050505]" />
       </div>
 
@@ -162,13 +131,12 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
           <div className="flex flex-wrap gap-4 justify-center lg:justify-start animate-in slide-in-from-bottom-10 fade-in duration-1000">
             <button 
               onClick={() => setView('sluzby')}
-              className="btn-magnetic px-8 py-4 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition-all glow text-sm md:text-base shadow-lg shadow-blue-500/30 relative overflow-hidden group"
+              className="btn-magnetic px-8 py-4 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition-all glow text-sm md:text-base shadow-lg shadow-blue-500/30"
             >
-              <span className="relative z-10">Naše služby</span>
-              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+              Naše služby
             </button>
             <button 
-              onClick={() => setView('online-showroom')}
+              onClick={() => setView('reference')}
               className="btn-magnetic px-8 py-4 glass-panel rounded-full font-bold hover:bg-black/5 dark:hover:bg-white/10 transition-all text-[#1a1d21] dark:text-white text-sm md:text-base border border-black/10 dark:border-white/20"
             >
               Reference
@@ -182,13 +150,8 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
             </div>
             <div className="h-10 w-[1px] bg-black/10 dark:bg-white/10"></div>
             <div className="flex flex-col">
-              <span className="text-xl md:text-2xl font-black font-mono text-gray-900 dark:text-white">15+</span>
-              <span className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold">Ocenění</span>
-            </div>
-            <div className="h-10 w-[1px] bg-black/10 dark:bg-white/10"></div>
-            <div className="flex flex-col">
               <span className="text-xl md:text-2xl font-black font-mono text-gray-900 dark:text-white">100%</span>
-              <span className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold">Shoda norem</span>
+              <span className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold">Spolehlivost</span>
             </div>
           </div>
         </div>
@@ -200,7 +163,6 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
             <SmartHomeWireframe />
           </div>
         </div>
-
       </div>
     </section>
   );
