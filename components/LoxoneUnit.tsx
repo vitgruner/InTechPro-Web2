@@ -2,12 +2,13 @@
 import React, { useState } from 'react';
 import { Cpu, Zap, Activity } from 'lucide-react';
 
-// StatusLED component defined outside to prevent unnecessary re-renders.
-const StatusLED = ({ color = "bg-green-500", animate = true }) => (
-  <div className={`w-1.5 h-1.5 rounded-full ${color} ${animate ? 'animate-pulse' : 'opacity-60'} shadow-[0_0_4px_currentColor]`} />
-);
+const StatusLED = ({ color = "bg-green-500", animate = true }) => {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  return (
+    <div className={`w-1.5 h-1.5 rounded-full ${color} ${animate && !isMobile ? 'animate-pulse' : 'opacity-60'} shadow-[0_0_4px_currentColor]`} />
+  );
+};
 
-// Define proper interface for Module props
 interface ModuleProps {
   comp: any;
   activeLabel: string | null;
@@ -75,11 +76,9 @@ const LoxoneUnit = () => {
     <div className="w-full h-full p-3 md:p-10 flex flex-col items-center justify-center bg-gray-50/50 dark:bg-[#0d0f12] transition-colors duration-500 overflow-hidden">
       <div className="relative w-full max-w-7xl bg-white dark:bg-[#1a1d21] rounded-xl md:rounded-2xl border-[6px] md:border-[10px] border-gray-200 dark:border-[#2a2e35] shadow-2xl flex flex-col transition-colors duration-500">
         
-        {/* DIN Rail Background Lines */}
         <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.1] pointer-events-none" 
              style={{ backgroundImage: 'linear-gradient(var(--text-color) 1px, transparent 1px)', backgroundSize: '100% 120px' }} />
 
-        {/* Swipe Hint - Mobile Only */}
         <div className="md:hidden absolute top-2 right-4 z-50 animate-pulse text-[8px] font-black text-blue-500 uppercase tracking-widest pointer-events-none">
           Swipe Rail ⟷
         </div>
@@ -100,7 +99,6 @@ const LoxoneUnit = () => {
             </div>
           ))}
 
-          {/* Breaker Rail */}
           <div className="relative h-16 md:h-20 w-full bg-gray-100/50 dark:bg-[#24292e]/40 rounded-lg border-y border-gray-200 dark:border-white/5 flex items-center overflow-x-auto scrollbar-hide px-3 md:px-4 gap-1.5 shadow-inner">
             <div className="flex gap-1 md:gap-1.5 flex-shrink-0">
               {Array.from({length: 20}).map((_, i) => (
@@ -114,10 +112,9 @@ const LoxoneUnit = () => {
           </div>
         </div>
 
-        {/* Dynamic Status Footer */}
         <div className="bg-gray-50 dark:bg-[#1a1d21] border-t border-gray-200 dark:border-white/5 px-6 md:px-10 py-3 md:py-4 flex flex-col sm:flex-row justify-between items-center opacity-80 gap-3">
            <div className="flex items-center gap-2 md:gap-3">
-              <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_#22c55e]" />
+              <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-green-500 opacity-80 shadow-[0_0_8px_#22c55e]" />
               <span className="text-[9px] md:text-[11px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest text-center sm:text-left">Intelligence Synchronized</span>
            </div>
            <div className="flex items-center gap-6 md:gap-8">

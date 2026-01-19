@@ -88,14 +88,14 @@
         :root {
             --bg-color: #f4f7f9;
             --text-color: #1a1d21;
-            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-bg: rgba(255, 255, 255, 0.85);
             --glass-border: rgba(0, 0, 0, 0.1);
         }
 
         .dark {
             --bg-color: #050505;
             --text-color: #ffffff;
-            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-bg: rgba(15, 15, 15, 0.8);
             --glass-border: rgba(255, 255, 255, 0.1);
         }
 
@@ -108,9 +108,16 @@
 
         .glass-panel {
             background: var(--glass-bg);
-            backdrop-filter: blur(16px);
             border: 1px solid var(--glass-border);
             transition: background 0.5s ease, border 0.5s ease;
+        }
+
+        /* Backdrop blur pouze pro desktop - na mobilu je příliš náročný */
+        @media (min-width: 769px) {
+            .glass-panel {
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+            }
         }
 
         .text-gradient {

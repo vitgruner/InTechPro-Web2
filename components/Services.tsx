@@ -49,7 +49,10 @@ const Services: React.FC<ServicesProps> = ({ setView, isStandalone = false }) =>
   });
 
   useEffect(() => {
-    // Prodloužen interval na 6s pro snížení zátěže re-renderů
+    // Na mobilu animace statistik zcela vypneme, abychom ušetřili re-rendery celé sekce
+    const isMobile = window.innerWidth < 768;
+    if (isMobile) return;
+
     const interval = setInterval(() => {
       setLiveStats(prev => ({
         ...prev,
@@ -82,7 +85,6 @@ const Services: React.FC<ServicesProps> = ({ setView, isStandalone = false }) =>
     <section id="services" className={`py-8 md:py-16 relative transition-colors duration-500 ${isStandalone ? 'pt-28 md:pt-36' : ''}`}>
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-4 md:gap-6 mb-8 md:mb-12">
-          {/* Loxone Section */}
           <div 
             onClick={() => setView('loxone-smart-home')}
             className="lg:col-span-2 bg-[#f8fafc] dark:bg-[#0a0c10] p-6 md:p-12 rounded-[2rem] md:rounded-[2.5rem] border border-blue-600/10 dark:border-blue-500/10 relative overflow-hidden group cursor-pointer hover:border-blue-600/40 transition-all hover:shadow-[0_0_80px_rgba(37,99,235,0.1)]"
@@ -142,7 +144,7 @@ const Services: React.FC<ServicesProps> = ({ setView, isStandalone = false }) =>
                       {item.icon}
                     </div>
                     <span className="text-[8px] md:text-[9px] font-black uppercase tracking-tight text-gray-600 dark:text-gray-400 leading-tight truncate w-full px-0.5 mb-0.5" title={item.label}>{item.label}</span>
-                    <span className="text-[7px] md:text-[8px] font-bold text-blue-600/70 dark:text-blue-400/70 uppercase tracking-widest animate-pulse">{liveStats[item.label] || "OK"}</span>
+                    <span className="text-[7px] md:text-[8px] font-bold text-blue-600/70 dark:text-blue-400/70 uppercase tracking-widest">{liveStats[item.label] || "OK"}</span>
                   </div>
                 ))}
               </div>

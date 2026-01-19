@@ -32,14 +32,18 @@ const SmartHomeWireframe = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Funkce pro generování časového razítka
   const getTimestamp = () => {
     const now = new Date();
     return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}.${now.getMilliseconds().toString().padStart(3, '0')}`;
   };
 
   useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+    
     if (currentIndex < SYSTEM_LOGS.length) {
+      // Na mobilu vypisujeme řádky pomaleji (nebo ve skupinách), aby se ušetřilo CPU
+      const delay = isMobile ? 800 : (Math.random() * 600 + 200);
+      
       const timeout = setTimeout(() => {
         setLines(prev => [
           ...prev, 
@@ -51,11 +55,10 @@ const SmartHomeWireframe = () => {
           }
         ]);
         setCurrentIndex(prev => prev + 1);
-      }, Math.random() * 600 + 200); // Náhodná prodleva pro efekt psaní
+      }, delay);
 
       return () => clearTimeout(timeout);
     } else {
-      // Reset po dokončení (s delší pauzou)
       const resetTimeout = setTimeout(() => {
         setLines([]);
         setCurrentIndex(0);
@@ -64,7 +67,6 @@ const SmartHomeWireframe = () => {
     }
   }, [currentIndex]);
 
-  // Auto-scroll dolů
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -93,7 +95,6 @@ const SmartHomeWireframe = () => {
         }
       `}</style>
 
-      {/* --- Terminal Header --- */}
       <div className="flex items-center justify-between px-4 py-3 bg-[#161b22] border-b border-white/5">
         <div className="flex items-center gap-2">
           <div className="flex gap-1.5">
@@ -116,12 +117,10 @@ const SmartHomeWireframe = () => {
         </div>
       </div>
 
-      {/* --- Terminal Body (Logs) --- */}
       <div 
         ref={scrollRef}
         className="flex-1 p-6 overflow-y-auto scrollbar-hide space-y-2 font-mono relative"
       >
-        {/* Scanline effect overlay */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-10 bg-[length:100%_2px,3px_100%] pointer-events-none opacity-20" />
 
         {lines.map((line) => (
@@ -135,14 +134,12 @@ const SmartHomeWireframe = () => {
           </div>
         ))}
         
-        {/* Blinking Cursor */}
         <div className="flex gap-3">
           <span className="text-gray-600 opacity-0">[{getTimestamp()}]</span>
           <span className="text-blue-500 font-bold animate-blink">_</span>
         </div>
       </div>
 
-      {/* --- Status Footer --- */}
       <div className="px-4 py-2 bg-[#161b22] border-t border-white/5 flex justify-between items-center text-[10px] text-gray-500 font-mono">
          <div className="flex gap-4">
             <div className="flex items-center gap-1.5">
@@ -161,8 +158,6 @@ const SmartHomeWireframe = () => {
             </div>
          </div>
       </div>
-      
-      {/* Background decoration inside the card */}
       <div className="absolute inset-0 bg-blue-500/[0.02] pointer-events-none" />
     </div>
   );
