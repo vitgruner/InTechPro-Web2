@@ -191,21 +191,11 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const themeColor = isDark ? '#050505' : '#f4f7f9';
     if (isDark) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
-
-    // Dynamická aktualizace meta tagu pro iOS status bar
-    let metaThemeColor = document.querySelector('meta[name="theme-color"]:not([media])');
-    if (!metaThemeColor) {
-      metaThemeColor = document.createElement('meta');
-      metaThemeColor.setAttribute('name', 'theme-color');
-      document.head.appendChild(metaThemeColor);
-    }
-    metaThemeColor.setAttribute('content', themeColor);
   }, [isDark]);
 
   const handleAddReference = async (ref: Reference) => {
