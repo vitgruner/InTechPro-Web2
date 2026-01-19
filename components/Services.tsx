@@ -97,7 +97,7 @@ const Services: React.FC<ServicesProps> = ({ setView, isStandalone = false }) =>
               </div>
 
               <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-3 gap-2 md:gap-4 p-3 md:p-6 bg-black/5 dark:bg-white/5 rounded-2xl md:rounded-[2rem] border border-black/5 dark:border-white/10">
-                {loxoneIntegrations.map((item, i) => (
+                {/* {loxoneIntegrations.map((item, i) => (
                   <div key={i} className="flex flex-col items-center justify-center p-2 md:p-3 bg-white dark:bg-white/5 rounded-xl border border-black/5 dark:border-white/10 text-center shadow-sm">
                     <div className="text-blue-600 dark:text-blue-400 mb-1.5 md:mb-2 flex-shrink-0 [&>svg]:w-4 [&>svg]:h-4 md:[&>svg]:w-5 md:[&>svg]:h-5">
                       {item.icon}
@@ -105,7 +105,10 @@ const Services: React.FC<ServicesProps> = ({ setView, isStandalone = false }) =>
                     <span className="text-[8px] md:text-[9px] font-black uppercase tracking-tight text-gray-600 dark:text-gray-400 leading-tight truncate w-full px-0.5 mb-0.5">{item.label}</span>
                     <span className="text-[7px] md:text-[8px] font-bold text-blue-600/70 dark:text-blue-400/70 uppercase tracking-widest">{liveStats[item.label] || "OK"}</span>
                   </div>
-                ))}
+                ))} */}
+                <div className="col-span-full flex items-center justify-center py-12 text-gray-500 font-mono text-[10px] uppercase tracking-widest">
+                  Integrations Performance Test
+                </div>
               </div>
             </div>
           </div>
