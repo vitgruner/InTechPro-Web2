@@ -35,6 +35,13 @@
     a,
     [role="button"] {
         cursor: pointer;
+        outline: none;
+    }
+
+    button:focus,
+    a:focus,
+    [role="button"]:focus {
+        outline: none;
     }
 }
 

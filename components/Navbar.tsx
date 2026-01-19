@@ -99,8 +99,8 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
               <button
                 onClick={() => !item.dropdown && handleNavClick(item.value)}
                 className={`text-[11px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 ${currentView === item.value || (item.dropdown?.some(d => d.value === currentView))
-                    ? 'text-blue-600 dark:text-blue-400'
-                    : 'text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-white'
+                  ? 'text-blue-600 dark:text-blue-400'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-white'
                   }`}
               >
                 {item.label}
@@ -121,8 +121,8 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
                         key={sub.value}
                         onClick={() => handleNavClick(sub.value)}
                         className={`w-full text-left px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${currentView === sub.value
-                            ? 'bg-blue-600 text-white'
-                            : 'text-gray-500 dark:text-gray-400 hover:bg-black/5 dark:hover:bg-white/5 hover:text-blue-600'
+                          ? 'bg-blue-600 text-white'
+                          : 'text-gray-500 dark:text-gray-400 hover:bg-black/5 dark:hover:bg-white/5 hover:text-blue-600'
                           }`}
                       >
                         {sub.label}
@@ -137,8 +137,8 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
           <button
             onClick={() => handleNavClick('kontakt')}
             className={`px-7 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-3 group glow ${currentView === 'kontakt'
-                ? 'bg-white text-blue-600 border border-blue-600'
-                : 'bg-blue-600 text-white hover:bg-blue-700'
+              ? 'bg-white text-blue-600 border border-blue-600 shadow-lg'
+              : 'bg-blue-600 text-white hover:bg-blue-700 border border-transparent'
               }`}
           >
             Kontakt
@@ -195,8 +195,8 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
                     }
                   }}
                   className={`flex items-center justify-between p-4 rounded-xl text-[12px] font-black uppercase tracking-[0.2em] transition-all ${currentView === item.value
-                      ? 'bg-blue-600/10 text-blue-600'
-                      : 'bg-black/5 dark:bg-white/5 text-gray-500 dark:text-gray-400 hover:bg-black/10 dark:hover:bg-white/10'
+                    ? 'bg-blue-600/10 text-blue-600'
+                    : 'bg-black/5 dark:bg-white/5 text-gray-500 dark:text-gray-400 hover:bg-black/10 dark:hover:bg-white/10'
                     }`}
                 >
                   <span className="flex items-center gap-2">
@@ -218,8 +218,8 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
                         key={sub.value}
                         onClick={() => handleNavClick(sub.value)}
                         className={`w-full text-left p-3 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${currentView === sub.value
-                            ? 'text-blue-600 bg-blue-600/5'
-                            : 'text-gray-400 hover:text-blue-600'
+                          ? 'text-blue-600 bg-blue-600/5'
+                          : 'text-gray-400 hover:text-blue-600'
                           }`}
                       >
                         {sub.label}
