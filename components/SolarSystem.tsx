@@ -45,7 +45,7 @@ const SolarSystem = () => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     handleResize();
     window.addEventListener('resize', handleResize);
-    
+
     // Pro mobil zrušíme interval pro re-rendery
     if (window.innerWidth < 768) return () => window.removeEventListener('resize', handleResize);
 
@@ -70,35 +70,57 @@ const SolarSystem = () => {
 
   return (
     <div className="w-full h-full bg-white/5 dark:bg-black/20 transition-colors duration-500 p-2 md:p-12 select-none overflow-hidden relative min-h-[450px] md:min-h-[600px] flex flex-col items-center justify-center">
-      
-      <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.03] pointer-events-none" 
-           style={{ backgroundImage: 'linear-gradient(#2563eb 1px, transparent 1px), linear-gradient(90deg, #2563eb 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+
+      <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.03] pointer-events-none"
+        style={{ backgroundImage: 'linear-gradient(#2563eb 1px, transparent 1px), linear-gradient(90deg, #2563eb 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
       <div className="relative w-full max-w-[280px] md:max-w-lg aspect-square">
-        
+
         <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 400 400">
           <path d={`M 200 ${pvy} L 200 340 M 60 ${cy} L 340 ${cy}`} stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 4" className="text-slate-300 dark:text-white/10" />
 
           {!isMobile && (
             <g>
+              {/* Vertical: FVE (top) to Inverter */}
               <path d={`M 200 ${pvy} L 200 ${cy - 40}`} stroke="#fbbf24" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.3" />
               <circle r="3" fill="#fbbf24">
-                <animateMotion path={`M 200 ${pvy} L 200 ${cy - 40}`} dur="2.5s" repeatCount="indefinite" />
+                <animateMotion path={`M 0 0 L 0 ${cy - 40 - pvy}`} dur="2.5s" repeatCount="indefinite" begin="0s" />
+                <set attributeName="cx" to="200" />
+                <set attributeName="cy" to={pvy.toString()} />
               </circle>
 
+              {/* Vertical: Inverter to Battery (bottom) */}
               <path d={`M 200 ${cy + 40} L 200 340`} stroke="#10b981" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.3" />
               <circle r="3" fill="#10b981">
-                <animateMotion path={`M 200 ${cy + 40} L 200 340`} dur="3s" repeatCount="indefinite" />
+                <animateMotion path={`M 0 0 L 0 ${340 - cy - 40}`} dur="3s" repeatCount="indefinite" begin="0s" />
+                <set attributeName="cx" to="200" />
+                <set attributeName="cy" to={(cy + 40).toString()} />
+              </circle>
+
+              {/* Horizontal: Inverter to Home (right) */}
+              <path d={`M 240 ${cy} L 340 ${cy}`} stroke="#3b82f6" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.3" />
+              <circle r="3" fill="#3b82f6">
+                <animateMotion path={`M 0 0 L 100 0`} dur="2s" repeatCount="indefinite" begin="0s" />
+                <set attributeName="cx" to="240" />
+                <set attributeName="cy" to={cy.toString()} />
+              </circle>
+
+              {/* Horizontal: Grid (left) to Inverter */}
+              <path d={`M 60 ${cy} L 160 ${cy}`} stroke="#a855f7" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.3" />
+              <circle r="3" fill="#a855f7">
+                <animateMotion path={`M 0 0 L 100 0`} dur="2.5s" repeatCount="indefinite" begin="0s" />
+                <set attributeName="cx" to="60" />
+                <set attributeName="cy" to={cy.toString()} />
               </circle>
             </g>
           )}
         </svg>
 
         <div className="absolute top-[35%] md:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 transition-all duration-700">
-           <div className="w-20 h-20 md:w-28 md:h-28 rounded-2xl md:rounded-[2.5rem] bg-white dark:bg-[#1a1d21] border-2 border-yellow-500/10 shadow-xl flex flex-col items-center justify-center relative group">
-              <Zap className="w-6 h-6 md:w-10 md:h-10 text-yellow-500 mb-1 md:mb-2" />
-              <div className="text-[7px] md:text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Inverter</div>
-           </div>
+          <div className="w-20 h-20 md:w-28 md:h-28 rounded-2xl md:rounded-[2.5rem] bg-white dark:bg-[#1a1d21] border-2 border-yellow-500/10 shadow-xl flex flex-col items-center justify-center relative group">
+            <Zap className="w-6 h-6 md:w-10 md:h-10 text-yellow-500 mb-1 md:mb-2" />
+            <div className="text-[7px] md:text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Inverter</div>
+          </div>
         </div>
 
         <PowerNode icon={Sun} label="FVE" value={metrics.production} unit="kW" color="yellow" position="-top-10 md:top-0 left-1/2 -translate-x-1/2" />
