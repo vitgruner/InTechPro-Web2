@@ -4,9 +4,9 @@ import { Home, Zap, DraftingCompass, Cpu, Lightbulb, Thermometer, Shield, Radio,
 import { ServiceCardProps, ServicesProps } from '../types';
 
 const ServiceCard: React.FC<ServiceCardProps & { features?: string[], onClick?: () => void }> = ({ title, description, icon, category, features, onClick }) => (
-  <div 
+  <div
     onClick={onClick}
-    className="group p-3.5 md:p-6 rounded-2xl glass-panel border border-black/5 dark:border-white/5 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all cursor-pointer flex flex-col h-full shadow-sm md:hover:shadow-xl min-w-0"
+    className="group p-3.5 md:p-6 rounded-2xl glass-panel border border-black/5 dark:border-white/5 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all cursor-pointer flex flex-col h-full shadow-sm md:hover:shadow-xl min-w-0 active:scale-[0.98] active:opacity-90"
   >
     <div className="flex items-center md:items-start gap-3 mb-3 md:mb-0">
       <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-600/10 rounded-xl flex items-center justify-center flex-shrink-0 md:group-hover:bg-blue-600 transition-colors">
@@ -17,11 +17,11 @@ const ServiceCard: React.FC<ServiceCardProps & { features?: string[], onClick?: 
         <h3 className="text-sm md:text-lg font-black text-gray-900 dark:text-white transition-colors duration-500 truncate leading-tight" title={title}>{title}</h3>
       </div>
     </div>
-    
+
     <p className="text-gray-600 dark:text-gray-400 text-[11px] md:text-sm leading-relaxed mb-4 md:mt-4 transition-colors duration-500 line-clamp-2 md:line-clamp-3">
       {description}
     </p>
-    
+
     {features && (
       <div className="flex flex-wrap gap-1.5 mt-auto pt-3 border-t border-black/5 dark:border-white/10">
         {features.map((f, i) => (
@@ -68,13 +68,13 @@ const Services: React.FC<ServicesProps> = ({ setView, isStandalone = false }) =>
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-4 md:gap-6 mb-8 md:mb-12">
           {/* Loxone Section */}
-          <div 
+          <div
             onClick={() => setView('loxone-smart-home')}
             className="lg:col-span-2 bg-[#f8fafc] dark:bg-[#0a0c10] p-6 md:p-12 rounded-[2rem] md:rounded-[2.5rem] border border-blue-600/10 dark:border-blue-500/10 relative overflow-hidden group cursor-pointer md:hover:border-blue-600/40 transition-all md:hover:shadow-[0_0_80px_rgba(37,99,235,0.1)]"
           >
-            <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none" 
-                 style={{ backgroundImage: 'linear-gradient(#2563eb 1px, transparent 1px), linear-gradient(90deg, #2563eb 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
-            
+            <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none"
+              style={{ backgroundImage: 'linear-gradient(#2563eb 1px, transparent 1px), linear-gradient(90deg, #2563eb 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
+
             <div className="relative z-10 grid xl:grid-cols-2 gap-8 md:gap-16 items-center">
               <div className="min-w-0 text-left">
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-600/10 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-4 md:mb-6 border border-blue-600/20">
@@ -88,11 +88,11 @@ const Services: React.FC<ServicesProps> = ({ setView, isStandalone = false }) =>
                 <p className="text-gray-600 dark:text-gray-400 mb-6 md:mb-8 leading-relaxed text-xs md:text-lg font-medium">
                   Loxone propojí všechny technologie v domě do jednoho inteligentního systému, který je řídí jako celek. Jedna přehledná aplikace a spolupráce technologií zajistí maximální komfort.
                 </p>
-                
+
                 <div className="flex flex-wrap gap-4 mb-8">
-                    <button className="px-6 py-3 bg-blue-600 text-white rounded-xl font-black uppercase tracking-[0.2em] text-[10px] shadow-lg shadow-blue-500/20">
-                        Více o Loxone
-                    </button>
+                  <button className="px-6 py-3 bg-blue-600 text-white rounded-xl font-black uppercase tracking-[0.2em] text-[10px] shadow-lg shadow-blue-500/20">
+                    Více o Loxone
+                  </button>
                 </div>
               </div>
 
@@ -110,7 +110,7 @@ const Services: React.FC<ServicesProps> = ({ setView, isStandalone = false }) =>
             </div>
           </div>
 
-          <ServiceCard 
+          <ServiceCard
             onClick={() => setView('projekce-elektro')}
             title="Projekce elektro a Smart Home"
             description="Zpracováváme přehledné a srozumitelné projekty, které slouží jako jasný podklad pro realizaci, nacenění i koordinaci profesí."
@@ -118,7 +118,7 @@ const Services: React.FC<ServicesProps> = ({ setView, isStandalone = false }) =>
             category="PROJEKCE"
             features={["Technická zpráva", "Výkaz výměr", "Schémata"]}
           />
-          <ServiceCard 
+          <ServiceCard
             onClick={() => setView('vyroba-rozvadecu')}
             title="Výroba a revize rozvaděčů"
             description="Kvalitní rozvaděč je základ. Zajišťujeme kompletní výrobu na dílně, čímž zkracujeme dobu montáže a minimalizujeme chyby."
@@ -126,7 +126,7 @@ const Services: React.FC<ServicesProps> = ({ setView, isStandalone = false }) =>
             category="VÝROBA"
             features={["Loxone moduly", "Silnoproud", "Revize"]}
           />
-          <ServiceCard 
+          <ServiceCard
             onClick={() => setView('moderni-technologie')}
             title="Moderní technologie budov"
             description="Navrhneme vhodné řešení a konkrétní značky technologií – od tepelných čerpadel po fotovoltaiku pod kontrolou Loxone."
@@ -134,7 +134,7 @@ const Services: React.FC<ServicesProps> = ({ setView, isStandalone = false }) =>
             category="TECHNOLOGIE"
             features={["Tepelná čerpadla", "FVE", "Klima"]}
           />
-          <ServiceCard 
+          <ServiceCard
             onClick={() => setView('navrh-osvetleni')}
             title="Designový návrh osvětlení"
             description="Kompletní služba od návrhu přes výběr svítidel až po samotnou realizaci a automatizaci scénických režimů."

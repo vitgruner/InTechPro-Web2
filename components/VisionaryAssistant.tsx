@@ -39,12 +39,12 @@ interface VisionaryAssistantProps {
   compact?: boolean;
 }
 
-const VisionaryAssistant = ({ 
-  messages, 
-  setMessages, 
-  isLoading, 
+const VisionaryAssistant = ({
+  messages,
+  setMessages,
+  isLoading,
   setIsLoading,
-  compact = false 
+  compact = false
 }: VisionaryAssistantProps) => {
   const [input, setInput] = React.useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -65,7 +65,7 @@ const VisionaryAssistant = ({
     setIsLoading(true);
 
     const response = await getVisionaryResponse(userMessage);
-    
+
     setMessages(prev => [...prev, { role: 'assistant', content: response }]);
     setIsLoading(false);
   };
@@ -84,24 +84,22 @@ const VisionaryAssistant = ({
         </div>
       </div>
 
-      <div 
+      <div
         ref={scrollRef}
-        className={`${compact ? 'h-[300px]' : 'h-[450px]'} overflow-y-auto p-5 space-y-6 scrollbar-hide transition-all`}
+        className={`${compact ? 'min-h-[200px] max-h-[300px]' : 'min-h-[300px] max-h-[450px]'} overflow-y-auto p-5 space-y-6 scrollbar-hide transition-all flex-1`}
       >
         {messages.map((msg, idx) => (
           <div key={idx} className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
-            <div className={`w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm ${
-              msg.role === 'assistant' 
-              ? 'bg-blue-600 text-white' 
-              : 'bg-slate-100 dark:bg-white/10 text-slate-500'
-            }`}>
+            <div className={`w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm ${msg.role === 'assistant'
+                ? 'bg-blue-600 text-white'
+                : 'bg-slate-100 dark:bg-white/10 text-slate-500'
+              }`}>
               {msg.role === 'assistant' ? <Bot className="w-4 h-4" /> : <User className="w-4 h-4" />}
             </div>
-            <div className={`max-w-[85%] p-4 rounded-2xl text-[12px] leading-relaxed ${
-              msg.role === 'assistant' 
-                ? 'bg-slate-50 dark:bg-white/5 text-slate-700 dark:text-gray-300 border border-slate-100 dark:border-white/5' 
+            <div className={`max-w-[85%] p-4 rounded-2xl text-[12px] leading-relaxed ${msg.role === 'assistant'
+                ? 'bg-slate-50 dark:bg-white/5 text-slate-700 dark:text-gray-300 border border-slate-100 dark:border-white/5'
                 : 'bg-blue-600 text-white font-medium ml-auto rounded-tr-none'
-            }`}>
+              }`}>
               <FormattedContent content={msg.content} />
             </div>
           </div>
@@ -120,13 +118,13 @@ const VisionaryAssistant = ({
 
       <div className="p-5 bg-slate-50/50 dark:bg-white/5 border-t border-slate-100 dark:border-white/5 mt-auto">
         <form onSubmit={handleSubmit} className="relative">
-          <input 
+          <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Poraďte se o své vizi..."
             className="w-full bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl py-3 pl-5 pr-12 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-600 transition-all placeholder:text-slate-400"
           />
-          <button 
+          <button
             type="submit"
             disabled={isLoading}
             className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all disabled:opacity-50"

@@ -23,10 +23,10 @@ const CookieConsent = () => {
   const getCookie = (name: string) => {
     const nameEQ = name + "=";
     const ca = document.cookie.split(';');
-    for(let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
     }
     return null;
   };
@@ -35,20 +35,20 @@ const CookieConsent = () => {
   const setRealCookie = (name: string, value: string, days: number) => {
     let expires = "";
     if (days) {
-        const date = new Date();
-        date.setTime(date.getTime() + (days*24*60*60*1000));
-        expires = "; expires=" + date.toUTCString();
+      const date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = "; expires=" + date.toUTCString();
     }
-    document.cookie = name + "=" + (value || "")  + expires + "; path=/; SameSite=Lax";
+    document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
   };
 
   useEffect(() => {
     // 1. Zkusíme načíst z localStorage nebo Cookies
     const localData = localStorage.getItem(COOKIE_NAME);
     const cookieData = getCookie(COOKIE_NAME);
-    
+
     const savedConsent = localData || cookieData;
-    
+
     if (savedConsent) {
       try {
         setConsent(JSON.parse(savedConsent));
@@ -69,9 +69,9 @@ const CookieConsent = () => {
       const savedConsent = localData || cookieData;
 
       if (savedConsent) {
-         try {
-            setConsent(JSON.parse(savedConsent));
-         } catch (e) {}
+        try {
+          setConsent(JSON.parse(savedConsent));
+        } catch (e) { }
       }
       setIsVisible(true);
       setShowDetails(true);
@@ -98,20 +98,20 @@ const CookieConsent = () => {
   const saveConsent = (finalConsent: ConsentType) => {
     // Aktualizace stavu UI okamžitě
     setConsent(finalConsent);
-    
+
     const jsonString = JSON.stringify(finalConsent);
-    
+
     // 1. Uložení do LocalStorage (moderní přístup)
     localStorage.setItem(COOKIE_NAME, jsonString);
-    
+
     // 2. Uložení do reálné Cookie (aby to bylo vidět v DevTools > Application > Cookies)
     setRealCookie(COOKIE_NAME, jsonString, 365);
-    
+
     setIsVisible(false);
-    
+
     // Logování pro kontrolu (zde by se spouštěly reálné skripty)
     console.log('Consent saved & active:', finalConsent);
-    
+
     if (finalConsent.analytics) {
       console.log('Initializing Analytics (mock)...');
     }
@@ -121,16 +121,16 @@ const CookieConsent = () => {
   };
 
   const toggleCategory = (category: keyof ConsentType) => {
-    if (category === 'necessary') return; 
+    if (category === 'necessary') return;
     setConsent(prev => ({ ...prev, [category]: !prev[category] }));
   };
 
   if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 z-[9999] flex justify-center pointer-events-none">
+    <div className="fixed bottom-4 left-4 right-4 z-[9999] flex justify-center pointer-events-none" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
       <div className="bg-white/90 dark:bg-[#0a0a0a]/90 backdrop-blur-xl border border-black/5 dark:border-white/10 shadow-2xl rounded-[2rem] p-6 max-w-2xl w-full pointer-events-auto animate-in slide-in-from-bottom-10 fade-in duration-700">
-        
+
         {/* Header */}
         <div className="flex items-start gap-4 mb-4">
           <div className="w-12 h-12 bg-blue-600/10 rounded-2xl flex items-center justify-center flex-shrink-0 text-blue-600 dark:text-blue-400">
@@ -160,7 +160,7 @@ const CookieConsent = () => {
               </div>
             </div>
 
-            <button 
+            <button
               onClick={() => toggleCategory('analytics')}
               className={`w-full p-4 rounded-xl border flex items-center justify-between transition-all ${consent.analytics ? 'bg-blue-600/5 border-blue-600/30' : 'bg-transparent border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5'}`}
             >
@@ -176,7 +176,7 @@ const CookieConsent = () => {
               </div>
             </button>
 
-            <button 
+            <button
               onClick={() => toggleCategory('marketing')}
               className={`w-full p-4 rounded-xl border flex items-center justify-between transition-all ${consent.marketing ? 'bg-blue-600/5 border-blue-600/30' : 'bg-transparent border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5'}`}
             >
@@ -196,22 +196,22 @@ const CookieConsent = () => {
 
         {/* Actions */}
         <div className="flex flex-col sm:flex-row gap-3">
-          <button 
+          <button
             onClick={handleAcceptAll}
             className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3.5 rounded-xl font-black uppercase tracking-widest text-[10px] transition-all shadow-lg shadow-blue-500/20 active:scale-95"
           >
             Povolit vše
           </button>
-          
+
           {showDetails ? (
-            <button 
+            <button
               onClick={handleAcceptSelection}
               className="flex-1 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 text-gray-900 dark:text-white px-6 py-3.5 rounded-xl font-black uppercase tracking-widest text-[10px] transition-all active:scale-95"
             >
               Uložit vybrané
             </button>
           ) : (
-             <button 
+            <button
               onClick={handleDecline}
               className="flex-1 bg-transparent border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 text-gray-600 dark:text-gray-300 px-6 py-3.5 rounded-xl font-black uppercase tracking-widest text-[10px] transition-all active:scale-95"
             >
@@ -219,7 +219,7 @@ const CookieConsent = () => {
             </button>
           )}
 
-          <button 
+          <button
             onClick={() => setShowDetails(!showDetails)}
             className="sm:w-auto w-full bg-transparent text-gray-500 hover:text-blue-600 px-4 py-3.5 rounded-xl font-bold text-xs transition-colors flex items-center justify-center gap-2"
           >
@@ -230,11 +230,11 @@ const CookieConsent = () => {
             )}
           </button>
         </div>
-        
+
         <div className="mt-4 flex justify-center gap-4 text-[9px] text-gray-400 font-medium">
-            <button onClick={() => document.dispatchEvent(new CustomEvent('intechpro-open-cookies'))} className="hover:text-blue-600 transition-colors">Zásady ochrany osobních údajů</button>
-            <span>•</span>
-            <button onClick={() => document.dispatchEvent(new CustomEvent('intechpro-open-cookies'))} className="hover:text-blue-600 transition-colors">Seznam cookies</button>
+          <button onClick={() => document.dispatchEvent(new CustomEvent('intechpro-open-cookies'))} className="hover:text-blue-600 transition-colors">Zásady ochrany osobních údajů</button>
+          <span>•</span>
+          <button onClick={() => document.dispatchEvent(new CustomEvent('intechpro-open-cookies'))} className="hover:text-blue-600 transition-colors">Seznam cookies</button>
         </div>
       </div>
     </div>

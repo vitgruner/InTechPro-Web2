@@ -8,8 +8,8 @@ import References from './components/References';
 import ContactForm from './components/ContactForm';
 import CookieConsent from './components/CookieConsent';
 import { dbService } from './services/dbService';
-import { 
-  Zap, Loader2, CloudUpload, Twitter, Linkedin, Instagram, Lock 
+import {
+  Zap, Loader2, CloudUpload, Twitter, Linkedin, Instagram, Lock
 } from 'lucide-react';
 import { Reference, ViewState } from './types';
 
@@ -106,8 +106,8 @@ const App = () => {
   const getViewStateFromHash = (): ViewState => {
     const hash = window.location.hash.replace('#', '') as ViewState;
     const validViews: ViewState[] = [
-      'home', 'sluzby', 'reference', 'online-showroom', 'kontakt', 'o-nas', 
-      'projekce-elektro', 'navrh-osvetleni', 'vyroba-rozvadecu', 'loxone-smart-home', 
+      'home', 'sluzby', 'reference', 'online-showroom', 'kontakt', 'o-nas',
+      'projekce-elektro', 'navrh-osvetleni', 'vyroba-rozvadecu', 'loxone-smart-home',
       'moderni-technologie', 'admin-login', 'admin-dashboard', 'ochrana-soukromi', 'impresum'
     ];
     return validViews.includes(hash) ? hash : 'home';
@@ -249,10 +249,10 @@ const App = () => {
     <div className="min-h-screen bg-[#f4f7f9] dark:bg-[#050505] text-[#1a1d21] dark:text-white transition-colors duration-500 font-sans flex flex-col">
       <Navbar isDark={isDark} toggleTheme={() => setIsDark(!isDark)} setView={navigateTo} currentView={view} />
       <main className="flex-grow">{renderView()}</main>
-      
+
       <footer className="bg-black text-white pt-24 pb-12 border-t border-white/5 relative z-10">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 mb-24">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-16 mb-24">
             <div className="lg:col-span-5 space-y-8 text-left">
               <div onClick={() => navigateTo('home')} className="cursor-pointer">
                 <FooterLogo />

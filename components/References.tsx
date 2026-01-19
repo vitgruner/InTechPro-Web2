@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo } from 'react';
-import { 
-  Home, Zap, Search, Filter, LayoutGrid, Building2, Factory, 
+import {
+  Home, Zap, Search, Filter, LayoutGrid, Building2, Factory,
   Cpu, Thermometer, Radio, Shield, Sun, Building, Activity, ArrowRight,
   Share2, Ruler, Server
 } from 'lucide-react';
@@ -37,16 +37,16 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
   }, [image]);
 
   return (
-    <div className="group relative glass-panel rounded-2xl md:rounded-3xl overflow-hidden border border-black/10 dark:border-white/10 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all duration-700 shadow-sm hover:shadow-xl h-full flex flex-col">
+    <div className="group relative glass-panel rounded-2xl md:rounded-3xl overflow-hidden border border-black/10 dark:border-white/10 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all duration-700 shadow-sm hover:shadow-xl h-full flex flex-col active:scale-[0.99] active:opacity-95">
       <div className="relative h-48 md:h-56 overflow-hidden bg-gray-100 dark:bg-gray-900">
-         <img 
-          src={optimizedImage || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=60&w=800"} 
-          alt={title} 
+        <img
+          src={optimizedImage || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=60&w=800"}
+          alt={title}
           loading="lazy"
-          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
+          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 dark:from-[#050505] via-transparent to-transparent opacity-90"></div>
-        
+
         <div className="absolute top-3 right-3 bg-white/90 dark:bg-black/80 backdrop-blur-xl border border-black/10 dark:border-white/20 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-xl">
           <TechIconComp className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
           <span className="text-[9px] font-black text-gray-900 dark:text-white uppercase tracking-[0.15em]">{tech}</span>
@@ -72,26 +72,26 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
               );
             })}
           </div>
-          
+
           <div className="pt-4 border-t border-black/5 dark:border-white/10">
-             {topology && (
-                <div className="grid grid-cols-2 gap-2">
-                    <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 px-3 py-2.5 rounded-lg">
-                        <div className="flex flex-col">
-                            <span className="text-[8px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Senzory</span>
-                            <span className="text-[11px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.sensors}</span>
-                        </div>
-                        <Share2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-500 opacity-80" />
-                    </div>
-                    <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 px-3 py-2.5 rounded-lg">
-                        <div className="flex flex-col">
-                            <span className="text-[8px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Kabeláž</span>
-                            <span className="text-[11px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.cablingKm}km</span>
-                        </div>
-                        <Ruler className="w-3.5 h-3.5 text-lime-600 dark:text-lime-500 opacity-80" />
-                    </div>
+            {topology && (
+              <div className="grid grid-cols-2 gap-2">
+                <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 px-3 py-2.5 rounded-lg">
+                  <div className="flex flex-col">
+                    <span className="text-[8px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Senzory</span>
+                    <span className="text-[11px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.sensors}</span>
+                  </div>
+                  <Share2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-500 opacity-80" />
                 </div>
-             )}
+                <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 px-3 py-2.5 rounded-lg">
+                  <div className="flex flex-col">
+                    <span className="text-[8px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Kabeláž</span>
+                    <span className="text-[11px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.cablingKm}km</span>
+                  </div>
+                  <Ruler className="w-3.5 h-3.5 text-lime-600 dark:text-lime-500 opacity-80" />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -106,7 +106,7 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
   const filteredProjects = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
     const safeProjects = Array.isArray(projects) ? projects : [];
-    
+
     return safeProjects.filter((p: Reference) => {
       const matchesFilter = filter === 'Vše' || p.category === filter;
       if (!matchesFilter) return false;
@@ -125,7 +125,7 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
           <Breadcrumbs items={[{ label: 'Reference' }]} setView={setView} />
         )}
 
-        <SectionHeader 
+        <SectionHeader
           eyebrow="Výběr z portfolia"
           title="Naše globální"
           highlight="Realizace"
@@ -146,15 +146,15 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
         )}
 
         {!isStandalone && setView && (
-           <div className="mt-8 md:mt-12 flex justify-center">
-             <button 
-               onClick={() => setView('reference')}
-               className="group flex items-center gap-3 px-8 py-4 bg-blue-600 text-white rounded-full font-black uppercase tracking-widest text-xs hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20"
-             >
-               Zobrazit všechny reference
-               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-             </button>
-           </div>
+          <div className="mt-8 md:mt-12 flex justify-center">
+            <button
+              onClick={() => setView('reference')}
+              className="group flex items-center gap-3 px-8 py-4 bg-blue-600 text-white rounded-full font-black uppercase tracking-widest text-xs hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20"
+            >
+              Zobrazit všechny reference
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </button>
+          </div>
         )}
       </div>
     </section>

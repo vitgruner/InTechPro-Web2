@@ -22,13 +22,13 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
   const [isSending, setIsSending] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isAiLoading, setIsAiLoading] = useState(false);
-  
+
   const initialAiMessages: Message[] = [
     { role: 'assistant', content: 'Zdravím vás. Jsem váš **digitální průvodce** světem inteligentní infrastruktury IN TECH PRO. \n\nMáte konkrétní představu o svém projektu, nebo potřebujete inspirovat možnostmi moderní automatizace?' }
   ];
 
   const [aiMessages, setAiMessages] = useState<Message[]>(initialAiMessages);
-  
+
   const initialFormData: FormData = {
     name: '',
     email: '',
@@ -70,8 +70,8 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
       return sum + (feature?.price || 0);
     }, 0);
     const multiplier = propertyMultipliers[formData.property] || 1;
-    const basePrice = 150000; 
-    
+    const basePrice = 150000;
+
     return (basePrice + featuresTotal) * multiplier;
   }, [formData]);
 
@@ -94,7 +94,7 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.gdprConsent) {
       setErrorMessage('Pro odeslání poptávky musíte souhlasit se zpracováním osobních údajů.');
       return;
@@ -108,7 +108,7 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
       customer_email: formData.email,
       phone: formData.phone,
       property_type: formData.property,
-      selected_features: formData.features.length > 0 
+      selected_features: formData.features.length > 0
         ? formData.features.map(f => featureOptions.find(o => o.id === f)?.label).join(', ')
         : 'Žádné specifické systémy nevybrány',
       estimated_budget: estimatedTotal.toLocaleString('cs-CZ') + ' Kč',
@@ -119,7 +119,7 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
     try {
       const SERVICE_ID = 'service_qrgvofr';
       const TEMPLATE_ADMIN_ID = 'template_76vc4mm';
-      const TEMPLATE_CUSTOMER_ID = 'template_customer_confirm'; 
+      const TEMPLATE_CUSTOMER_ID = 'template_customer_confirm';
       const PUBLIC_KEY = 'JowaJUIrtXne2eHJM';
 
       // Inicializace EmailJS
@@ -158,7 +158,7 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
         <p className="text-gray-500 dark:text-gray-400 max-w-md mx-auto mb-10 font-medium leading-relaxed">
           Děkujeme za váš zájem. Vaši poptávku jsme přijali ke zpracování. Brzy vás budeme kontaktovat s návrhem dalšího postupu.
         </p>
-        <button 
+        <button
           onClick={handleReset}
           className="px-10 py-4 bg-blue-600 text-white rounded-full font-bold uppercase tracking-widest text-[10px] hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20 active:scale-95"
         >
@@ -173,7 +173,7 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-600/5 dark:bg-blue-600/10 rounded-full blur-[150px] -z-10 pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-6">
-        <SectionHeader 
+        <SectionHeader
           eyebrow="Kontaktujte nás"
           title="Zhmotněte svou"
           highlight="Vizi"
@@ -182,20 +182,20 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
         />
 
         <div className={`grid gap-10 items-stretch ${isStandalone ? 'lg:grid-cols-12' : 'grid-cols-1 max-w-4xl mx-auto'}`}>
-          
+
           {isStandalone && (
             <div className="lg:col-span-5 flex flex-col gap-6">
               <div className="glass-panel p-6 rounded-[2rem] bg-blue-600/5 border-blue-600/20 mb-2">
-                  <div className="flex items-center gap-3 mb-3">
-                      <Sparkles className="w-5 h-5 text-blue-600" />
-                      <h3 className="text-sm font-black uppercase tracking-tight">Krok 1: Konzultace</h3>
-                  </div>
-                  <p className="text-[11px] text-gray-500 font-medium leading-relaxed">
-                    Poraďte se o technických detailech. Přepis chatu automaticky odešleme spolu s vaší poptávkou.
-                  </p>
+                <div className="flex items-center gap-3 mb-3">
+                  <Sparkles className="w-5 h-5 text-blue-600" />
+                  <h3 className="text-sm font-black uppercase tracking-tight">Krok 1: Konzultace</h3>
+                </div>
+                <p className="text-[11px] text-gray-500 font-medium leading-relaxed">
+                  Poraďte se o technických detailech. Přepis chatu automaticky odešleme spolu s vaší poptávkou.
+                </p>
               </div>
               <div className="flex-1 min-h-[400px] md:min-h-[500px]">
-                  <VisionaryAssistant messages={aiMessages} setMessages={setAiMessages} isLoading={isAiLoading} setIsLoading={setIsAiLoading} compact={true} />
+                <VisionaryAssistant messages={aiMessages} setMessages={setAiMessages} isLoading={isAiLoading} setIsLoading={setIsAiLoading} compact={true} />
               </div>
             </div>
           )}
@@ -203,12 +203,12 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
           <div className={`${isStandalone ? 'lg:col-span-7' : 'w-full'}`}>
             <form onSubmit={handleSubmit} className="glass-panel p-8 md:p-10 rounded-[2.5rem] border border-black/10 dark:border-white/10 shadow-xl space-y-8 transition-all duration-500 h-full flex flex-col">
               <div className="flex items-center gap-3 mb-2">
-                  <div className="w-8 h-8 bg-blue-600/10 rounded-lg flex items-center justify-center text-blue-600">
-                      <Calculator className="w-4 h-4" />
-                  </div>
-                  <h3 className="text-sm font-black uppercase tracking-tight">{isStandalone ? 'Krok 2: Specifikace projektu' : 'Specifikace projektu'}</h3>
+                <div className="w-8 h-8 bg-blue-600/10 rounded-lg flex items-center justify-center text-blue-600">
+                  <Calculator className="w-4 h-4" />
+                </div>
+                <h3 className="text-sm font-black uppercase tracking-tight">{isStandalone ? 'Krok 2: Specifikace projektu' : 'Specifikace projektu'}</h3>
               </div>
-              
+
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2 text-left">
                   <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Jméno a Příjmení</label>
@@ -223,12 +223,12 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
                     <Phone className="w-3 h-3" />
                     Telefonní číslo
                   </label>
-                  <input 
-                    type="tel" 
-                    value={formData.phone} 
-                    onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.target.value }))} 
-                    placeholder="+420 777 000 000" 
-                    className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-4 px-5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-600 transition-all text-xs" 
+                  <input
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.target.value }))}
+                    placeholder="+420 777 000 000"
+                    className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-4 px-5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-600 transition-all text-xs"
                   />
                 </div>
               </div>
@@ -247,7 +247,7 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
 
               <div className="space-y-3 text-left">
                 <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Klíčové systémy</label>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1.5 sm:gap-2">
                   {featureOptions.slice(0, 8).map(feature => (
                     <button key={feature.id} type="button" onClick={() => toggleFeature(feature.id)} className={`flex items-center gap-2 px-3 py-3 rounded-xl border text-left transition-all ${formData.features.includes(feature.id) ? 'bg-blue-600 text-white border-blue-600 shadow-md' : 'bg-black/5 dark:bg-white/5 border-black/10 text-gray-500'}`}>
                       <div className="flex-shrink-0">{feature.icon}</div>
@@ -258,21 +258,21 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
               </div>
 
               <div className="space-y-2 text-left">
-                  <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1 flex items-center gap-2">
-                    <MessageSquare className="w-3 h-3" />
-                    Vaše vize / Detaily
-                  </label>
-                  <textarea 
-                    rows={4}
-                    value={formData.message} 
-                    onChange={(e) => setFormData((prev) => ({ ...prev, message: e.target.value }))} 
-                    placeholder="Popište nám své specifické požadavky, dotazy nebo detaily projektu..." 
-                    className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-4 px-5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-600 transition-all text-xs resize-none" 
-                  />
+                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+                  <MessageSquare className="w-3 h-3" />
+                  Vaše vize / Detaily
+                </label>
+                <textarea
+                  rows={4}
+                  value={formData.message}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, message: e.target.value }))}
+                  placeholder="Popište nám své specifické požadavky, dotazy nebo detaily projektu..."
+                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-4 px-5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-600 transition-all text-xs resize-none"
+                />
               </div>
 
               {/* GDPR Consent Checkbox */}
-              <div className="flex items-start gap-4 p-4 rounded-2xl bg-blue-600/5 border border-blue-600/10 cursor-pointer group" onClick={() => setFormData(p => ({...p, gdprConsent: !p.gdprConsent}))}>
+              <div className="flex items-start gap-4 p-4 rounded-2xl bg-blue-600/5 border border-blue-600/10 cursor-pointer group" onClick={() => setFormData(p => ({ ...p, gdprConsent: !p.gdprConsent }))}>
                 <div className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all flex-shrink-0 ${formData.gdprConsent ? 'bg-blue-600 border-blue-600 shadow-lg' : 'border-black/10 dark:border-white/20'}`}>
                   {formData.gdprConsent && <Check className="w-4 h-4 text-white" />}
                 </div>
@@ -291,18 +291,18 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
               )}
 
               <div className="mt-auto pt-8 border-t border-black/5 dark:border-white/5 flex flex-col sm:flex-row items-center justify-between gap-8">
-                 <div className="text-left">
-                    <p className="text-[9px] font-black text-blue-600 uppercase tracking-widest mb-1">Odhadovaná investice</p>
-                    <div className="flex items-baseline gap-1.5">
-                       <span className="text-3xl font-black text-gray-900 dark:text-white tabular-nums">{estimatedTotal.toLocaleString()}</span>
-                       <span className="text-xs font-bold text-blue-600">Kč</span>
-                    </div>
-                 </div>
-                 <button 
-                   type="submit" 
-                   disabled={isSending || !formData.gdprConsent}
-                   className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-[0.2em] py-5 px-12 rounded-2xl transition-all shadow-xl flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed"
-                 >
+                <div className="text-left">
+                  <p className="text-[9px] font-black text-blue-600 uppercase tracking-widest mb-1">Odhadovaná investice</p>
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-3xl font-black text-gray-900 dark:text-white tabular-nums">{estimatedTotal.toLocaleString()}</span>
+                    <span className="text-xs font-bold text-blue-600">Kč</span>
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  disabled={isSending || !formData.gdprConsent}
+                  className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-[0.2em] py-5 px-12 rounded-2xl transition-all shadow-xl flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed"
+                >
                   {isSending ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />

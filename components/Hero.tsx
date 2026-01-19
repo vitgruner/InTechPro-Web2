@@ -11,10 +11,10 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         {/* Primární modrá záře vpravo nahoře */}
         <div className="absolute top-[-10%] right-[-10%] w-[70%] h-[70%] rounded-full bg-blue-600/10 dark:bg-blue-500/15 blur-[120px]" />
-        
+
         {/* Sekundární jemná modrá záře vlevo dole pro hloubku */}
         <div className="absolute bottom-[-10%] left-[-5%] w-[50%] h-[50%] rounded-full bg-blue-400/5 dark:bg-blue-400/10 blur-[100px]" />
-        
+
         {/* Finální gradientní přechod do barvy pozadí stránky */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#f4f7f9] dark:to-[#050505]" />
       </div>
@@ -33,13 +33,13 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
             Plánujeme, projektujeme a realizujeme špičkovou inteligentní infrastrukturu. Od automatizovaných domovů po inteligentní průmyslové areály.
           </p>
           <div className="flex flex-wrap gap-4 justify-center lg:justify-start animate-in slide-in-from-bottom-10 fade-in duration-1000">
-            <button 
+            <button
               onClick={() => setView('sluzby')}
               className="btn-magnetic px-8 py-4 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition-all glow text-sm md:text-base shadow-lg shadow-blue-500/30"
             >
               Naše služby
             </button>
-            <button 
+            <button
               onClick={() => setView('reference')}
               className="btn-magnetic px-8 py-4 glass-panel rounded-full font-bold hover:bg-black/5 dark:hover:bg-white/10 transition-all text-[#1a1d21] dark:text-white text-sm md:text-base border border-black/10 dark:border-white/20"
             >
@@ -63,7 +63,7 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
         <div className="relative group w-full max-w-[84rem] mx-auto animate-in fade-in zoom-in duration-1000 delay-200">
           <div className="absolute inset-0 bg-blue-500/10 dark:bg-blue-500/25 rounded-3xl blur-2xl group-hover:blur-3xl transition-all"></div>
           <div className="relative rounded-3xl overflow-hidden glass-panel border border-black/10 dark:border-white/20 shadow-xl
-                          h-[300px] md:h-[416px] lg:h-[512px] bg-black/40 backdrop-blur-md transform transition-transform duration-500 hover:scale-[1.01]">
+                          h-[280px] md:h-[400px] lg:h-[512px] min-h-[50vw] md:min-h-0 bg-black/40 backdrop-blur-md transform transition-transform duration-500 hover:scale-[1.01]">
             <SmartHomeWireframe />
           </div>
         </div>

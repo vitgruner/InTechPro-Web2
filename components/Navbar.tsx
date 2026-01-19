@@ -30,6 +30,18 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
+
   const handleNavClick = (viewName: ViewState) => {
     setView(viewName);
     setIsMobileMenuOpen(false);
@@ -37,8 +49,8 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
   };
 
   const navItems: { label: string; value: ViewState; dropdown?: { label: string; value: ViewState }[]; isLive?: boolean }[] = [
-    { 
-      label: 'Služby', 
+    {
+      label: 'Služby',
       value: 'sluzby',
       dropdown: [
         { label: 'Smart Home Loxone', value: 'loxone-smart-home' },
@@ -56,15 +68,15 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
   const getNavClasses = () => {
     const baseClasses = "fixed top-0 left-0 right-0 z-50 transition-all duration-300";
     const padding = isScrolled ? 'py-4' : 'py-6';
-    
+
     if (isMobileMenuOpen) {
       return `${baseClasses} ${padding} bg-white dark:bg-[#0a0a0a] border-b border-black/5 dark:border-white/5`;
     }
-    
+
     if (isScrolled) {
       return `${baseClasses} ${padding} bg-white/90 dark:bg-[#050505]/90 backdrop-blur-xl border-b border-black/5 dark:border-white/5 shadow-sm`;
     }
-    
+
     return `${baseClasses} ${padding} bg-transparent border-b border-transparent`;
   };
 
@@ -78,19 +90,18 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
         {/* Desktop Links */}
         <div className="hidden lg:flex items-center gap-10">
           {navItems.map((item) => (
-            <div 
+            <div
               key={item.label}
               className="relative group h-full py-2"
               onMouseEnter={() => item.dropdown && setIsServicesOpen(true)}
               onMouseLeave={() => item.dropdown && setIsServicesOpen(false)}
             >
-              <button 
+              <button
                 onClick={() => !item.dropdown && handleNavClick(item.value)}
-                className={`text-[11px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 ${
-                  currentView === item.value || (item.dropdown?.some(d => d.value === currentView))
-                  ? 'text-blue-600 dark:text-blue-400' 
-                  : 'text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-white'
-                }`}
+                className={`text-[11px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 ${currentView === item.value || (item.dropdown?.some(d => d.value === currentView))
+                    ? 'text-blue-600 dark:text-blue-400'
+                    : 'text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-white'
+                  }`}
               >
                 {item.label}
                 {item.isLive && (
@@ -109,11 +120,10 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
                       <button
                         key={sub.value}
                         onClick={() => handleNavClick(sub.value)}
-                        className={`w-full text-left px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${
-                          currentView === sub.value 
-                          ? 'bg-blue-600 text-white' 
-                          : 'text-gray-500 dark:text-gray-400 hover:bg-black/5 dark:hover:bg-white/5 hover:text-blue-600'
-                        }`}
+                        className={`w-full text-left px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${currentView === sub.value
+                            ? 'bg-blue-600 text-white'
+                            : 'text-gray-500 dark:text-gray-400 hover:bg-black/5 dark:hover:bg-white/5 hover:text-blue-600'
+                          }`}
                       >
                         {sub.label}
                       </button>
@@ -123,14 +133,13 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
               )}
             </div>
           ))}
-          
-          <button 
+
+          <button
             onClick={() => handleNavClick('kontakt')}
-            className={`px-7 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-3 group glow ${
-              currentView === 'kontakt' 
-              ? 'bg-white text-blue-600 border border-blue-600'
-              : 'bg-blue-600 text-white hover:bg-blue-700'
-            }`}
+            className={`px-7 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-3 group glow ${currentView === 'kontakt'
+                ? 'bg-white text-blue-600 border border-blue-600'
+                : 'bg-blue-600 text-white hover:bg-blue-700'
+              }`}
           >
             Kontakt
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -139,16 +148,15 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
           <div className="w-[1px] h-6 bg-black/5 dark:bg-white/10 mx-2" />
 
           <div className="flex items-center gap-2">
-            <button 
+            <button
               onClick={() => handleNavClick('admin-login')}
-              className={`p-2.5 rounded-2xl transition-all active:scale-95 ${
-                currentView === 'admin-login' ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-black/5 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400'
-              }`}
+              className={`p-2.5 rounded-2xl transition-all active:scale-95 ${currentView === 'admin-login' ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-black/5 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400'
+                }`}
               title="Klientská zóna"
             >
               <Lock className="w-5 h-5" />
             </button>
-            <button 
+            <button
               onClick={toggleTheme}
               className="p-2.5 rounded-2xl hover:bg-black/5 dark:hover:bg-white/10 transition-all active:scale-95"
               aria-label="Přepnout režim"
@@ -164,7 +172,7 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
             {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </button>
           <div className="w-[1px] h-5 bg-black/5 dark:bg-white/10 mx-0.5" />
-          <button 
+          <button
             className="p-2 text-gray-900 dark:text-white bg-black/5 dark:bg-white/5 rounded-xl transition-all active:scale-90"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
@@ -178,7 +186,7 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
           <div className="p-6 flex flex-col gap-3">
             {navItems.map((item) => (
               <div key={item.label} className="flex flex-col gap-1">
-                <button 
+                <button
                   onClick={() => {
                     if (item.dropdown) {
                       setMobileServicesExpanded(!mobileServicesExpanded);
@@ -186,11 +194,10 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
                       handleNavClick(item.value);
                     }
                   }}
-                  className={`flex items-center justify-between p-4 rounded-xl text-[12px] font-black uppercase tracking-[0.2em] transition-all ${
-                    currentView === item.value 
-                    ? 'bg-blue-600/10 text-blue-600' 
-                    : 'bg-black/5 dark:bg-white/5 text-gray-500 dark:text-gray-400 hover:bg-black/10 dark:hover:bg-white/10'
-                  }`}
+                  className={`flex items-center justify-between p-4 rounded-xl text-[12px] font-black uppercase tracking-[0.2em] transition-all ${currentView === item.value
+                      ? 'bg-blue-600/10 text-blue-600'
+                      : 'bg-black/5 dark:bg-white/5 text-gray-500 dark:text-gray-400 hover:bg-black/10 dark:hover:bg-white/10'
+                    }`}
                 >
                   <span className="flex items-center gap-2">
                     {item.label}
@@ -203,18 +210,17 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
                   </span>
                   {item.dropdown && <ChevronDown className={`w-4 h-4 transition-transform ${mobileServicesExpanded ? 'rotate-180' : ''}`} />}
                 </button>
-                
+
                 {item.dropdown && mobileServicesExpanded && (
                   <div className="pl-4 space-y-1 mt-1">
                     {item.dropdown.map((sub) => (
                       <button
                         key={sub.value}
                         onClick={() => handleNavClick(sub.value)}
-                        className={`w-full text-left p-3 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${
-                          currentView === sub.value
-                          ? 'text-blue-600 bg-blue-600/5'
-                          : 'text-gray-400 hover:text-blue-600'
-                        }`}
+                        className={`w-full text-left p-3 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${currentView === sub.value
+                            ? 'text-blue-600 bg-blue-600/5'
+                            : 'text-gray-400 hover:text-blue-600'
+                          }`}
                       >
                         {sub.label}
                       </button>
@@ -224,7 +230,7 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
               </div>
             ))}
 
-            <button 
+            <button
               onClick={() => handleNavClick('kontakt')}
               className="w-full bg-blue-600 text-white p-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20 flex items-center justify-center gap-3 mt-4"
             >
