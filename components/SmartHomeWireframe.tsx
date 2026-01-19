@@ -26,11 +26,14 @@ const SYSTEM_LOGS = [
   { text: "SYSTEM READY. WELCOME TO INTECHPRO SMART FUTURE...", type: 'system' }
 ];
 
-const MAX_LINES = 40;
-
 const SmartHomeWireframe = () => {
+  const [isMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768);
+  const MAX_LINES = isMobile ? 25 : 40; // Reduced for mobile memory
+  const INSTANT_LINES = isMobile ? 3 : 0; // Load first N lines instantly on mobile
+
   const [lines, setLines] = useState<LogLine[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isReady, setIsReady] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const shouldAutoScrollRef = useRef(true);
 
@@ -40,9 +43,30 @@ const SmartHomeWireframe = () => {
   };
 
   const [cursorTs, setCursorTs] = useState(getTimestamp());
+
+  // Delayed timestamp interval - only start after initial content loads
   useEffect(() => {
-    const id = setInterval(() => setCursorTs(getTimestamp()), 250);
+    if (!isReady) return;
+    const interval = isMobile ? 500 : 250; // Slower on mobile to reduce repaints
+    const id = setInterval(() => setCursorTs(getTimestamp()), interval);
     return () => clearInterval(id);
+  }, [isReady, isMobile]);
+
+  // Load first lines instantly on mobile for immediate visual feedback
+  useEffect(() => {
+    if (INSTANT_LINES > 0 && lines.length === 0) {
+      const initialLines: LogLine[] = SYSTEM_LOGS.slice(0, INSTANT_LINES).map((log, i) => ({
+        id: Date.now() + i,
+        text: log.text,
+        type: log.type as any,
+        timestamp: getTimestamp()
+      }));
+      setLines(initialLines);
+      setCurrentIndex(INSTANT_LINES);
+      setIsReady(true);
+    } else if (INSTANT_LINES === 0) {
+      setIsReady(true);
+    }
   }, []);
 
   // track whether user is near bottom
@@ -60,10 +84,11 @@ const SmartHomeWireframe = () => {
   }, []);
 
   useEffect(() => {
-    const isMobile = window.innerWidth < 768;
+    if (!isReady) return;
 
     if (currentIndex < SYSTEM_LOGS.length) {
-      const delay = isMobile ? 900 : (Math.random() * 600 + 200);
+      // Faster delays on mobile for quicker total load time
+      const delay = isMobile ? 400 : (Math.random() * 600 + 200);
 
       const timeout = setTimeout(() => {
         const newLine: LogLine = {
@@ -89,7 +114,7 @@ const SmartHomeWireframe = () => {
       }, 5000);
       return () => clearTimeout(resetTimeout);
     }
-  }, [currentIndex]);
+  }, [currentIndex, isReady, isMobile, MAX_LINES]);
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -135,7 +160,7 @@ const SmartHomeWireframe = () => {
 
       <div
         ref={scrollRef}
-        className="flex-1 p-6 overflow-y-auto scrollbar-hide space-y-2 font-mono relative"
+        className="flex-1 p-4 md:p-6 overflow-y-auto scrollbar-hide space-y-2 font-mono relative"
       >
         {/* CRT overlay: vypnout na mobilu */}
         <div className="hidden md:block absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-10 bg-[length:100%_2px,3px_100%] pointer-events-none opacity-20" />
