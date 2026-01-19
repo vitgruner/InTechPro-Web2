@@ -135,7 +135,7 @@ const Dashboard: React.FC<DetailProps> = ({ setView }) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
           <VisualizationBox
             icon={Cpu}
-            title="Centrální rozvaděc"
+            title="Centrální rozvaděč"
             subtitle="Logika, měření a distribuce"
             color="bg-green-600"
           >
@@ -145,7 +145,7 @@ const Dashboard: React.FC<DetailProps> = ({ setView }) => {
           <VisualizationBox
             icon={Sun}
             title="Solární matice FVE"
-            subtitle="Energetické toky real-time"
+            subtitle="Energetické toky v reálném čase"
             color="bg-yellow-500"
             statusLabel="Vysoký výtěžek"
           >
