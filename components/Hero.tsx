@@ -1,126 +1,21 @@
 
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { Zap } from 'lucide-react';
 import { HeroProps } from '../types';
 import SmartHomeWireframe from './SmartHomeWireframe';
 
 const Hero: React.FC<HeroProps> = ({ setView }) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d', { alpha: true });
-    if (!ctx) return;
-
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
-    const isMobile = width < 768;
-
-    const particles: { x: number; y: number; vx: number; vy: number; size: number }[] = [];
-    // Drasticky snížený počet pro mobil (20 vs 60)
-    const particleCount = isMobile ? 25 : Math.min(Math.floor((width * height) / 25000), 60); 
-    const connectionDistance = isMobile ? 80 : 140;
-    const mouseDistance = 180;
-
-    let mouse = { x: -1000, y: -1000 };
-
-    for (let i = 0; i < particleCount; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * (isMobile ? 0.2 : 0.4),
-        vy: (Math.random() - 0.5) * (isMobile ? 0.2 : 0.4),
-        size: Math.random() * (isMobile ? 1 : 1.5) + 1,
-      });
-    }
-
-    const handleResize = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      if (isMobile) return;
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    };
-
-    window.addEventListener('resize', handleResize);
-    if (!isMobile) window.addEventListener('mousemove', handleMouseMove);
-
-    let animationFrameId: number;
-    const animate = () => {
-      ctx.clearRect(0, 0, width, height);
-      
-      const isDark = document.documentElement.classList.contains('dark');
-      const particleColor = isDark ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.2)';
-      const lineColorTemplate = isDark ? 'rgba(37, 99, 235, ' : 'rgba(37, 99, 235, ';
-
-      particles.forEach((p, i) => {
-        p.x += p.vx;
-        p.y += p.vy;
-
-        if (p.x < 0 || p.x > width) p.vx *= -1;
-        if (p.y < 0 || p.y > height) p.vy *= -1;
-
-        if (!isMobile) {
-          const dx = p.x - mouse.x;
-          const dy = p.y - mouse.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          
-          if (distance < mouseDistance) {
-            const force = (mouseDistance - distance) / mouseDistance;
-            p.vx += (dx / distance) * force * 0.03;
-            p.vy += (dy / distance) * force * 0.03;
-          }
-        }
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = particleColor;
-        ctx.fill();
-
-        // Na mobilu vynecháme náročný výpočet spojnic O(n^2)
-        if (!isMobile) {
-          for (let j = i + 1; j < particles.length; j++) {
-            const p2 = particles[j];
-            const dx2 = p.x - p2.x;
-            const dy2 = p.y - p2.y;
-            // Použití squared distance pro rychlejší výpočet bez odmocniny
-            const distSq = dx2 * dx2 + dy2 * dy2;
-            const connDistSq = connectionDistance * connectionDistance;
-
-            if (distSq < connDistSq) {
-              const opacity = (1 - Math.sqrt(distSq) / connectionDistance) * 0.15;
-              ctx.beginPath();
-              ctx.strokeStyle = lineColorTemplate + opacity + ')';
-              ctx.lineWidth = 0.8;
-              ctx.moveTo(p.x, p.y);
-              ctx.lineTo(p2.x, p2.y);
-              ctx.stroke();
-            }
-          }
-        }
-      });
-
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
-    animate();
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousemove', handleMouseMove);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
-
   return (
     <section className="relative min-h-screen flex items-center pt-28 md:pt-32 pb-8 md:pb-12 overflow-hidden">
+      {/* Statické pozadí s jemnými gradienty */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] right-[-10%] w-[70%] h-[70%] rounded-full bg-blue-600/10 dark:bg-blue-500/10 blur-[120px]" />
-        <canvas ref={canvasRef} className="absolute inset-0 z-0 pointer-events-none opacity-40" />
+        {/* Primární modrá záře vpravo nahoře */}
+        <div className="absolute top-[-10%] right-[-10%] w-[70%] h-[70%] rounded-full bg-blue-600/10 dark:bg-blue-500/15 blur-[120px]" />
+        
+        {/* Sekundární jemná modrá záře vlevo dole pro hloubku */}
+        <div className="absolute bottom-[-10%] left-[-5%] w-[50%] h-[50%] rounded-full bg-blue-400/5 dark:bg-blue-400/10 blur-[100px]" />
+        
+        {/* Finální gradientní přechod do barvy pozadí stránky */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#f4f7f9] dark:to-[#050505]" />
       </div>
 
