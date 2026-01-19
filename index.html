@@ -18,6 +18,55 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%232563eb%22 /><path d=%22M55 15 L35 55 L50 55 L40 85 L65 45 L50 45 L55 15 Z%22 fill=%22white%22 stroke=%22white%22 stroke-width=%225%22 stroke-linejoin=%22round%22/></svg>">
 
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://intechpro.cz/">
+    <meta property="og:title" content="IN TECH PRO | Jádro inteligentní infrastruktury">
+    <meta property="og:description" content="Projektujeme a realizujeme špičkovou inteligentní infrastrukturu v Praze i po celé ČR. Od automatizovaných domovů po průmyslové areály.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=1200">
+    <meta property="og:locale" content="cs_CZ">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "IN TECH PRO system s.r.o.",
+      "image": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=1200",
+      "@id": "https://intechpro.cz",
+      "url": "https://intechpro.cz",
+      "telephone": "+420777000000",
+      "taxID": "23321130",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Střížkovská 630/112",
+        "addressLocality": "Praha 8",
+        "postalCode": "180 00",
+        "addressCountry": "CZ"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 50.119213,
+        "longitude": 14.484412
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Czech Republic"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "08:00",
+        "closes": "17:00"
+      }
+    }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -60,27 +109,10 @@
         .glass-panel {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            transition: background 0.4s ease;
+            transition: background 0.5s ease, border 0.5s ease;
         }
 
-        /* OPTIMALIZACE PRO MOBIL - vypnutí drahých efektů */
-        @media (max-width: 768px) {
-            .glass-panel {
-                backdrop-filter: none !important;
-                -webkit-backdrop-filter: none !important;
-                box-shadow: none !important;
-                transition: none !important;
-            }
-            .animate-in {
-                animation: none !important;
-                opacity: 1 !important;
-                transform: none !important;
-            }
-            .glow {
-                box-shadow: none !important;
-            }
-        }
-
+        /* Backdrop blur pouze pro desktop - na mobilu je příliš náročný */
         @media (min-width: 769px) {
             .glass-panel {
                 backdrop-filter: blur(16px);
@@ -100,12 +132,27 @@
             -webkit-text-fill-color: transparent;
         }
 
+        .glow {
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+        }
+        
+        .btn-magnetic {
+            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .btn-magnetic:hover {
+            transform: scale(1.05);
+        }
+        
         .scrollbar-hide::-webkit-scrollbar {
             display: none;
         }
         .scrollbar-hide {
             -ms-overflow-style: none;
             scrollbar-width: none;
+        }
+
+        .theme-transition {
+            transition: all 0.5s ease;
         }
     </style>
 <script type="importmap">
@@ -124,7 +171,7 @@
 }
 </script>
 </head>
-<body class="overflow-x-hidden selection:bg-blue-500/30 selection:text-blue-200">
+<body class="overflow-x-hidden selection:bg-blue-500/30 selection:text-blue-200 theme-transition">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
 </body>

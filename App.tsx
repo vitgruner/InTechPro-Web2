@@ -1,28 +1,30 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Services from './components/Services';
 import Process from './components/Process';
-import Dashboard from './components/Dashboard';
 import References from './components/References';
 import ContactForm from './components/ContactForm';
-import AboutUs from './components/AboutUs';
-import ProjekceDetail from './components/ProjekceDetail';
-import OsvetleniDetail from './components/OsvetleniDetail';
-import RozvadeceDetail from './components/RozvadeceDetail';
-import LoxoneDetail from './components/LoxoneDetail';
-import TechnologieDetail from './components/TechnologieDetail';
-import AdminLogin from './components/AdminLogin';
-import ReferenceForm from './components/ReferenceForm';
 import CookieConsent from './components/CookieConsent';
-import PrivacyPolicy from './components/PrivacyPolicy';
-import Impresum from './components/Impresum';
 import { dbService } from './services/dbService';
 import { 
-  Zap, Building2, Sun, Loader2, 
-  CloudUpload, Twitter, Linkedin, Instagram, Lock, Settings 
+  Zap, Loader2, CloudUpload, Twitter, Linkedin, Instagram, Lock 
 } from 'lucide-react';
 import { Reference, ViewState } from './types';
+
+// Lazy loading komponent, které nejsou potřeba pro první zobrazení (LCP)
+const Dashboard = lazy(() => import('./components/Dashboard'));
+const AboutUs = lazy(() => import('./components/AboutUs'));
+const ProjekceDetail = lazy(() => import('./components/ProjekceDetail'));
+const OsvetleniDetail = lazy(() => import('./components/OsvetleniDetail'));
+const RozvadeceDetail = lazy(() => import('./components/RozvadeceDetail'));
+const LoxoneDetail = lazy(() => import('./components/LoxoneDetail'));
+const TechnologieDetail = lazy(() => import('./components/TechnologieDetail'));
+const AdminLogin = lazy(() => import('./components/AdminLogin'));
+const ReferenceForm = lazy(() => import('./components/ReferenceForm'));
+const PrivacyPolicy = lazy(() => import('./components/PrivacyPolicy'));
+const Impresum = lazy(() => import('./components/Impresum'));
 
 const FooterLogo = () => (
   <div className="flex items-center gap-2.5 group cursor-pointer select-none">
@@ -86,6 +88,15 @@ const DEFAULT_REFERENCES: Reference[] = [
   }
 ];
 
+const LoadingScreen = () => (
+  <div className="min-h-[60vh] flex flex-col items-center justify-center gap-6">
+    <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
+    <div className="text-center">
+      <h2 className="text-sm font-black uppercase tracking-widest opacity-50">Načítání modulu...</h2>
+    </div>
+  </div>
+);
+
 const App = () => {
   const [isDark, setIsDark] = useState(() => {
     const hour = new Date().getHours();
@@ -108,7 +119,6 @@ const App = () => {
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [isSyncing, setIsSyncing] = useState(false);
 
-  // Global scroll-to-top handler on view change (safety net)
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [view]);
@@ -117,26 +127,13 @@ const App = () => {
     const handleHashChange = () => {
       const newView = getViewStateFromHash();
       setView(newView);
-      window.scrollTo(0, 0);
     };
-
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
   const navigateTo = (newView: ViewState) => {
-    const currentHash = window.location.hash.replace('#', '') || 'home';
-    
-    // Always trigger top scroll
-    window.scrollTo(0, 0);
-
-    if (currentHash === newView) {
-      // If same view, just ensure we are at top
-      window.scrollTo({ top: 0, behavior: 'auto' });
-    } else {
-      // Update hash which triggers handleHashChange
-      window.location.hash = newView === 'home' ? '' : newView;
-    }
+    window.location.hash = newView === 'home' ? '' : newView;
   };
 
   useEffect(() => {
@@ -151,7 +148,6 @@ const App = () => {
           setReferenceProjects(data);
         }
       } catch (error) {
-        console.error("Critical start error:", error);
         setReferenceProjects(DEFAULT_REFERENCES);
       } finally {
         setIsLoadingData(false);
@@ -184,73 +180,69 @@ const App = () => {
   };
 
   const renderView = () => {
-    if (isLoadingData) {
-      return (
-        <div className="min-h-[80vh] flex flex-col items-center justify-center gap-6">
-          <Loader2 className="w-12 h-12 text-blue-600 animate-spin" />
-          <div className="text-center">
-            <h2 className="text-xl font-black uppercase tracking-widest">Inicializace systému</h2>
-            <p className="text-xs text-gray-500 font-bold uppercase tracking-tight mt-2">Synchronizace s cloudovou databází...</p>
-          </div>
-        </div>
-      );
-    }
+    if (isLoadingData) return <LoadingScreen />;
 
-    switch (view) {
-      case 'home':
-        return (
-          <div className="animate-in fade-in slide-in-from-bottom-2 duration-700">
-            <Hero setView={navigateTo} />
-            <Services setView={navigateTo} />
-            <References projects={referenceProjects} setView={navigateTo} />
-            <Process />
-            <ContactForm />
-          </div>
-        );
-      case 'sluzby':
-        return (
-          <div className="animate-in fade-in duration-700">
-            <Services setView={navigateTo} isStandalone={true} />
-            <Process />
-          </div>
-        );
-      case 'reference':
-        return <References projects={referenceProjects} isStandalone={true} setView={navigateTo} />;
-      case 'kontakt':
-        return <ContactForm isStandalone={true} />;
-      case 'online-showroom':
-        return <div className="animate-in fade-in duration-700"><Dashboard setView={navigateTo} /></div>;
-      case 'o-nas':
-        return <AboutUs setView={navigateTo} />;
-      case 'ochrana-soukromi':
-        return <PrivacyPolicy setView={navigateTo} />;
-      case 'impresum':
-        return <Impresum setView={navigateTo} />;
-      case 'admin-dashboard':
-        return (
-          <div className="pt-32 pb-24 bg-slate-50 dark:bg-[#050505]">
-            <div className="max-w-7xl mx-auto px-6">
-              <div className="flex justify-between items-center mb-12">
-                <div className="flex items-center gap-4">
-                  <h1 className="text-4xl font-black uppercase tracking-tight">Databáze <span className="text-blue-600">Projektů</span></h1>
-                  {isSyncing && <div className="flex items-center gap-2 text-blue-600 animate-pulse text-[10px] font-black uppercase tracking-widest bg-blue-600/10 px-3 py-1 rounded-full"><CloudUpload className="w-3 h-3" /> Syncing</div>}
+    return (
+      <Suspense fallback={<LoadingScreen />}>
+        {(() => {
+          switch (view) {
+            case 'home':
+              return (
+                <>
+                  <Hero setView={navigateTo} />
+                  <Services setView={navigateTo} />
+                  <References projects={referenceProjects} setView={navigateTo} />
+                  <Process />
+                  <ContactForm />
+                </>
+              );
+            case 'sluzby':
+              return (
+                <>
+                  <Services setView={navigateTo} isStandalone={true} />
+                  <Process />
+                </>
+              );
+            case 'reference':
+              return <References projects={referenceProjects} isStandalone={true} setView={navigateTo} />;
+            case 'kontakt':
+              return <ContactForm isStandalone={true} />;
+            case 'online-showroom':
+              return <Dashboard setView={navigateTo} />;
+            case 'o-nas':
+              return <AboutUs setView={navigateTo} />;
+            case 'ochrana-soukromi':
+              return <PrivacyPolicy setView={navigateTo} />;
+            case 'impresum':
+              return <Impresum setView={navigateTo} />;
+            case 'admin-dashboard':
+              return (
+                <div className="pt-32 pb-24 bg-slate-50 dark:bg-[#050505]">
+                  <div className="max-w-7xl mx-auto px-6 text-left">
+                    <div className="flex justify-between items-center mb-12">
+                      <div className="flex items-center gap-4">
+                        <h1 className="text-4xl font-black uppercase tracking-tight">Databáze <span className="text-blue-600">Projektů</span></h1>
+                        {isSyncing && <div className="flex items-center gap-2 text-blue-600 animate-pulse text-[10px] font-black uppercase tracking-widest bg-blue-600/10 px-3 py-1 rounded-full"><CloudUpload className="w-3 h-3" /> Syncing</div>}
+                      </div>
+                      <button type="button" onClick={() => { setIsAdmin(false); navigateTo('home'); }} className="px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest bg-slate-200 dark:bg-white/10">Odhlásit se</button>
+                    </div>
+                    <ReferenceForm onAdd={handleAddReference} onCancel={() => navigateTo('home')} />
+                  </div>
                 </div>
-                <button type="button" onClick={() => { setIsAdmin(false); navigateTo('home'); }} className="px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest bg-slate-200 dark:bg-white/10">Odhlásit se</button>
-              </div>
-              <ReferenceForm onAdd={handleAddReference} onCancel={() => navigateTo('home')} />
-            </div>
-          </div>
-        );
-      case 'admin-login':
-        return <AdminLogin onLogin={() => { setIsAdmin(true); navigateTo('admin-dashboard'); }} />;
-      case 'loxone-smart-home': return <LoxoneDetail setView={navigateTo} />;
-      case 'navrh-osvetleni': return <OsvetleniDetail setView={navigateTo} />;
-      case 'vyroba-rozvadecu': return <RozvadeceDetail setView={navigateTo} />;
-      case 'moderni-technologie': return <TechnologieDetail setView={navigateTo} />;
-      case 'projekce-elektro': return <ProjekceDetail setView={navigateTo} />;
-      default:
-        return <Hero setView={navigateTo} />;
-    }
+              );
+            case 'admin-login':
+              return <AdminLogin onLogin={() => { setIsAdmin(true); navigateTo('admin-dashboard'); }} />;
+            case 'loxone-smart-home': return <LoxoneDetail setView={navigateTo} />;
+            case 'navrh-osvetleni': return <OsvetleniDetail setView={navigateTo} />;
+            case 'vyroba-rozvadecu': return <RozvadeceDetail setView={navigateTo} />;
+            case 'moderni-technologie': return <TechnologieDetail setView={navigateTo} />;
+            case 'projekce-elektro': return <ProjekceDetail setView={navigateTo} />;
+            default:
+              return <Hero setView={navigateTo} />;
+          }
+        })()}
+      </Suspense>
+    );
   };
 
   return (
@@ -261,7 +253,7 @@ const App = () => {
       <footer className="bg-black text-white pt-24 pb-12 border-t border-white/5 relative z-10">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 mb-24">
-            <div className="lg:col-span-5 space-y-8">
+            <div className="lg:col-span-5 space-y-8 text-left">
               <div onClick={() => navigateTo('home')} className="cursor-pointer">
                 <FooterLogo />
               </div>
@@ -270,14 +262,14 @@ const App = () => {
               </p>
               <div className="flex gap-4">
                 {[Twitter, Linkedin, Instagram].map((Icon, i) => (
-                  <a key={i} href="javascript:void(0)" onClick={(e) => e.preventDefault()} className="w-12 h-12 rounded-xl border border-white/10 flex items-center justify-center hover:bg-white/5 transition-all text-gray-300 hover:text-white">
+                  <a key={i} href="#" onClick={(e) => e.preventDefault()} className="w-12 h-12 rounded-xl border border-white/10 flex items-center justify-center hover:bg-white/5 transition-all text-gray-300 hover:text-white">
                     <Icon className="w-5 h-5" />
                   </a>
                 ))}
               </div>
             </div>
 
-            <div className="lg:col-span-3 space-y-8">
+            <div className="lg:col-span-3 space-y-8 text-left">
               <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-white">Mapa webu</h4>
               <ul className="space-y-4">
                 <li><button type="button" onClick={() => navigateTo('o-nas')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">O nás</button></li>
@@ -297,7 +289,7 @@ const App = () => {
               </ul>
             </div>
 
-            <div className="lg:col-span-4 space-y-8">
+            <div className="lg:col-span-4 space-y-8 text-left">
               <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-white">Expertíza</h4>
               <ul className="space-y-4">
                 <li><button type="button" onClick={() => navigateTo('loxone-smart-home')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Smart Home Loxone</button></li>
