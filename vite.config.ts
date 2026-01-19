@@ -1,6 +1,6 @@
-
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig(({ mode }) => {
   // Načte environment proměnné z .env souboru (pokud existuje)
@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
 
   return {
-    plugins: [react()],
+    plugins: [react(), tailwindcss()],
     define: {
       // Předá API_KEY do aplikace jako process.env.API_KEY
       // Použije buď hodnotu z .env (lokálně) nebo ze systému (Vercel)

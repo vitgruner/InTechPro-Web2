@@ -2,49 +2,62 @@
 <html lang="cs" class="scroll-smooth dark">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IN TECH PRO | Inteligentní infrastruktura • Smart Home • Projekce</title>
-    <meta name="description"
-        content="Expertíza v oblasti Loxone Smart Home, průmyslové automatizace a elektroprojekce v Praze a po celé ČR. Navrhujeme a realizujeme budoucnost budov s certifikací Loxone Silver Partner.">
-    <meta name="keywords"
-        content="Smart Home, Loxone Praha, inteligentní dům, elektroprojekce, revize elektro, automatizace budov, chytrá domácnost, FVE řízení, IN TECH PRO">
-    <meta name="author" content="IN TECH PRO system s.r.o.">
-    <link rel="canonical" href="https://intechpro.cz/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IN TECH PRO | Inteligentní infrastruktura • Smart Home • Projekce</title>
+  <meta name="description"
+    content="Expertíza v oblasti Loxone Smart Home, průmyslové automatizace a elektroprojekce v Praze a po celé ČR. Navrhujeme a realizujeme budoucnost budov s certifikací Loxone Silver Partner.">
+  <meta name="keywords"
+    content="Smart Home, Loxone Praha, inteligentní dům, elektroprojekce, revize elektro, automatizace budov, chytrá domácnost, FVE řízení, IN TECH PRO">
+  <meta name="author" content="IN TECH PRO system s.r.o.">
+  <link rel="canonical" href="https://intechpro.cz/">
 
-    <!-- Module Preload pro zrychlení startu -->
-    <link rel="modulepreload" href="https://esm.sh/react@19.0.0">
-    <link rel="modulepreload" href="https://esm.sh/react-dom@19.0.0/client">
-    <link rel="modulepreload" href="https://esm.sh/lucide-react@0.462.0">
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "@google/genai": "https://esm.sh/@google/genai@1.35.0",
+    "lucide-react": "https://esm.sh/lucide-react@0.462.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "vite": "https://esm.sh/vite@^7.3.1",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+    "@emailjs/browser": "https://esm.sh/@emailjs/browser@^4.4.1"
+  }
+}
+</script>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml"
-        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%232563eb%22 /><path d=%22M55 15 L35 55 L50 55 L40 85 L65 45 L50 45 L55 15 Z%22 fill=%22white%22 stroke=%22white%22 stroke-width=%225%22 stroke-linejoin=%22round%22/></svg>">
+  <!-- Module Preload pro zrychlení startu -->
 
-    <!-- Open Graph / Social Media -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://intechpro.cz/">
-    <meta property="og:title" content="IN TECH PRO | Jádro inteligentní infrastruktury">
-    <meta property="og:description"
-        content="Projektujeme a realizujeme špičkovou inteligentní infrastrukturu v Praze i po celé ČR. Od automatizovaných domovů po průmyslové areály.">
-    <meta property="og:image"
-        content="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=1200">
-    <meta property="og:locale" content="cs_CZ">
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%232563eb%22 /><path d=%22M55 15 L35 55 L50 55 L40 85 L65 45 L50 45 L55 15 Z%22 fill=%22white%22 stroke=%22white%22 stroke-width=%225%22 stroke-linejoin=%22round%22/></svg>">
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="IN TECH PRO | Jádro inteligentní infrastruktury">
-    <meta name="twitter:description"
-        content="Špičková smart home automatizace a elektroprojekce v Praze. Loxone Silver Partner.">
-    <meta name="twitter:image"
-        content="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=80&w=1200">
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://intechpro.cz/">
+  <meta property="og:title" content="IN TECH PRO | Jádro inteligentní infrastruktury">
+  <meta property="og:description"
+    content="Projektujeme a realizujeme špičkovou inteligentní infrastrukturu v Praze i po celé ČR. Od automatizovaných domovů po průmyslové areály.">
+  <meta property="og:image"
+    content="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=60&w=800">
+  <meta property="og:locale" content="cs_CZ">
 
-    <!-- Language/Region -->
-    <link rel="alternate" hreflang="cs" href="https://intechpro.cz/">
-    <link rel="alternate" hreflang="x-default" href="https://intechpro.cz/">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="IN TECH PRO | Jádro inteligentní infrastruktury">
+  <meta name="twitter:description"
+    content="Špičková smart home automatizace a elektroprojekce v Praze. Loxone Silver Partner.">
+  <meta name="twitter:image"
+    content="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&q=60&w=800">
 
-    <!-- Structured Data: LocalBusiness + Organization -->
-    <script type="application/ld+json">
+  <!-- Language/Region -->
+  <link rel="alternate" hreflang="cs" href="https://intechpro.cz/">
+  <link rel="alternate" hreflang="x-default" href="https://intechpro.cz/">
+
+  <!-- Structured Data: LocalBusiness + Organization -->
+  <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": ["LocalBusiness", "Organization"],
@@ -87,8 +100,8 @@
     }
     </script>
 
-    <!-- Structured Data: Service -->
-    <script type="application/ld+json">
+  <!-- Structured Data: Service -->
+  <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Service",
@@ -113,8 +126,8 @@
     }
     </script>
 
-    <!-- Structured Data: FAQPage (AI GEO Optimization) -->
-    <script type="application/ld+json">
+  <!-- Structured Data: FAQPage (AI GEO Optimization) -->
+  <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "FAQPage",
@@ -155,119 +168,20 @@
     }
     </script>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap"
-        rel="stylesheet">
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Outfit', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                    },
-                },
-            },
-        }
-    </script>
-    <style>
-        :root {
-            --bg-color: #f4f7f9;
-            --text-color: #1a1d21;
-            --glass-bg: rgba(255, 255, 255, 0.85);
-            --glass-border: rgba(0, 0, 0, 0.1);
-            --safe-area-bottom: env(safe-area-inset-bottom, 0px);
-        }
+  <!-- Language/Region -->
+  <link rel="alternate" hreflang="cs" href="https://intechpro.cz/">
+  <link rel="alternate" hreflang="x-default" href="https://intechpro.cz/">
 
-        .dark {
-            --bg-color: #050505;
-            --text-color: #ffffff;
-            --glass-bg: rgba(15, 15, 15, 0.8);
-            --glass-border: rgba(255, 255, 255, 0.1);
-        }
-
-        body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            transition: background-color 0.5s ease, color 0.5s ease;
-        }
-
-        .glass-panel {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            transition: background 0.5s ease, border 0.5s ease;
-        }
-
-        /* Backdrop blur pouze pro desktop - na mobilu je příliš náročný */
-        @media (min-width: 769px) {
-            .glass-panel {
-                backdrop-filter: blur(16px);
-                -webkit-backdrop-filter: blur(16px);
-            }
-        }
-
-        .text-gradient {
-            background: linear-gradient(135deg, #444 0%, #2563eb 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .dark .text-gradient {
-            background: linear-gradient(135deg, #fff 0%, #60a5fa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .glow {
-            box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
-        }
-
-        .btn-magnetic {
-            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .btn-magnetic:hover {
-            transform: scale(1.05);
-        }
-
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-
-        .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        .theme-transition {
-            transition: all 0.5s ease;
-        }
-    </style>
-    <script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@19.0.0",
-    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
-    "@google/genai": "https://esm.sh/@google/genai@1.35.0",
-    "lucide-react": "https://esm.sh/lucide-react@0.462.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "vite": "https://esm.sh/vite@^7.3.1",
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
-    "@emailjs/browser": "https://esm.sh/@emailjs/browser@^4.4.1"
-  }
-}
-</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
 </head>
 
 <body class="overflow-x-hidden selection:bg-blue-500/30 selection:text-blue-200 theme-transition">
-    <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
 </body>
 
 </html>

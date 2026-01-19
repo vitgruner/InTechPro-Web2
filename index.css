@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+:root {
+    --bg-color: #f4f7f9;
+    --text-color: #1a1d21;
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(0, 0, 0, 0.1);
+    --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.dark {
+    --bg-color: #050505;
+    --text-color: #ffffff;
+    --glass-bg: rgba(15, 15, 15, 0.8);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+@layer base {
+    body {
+        @apply font-sans antialiased;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        transition: background-color 0.5s ease, color 0.5s ease;
+    }
+}
+
+@layer components {
+    .glass-panel {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        transition: background 0.5s ease, border 0.5s ease;
+    }
+
+    /* Backdrop blur pouze pro desktop - na mobilu je příliš náročný */
+    @media (min-width: 769px) {
+        .glass-panel {
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+    }
+
+    .text-gradient {
+        background: linear-gradient(135deg, #444 0%, #2563eb 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .dark .text-gradient {
+        background: linear-gradient(135deg, #fff 0%, #60a5fa 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .glow {
+        box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+    }
+
+    .btn-magnetic {
+        transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .btn-magnetic:hover {
+        transform: scale(1.05);
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .theme-transition {
+        transition: all 0.5s ease;
+    }
+}
