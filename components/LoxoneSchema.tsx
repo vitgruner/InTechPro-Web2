@@ -14,7 +14,6 @@ interface NodeConnectorProps {
 
 const NodeConnector: React.FC<NodeConnectorProps> = ({ x, y, label, id, icon: Icon, colorClass, colorHex }) => (
   <g transform={`translate(${x}, ${y})`} className="cursor-pointer group">
-    {/* Ambient Glow - Snížená opacita pro výkon */}
     <circle r="55" fill={colorHex} opacity="0.01" className="group-hover:opacity-10 transition-all duration-500" />
     <circle r="38" fill="none" stroke={colorHex} strokeWidth="0.5" strokeDasharray="2 6" opacity="0.1" className="group-hover:opacity-40 transition-opacity" />
     
@@ -49,13 +48,15 @@ interface DataPacketsProps {
 }
 
 const DataPackets: React.FC<DataPacketsProps> = ({ path, color, delay = "0s", isMobile }) => {
-  // Na mobilu snížíme počet animovaných paketů
-  const packetCount = isMobile ? [0, 1.6] : [0, 0.8, 1.6, 2.4];
+  // Na mobilu animace zcela vypneme - je to nejnáročnější část SVG
+  if (isMobile) return null;
+  
+  const packetCount = [0, 0.8, 1.6, 2.4];
   
   return (
     <>
       {packetCount.map((d, i) => (
-        <circle key={i} r="2.8" fill={color} filter={isMobile ? undefined : "url(#packetGlow)"}>
+        <circle key={i} r="2.8" fill={color} filter="url(#packetGlow)">
           <animateMotion 
             path={path} 
             dur="4.5s" 
@@ -95,7 +96,6 @@ const LoxoneSchema = () => {
         preserveAspectRatio="xMidYMid meet"
       >
         <defs>
-          {/* Filtry definujeme pouze pokud nejsou na mobilu */}
           {!isMobile && (
             <>
               <filter id="packetGlow" x="-100%" y="-100%" width="300%" height="300%">
@@ -136,21 +136,23 @@ const LoxoneSchema = () => {
           );
         })}
 
-        <g transform="translate(400, 230)" filter={isMobile ? undefined : "url(#coreGlow)"}>
-          <ellipse cx="0" cy="0" rx="180" ry="120" fill="none" stroke="#84cc16" strokeWidth="0.5" strokeDasharray="10 40" opacity="0.05">
-            <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="45s" repeatCount="indefinite" />
-          </ellipse>
+        <g transform="translate(400, 230)" filter={!isMobile ? "url(#coreGlow)" : undefined}>
+          {!isMobile && (
+            <ellipse cx="0" cy="0" rx="180" ry="120" fill="none" stroke="#84cc16" strokeWidth="0.5" strokeDasharray="10 40" opacity="0.05">
+              <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="45s" repeatCount="indefinite" />
+            </ellipse>
+          )}
           
-          <rect x="-150" y="-70" width="300" height="140" rx="24" fill="url(#miniserverGrad)" className="shadow-2xl" />
+          <rect x="-150" y="-70" width="300" height="140" rx="24" fill="url(#miniserverGrad)" />
           
           <rect x="-110" y="-48" width="220" height="38" rx="10" fill="black" fillOpacity="0.3" />
           
           <g transform="translate(0, -29)">
-            <circle cx="-60" cy="0" r="4" className="fill-green-400 animate-pulse" />
-            <circle cx="-35" cy="0" r="4" className="fill-green-400 animate-pulse" style={{ animationDelay: '0.4s' }} />
+            <circle cx="-60" cy="0" r="4" className={`fill-green-400 ${!isMobile ? 'animate-pulse' : ''}`} />
+            <circle cx="-35" cy="0" r="4" className={`fill-green-400 ${!isMobile ? 'animate-pulse' : ''}`} style={{ animationDelay: '0.4s' }} />
             <rect x="-1" y="-10" width="2" height="20" rx="1" className="fill-white/20" />
-            <circle cx="35" cy="0" r="4" className="fill-blue-400 animate-pulse" style={{ animationDelay: '0.8s' }} />
-            <circle cx="60" cy="0" r="4" className="fill-orange-400 animate-pulse" style={{ animationDelay: '1.2s' }} />
+            <circle cx="35" cy="0" r="4" className={`fill-blue-400 ${!isMobile ? 'animate-pulse' : ''}`} style={{ animationDelay: '0.8s' }} />
+            <circle cx="60" cy="0" r="4" className={`fill-orange-400 ${!isMobile ? 'animate-pulse' : ''}`} style={{ animationDelay: '1.2s' }} />
           </g>
 
           <foreignObject x="-150" y="-10" width="300" height="80">
@@ -167,7 +169,7 @@ const LoxoneSchema = () => {
         <foreignObject x="0" y="450" width="800" height="50">
           <div className="flex justify-between items-center w-full h-full px-16">
             <div className="flex items-center gap-4">
-              <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
+              <div className={`w-3 h-3 rounded-full bg-green-500 ${!isMobile ? 'animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.5)]' : ''}`} />
               <span className="text-[13px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-[0.3em]">Synchronized</span>
             </div>
             <div className="flex items-center gap-4">
