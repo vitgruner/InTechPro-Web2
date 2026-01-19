@@ -62,11 +62,6 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
               <span className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">100%</span>
               <span className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold">Shoda norem</span>
             </div>
-            <div className="h-10 w-[1px] bg-black/10 dark:bg-white/10"></div>
-            <div className="flex flex-col">
-              <span className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">100%</span>
-              <span className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold">Shoda norem</span>
-            </div>
           </div>
         </div>
 
