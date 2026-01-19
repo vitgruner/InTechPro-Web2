@@ -68,7 +68,7 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
         <div className="relative group w-full max-w-[84rem] mx-auto animate-in fade-in zoom-in duration-1000 delay-500">
           <div className="absolute inset-0 bg-blue-500/10 dark:bg-blue-500/25 rounded-3xl blur-2xl group-hover:blur-3xl transition-all"></div>
           <div className="relative rounded-3xl overflow-hidden glass-panel border border-black/10 dark:border-white/20 shadow-xl
-                          aspect-video min-h-[280px] md:min-h-[400px] lg:min-h-[512px] bg-black/40 backdrop-blur-md">
+                          h-[280px] md:h-[400px] lg:h-[512px] min-h-[50vw] md:min-h-0 bg-black/40 backdrop-blur-md">
             <React.Suspense fallback={<div className="w-full h-full bg-black/20 animate-pulse" />}>
               <SmartHomeWireframe />
             </React.Suspense>
