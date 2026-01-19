@@ -64,7 +64,10 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
           <div className="absolute inset-0 bg-blue-500/10 dark:bg-blue-500/25 rounded-3xl blur-2xl group-hover:blur-3xl transition-all"></div>
           <div className="relative rounded-3xl overflow-hidden glass-panel border border-black/10 dark:border-white/20 shadow-xl
                           h-[280px] md:h-[400px] lg:h-[512px] min-h-[50vw] md:min-h-0 bg-black/40 backdrop-blur-md">
-            <SmartHomeWireframe />
+            {/* <SmartHomeWireframe /> */}
+            <div className="absolute inset-0 flex items-center justify-center text-gray-500 font-mono text-[10px] uppercase tracking-widest">
+              Performance Testing Mode
+            </div>
           </div>
         </div>
       </div>
