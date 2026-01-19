@@ -17,7 +17,6 @@ const PowerNode: React.FC<PowerNodeProps> = ({ icon: Icon, label, value, unit, c
     <div className={`w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-white dark:bg-[#1a1d21] border border-${color}-500/30 shadow-xl flex items-center justify-center relative transition-transform duration-300 group-hover:scale-110`}>
       <div className={`absolute inset-0 bg-${color}-500/10 rounded-xl md:rounded-2xl animate-pulse`} />
       <Icon className={`w-4 h-4 md:w-6 md:h-6 text-${color}-600 dark:text-${color}-400 relative z-10`} />
-      {/* Connector Dot */}
       <div className={`absolute w-1.5 h-1.5 md:w-2 md:h-2 bg-${color}-500 rounded-full border-2 border-white dark:border-[#1a1d21] z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity`} />
     </div>
 
@@ -75,7 +74,7 @@ const SolarSystem = () => {
           gridPower
         };
       });
-    }, 2000);
+    }, 3000); // Zvýšeno na 3s pro méně re-renderů
 
     return () => {
       clearInterval(interval);
@@ -83,77 +82,63 @@ const SolarSystem = () => {
     };
   }, []);
 
-  // Center Y shift for mobile: 140 (Inverter plane)
   const cy = isMobile ? 140 : 200;
-  // PV Y shift for mobile: move higher (20 instead of 60)
   const pvy = isMobile ? 20 : 60;
 
   return (
     <div className="w-full h-full bg-white/5 dark:bg-black/20 transition-colors duration-500 p-2 md:p-12 select-none overflow-hidden relative min-h-[450px] md:min-h-[600px] flex flex-col items-center justify-center">
       
-      {/* Engineering Grid */}
-      <div className="absolute inset-0 opacity-[0.08] dark:opacity-[0.05] pointer-events-none" 
+      <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.03] pointer-events-none" 
            style={{ backgroundImage: 'linear-gradient(#2563eb 1px, transparent 1px), linear-gradient(90deg, #2563eb 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
-      {/* Main Diagram Area */}
       <div className="relative w-full max-w-[280px] md:max-w-lg aspect-square">
         
-        {/* Animated Flux Paths - Dynamically synced to cy and pvy */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 400 400">
-          <defs>
-             <filter id="solarGlow">
-                <feGaussianBlur stdDeviation="3" result="blur"/>
-                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-             </filter>
-          </defs>
+          {!isMobile && (
+            <defs>
+              <filter id="solarGlow">
+                  <feGaussianBlur stdDeviation="3" result="blur"/>
+                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+          )}
           
-          {/* Background Crosshairs */}
           <path d={`M 200 ${pvy} L 200 340 M 60 ${cy} L 340 ${cy}`} stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 4" className="text-slate-300 dark:text-white/10" />
-          <circle cx="200" cy={cy} r="100" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="4 4" className="text-slate-300 dark:text-white/10" />
 
-          {/* Connections */}
-          <g filter="url(#solarGlow)">
-            {/* Top (PV) to Center */}
-            <path d={`M 200 ${pvy} L 200 ${cy - 40}`} stroke="#fbbf24" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
+          <g filter={isMobile ? undefined : "url(#solarGlow)"}>
+            <path d={`M 200 ${pvy} L 200 ${cy - 40}`} stroke="#fbbf24" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.3" />
             <circle r="3" fill="#fbbf24">
-              <animateMotion path={`M 200 ${pvy} L 200 ${cy - 40}`} dur="2s" repeatCount="indefinite" />
+              <animateMotion path={`M 200 ${pvy} L 200 ${cy - 40}`} dur="2.5s" repeatCount="indefinite" />
             </circle>
 
-            {/* Center to Bottom (Battery) */}
-            <path d={`M 200 ${cy + 40} L 200 340`} stroke="#10b981" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
+            <path d={`M 200 ${cy + 40} L 200 340`} stroke="#10b981" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.3" />
             <circle r="3" fill="#10b981">
-              <animateMotion path={metrics.batteryPower >= 0 ? `M 200 ${cy + 40} L 200 340` : `M 200 340 L 200 ${cy + 40}`} dur="2.5s" repeatCount="indefinite" />
+              <animateMotion path={metrics.batteryPower >= 0 ? `M 200 ${cy + 40} L 200 340` : `M 200 340 L 200 ${cy + 40}`} dur="3s" repeatCount="indefinite" />
             </circle>
 
-             {/* Left (Grid) to Center */}
-             <path d={`M 60 ${cy} L 160 ${cy}`} stroke="#a855f7" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
+             <path d={`M 60 ${cy} L 160 ${cy}`} stroke="#a855f7" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.3" />
              <circle r="3" fill="#a855f7">
-              <animateMotion path={metrics.gridPower >= 0 ? `M 160 ${cy} L 60 ${cy}` : `M 60 ${cy} L 160 ${cy}`} dur="3s" repeatCount="indefinite" />
+              <animateMotion path={metrics.gridPower >= 0 ? `M 160 ${cy} L 60 ${cy}` : `M 60 ${cy} L 160 ${cy}`} dur="3.5s" repeatCount="indefinite" />
             </circle>
 
-            {/* Center to Right (Home) */}
-            <path d={`M 240 ${cy} L 340 ${cy}`} stroke="#3b82f6" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.4" />
+            <path d={`M 240 ${cy} L 340 ${cy}`} stroke="#3b82f6" strokeWidth="2" fill="none" strokeDasharray="4 4" opacity="0.3" />
              <circle r="3" fill="#3b82f6">
-              <animateMotion path={`M 240 ${cy} L 340 ${cy}`} dur="1.8s" repeatCount="indefinite" />
+              <animateMotion path={`M 240 ${cy} L 340 ${cy}`} dur="2s" repeatCount="indefinite" />
             </circle>
           </g>
         </svg>
 
-        {/* Central Inverter Node */}
         <div className="absolute top-[35%] md:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 transition-all duration-700">
-           <div className="w-20 h-20 md:w-28 md:h-28 rounded-2xl md:rounded-[2.5rem] bg-white dark:bg-[#1a1d21] border-2 border-yellow-500/20 shadow-[0_0_40px_rgba(234,179,8,0.2)] flex flex-col items-center justify-center relative group">
-              <div className="absolute inset-0 bg-yellow-500/5 rounded-2xl md:rounded-[2.5rem] animate-pulse pointer-events-none" />
-              <Zap className="w-6 h-6 md:w-10 md:h-10 text-yellow-500 mb-1 md:mb-2 transition-transform group-hover:scale-110" />
+           <div className="w-20 h-20 md:w-28 md:h-28 rounded-2xl md:rounded-[2.5rem] bg-white dark:bg-[#1a1d21] border-2 border-yellow-500/10 shadow-xl flex flex-col items-center justify-center relative group">
+              <Zap className="w-6 h-6 md:w-10 md:h-10 text-yellow-500 mb-1 md:mb-2" />
               <div className="text-[7px] md:text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Inverter</div>
-              <div className="text-[9px] md:text-xs font-black text-slate-900 dark:text-white mt-0.5">98.5% Eff</div>
+              <div className="text-[9px] md:text-xs font-black text-slate-900 dark:text-white mt-0.5">98% Eff</div>
            </div>
         </div>
 
-        {/* Satellite Nodes */}
-        {/* Photovoltaic - Moved higher on mobile (-top-10 instead of top-0) */}
         <PowerNode 
           icon={Sun} 
-          label="Fotovoltaika" 
+          label="FVE" 
           value={metrics.production} 
           unit="kW" 
           color="yellow" 
@@ -189,18 +174,6 @@ const SolarSystem = () => {
         />
 
       </div>
-
-      {/* Bottom Stats Header */}
-      <div className="absolute bottom-4 md:bottom-8 left-8 right-8 flex justify-between items-center opacity-60 pointer-events-none">
-          <div className="flex items-center gap-2 text-[8px] md:text-[10px] font-black uppercase tracking-widest text-slate-500">
-             <ArrowUpRight className="w-3 h-3 text-blue-600" />
-             <span>CO2 ÚSPORA: 12.4 kg/den</span>
-          </div>
-          <div className="flex items-center gap-2 text-[8px] md:text-[10px] font-black uppercase tracking-widest text-slate-500">
-             <span>INDEX SOBĚSTAČNOSTI: 82%</span>
-          </div>
-      </div>
-
     </div>
   );
 };

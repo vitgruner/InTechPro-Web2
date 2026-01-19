@@ -15,11 +15,12 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
 
     let width = canvas.width = window.innerWidth;
     let height = canvas.height = window.innerHeight;
+    const isMobile = width < 768;
 
     const particles: { x: number; y: number; vx: number; vy: number; size: number }[] = [];
-    // Snížený počet částic pro lepší výkon na mobilních zařízeních
-    const particleCount = Math.min(Math.floor((width * height) / 25000), 60); 
-    const connectionDistance = 140;
+    // Drasticky snížený počet pro mobil (20 vs 60)
+    const particleCount = isMobile ? 25 : Math.min(Math.floor((width * height) / 25000), 60); 
+    const connectionDistance = isMobile ? 80 : 140;
     const mouseDistance = 180;
 
     let mouse = { x: -1000, y: -1000 };
@@ -28,9 +29,9 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        size: Math.random() * 1.5 + 1,
+        vx: (Math.random() - 0.5) * (isMobile ? 0.2 : 0.4),
+        vy: (Math.random() - 0.5) * (isMobile ? 0.2 : 0.4),
+        size: Math.random() * (isMobile ? 1 : 1.5) + 1,
       });
     }
 
@@ -40,12 +41,13 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
     };
 
     const handleMouseMove = (e: MouseEvent) => {
+      if (isMobile) return;
       mouse.x = e.clientX;
       mouse.y = e.clientY;
     };
 
     window.addEventListener('resize', handleResize);
-    window.addEventListener('mousemove', handleMouseMove);
+    if (!isMobile) window.addEventListener('mousemove', handleMouseMove);
 
     let animationFrameId: number;
     const animate = () => {
@@ -53,7 +55,7 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
       
       const isDark = document.documentElement.classList.contains('dark');
       const particleColor = isDark ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.2)';
-      const lineColor = isDark ? 'rgba(37, 99, 235, 0.4)' : 'rgba(37, 99, 235, 0.3)';
+      const lineColorTemplate = isDark ? 'rgba(37, 99, 235, ' : 'rgba(37, 99, 235, ';
 
       particles.forEach((p, i) => {
         p.x += p.vx;
@@ -62,14 +64,16 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
         if (p.x < 0 || p.x > width) p.vx *= -1;
         if (p.y < 0 || p.y > height) p.vy *= -1;
 
-        const dx = p.x - mouse.x;
-        const dy = p.y - mouse.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        if (distance < mouseDistance) {
-          const force = (mouseDistance - distance) / mouseDistance;
-          p.vx += (dx / distance) * force * 0.03;
-          p.vy += (dy / distance) * force * 0.03;
+        if (!isMobile) {
+          const dx = p.x - mouse.x;
+          const dy = p.y - mouse.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < mouseDistance) {
+            const force = (mouseDistance - distance) / mouseDistance;
+            p.vx += (dx / distance) * force * 0.03;
+            p.vy += (dy / distance) * force * 0.03;
+          }
         }
 
         ctx.beginPath();
@@ -77,20 +81,25 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
         ctx.fillStyle = particleColor;
         ctx.fill();
 
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dx2 = p.x - p2.x;
-          const dy2 = p.y - p2.y;
-          const dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+        // Na mobilu vynecháme náročný výpočet spojnic O(n^2)
+        if (!isMobile) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const dx2 = p.x - p2.x;
+            const dy2 = p.y - p2.y;
+            // Použití squared distance pro rychlejší výpočet bez odmocniny
+            const distSq = dx2 * dx2 + dy2 * dy2;
+            const connDistSq = connectionDistance * connectionDistance;
 
-          if (dist2 < connectionDistance) {
-            const opacity = (1 - dist2 / connectionDistance) * 0.15;
-            ctx.beginPath();
-            ctx.strokeStyle = lineColor.replace('0.4', opacity.toString()).replace('0.3', opacity.toString());
-            ctx.lineWidth = 0.8;
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
+            if (distSq < connDistSq) {
+              const opacity = (1 - Math.sqrt(distSq) / connectionDistance) * 0.15;
+              ctx.beginPath();
+              ctx.strokeStyle = lineColorTemplate + opacity + ')';
+              ctx.lineWidth = 0.8;
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.stroke();
+            }
           }
         }
       });
@@ -145,12 +154,12 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
 
           <div className="mt-10 flex items-center justify-center lg:justify-start gap-6 md:gap-8 animate-in slide-in-from-bottom-12 fade-in duration-1000">
             <div className="flex flex-col">
-              <span className="text-xl md:text-2xl font-black font-mono text-gray-900 dark:text-white">500+</span>
+              <span className="text-xl md:text-2xl font-black text-gray-900 dark:text-white">500+</span>
               <span className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold">Projektů</span>
             </div>
             <div className="h-10 w-[1px] bg-black/10 dark:bg-white/10"></div>
             <div className="flex flex-col">
-              <span className="text-xl md:text-2xl font-black font-mono text-gray-900 dark:text-white">100%</span>
+              <span className="text-xl md:text-2xl font-black text-gray-900 dark:text-white">100%</span>
               <span className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold">Spolehlivost</span>
             </div>
           </div>

@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Cpu, Radio, Lightbulb, Thermometer, Share2, Activity } from 'lucide-react';
 
 interface NodeConnectorProps {
@@ -14,12 +14,10 @@ interface NodeConnectorProps {
 
 const NodeConnector: React.FC<NodeConnectorProps> = ({ x, y, label, id, icon: Icon, colorClass, colorHex }) => (
   <g transform={`translate(${x}, ${y})`} className="cursor-pointer group">
-    {/* Ambient Glow */}
-    <circle r="55" fill={colorHex} opacity="0.02" className="group-hover:opacity-12 transition-all duration-500" />
-    <circle r="38" fill="none" stroke={colorHex} strokeWidth="0.5" strokeDasharray="2 6" opacity="0.15" className="group-hover:opacity-50 transition-opacity" />
+    {/* Ambient Glow - Snížená opacita pro výkon */}
+    <circle r="55" fill={colorHex} opacity="0.01" className="group-hover:opacity-10 transition-all duration-500" />
+    <circle r="38" fill="none" stroke={colorHex} strokeWidth="0.5" strokeDasharray="2 6" opacity="0.1" className="group-hover:opacity-40 transition-opacity" />
     
-    {/* FIX: Použití nativního SVG Rect namísto ForeignObject pro pozadí boxu. 
-       Toto řeší chybu ve WebKitu (iOS), kde se foreignObject nerespektoval transformaci parenta. */}
     <rect 
       x="-28" 
       y="-28" 
@@ -29,17 +27,15 @@ const NodeConnector: React.FC<NodeConnectorProps> = ({ x, y, label, id, icon: Ic
       className="fill-white/80 dark:fill-white/5 transition-all duration-500 group-hover:scale-110"
       stroke={colorHex}
       strokeWidth="1"
-      strokeOpacity="0.3"
+      strokeOpacity="0.2"
     />
 
-    {/* Icon Container - pouze ikona je v foreignObject, což je pro Safari bezpečnější */}
     <foreignObject x="-14" y="-14" width="28" height="28" className="pointer-events-none group-hover:scale-110 transition-transform duration-500 overflow-visible">
       <div className="w-full h-full flex items-center justify-center">
         <Icon className={`w-full h-full text-${colorClass}-600 dark:text-${colorClass}-400`} />
       </div>
     </foreignObject>
 
-    {/* Technical Typography */}
     <text y="62" textAnchor="middle" className="fill-slate-400 dark:fill-gray-500 text-[10px] font-black uppercase tracking-[0.35em] pointer-events-none">{id}</text>
     <text y="82" textAnchor="middle" className="fill-slate-900 dark:text-white text-[14px] font-black uppercase tracking-[0.2em] pointer-events-none">{label}</text>
   </g>
@@ -49,26 +45,41 @@ interface DataPacketsProps {
   path: string;
   color: string;
   delay?: string;
+  isMobile: boolean;
 }
 
-const DataPackets: React.FC<DataPacketsProps> = ({ path, color, delay = "0s" }) => (
-  <>
-    {[0, 0.8, 1.6, 2.4].map((d, i) => (
-      <circle key={i} r="2.8" fill={color} filter="url(#packetGlow)">
-        <animateMotion 
-          path={path} 
-          dur="4.5s" 
-          begin={`${parseFloat(delay) + d}s`} 
-          repeatCount="indefinite" 
-          calcMode="spline"
-          keySplines="0.4 0 0.6 1"
-        />
-      </circle>
-    ))}
-  </>
-);
+const DataPackets: React.FC<DataPacketsProps> = ({ path, color, delay = "0s", isMobile }) => {
+  // Na mobilu snížíme počet animovaných paketů
+  const packetCount = isMobile ? [0, 1.6] : [0, 0.8, 1.6, 2.4];
+  
+  return (
+    <>
+      {packetCount.map((d, i) => (
+        <circle key={i} r="2.8" fill={color} filter={isMobile ? undefined : "url(#packetGlow)"}>
+          <animateMotion 
+            path={path} 
+            dur="4.5s" 
+            begin={`${parseFloat(delay) + d}s`} 
+            repeatCount="indefinite" 
+            calcMode="spline"
+            keySplines="0.4 0 0.6 1"
+          />
+        </circle>
+      ))}
+    </>
+  );
+};
 
 const LoxoneSchema = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const nodes = [
     { id: 'BUS.AIR', label: 'Senzory Air', icon: Radio, x: 130, y: 100, colorClass: 'blue', colorHex: '#2563eb' },
     { id: 'BUS.TREE', label: 'Tree Periférie', icon: Share2, x: 670, y: 100, colorClass: 'lime', colorHex: '#84cc16' },
@@ -84,32 +95,35 @@ const LoxoneSchema = () => {
         preserveAspectRatio="xMidYMid meet"
       >
         <defs>
-          <filter id="packetGlow" x="-100%" y="-100%" width="300%" height="300%">
-            <feGaussianBlur stdDeviation="2" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-          </filter>
+          {/* Filtry definujeme pouze pokud nejsou na mobilu */}
+          {!isMobile && (
+            <>
+              <filter id="packetGlow" x="-100%" y="-100%" width="300%" height="300%">
+                <feGaussianBlur stdDeviation="2" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+              <filter id="coreGlow">
+                <feGaussianBlur stdDeviation="30" result="blur" />
+                <feFlood floodColor="#84cc16" floodOpacity="0.1" result="color" />
+                <feComposite in="color" in2="blur" operator="in" />
+                <feMerge>
+                  <feMergeNode />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </>
+          )}
           
           <linearGradient id="miniserverGrad" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#84cc16" />
             <stop offset="100%" stopColor="#4d7c0f" />
           </linearGradient>
-
-          <filter id="coreGlow">
-            <feGaussianBlur stdDeviation="30" result="blur" />
-            <feFlood floodColor="#84cc16" floodOpacity="0.15" result="color" />
-            <feComposite in="color" in2="blur" operator="in" />
-            <feMerge>
-              <feMergeNode />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
         </defs>
 
-        <g opacity="0.3">
+        <g opacity="0.2">
           <path d="M 0 230 L 800 230 M 400 0 L 400 500" stroke="currentColor" strokeWidth="0.5" className="text-slate-300 dark:text-white/10" />
           <circle cx="400" cy="230" r="260" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="15 15" className="text-slate-200 dark:text-white/5" />
           <circle cx="400" cy="230" r="180" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="8 8" className="text-slate-200 dark:text-white/5" />
-          <rect x="50" y="30" width="700" height="400" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2 10" className="text-slate-200 dark:text-white/5" />
         </g>
 
         {nodes.map((node, i) => {
@@ -117,36 +131,24 @@ const LoxoneSchema = () => {
           return (
             <g key={`path-${i}`}>
               <path d={path} stroke="currentColor" strokeWidth="1" className="text-slate-200 dark:text-white/10" />
-              <path d={path} stroke={node.colorHex} strokeWidth="8" strokeOpacity="0.02" fill="none" />
-              <DataPackets path={path} color={node.colorHex} delay={`${i * 0.5}s`} />
+              <DataPackets path={path} color={node.colorHex} delay={`${i * 0.5}s`} isMobile={isMobile} />
             </g>
           );
         })}
 
-        <g transform="translate(400, 230)" filter="url(#coreGlow)">
-          <ellipse cx="0" cy="0" rx="180" ry="120" fill="none" stroke="#84cc16" strokeWidth="0.5" strokeDasharray="10 40" opacity="0.1">
+        <g transform="translate(400, 230)" filter={isMobile ? undefined : "url(#coreGlow)"}>
+          <ellipse cx="0" cy="0" rx="180" ry="120" fill="none" stroke="#84cc16" strokeWidth="0.5" strokeDasharray="10 40" opacity="0.05">
             <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="45s" repeatCount="indefinite" />
-          </ellipse>
-          <ellipse cx="0" cy="0" rx="160" ry="105" fill="none" stroke="#84cc16" strokeWidth="0.5" strokeDasharray="4 12" opacity="0.15">
-            <animateTransform attributeName="transform" type="rotate" from="360" to="0" dur="30s" repeatCount="indefinite" />
           </ellipse>
           
           <rect x="-150" y="-70" width="300" height="140" rx="24" fill="url(#miniserverGrad)" className="shadow-2xl" />
-          <rect x="-142" y="-62" width="284" height="124" rx="20" fill="none" stroke="white" strokeOpacity="0.25" strokeWidth="1" />
           
-          {/* LED Strip Background */}
-          <rect x="-110" y="-48" width="220" height="38" rx="10" fill="black" fillOpacity="0.35" />
+          <rect x="-110" y="-48" width="220" height="38" rx="10" fill="black" fillOpacity="0.3" />
           
-          {/* NATIVE SVG LEDs - Centered Vertically relative to the black strip (y=-48, h=38 -> center y=-29) */}
           <g transform="translate(0, -29)">
-            {/* Left LEDs */}
             <circle cx="-60" cy="0" r="4" className="fill-green-400 animate-pulse" />
             <circle cx="-35" cy="0" r="4" className="fill-green-400 animate-pulse" style={{ animationDelay: '0.4s' }} />
-            
-            {/* Center Divider */}
             <rect x="-1" y="-10" width="2" height="20" rx="1" className="fill-white/20" />
-            
-            {/* Right LEDs */}
             <circle cx="35" cy="0" r="4" className="fill-blue-400 animate-pulse" style={{ animationDelay: '0.8s' }} />
             <circle cx="60" cy="0" r="4" className="fill-orange-400 animate-pulse" style={{ animationDelay: '1.2s' }} />
           </g>
@@ -166,10 +168,10 @@ const LoxoneSchema = () => {
           <div className="flex justify-between items-center w-full h-full px-16">
             <div className="flex items-center gap-4">
               <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
-              <span className="text-[13px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-[0.3em]">Status: Synchronized</span>
+              <span className="text-[13px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-[0.3em]">Synchronized</span>
             </div>
             <div className="flex items-center gap-4">
-              <span className="text-[13px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-[0.3em]">Load: 100% Efficiency</span>
+              <span className="text-[13px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-[0.3em]">Load: Optimal</span>
               <Activity className="w-5 h-5 text-blue-600 opacity-50" />
             </div>
           </div>

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Home, Zap, DraftingCompass, Cpu, Lightbulb, Thermometer, Shield, Radio, Wind, Blinds, Waves, Car, Droplets, Sprout, Settings, CheckSquare, Sun, ArrowRight } from 'lucide-react';
 import { ServiceCardProps, ServicesProps } from '../types';
@@ -48,6 +49,7 @@ const Services: React.FC<ServicesProps> = ({ setView, isStandalone = false }) =>
   });
 
   useEffect(() => {
+    // Prodloužen interval na 6s pro snížení zátěže re-renderů
     const interval = setInterval(() => {
       setLiveStats(prev => ({
         ...prev,
@@ -57,7 +59,7 @@ const Services: React.FC<ServicesProps> = ({ setView, isStandalone = false }) =>
         "Wellness": (27 + Math.random() * 2).toFixed(1) + "°C",
         "FVE": (3 + Math.random() * 4).toFixed(1) + "kW"
       }));
-    }, 4000);
+    }, 6000);
     return () => clearInterval(interval);
   }, []);
 
@@ -108,7 +110,7 @@ const Services: React.FC<ServicesProps> = ({ setView, isStandalone = false }) =>
                 <div className="grid sm:grid-cols-2 gap-3 md:gap-6 mb-6 md:mb-8">
                   <div className="flex items-center md:items-start gap-3 p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/50 dark:bg-white/5 border border-black/5 dark:border-white/10 group/feat transition-all hover:border-blue-600/20">
                     <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-600/10 rounded-lg md:rounded-xl flex items-center justify-center text-blue-600 flex-shrink-0 group/feat:bg-blue-600 group/feat:text-white transition-all">
-                      <CheckSquare className="w-4 h-4 md:w-5 md:h-5" />
+                      <CheckSquare className="w-4 h-4 md:w-5 h-5" />
                     </div>
                     <div className="min-w-0">
                       <h4 className="text-[10px] md:text-xs font-black uppercase tracking-widest text-gray-900 dark:text-white mb-0.5">Adaptivní systém</h4>
@@ -117,7 +119,7 @@ const Services: React.FC<ServicesProps> = ({ setView, isStandalone = false }) =>
                   </div>
                   <div className="flex items-center md:items-start gap-3 p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/50 dark:bg-white/5 border border-black/5 dark:border-white/10 group/feat transition-all hover:border-blue-600/20">
                     <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-600/10 rounded-lg md:rounded-xl flex items-center justify-center text-blue-600 flex-shrink-0 group/feat:bg-blue-600 group/feat:text-white transition-all">
-                      <Settings className="w-4 h-4 md:w-5 md:h-5" />
+                      <Settings className="w-4 h-4 md:w-5 h-5" />
                     </div>
                     <div className="min-w-0">
                       <h4 className="text-[10px] md:text-xs font-black uppercase tracking-widest text-gray-900 dark:text-white mb-0.5">Hybridní řízení</h4>
