@@ -89,12 +89,23 @@ const DEFAULT_REFERENCES: Reference[] = [
   }
 ];
 
-const LoadingScreen = () => (
-  <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-6 bg-white/80 dark:bg-black/80 backdrop-blur-md animate-in fade-in duration-300">
-    <Loader2 className="w-12 h-12 text-blue-600 animate-spin" />
+const LoadingScreen = ({ progress }: { progress?: number }) => (
+  <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-6 bg-white/90 dark:bg-black/90 backdrop-blur-md animate-in fade-in duration-300">
+    <div className="relative w-48">
+      <div className="flex justify-between items-end mb-2">
+        <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600">Systém</h2>
+        <span className="text-[20px] font-black tabular-nums leading-none tracking-tighter">{Math.round(progress || 0)}%</span>
+      </div>
+      <div className="h-1 w-full bg-black/5 dark:bg-white/10 rounded-full overflow-hidden">
+        <div
+          className="h-full bg-blue-600 transition-all duration-500 ease-out"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+    </div>
     <div className="text-center">
-      <h2 className="text-xl font-black uppercase tracking-widest">Inicializace systému</h2>
-      <p className="text-xs text-gray-500 font-bold uppercase tracking-tight mt-2">Synchronizace s cloudovou databází...</p>
+      <h2 className="text-xl font-black uppercase tracking-widest opacity-20">InTechPro</h2>
+      <p className="text-[9px] text-gray-400 font-bold uppercase tracking-[0.2em] mt-1 animate-pulse">Synchronizace databází...</p>
     </div>
   </div>
 );
@@ -119,7 +130,28 @@ const App = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [referenceProjects, setReferenceProjects] = useState<Reference[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [showMainContent, setShowMainContent] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isLoadingData) {
+      interval = setInterval(() => {
+        setLoadingProgress(prev => {
+          if (prev < 30) return prev + Math.random() * 15;
+          if (prev < 60) return prev + Math.random() * 5;
+          if (prev < 95) return prev + Math.random() * 2;
+          return prev;
+        });
+      }, 150);
+    } else {
+      setLoadingProgress(100);
+      const timer = setTimeout(() => setShowMainContent(true), 600);
+      return () => clearTimeout(timer);
+    }
+    return () => clearInterval(interval);
+  }, [isLoadingData]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -182,20 +214,45 @@ const App = () => {
   };
 
   const renderView = () => {
-    if (isLoadingData) {
+    if (!showMainContent) {
       return (
-        <div className="min-h-[80vh] flex flex-col items-center justify-center gap-6 animate-in fade-in duration-500">
-          <Loader2 className="w-12 h-12 text-blue-600 animate-spin" />
-          <div className="text-center">
-            <h2 className="text-xl font-black uppercase tracking-widest">Inicializace systému</h2>
-            <p className="text-xs text-gray-500 font-bold uppercase tracking-tight mt-2">Synchronizace s cloudovou databází...</p>
+        <div className="min-h-[90vh] flex flex-col items-center justify-center gap-8 animate-in fade-in duration-700">
+          <div className="relative w-64 md:w-80">
+            <div className="flex justify-between items-end mb-3">
+              <div className="space-y-1">
+                <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-600">Zavádění Jádra</h2>
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-ping" />
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-gray-400">Verze 2.4.0</span>
+                </div>
+              </div>
+              <span className="text-5xl font-black tabular-nums tracking-tighter transition-all duration-300">
+                {Math.round(loadingProgress)}<span className="text-sm font-light opacity-30">%</span>
+              </span>
+            </div>
+
+            <div className="h-1.5 w-full bg-slate-200 dark:bg-white/5 rounded-full overflow-hidden shadow-inner">
+              <div
+                className="h-full bg-gradient-to-r from-blue-700 to-blue-500 shadow-[0_0_15px_rgba(37,99,235,0.4)] transition-all duration-700 ease-out"
+                style={{ width: `${loadingProgress}%` }}
+              />
+            </div>
+
+            <div className="mt-8 flex justify-between items-center opacity-40">
+              <div className="flex gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className={`w-1 h-3 rounded-full ${i < (loadingProgress / 20) ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-700'}`} />
+                ))}
+              </div>
+              <span className="text-[8px] font-black uppercase tracking-[0.4em] text-gray-500">Secure Protocol AES-256</span>
+            </div>
           </div>
         </div>
       );
     }
 
     return (
-      <Suspense fallback={<LoadingScreen />}>
+      <Suspense fallback={<LoadingScreen progress={loadingProgress} />}>
         {(() => {
           switch (view) {
             case 'home':
