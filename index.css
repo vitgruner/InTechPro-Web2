@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@theme {
+    --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* Podpora pro .dark třídu v Tailwind 4 */
+@variant dark (&:where(.dark, .dark *));
+
 :root {
     --bg-color: #f4f7f9;
     --text-color: #1a1d21;
