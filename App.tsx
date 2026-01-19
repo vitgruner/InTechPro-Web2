@@ -90,15 +90,11 @@ const DEFAULT_REFERENCES: Reference[] = [
 ];
 
 const LoadingScreen = () => (
-  <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-6 bg-white/10 dark:bg-black/10 backdrop-blur-md animate-in fade-in duration-300">
-    <div className="relative">
-      <div className="absolute inset-0 bg-blue-600/20 blur-xl rounded-full animate-pulse" />
-      <Loader2 className="w-12 h-12 text-blue-600 animate-spin relative z-10" />
-    </div>
-    <div className="text-center relative z-10">
-      <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-600 dark:text-blue-400 animate-pulse">
-        Synchronizace systému...
-      </h2>
+  <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-6 bg-white/80 dark:bg-black/80 backdrop-blur-md animate-in fade-in duration-300">
+    <Loader2 className="w-12 h-12 text-blue-600 animate-spin" />
+    <div className="text-center">
+      <h2 className="text-xl font-black uppercase tracking-widest">Inicializace systému</h2>
+      <p className="text-xs text-gray-500 font-bold uppercase tracking-tight mt-2">Synchronizace s cloudovou databází...</p>
     </div>
   </div>
 );
@@ -186,9 +182,20 @@ const App = () => {
   };
 
   const renderView = () => {
+    if (isLoadingData) {
+      return (
+        <div className="min-h-[80vh] flex flex-col items-center justify-center gap-6 animate-in fade-in duration-500">
+          <Loader2 className="w-12 h-12 text-blue-600 animate-spin" />
+          <div className="text-center">
+            <h2 className="text-xl font-black uppercase tracking-widest">Inicializace systému</h2>
+            <p className="text-xs text-gray-500 font-bold uppercase tracking-tight mt-2">Synchronizace s cloudovou databází...</p>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <Suspense fallback={<LoadingScreen />}>
-        {isLoadingData && <LoadingScreen />}
         {(() => {
           switch (view) {
             case 'home':
