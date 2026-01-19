@@ -76,19 +76,37 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
           <div className="pt-4 border-t border-black/5 dark:border-white/10">
             {topology && (
               <div className="grid grid-cols-2 gap-2">
-                <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 px-3 py-2.5 rounded-lg">
+                {/* Senzory */}
+                <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 px-3 py-2 rounded-lg">
                   <div className="flex flex-col">
-                    <span className="text-[8px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Senzory</span>
-                    <span className="text-[11px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.sensors}</span>
+                    <span className="text-[7px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Senzory</span>
+                    <span className="text-[10px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.sensors}</span>
                   </div>
-                  <Share2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-500 opacity-80" />
+                  <Share2 className="w-3 h-3 text-blue-600 dark:text-blue-500 opacity-80" />
                 </div>
-                <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 px-3 py-2.5 rounded-lg">
+                {/* Kabeláž */}
+                <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 px-3 py-2 rounded-lg">
                   <div className="flex flex-col">
-                    <span className="text-[8px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Kabeláž</span>
-                    <span className="text-[11px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.cablingKm}km</span>
+                    <span className="text-[7px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Kabeláž</span>
+                    <span className="text-[10px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.cablingKm}km</span>
                   </div>
-                  <Ruler className="w-3.5 h-3.5 text-lime-600 dark:text-lime-500 opacity-80" />
+                  <Ruler className="w-3 h-3 text-lime-600 dark:text-lime-500 opacity-80" />
+                </div>
+                {/* Moduly */}
+                <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 px-3 py-2 rounded-lg">
+                  <div className="flex flex-col">
+                    <span className="text-[7px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Moduly</span>
+                    <span className="text-[10px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.modules} ks</span>
+                  </div>
+                  <Cpu className="w-3 h-3 text-orange-500 dark:text-orange-400 opacity-80" />
+                </div>
+                {/* Rozvaděče */}
+                <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 px-3 py-2 rounded-lg">
+                  <div className="flex flex-col">
+                    <span className="text-[7px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Pole</span>
+                    <span className="text-[10px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.racks}x</span>
+                  </div>
+                  <Server className="w-3 h-3 text-purple-600 dark:text-purple-400 opacity-80" />
                 </div>
               </div>
             )}
