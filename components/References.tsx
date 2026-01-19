@@ -119,7 +119,7 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
   const displayProjects = isStandalone ? filteredProjects : (Array.isArray(projects) ? projects.slice(0, 3) : []);
 
   return (
-    <section id="references" className={`transition-all duration-700 ${isStandalone ? 'pt-28 md:pt-32 pb-0' : 'pt-8 md:pt-16 pb-8 md:pb-16'}`}>
+    <section id="references" className={`transition-all duration-700 ${isStandalone ? 'pt-28 md:pt-32 pb-16 md:pb-24' : 'pt-8 md:pt-16 pb-8 md:pb-16'}`}>
       <div className="max-w-7xl mx-auto px-6">
         {isStandalone && setView && (
           <Breadcrumbs items={[{ label: 'Reference' }]} setView={setView} />
