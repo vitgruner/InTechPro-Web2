@@ -30,7 +30,7 @@ const Impresum = lazy(() => import('./components/Impresum'));
 const FooterLogo = () => (
   <div className="flex items-center gap-2.5 group cursor-pointer select-none">
     <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center transition-all group-hover:rotate-[15deg] group-hover:scale-110 shadow-lg shadow-blue-500/20">
-      < Zap className="w-4 h-4 text-white fill-white" />
+      < Zap className="w-4 h-4 text-white fill-white" aria-hidden="true" />
     </div>
     <div className="flex items-center font-black text-white tracking-tighter leading-none">
       <span className="text-[18px] text-blue-600">IN</span>
@@ -330,9 +330,9 @@ const App = () => {
                 Průkopníci další generace inteligentní infrastruktury prostřednictvím precizního inženýrství, futuristického designu a bezchybné realizace.
               </p>
               <div className="flex gap-4">
-                {[Twitter, Linkedin, Instagram].map((Icon, i) => (
-                  <a key={i} href="#" onClick={(e) => e.preventDefault()} className="w-12 h-12 rounded-xl border border-white/10 flex items-center justify-center hover:bg-white/5 transition-all text-gray-300 hover:text-white">
-                    <Icon className="w-5 h-5" />
+                {[[Twitter, "Twitter"], [Linkedin, "LinkedIn"], [Instagram, "Instagram"]].map(([Icon, label], i) => (
+                  <a key={i} href="#" onClick={(e) => e.preventDefault()} className="w-12 h-12 rounded-xl border border-white/10 flex items-center justify-center hover:bg-white/5 transition-all text-gray-300 hover:text-white" aria-label={label as string}>
+                    <Icon className="w-5 h-5" aria-hidden="true" />
                   </a>
                 ))}
               </div>
@@ -352,7 +352,7 @@ const App = () => {
                 <li><button type="button" onClick={() => navigateTo('kontakt')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Kontakt</button></li>
                 <li>
                   <button type="button" onClick={() => navigateTo('admin-login')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm flex items-center gap-2 text-left">
-                    Klientská zóna <Lock className="w-3.5 h-3.5" />
+                    Klientská zóna <Lock className="w-3.5 h-3.5" aria-hidden="true" />
                   </button>
                 </li>
               </ul>

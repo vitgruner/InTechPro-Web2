@@ -19,8 +19,9 @@
 .dark {
     --bg-color: #050505;
     --text-color: #ffffff;
-    --glass-bg: rgba(15, 15, 15, 0.8);
-    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-bg: rgba(10, 10, 10, 0.9);
+    /* Slightly darker and more opaque for better contrast */
+    --glass-border: rgba(255, 255, 255, 0.15);
 }
 
 @layer base {

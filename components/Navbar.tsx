@@ -5,7 +5,7 @@ import { NavProps, ViewState } from '../types';
 const Logo = () => (
   <div className="flex items-center gap-2.5 group cursor-pointer select-none">
     <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center transition-all group-hover:rotate-[15deg] group-hover:scale-110 shadow-lg shadow-blue-500/20">
-      < Zap className="w-4 h-4 text-white fill-white" />
+      < Zap className="w-4 h-4 text-white fill-white" aria-hidden="true" />
     </div>
     <div className="flex items-center font-black text-[#1a1d21] dark:text-white transition-colors duration-500 tracking-tighter leading-none">
       <span className="text-[18px] text-blue-600">IN</span>
@@ -110,7 +110,7 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
                   </span>
                 )}
-                {item.dropdown && <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${isServicesOpen ? 'rotate-180' : ''}`} />}
+                {item.dropdown && <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${isServicesOpen ? 'rotate-180' : ''}`} aria-hidden="true" />}
               </button>
 
               {item.dropdown && isServicesOpen && (
@@ -142,7 +142,7 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
               }`}
           >
             Kontakt
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
           </button>
 
           <div className="w-[1px] h-6 bg-black/5 dark:bg-white/10 mx-2" />
@@ -153,8 +153,9 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
               className={`p-2.5 rounded-2xl transition-all active:scale-95 ${currentView === 'admin-login' ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-black/5 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400'
                 }`}
               title="Klientská zóna"
+              aria-label="Klientská zóna"
             >
-              <Lock className="w-5 h-5" />
+              <Lock className="w-5 h-5" aria-hidden="true" />
             </button>
             <button
               onClick={toggleTheme}
@@ -168,15 +169,16 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
 
         {/* Mobile Menu */}
         <div className="lg:hidden flex items-center gap-1.5">
-          <button onClick={toggleTheme} className="p-2 text-gray-600 dark:text-gray-400 transition-all active:scale-90">
-            {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          <button onClick={toggleTheme} className="p-2 text-gray-600 dark:text-gray-400 transition-all active:scale-90" aria-label={isDark ? "Přepnout na světlý režim" : "Přepnout na tmavý režim"}>
+            {isDark ? <Sun className="w-5 h-5" aria-hidden="true" /> : <Moon className="w-5 h-5" aria-hidden="true" />}
           </button>
           <div className="w-[1px] h-5 bg-black/5 dark:bg-white/10 mx-0.5" />
           <button
             className="p-2 text-gray-900 dark:text-white bg-black/5 dark:bg-white/5 rounded-xl transition-all active:scale-90"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen ? "Zavřít menu" : "Otevřít menu"}
           >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isMobileMenuOpen ? <X className="w-6 h-6" aria-hidden="true" /> : <Menu className="w-6 h-6" aria-hidden="true" />}
           </button>
         </div>
       </div>
@@ -208,7 +210,7 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
                       </span>
                     )}
                   </span>
-                  {item.dropdown && <ChevronDown className={`w-4 h-4 transition-transform ${mobileServicesExpanded ? 'rotate-180' : ''}`} />}
+                  {item.dropdown && <ChevronDown className={`w-4 h-4 transition-transform ${mobileServicesExpanded ? 'rotate-180' : ''}`} aria-hidden="true" />}
                 </button>
 
                 {item.dropdown && mobileServicesExpanded && (
@@ -235,7 +237,7 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
               className="w-full bg-blue-600 text-white p-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20 flex items-center justify-center gap-3 mt-4"
             >
               Nezávazná poptávka
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </button>
           </div>
         </div>

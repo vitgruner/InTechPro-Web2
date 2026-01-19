@@ -1,5 +1,5 @@
 ﻿import React, { useState, useEffect } from 'react';
-import { Thermometer, Droplets, Zap, Activity, ShieldCheck, Wifi, Battery, Droplet, Lock, Cpu, Sun, Palette, Wind } from 'lucide-react';
+import { Thermometer, Droplets, Zap, Activity, ShieldCheck, Wifi, Battery, Droplet, Lock, Cpu, Sun, Palette, Wind, ArrowLeft } from 'lucide-react';
 import LoxoneUnit from './LoxoneUnit';
 import SolarSystem from './SolarSystem';
 import LightControl from './LightControl';
@@ -54,10 +54,10 @@ const VisualizationBox: React.FC<VisualizationBoxProps> = React.memo(({ icon: Ic
 const SensorCard = React.memo(({ sensor }: { sensor: any }) => (
   <div className="glass-panel p-3 rounded-2xl border border-black/5 dark:border-white/10 flex items-center gap-3 group hover:border-blue-600/40 dark:hover:border-blue-500/40 transition-all hover:bg-white/80 dark:hover:bg-white/[0.07] shadow-sm hover:shadow-md duration-500 min-w-0">
     <div className="w-10 h-10 bg-blue-600/10 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all border border-blue-500/10 flex-shrink-0">
-      {sensor.icon}
+      {React.cloneElement(sensor.icon, { 'aria-hidden': 'true' })}
     </div>
     <div className="min-w-0 flex flex-col justify-center">
-      <div className="flex items-center gap-2 mb-0.5">
+      <div className="flex items-center gap-2 mb-2">
         <p className="text-[9px] text-gray-400 dark:text-gray-500 font-black uppercase tracking-widest truncate" title={sensor.label}>{sensor.label}</p>
         {sensor.trend !== 'stable' && (
           <span className={`text-[9px] font-bold ${sensor.trend === 'up' ? 'text-blue-600' : 'text-red-500'}`}>
@@ -118,7 +118,7 @@ const Dashboard: React.FC<DetailProps> = ({ setView }) => {
             />
           </div>
           <div className="flex items-center gap-3 bg-blue-600/5 dark:bg-blue-600/10 px-6 py-4 rounded-3xl border border-blue-600/10 dark:border-blue-500/20 shadow-sm w-full md:w-auto justify-center md:justify-start mb-1">
-            <ShieldCheck className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+            <ShieldCheck className="w-6 h-6 text-blue-600 dark:text-blue-400" aria-hidden="true" />
             <div className="flex flex-col text-left">
               <span className="text-[10px] font-black text-blue-600 dark:text-blue-300 uppercase tracking-widest leading-none mb-1">Globální zabezpečení</span>
               <span className="text-sm font-bold text-gray-800 dark:text-white">Šifrované spojení SSL aktivní</span>
@@ -172,6 +172,15 @@ const Dashboard: React.FC<DetailProps> = ({ setView }) => {
             <LightControl />
           </VisualizationBox>
         </div>
+      </div>
+      <div className="fixed bottom-6 right-6 z-40 lg:hidden">
+        <button
+          onClick={() => setView('home')}
+          className="p-4 bg-blue-600 text-white rounded-full shadow-2xl active:scale-95 transition-all"
+          aria-label="Vrátit se na úvodní stránku"
+        >
+          <ArrowLeft className="w-6 h-6" aria-hidden="true" />
+        </button>
       </div>
     </section>
   );

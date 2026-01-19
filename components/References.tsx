@@ -48,7 +48,7 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 dark:from-[#050505] via-transparent to-transparent opacity-90"></div>
 
         <div className="absolute top-3 right-3 bg-white/90 dark:bg-black/80 backdrop-blur-xl border border-black/10 dark:border-white/20 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-xl">
-          <TechIconComp className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+          <TechIconComp className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" aria-hidden="true" />
           <span className="text-[9px] font-black text-gray-900 dark:text-white uppercase tracking-[0.15em]">{tech}</span>
         </div>
       </div>
@@ -66,7 +66,7 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
               const ServiceIcon = IconMap[sIconKey] || Zap;
               return (
                 <div key={idx} className="flex items-center gap-1.5 bg-black/5 dark:bg-white/5 px-2.5 py-1.5 rounded-lg border border-black/5 dark:border-white/5 transition-colors hover:bg-blue-600/5">
-                  <span className="text-blue-600 dark:text-blue-400"><ServiceIcon className="w-3 h-3" /></span>
+                  <span className="text-blue-600 dark:text-blue-400"><ServiceIcon className="w-3 h-3" aria-hidden="true" /></span>
                   <span className="text-[9px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-tight truncate max-w-[100px]">{service.label}</span>
                 </div>
               );
@@ -106,7 +106,7 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
                     <span className="text-[7px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Pole</span>
                     <span className="text-[10px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.racks}x</span>
                   </div>
-                  <Server className="w-3 h-3 text-purple-600 dark:text-purple-400 opacity-80" />
+                  <Server className="w-3 h-3 text-purple-600 dark:text-purple-400 opacity-80" aria-hidden="true" />
                 </div>
               </div>
             )}
@@ -170,7 +170,7 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
               className="group flex items-center gap-3 px-8 py-4 bg-blue-600 text-white rounded-full font-black uppercase tracking-widest text-xs hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20"
             >
               Zobrazit všechny reference
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
             </button>
           </div>
         )}

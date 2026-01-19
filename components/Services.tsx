@@ -10,7 +10,7 @@ const ServiceCard: React.FC<ServiceCardProps & { features?: string[], onClick?: 
   >
     <div className="flex items-center md:items-start gap-3 mb-3 md:mb-0">
       <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-600/10 rounded-xl flex items-center justify-center flex-shrink-0 md:group-hover:bg-blue-600 transition-colors">
-        <div className="text-blue-600 dark:text-blue-400 md:group-hover:text-white md:group-hover:scale-110 transition-all [&>svg]:w-5 [&>svg]:h-5 md:[&>svg]:w-6 md:[&>svg]:h-6">{icon}</div>
+        <div className="text-blue-600 dark:text-blue-400 md:group-hover:text-white md:group-hover:scale-110 transition-all [&>svg]:w-5 [&>svg]:h-5 md:[&>svg]:w-6 md:[&>svg]:h-6" aria-hidden="true">{icon}</div>
       </div>
       <div className="min-w-0 md:pt-1">
         <span className="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-500 mb-0.5 block truncate">{category}</span>
@@ -98,7 +98,7 @@ const Services: React.FC<ServicesProps> = React.memo(({ setView, isStandalone = 
               <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-3 gap-2 md:gap-4 p-3 md:p-6 bg-black/5 dark:bg-white/5 rounded-2xl md:rounded-[2rem] border border-black/5 dark:border-white/10">
                 {loxoneIntegrations.map((item, i) => (
                   <div key={i} className="flex flex-col items-center justify-center p-2 md:p-3 bg-white dark:bg-white/5 rounded-xl border border-black/5 dark:border-white/10 text-center shadow-sm">
-                    <div className="text-blue-600 dark:text-blue-400 mb-1.5 md:mb-2 flex-shrink-0 [&>svg]:w-4 [&>svg]:h-4 md:[&>svg]:w-5 md:[&>svg]:h-5">
+                    <div className="text-blue-600 dark:text-blue-400 mb-1.5 md:mb-2 flex-shrink-0 [&>svg]:w-4 [&>svg]:h-4 md:[&>svg]:w-5 md:[&>svg]:h-5" aria-hidden="true">
                       {item.icon}
                     </div>
                     <span className="text-[8px] md:text-[9px] font-black uppercase tracking-tight text-gray-600 dark:text-gray-400 leading-tight truncate w-full px-0.5 mb-0.5">{item.label}</span>
