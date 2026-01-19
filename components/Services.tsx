@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Home, Zap, DraftingCompass, Cpu, Lightbulb, Thermometer, Shield, Radio, Wind, Blinds, Waves, Car, Droplets, Sprout, Settings, CheckSquare, Sun, ArrowRight } from 'lucide-react';
 import { ServiceCardProps, ServicesProps } from '../types';
 
@@ -32,7 +32,22 @@ const ServiceCard: React.FC<ServiceCardProps & { features?: string[], onClick?: 
   </div>
 );
 
-const Services: React.FC<ServicesProps> = ({ setView, isStandalone = false }) => {
+const loxoneIntegrations = [
+  { icon: <Lightbulb className="w-5 h-5" />, label: "Osvětlení" },
+  { icon: <Thermometer className="w-5 h-5" />, label: "Vytápění" },
+  { icon: <Wind className="w-5 h-5" />, label: "Chlazení" },
+  { icon: <Wind className="w-5 h-5" />, label: "Rekuperace" },
+  { icon: <Blinds className="w-5 h-5" />, label: "Stínění" },
+  { icon: <Shield className="w-5 h-5" />, label: "Přístup" },
+  { icon: <Zap className="w-5 h-5" />, label: "Energie" },
+  { icon: <Radio className="w-5 h-5" />, label: "Audio" },
+  { icon: <Droplets className="w-5 h-5" />, label: "Závlaha" },
+  { icon: <Waves className="w-5 h-5" />, label: "Wellness" },
+  { icon: <Car className="w-5 h-5" />, label: "Wallbox" },
+  { icon: <Sun className="w-5 h-5" />, label: "FVE" },
+];
+
+const Services: React.FC<ServicesProps> = React.memo(({ setView, isStandalone = false }) => {
   const [liveStats] = useState<Record<string, string>>({
     "Osvětlení": "8 ON",
     "Vytápění": "22.4°C",
@@ -47,21 +62,6 @@ const Services: React.FC<ServicesProps> = ({ setView, isStandalone = false }) =>
     "Wallbox": "85%",
     "FVE": "5.2kW"
   });
-
-  const loxoneIntegrations = [
-    { icon: <Lightbulb className="w-5 h-5" />, label: "Osvětlení" },
-    { icon: <Thermometer className="w-5 h-5" />, label: "Vytápění" },
-    { icon: <Wind className="w-5 h-5" />, label: "Chlazení" },
-    { icon: <Wind className="w-5 h-5" />, label: "Rekuperace" },
-    { icon: <Blinds className="w-5 h-5" />, label: "Stínění" },
-    { icon: <Shield className="w-5 h-5" />, label: "Přístup" },
-    { icon: <Zap className="w-5 h-5" />, label: "Energie" },
-    { icon: <Radio className="w-5 h-5" />, label: "Audio" },
-    { icon: <Droplets className="w-5 h-5" />, label: "Závlaha" },
-    { icon: <Waves className="w-5 h-5" />, label: "Wellness" },
-    { icon: <Car className="w-5 h-5" />, label: "Wallbox" },
-    { icon: <Sun className="w-5 h-5" />, label: "FVE" },
-  ];
 
   return (
     <section id="services" className={`py-8 md:py-16 relative transition-colors duration-500 ${isStandalone ? 'pt-28 md:pt-36' : ''}`}>
@@ -81,9 +81,8 @@ const Services: React.FC<ServicesProps> = ({ setView, isStandalone = false }) =>
                   <span className="w-1.5 h-1.5 bg-blue-600 rounded-full" />
                   Vlajková loď integrace
                 </div>
-                <h3 className="text-2xl md:text-5xl font-black mb-4 md:mb-6 leading-tight tracking-tight text-gray-900 dark:text-white">
-                  Návrh a realizace <br />
-                  <span className="text-blue-600">Smart Home Loxone</span>
+                <h3 className="text-2xl md:text-5xl font-black mb-4 md:mb-6 leading-[1.1] tracking-tight text-gray-900 dark:text-white max-w-[15ch] md:max-w-[20ch]">
+                  Návrh a realizace <span className="text-blue-600">Smart Home Loxone</span>
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400 mb-6 md:mb-8 leading-relaxed text-xs md:text-lg font-medium">
                   Loxone propojí všechny technologie v domě do jednoho inteligentního systému, který je řídí jako celek. Jedna přehledná aplikace a spolupráce technologií zajistí maximální komfort.
@@ -97,7 +96,7 @@ const Services: React.FC<ServicesProps> = ({ setView, isStandalone = false }) =>
               </div>
 
               <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-3 gap-2 md:gap-4 p-3 md:p-6 bg-black/5 dark:bg-white/5 rounded-2xl md:rounded-[2rem] border border-black/5 dark:border-white/10">
-                {/* {loxoneIntegrations.map((item, i) => (
+                {loxoneIntegrations.map((item, i) => (
                   <div key={i} className="flex flex-col items-center justify-center p-2 md:p-3 bg-white dark:bg-white/5 rounded-xl border border-black/5 dark:border-white/10 text-center shadow-sm">
                     <div className="text-blue-600 dark:text-blue-400 mb-1.5 md:mb-2 flex-shrink-0 [&>svg]:w-4 [&>svg]:h-4 md:[&>svg]:w-5 md:[&>svg]:h-5">
                       {item.icon}
@@ -105,10 +104,7 @@ const Services: React.FC<ServicesProps> = ({ setView, isStandalone = false }) =>
                     <span className="text-[8px] md:text-[9px] font-black uppercase tracking-tight text-gray-600 dark:text-gray-400 leading-tight truncate w-full px-0.5 mb-0.5">{item.label}</span>
                     <span className="text-[7px] md:text-[8px] font-bold text-blue-600/70 dark:text-blue-400/70 uppercase tracking-widest">{liveStats[item.label] || "OK"}</span>
                   </div>
-                ))} */}
-                <div className="col-span-full flex items-center justify-center py-12 text-gray-500 font-mono text-[10px] uppercase tracking-widest">
-                  Integrations Performance Test
-                </div>
+                ))}
               </div>
             </div>
           </div>
@@ -149,6 +145,6 @@ const Services: React.FC<ServicesProps> = ({ setView, isStandalone = false }) =>
       </div>
     </section>
   );
-};
+});
 
 export default Services;

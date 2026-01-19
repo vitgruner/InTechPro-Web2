@@ -30,7 +30,7 @@ const PowerNode: React.FC<PowerNodeProps> = ({ icon: Icon, label, value, unit, c
   </div>
 );
 
-const SolarSystem = () => {
+const SolarSystem = React.memo(() => {
   const [metrics, setMetrics] = useState({
     production: 4.3,
     load: 1.8,
@@ -46,7 +46,6 @@ const SolarSystem = () => {
     handleResize();
     window.addEventListener('resize', handleResize);
 
-    // Ponecháme interval aktivní i na mobilu, aby se hodnoty i animace hýbaly
     const interval = setInterval(() => {
       setMetrics(prev => ({
         production: Math.max(0, parseFloat((prev.production + (Math.random() - 0.5) * 0.1).toFixed(1))),
@@ -127,6 +126,6 @@ const SolarSystem = () => {
       </div>
     </div>
   );
-};
+});
 
 export default SolarSystem;

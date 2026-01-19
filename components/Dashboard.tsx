@@ -25,7 +25,7 @@ const colorClasses: Record<string, { bg: string; bgHover: string; text: string; 
   'bg-blue-600': { bg: 'bg-blue-600/10', bgHover: 'group-hover:bg-blue-600', text: 'text-blue-600', border: 'border-blue-500/20', borderStatus: 'border-blue-600/20' },
 };
 
-const VisualizationBox: React.FC<VisualizationBoxProps> = ({ icon: Icon, title, subtitle, color, children, statusLabel = "Aktivní spojení" }) => {
+const VisualizationBox: React.FC<VisualizationBoxProps> = React.memo(({ icon: Icon, title, subtitle, color, children, statusLabel = "Aktivní spojení" }) => {
   const colors = colorClasses[color] || colorClasses['bg-blue-600'];
   return (
     <div className="glass-panel rounded-3xl p-5 md:p-6 border border-black/10 dark:border-white/20 overflow-hidden shadow-2xl flex flex-col transition-all group">
@@ -49,7 +49,29 @@ const VisualizationBox: React.FC<VisualizationBoxProps> = ({ icon: Icon, title, 
       </div>
     </div>
   );
-};
+});
+
+const SensorCard = React.memo(({ sensor }: { sensor: any }) => (
+  <div className="glass-panel p-3 rounded-2xl border border-black/5 dark:border-white/10 flex items-center gap-3 group hover:border-blue-600/40 dark:hover:border-blue-500/40 transition-all hover:bg-white/80 dark:hover:bg-white/[0.07] shadow-sm hover:shadow-md duration-500 min-w-0">
+    <div className="w-10 h-10 bg-blue-600/10 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all border border-blue-500/10 flex-shrink-0">
+      {sensor.icon}
+    </div>
+    <div className="min-w-0 flex flex-col justify-center">
+      <div className="flex items-center gap-2 mb-0.5">
+        <p className="text-[9px] text-gray-400 dark:text-gray-500 font-black uppercase tracking-widest truncate" title={sensor.label}>{sensor.label}</p>
+        {sensor.trend !== 'stable' && (
+          <span className={`text-[9px] font-bold ${sensor.trend === 'up' ? 'text-blue-600' : 'text-red-500'}`}>
+            {sensor.trend === 'up' ? '↑' : '↓'}
+          </span>
+        )}
+      </div>
+      <h4 className="text-sm font-black text-gray-900 dark:text-white tabular-nums leading-none truncate font-mono">
+        {sensor.value}
+        <span className="text-[9px] font-medium text-gray-500 ml-1 font-sans">{sensor.unit}</span>
+      </h4>
+    </div>
+  </div>
+));
 
 const Dashboard: React.FC<DetailProps> = ({ setView }) => {
   const [sensors, setSensors] = useState([
@@ -106,25 +128,7 @@ const Dashboard: React.FC<DetailProps> = ({ setView }) => {
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-12 md:mb-20">
           {sensors.map((sensor) => (
-            <div key={sensor.id} className="glass-panel p-3 rounded-2xl border border-black/5 dark:border-white/10 flex items-center gap-3 group hover:border-blue-600/40 dark:hover:border-blue-500/40 transition-all hover:bg-white/80 dark:hover:bg-white/[0.07] shadow-sm hover:shadow-md duration-500 min-w-0">
-              <div className="w-10 h-10 bg-blue-600/10 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all border border-blue-500/10 flex-shrink-0">
-                {sensor.icon}
-              </div>
-              <div className="min-w-0 flex flex-col justify-center">
-                <div className="flex items-center gap-2 mb-0.5">
-                  <p className="text-[9px] text-gray-400 dark:text-gray-500 font-black uppercase tracking-widest truncate" title={sensor.label}>{sensor.label}</p>
-                  {sensor.trend !== 'stable' && (
-                    <span className={`text-[9px] font-bold ${sensor.trend === 'up' ? 'text-blue-600' : 'text-red-500'}`}>
-                      {sensor.trend === 'up' ? '↑' : '↓'}
-                    </span>
-                  )}
-                </div>
-                <h4 className="text-sm font-black text-gray-900 dark:text-white tabular-nums leading-none truncate font-mono">
-                  {sensor.value}
-                  <span className="text-[9px] font-medium text-gray-500 ml-1 font-sans">{sensor.unit}</span>
-                </h4>
-              </div>
-            </div>
+            <SensorCard key={sensor.id} sensor={sensor} />
           ))}
         </div>
 

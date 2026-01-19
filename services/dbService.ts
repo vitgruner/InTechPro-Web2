@@ -4,23 +4,28 @@ import { Reference } from '../types';
 /**
  * dbService - Abstrakce pro komunikaci s databází.
  */
-const MOCK_API_DELAY = 200; // Sníženo z 800ms pro okamžitý start
+const MOCK_API_DELAY = 150; // Balanced delay for perceived data load
 const DB_KEY = 'intechpro_db_refs_v3';
+
+// Cache to avoid frequent localStorage hits
+let cachedRefs: Reference[] | null = null;
 
 export const dbService = {
   async fetchReferences(): Promise<Reference[]> {
+    if (cachedRefs) return cachedRefs;
     return new Promise((resolve) => {
       setTimeout(() => {
         try {
           const saved = localStorage.getItem(DB_KEY);
           if (!saved) return resolve([]);
-          
+
           const data = JSON.parse(saved);
-          
+
           if (!Array.isArray(data)) return resolve([]);
-          
+
           if (data.length > 0 && typeof data[0].techIcon !== 'string') return resolve([]);
 
+          cachedRefs = data;
           resolve(data);
         } catch (e) {
           console.error("DB Error:", e);
@@ -38,6 +43,7 @@ export const dbService = {
           const refs = current ? JSON.parse(current) : [];
           const updated = [...(Array.isArray(refs) ? refs : []), reference];
           localStorage.setItem(DB_KEY, JSON.stringify(updated));
+          cachedRefs = updated;
           resolve(true);
         } catch (e) {
           resolve(false);
