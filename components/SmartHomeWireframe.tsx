@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect, useRef } from 'react';
-import { Terminal, Cpu, Shield, Zap, Wifi, Activity, CheckCircle2 } from 'lucide-react';
+import { Terminal, Cpu, Shield, Zap } from 'lucide-react';
 
 interface LogLine {
   id: number;
@@ -27,33 +26,58 @@ const SYSTEM_LOGS = [
   { text: "SYSTEM READY. WELCOME TO INTECHPRO SMART FUTURE...", type: 'system' }
 ];
 
+const MAX_LINES = 40;
+
 const SmartHomeWireframe = () => {
   const [lines, setLines] = useState<LogLine[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const shouldAutoScrollRef = useRef(true);
 
   const getTimestamp = () => {
     const now = new Date();
     return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}.${now.getMilliseconds().toString().padStart(3, '0')}`;
   };
 
+  const [cursorTs, setCursorTs] = useState(getTimestamp());
+  useEffect(() => {
+    const id = setInterval(() => setCursorTs(getTimestamp()), 250);
+    return () => clearInterval(id);
+  }, []);
+
+  // track whether user is near bottom
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const onScroll = () => {
+      const nearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 24;
+      shouldAutoScrollRef.current = nearBottom;
+    };
+
+    el.addEventListener('scroll', onScroll, { passive: true });
+    return () => el.removeEventListener('scroll', onScroll);
+  }, []);
+
   useEffect(() => {
     const isMobile = window.innerWidth < 768;
-    
+
     if (currentIndex < SYSTEM_LOGS.length) {
-      // Na mobilu vypisujeme řádky pomaleji (nebo ve skupinách), aby se ušetřilo CPU
-      const delay = isMobile ? 800 : (Math.random() * 600 + 200);
-      
+      const delay = isMobile ? 900 : (Math.random() * 600 + 200);
+
       const timeout = setTimeout(() => {
-        setLines(prev => [
-          ...prev, 
-          { 
-            id: Date.now(), 
-            text: SYSTEM_LOGS[currentIndex].text, 
-            type: SYSTEM_LOGS[currentIndex].type as any,
-            timestamp: getTimestamp()
-          }
-        ]);
+        const newLine: LogLine = {
+          id: Date.now(),
+          text: SYSTEM_LOGS[currentIndex].text,
+          type: SYSTEM_LOGS[currentIndex].type as any,
+          timestamp: getTimestamp()
+        };
+
+        setLines(prev => {
+          const next = [...prev, newLine];
+          return next.length > MAX_LINES ? next.slice(next.length - MAX_LINES) : next;
+        });
+
         setCurrentIndex(prev => prev + 1);
       }, delay);
 
@@ -68,9 +92,11 @@ const SmartHomeWireframe = () => {
   }, [currentIndex]);
 
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
+    const el = scrollRef.current;
+    if (!el || !shouldAutoScrollRef.current) return;
+    requestAnimationFrame(() => {
+      el.scrollTop = el.scrollHeight;
+    });
   }, [lines]);
 
   const getLineColor = (type: string) => {
@@ -85,16 +111,6 @@ const SmartHomeWireframe = () => {
 
   return (
     <div className="w-full h-full relative overflow-hidden bg-[#0a0c10] flex flex-col rounded-3xl border border-white/10 shadow-2xl group font-mono text-xs md:text-sm">
-      <style>{`
-        @keyframes blink {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0; }
-        }
-        .animate-blink {
-          animation: blink 1s step-end infinite;
-        }
-      `}</style>
-
       <div className="flex items-center justify-between px-4 py-3 bg-[#161b22] border-b border-white/5">
         <div className="flex items-center gap-2">
           <div className="flex gap-1.5">
@@ -117,14 +133,15 @@ const SmartHomeWireframe = () => {
         </div>
       </div>
 
-      <div 
+      <div
         ref={scrollRef}
         className="flex-1 p-6 overflow-y-auto scrollbar-hide space-y-2 font-mono relative"
       >
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-10 bg-[length:100%_2px,3px_100%] pointer-events-none opacity-20" />
+        {/* CRT overlay: vypnout na mobilu */}
+        <div className="hidden md:block absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-10 bg-[length:100%_2px,3px_100%] pointer-events-none opacity-20" />
 
         {lines.map((line) => (
-          <div key={line.id} className="flex gap-3 animate-in fade-in slide-in-from-left-2 duration-300">
+          <div key={line.id} className="flex gap-3 md:animate-in md:fade-in md:slide-in-from-left-2 md:duration-300">
             <span className="text-gray-600 shrink-0 select-none">[{line.timestamp}]</span>
             <span className={`${getLineColor(line.type)} break-all`}>
               {line.type === 'success' && '✔ '}
@@ -133,34 +150,35 @@ const SmartHomeWireframe = () => {
             </span>
           </div>
         ))}
-        
+
         <div className="flex gap-3">
-          <span className="text-gray-600 opacity-0">[{getTimestamp()}]</span>
-          <span className="text-blue-500 font-bold animate-blink">_</span>
+          <span className="text-gray-600 opacity-0 select-none">[{cursorTs}]</span>
+          <span className="text-blue-500 font-bold animate-pulse">_</span>
         </div>
       </div>
 
       <div className="px-4 py-2 bg-[#161b22] border-t border-white/5 flex justify-between items-center text-[10px] text-gray-500 font-mono">
-         <div className="flex gap-4">
-            <div className="flex items-center gap-1.5">
-               <Shield className="w-3 h-3" />
-               SECURE
-            </div>
-            <div className="flex items-center gap-1.5">
-               <Cpu className="w-3 h-3" />
-               LOXONE
-            </div>
-         </div>
-         <div className="flex gap-4">
-            <div className="flex items-center gap-1.5">
-               <Zap className="w-3 h-3 text-yellow-500" />
-               PWR: STABLE
-            </div>
-         </div>
+        <div className="flex gap-4">
+          <div className="flex items-center gap-1.5">
+            <Shield className="w-3 h-3" />
+            SECURE
+          </div>
+          <div className="flex items-center gap-1.5">
+            <Cpu className="w-3 h-3" />
+            LOXONE
+          </div>
+        </div>
+        <div className="flex gap-4">
+          <div className="flex items-center gap-1.5">
+            <Zap className="w-3 h-3 text-yellow-500" />
+            PWR: STABLE
+          </div>
+        </div>
       </div>
+
       <div className="absolute inset-0 bg-blue-500/[0.02] pointer-events-none" />
     </div>
   );
 };
 
-export default SmartHomeWireframe;
+export default React.memo(SmartHomeWireframe);
