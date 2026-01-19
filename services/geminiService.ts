@@ -18,7 +18,7 @@ TÉMATA:
 Udržujte profesionální, architektonický a inovativní tón. Komunikujte výhradně v českém jazyce.
 `;
 
-export const getVisionaryResponse = async (userPrompt: string, onChunk?: (chunk: string) => void) => {
+export const getVisionaryResponse = async (userPrompt: string, onChunk?: (chunk: string) => void): Promise<string> => {
   const apiKey = process.env.API_KEY;
 
   if (!apiKey || apiKey === "undefined" || apiKey === "") {
@@ -40,10 +40,10 @@ export const getVisionaryResponse = async (userPrompt: string, onChunk?: (chunk:
       });
 
       let fullText = "";
-      for await (const chunk of response.stream) {
-        const chunkText = chunk.text;
+      for await (const chunk of response) {
+        const chunkText = chunk.text || "";
         fullText += chunkText;
-        onChunk(chunkText);
+        if (onChunk) onChunk(chunkText);
       }
       return fullText;
     } else {
@@ -55,7 +55,7 @@ export const getVisionaryResponse = async (userPrompt: string, onChunk?: (chunk:
           temperature: 0.7,
         },
       });
-      return response.text;
+      return response.text || "";
     }
   } catch (error: any) {
     console.error("Gemini API Error details:", error);

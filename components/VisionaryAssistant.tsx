@@ -64,10 +64,28 @@ const VisionaryAssistant = ({
     setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
     setIsLoading(true);
 
-    const response = await getVisionaryResponse(userMessage);
+    // Přidáme prázdnou zprávu asistenta, kterou budeme plnit streamem
+    setMessages(prev => [...prev, { role: 'assistant', content: '' }]);
 
-    setMessages(prev => [...prev, { role: 'assistant', content: response }]);
-    setIsLoading(false);
+    let accumulatedText = "";
+    try {
+      await getVisionaryResponse(userMessage, (chunk) => {
+        accumulatedText += chunk;
+        setMessages(prev => {
+          const newMessages = [...prev];
+          const lastIndex = newMessages.length - 1;
+          if (newMessages[lastIndex].role === 'assistant') {
+            newMessages[lastIndex] = { ...newMessages[lastIndex], content: accumulatedText };
+          }
+          return newMessages;
+        });
+      });
+    } catch (error) {
+      console.error("Streaming error:", error);
+      // Fallback logic if needed, but getVisionaryResponse handles its own errors
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -91,14 +109,14 @@ const VisionaryAssistant = ({
         {messages.map((msg, idx) => (
           <div key={idx} className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
             <div className={`w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm ${msg.role === 'assistant'
-                ? 'bg-blue-600 text-white'
-                : 'bg-slate-100 dark:bg-white/10 text-slate-500'
+              ? 'bg-blue-600 text-white'
+              : 'bg-slate-100 dark:bg-white/10 text-slate-500'
               }`}>
               {msg.role === 'assistant' ? <Bot className="w-4 h-4" /> : <User className="w-4 h-4" />}
             </div>
             <div className={`max-w-[85%] p-4 rounded-2xl text-[12px] leading-relaxed ${msg.role === 'assistant'
-                ? 'bg-slate-50 dark:bg-white/5 text-slate-700 dark:text-gray-300 border border-slate-100 dark:border-white/5'
-                : 'bg-blue-600 text-white font-medium ml-auto rounded-tr-none'
+              ? 'bg-slate-50 dark:bg-white/5 text-slate-700 dark:text-gray-300 border border-slate-100 dark:border-white/5'
+              : 'bg-blue-600 text-white font-medium ml-auto rounded-tr-none'
               }`}>
               <FormattedContent content={msg.content} />
             </div>
