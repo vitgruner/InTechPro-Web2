@@ -31,7 +31,7 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
   // Optimalizace Unsplash URL pro web (přidání q a w parametrů)
   const optimizedImage = useMemo(() => {
     if (image?.includes('unsplash.com')) {
-      return `${image.split('?')[0]}?auto=format&fit=crop&q=60&w=800`;
+      return `${image.split('?')[0]}?auto=format&fit=crop&q=70&w=600`;
     }
     return image;
   }, [image]);
@@ -40,7 +40,7 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
     <div className="group relative glass-panel rounded-2xl md:rounded-3xl overflow-hidden border border-black/10 dark:border-white/10 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all duration-700 shadow-sm hover:shadow-xl h-full flex flex-col active:scale-[0.99] active:opacity-95">
       <div className="relative h-48 md:h-56 overflow-hidden bg-gray-100 dark:bg-gray-900">
         <img
-          src={optimizedImage || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=60&w=800"}
+          src={optimizedImage || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=70&w=600"}
           alt={title}
           loading="lazy"
           className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
