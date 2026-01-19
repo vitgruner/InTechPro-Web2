@@ -147,7 +147,7 @@ const Dashboard: React.FC<DetailProps> = ({ setView }) => {
             title="Solární matice FVE"
             subtitle="Energetické toky v reálném čase"
             color="bg-yellow-500"
-            statusLabel="Vysoký výtěžek"
+            statusLabel="Vysoký výnos"
           >
             <SolarSystem />
           </VisualizationBox>
