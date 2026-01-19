@@ -12,6 +12,7 @@ import {
   Zap, Loader2, CloudUpload, Twitter, Linkedin, Instagram, Lock
 } from 'lucide-react';
 import { Reference, ViewState } from './types';
+import ScrollToTop from './components/ScrollToTop';
 
 // Lazy loading komponent, které nejsou potřeba pro první zobrazení (LCP)
 const Dashboard = lazy(() => import('./components/Dashboard'));
@@ -318,6 +319,7 @@ const App = () => {
         </div>
       </footer>
       <CookieConsent />
+      <ScrollToTop />
     </div>
   );
 };
