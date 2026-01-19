@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Thermometer, Wind, Sun, ArrowLeft, CheckCircle2, Zap, Snowflake, Briefcase, Settings, ShieldCheck, Activity, TrendingUp } from 'lucide-react';
 import SolarSystem from './SolarSystem';
@@ -61,8 +62,8 @@ const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
         </div>
 
         <div className="grid lg:grid-cols-12 gap-8 md:gap-10 mb-10 items-stretch">
-          <div className="lg:col-span-5 space-y-6">
-            <div className="glass-panel p-8 md:p-10 rounded-[2rem] border border-slate-200 dark:border-white/10 bg-white/50 dark:bg-black/20 text-left h-full flex flex-col justify-center shadow-xl">
+          <div className="lg:col-span-5 space-y-6 flex flex-col justify-center">
+            <div className="glass-panel p-8 md:p-10 rounded-[2rem] border border-slate-200 dark:border-white/10 bg-white/50 dark:bg-black/20 text-left shadow-xl">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-12 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-600">
                   <Briefcase className="w-6 h-6" />
