@@ -1,6 +1,5 @@
 
 import React, { useState, useEffect, Suspense, lazy } from 'react';
-import { Analytics } from '@vercel/analytics/react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Services from './components/Services';
@@ -14,6 +13,8 @@ import {
 } from 'lucide-react';
 import { Reference, ViewState } from './types';
 import ScrollToTop from './components/ScrollToTop';
+import { SpeedInsights } from '@vercel/speed-insights/react';
+import { Analytics } from '@vercel/analytics/react';
 
 // Lazy loading komponent, které nejsou potřeba pro první zobrazení (LCP)
 const Dashboard = lazy(() => import('./components/Dashboard'));
@@ -385,6 +386,7 @@ const App = () => {
       </footer>
       <CookieConsent />
       <ScrollToTop />
+      <SpeedInsights />
       <Analytics />
     </div>
   );
