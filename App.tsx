@@ -14,6 +14,7 @@ import {
 import { Reference, ViewState } from './types';
 import ScrollToTop from './components/ScrollToTop';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { Analytics } from '@vercel/analytics/react';
 
 // Lazy loading komponent, které nejsou potřeba pro první zobrazení (LCP)
 const Dashboard = lazy(() => import('./components/Dashboard'));
@@ -386,6 +387,7 @@ const App = () => {
       <CookieConsent />
       <ScrollToTop />
       <SpeedInsights />
+      <Analytics />
     </div>
   );
 };
