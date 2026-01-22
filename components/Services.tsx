@@ -81,9 +81,9 @@ const Services: React.FC<ServicesProps> = React.memo(({ setView, isStandalone = 
                   <span className="w-1.5 h-1.5 bg-blue-600 rounded-full" />
                   Vlajková loď integrace
                 </div>
-                <h3 className="text-2xl md:text-5xl font-black mb-4 md:mb-6 leading-[1.1] tracking-tight text-gray-900 dark:text-white max-w-[15ch] md:max-w-[20ch]">
+                <h2 className="text-2xl md:text-5xl font-black mb-4 md:mb-6 leading-[1.1] tracking-tight text-gray-900 dark:text-white max-w-[15ch] md:max-w-[20ch]">
                   Návrh a realizace <span className="text-blue-600">Smart Home Loxone</span>
-                </h3>
+                </h2>
                 <p className="text-gray-600 dark:text-gray-400 mb-6 md:mb-8 leading-relaxed text-xs md:text-lg font-medium">
                   Loxone propojí všechny technologie v domě do jednoho inteligentního systému, který je řídí jako celek. Jedna přehledná aplikace a spolupráce technologií zajistí maximální komfort.
                 </p>

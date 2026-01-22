@@ -65,10 +65,10 @@ const SensorCard = React.memo(({ sensor }: { sensor: any }) => (
           </span>
         )}
       </div>
-      <h4 className="text-sm font-black text-gray-900 dark:text-white tabular-nums leading-none truncate font-mono">
+      <h3 className="text-sm font-black text-gray-900 dark:text-white tabular-nums leading-none truncate font-mono">
         {sensor.value}
         <span className="text-[9px] font-medium text-gray-500 ml-1 font-sans">{sensor.unit}</span>
-      </h4>
+      </h3>
     </div>
   </div>
 ));
