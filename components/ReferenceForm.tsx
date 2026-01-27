@@ -190,7 +190,7 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel, initialD
                   <label className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 transition-all">
                     <ImageIcon className={`w-12 h-12 mb-4 group-hover:scale-110 transition-transform ${validationError && !formData.image ? 'text-red-400' : 'text-gray-300'}`} />
                     <span className={`text-[10px] font-black uppercase tracking-widest ${validationError && !formData.image ? 'text-red-400' : 'text-gray-400'}`}>Nahrát soubor (JPG, PNG)</span>
-                    <input type="file" accept="image/*" capture="environment" onChange={handleImageUpload} className="hidden" />
+                    <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
                   </label>
                 )}
               </div>
