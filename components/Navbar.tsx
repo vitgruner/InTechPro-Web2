@@ -171,10 +171,10 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView,
         <div className="lg:hidden flex items-center gap-1.5">
           {isAdmin && (
             <button
-              onClick={onLogout}
-              className="p-2 text-[#69C350] dark:text-[#95E87D] transition-all active:scale-90"
-              title="Odhlásit se"
-              aria-label="Odhlásit se"
+              onClick={() => currentView === 'admin-dashboard' ? onLogout() : handleNavClick('admin-dashboard')}
+              className={`p-2 transition-all active:scale-90 ${currentView === 'admin-dashboard' ? 'text-[#69C350]' : 'text-gray-400'}`}
+              title={currentView === 'admin-dashboard' ? "Odhlásit se" : "Admin Dashboard"}
+              aria-label={currentView === 'admin-dashboard' ? "Odhlásit se" : "Admin Dashboard"}
             >
               <Unlock className="w-5 h-5" aria-hidden="true" />
             </button>
