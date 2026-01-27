@@ -223,6 +223,7 @@ const App = () => {
         if (success) {
           setReferenceProjects(prev => prev.map(p => p.id === ref.id ? ref : p));
           setEditingReference(null);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
           return true;
         }
       } else {
@@ -232,6 +233,7 @@ const App = () => {
           // Re-fetch everything to ensure we have the new ID from DB
           const data = await dbService.fetchReferences();
           setReferenceProjects(data);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
           return true;
         }
       }
@@ -252,6 +254,7 @@ const App = () => {
       const success = await dbService.deleteReference(id);
       if (success) {
         setReferenceProjects(prev => prev.filter(p => p.id !== id));
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         alert("Chyba při mazání z databáze.");
       }

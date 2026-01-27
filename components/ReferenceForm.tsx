@@ -119,6 +119,7 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel, initialD
 
       if (success) {
         setSubmitStatus('success');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         setSubmitStatus('error');
       }
