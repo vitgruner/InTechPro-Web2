@@ -9,12 +9,19 @@ import ContactForm from './components/ContactForm';
 import CookieConsent from './components/CookieConsent';
 import { dbService } from './services/dbService';
 import {
-  Zap, Loader2, CloudUpload, Twitter, Linkedin, Instagram, Lock
+  Zap, Loader2, CloudUpload, Twitter, Linkedin, Instagram, Lock, Unlock
 } from 'lucide-react';
 import { Reference, ViewState } from './types';
 import ScrollToTop from './components/ScrollToTop';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
+import AdminReferenceList from './components/AdminReferenceList';
+import Breadcrumbs from './components/Breadcrumbs';
+
+// Add smooth scroll helper
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
 
 // Lazy loading komponent, které nejsou potřeba pro první zobrazení (LCP)
 const Dashboard = lazy(() => import('./components/Dashboard'));
@@ -129,12 +136,15 @@ const App = () => {
   };
 
   const [view, setView] = useState<ViewState>(getViewStateFromHash());
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(() => {
+    return localStorage.getItem('intechpro-admin') === 'true';
+  });
   const [referenceProjects, setReferenceProjects] = useState<Reference[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [showMainContent, setShowMainContent] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
+  const [editingReference, setEditingReference] = useState<Reference | null>(null);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -200,19 +210,65 @@ const App = () => {
     }
   }, [isDark]);
 
-  const handleAddReference = async (ref: Reference) => {
+  const handleSaveReference = async (ref: Reference): Promise<boolean> => {
     setIsSyncing(true);
     try {
-      const success = await dbService.saveReference(ref);
-      if (success) {
-        setReferenceProjects(prev => [...prev, ref]);
-        navigateTo('reference');
+      if (ref.id) {
+        // Update existing
+        const success = await dbService.updateReference(ref.id, ref);
+        if (success) {
+          setReferenceProjects(prev => prev.map(p => p.id === ref.id ? ref : p));
+          setEditingReference(null);
+          return true;
+        }
+      } else {
+        // Create new
+        const success = await dbService.saveReference(ref);
+        if (success) {
+          // Re-fetch everything to ensure we have the new ID from DB
+          const data = await dbService.fetchReferences();
+          setReferenceProjects(data);
+          return true;
+        }
       }
+      return false;
     } catch (error) {
-      alert("Error saving to server.");
+      console.error("Error saving reference:", error);
+      return false;
     } finally {
       setIsSyncing(false);
     }
+  };
+
+  const handleDeleteReference = async (id: string) => {
+    if (!window.confirm("Opravdu chcete tento projekt smazat? Tato akce je nevratná.")) return;
+
+    setIsSyncing(true);
+    try {
+      const success = await dbService.deleteReference(id);
+      if (success) {
+        setReferenceProjects(prev => prev.filter(p => p.id !== id));
+      } else {
+        alert("Chyba při mazání z databáze.");
+      }
+    } catch (error) {
+      console.error("Error deleting reference:", error);
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
+  const handleLogout = () => {
+    setIsAdmin(false);
+    localStorage.removeItem('intechpro-admin');
+    navigateTo('home');
+    setEditingReference(null);
+  };
+
+  const handleAdminLoginSuccess = () => {
+    setIsAdmin(true);
+    localStorage.setItem('intechpro-admin', 'true');
+    navigateTo('admin-dashboard');
   };
 
   const renderView = () => {
@@ -277,7 +333,7 @@ const App = () => {
             case 'reference':
               return <References projects={referenceProjects} isStandalone={true} setView={navigateTo} />;
             case 'kontakt':
-              return <ContactForm isStandalone={true} />;
+              return <ContactForm isStandalone={true} setView={navigateTo} />;
             case 'online-showroom':
               return <Dashboard setView={navigateTo} />;
             case 'o-nas':
@@ -290,19 +346,49 @@ const App = () => {
               return (
                 <div className="pt-32 pb-24 bg-slate-50 dark:bg-[#050505]">
                   <div className="max-w-7xl mx-auto px-6 text-left">
+                    <Breadcrumbs
+                      items={[{ label: 'ADMIN DASHBOARD' }]}
+                      setView={navigateTo}
+                    />
                     <div className="flex justify-between items-center mb-12">
                       <div className="flex items-center gap-4">
-                        <h1 className="text-4xl font-black uppercase tracking-tight">Databáze <span className="text-[#69C350]">Projektů</span></h1>
+                        <h1 className="text-4xl font-bold tracking-normal">Databáze <span className="text-[#69C350]">Projektů</span></h1>
                         {isSyncing && <div className="flex items-center gap-2 text-[#69C350] animate-pulse text-[10px] font-black uppercase tracking-widest bg-[#69C350]/10 px-3 py-1 rounded-full"><CloudUpload className="w-3 h-3" /> Syncing</div>}
                       </div>
-                      <button type="button" onClick={() => { setIsAdmin(false); navigateTo('home'); }} className="px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest bg-slate-200 dark:bg-white/10">Odhlásit se</button>
+                      <button type="button" onClick={handleLogout} className="hidden md:block px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest bg-slate-200 dark:bg-white/10 transition-all hover:bg-red-500 hover:text-white">Odhlásit se</button>
                     </div>
-                    <ReferenceForm onAdd={handleAddReference} onCancel={() => navigateTo('home')} />
+
+                    <div className="space-y-8">
+                      <section>
+                        <h2 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] mb-8 ml-1">
+                          {editingReference ? 'Úprava existujícího projektu' : 'Přidat nový projekt'}
+                        </h2>
+                        <ReferenceForm
+                          initialData={editingReference || undefined}
+                          onAdd={handleSaveReference}
+                          onCancel={() => {
+                            setEditingReference(null);
+                            if (!editingReference) navigateTo('home');
+                          }}
+                        />
+                      </section>
+
+                      <section className="pt-6 border-t border-black/5 dark:border-white/5">
+                        <AdminReferenceList
+                          references={referenceProjects}
+                          onEdit={(ref) => {
+                            setEditingReference(ref);
+                            scrollToTop();
+                          }}
+                          onDelete={handleDeleteReference}
+                        />
+                      </section>
+                    </div>
                   </div>
                 </div>
               );
             case 'admin-login':
-              return <AdminLogin onLogin={() => { setIsAdmin(true); navigateTo('admin-dashboard'); }} />;
+              return <AdminLogin onLogin={handleAdminLoginSuccess} />;
             case 'loxone-smart-home': return <LoxoneDetail setView={navigateTo} />;
             case 'navrh-osvetleni': return <OsvetleniDetail setView={navigateTo} />;
             case 'vyroba-rozvadecu': return <RozvadeceDetail setView={navigateTo} />;
@@ -318,7 +404,7 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-[#f4f7f9] dark:bg-[#050505] text-[#1a1d21] dark:text-white transition-colors duration-500 font-sans flex flex-col">
-      <Navbar isDark={isDark} toggleTheme={() => setIsDark(!isDark)} setView={navigateTo} currentView={view} />
+      <Navbar isDark={isDark} toggleTheme={() => setIsDark(!isDark)} setView={navigateTo} currentView={view} isAdmin={isAdmin} onLogout={handleLogout} />
       <main className="flex-grow">{renderView()}</main>
 
       <footer className="bg-black text-white pt-24 pb-12 border-t border-white/5 relative z-10">
@@ -353,8 +439,8 @@ const App = () => {
                 </li>
                 <li><button type="button" onClick={() => navigateTo('kontakt')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Kontakt</button></li>
                 <li>
-                  <button type="button" onClick={() => navigateTo('admin-login')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm flex items-center gap-2 text-left">
-                    Klientská zóna <Lock className="w-3.5 h-3.5" aria-hidden="true" />
+                  <button type="button" onClick={() => isAdmin ? navigateTo('admin-dashboard') : navigateTo('admin-login')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm flex items-center gap-2 text-left">
+                    {isAdmin ? 'Admin Dashboard' : 'Klientská zóna'} {isAdmin ? <Unlock className="w-3.5 h-3.5" aria-hidden="true" /> : <Lock className="w-3.5 h-3.5" aria-hidden="true" />}
                   </button>
                 </li>
               </ul>

@@ -26,6 +26,7 @@ export const dbService = {
       if (error) throw error;
 
       const mappedData: Reference[] = (data || []).map((row: any) => ({
+        id: row.id,
         title: row.title,
         category: row.category,
         location: row.location,
@@ -70,6 +71,56 @@ export const dbService = {
       return true;
     } catch (e) {
       console.error("Supabase Save Error:", e);
+      return false;
+    }
+  },
+
+  async updateReference(id: string, reference: Partial<Reference>): Promise<boolean> {
+    if (!supabase) return false;
+
+    try {
+      const updateData: any = {
+        title: reference.title,
+        category: reference.category,
+        location: reference.location,
+        image: reference.image,
+        tech: reference.tech,
+        tech_icon: reference.techIcon,
+        services: reference.services,
+        topology: reference.topology
+      };
+
+      // Remove undefined fields
+      Object.keys(updateData).forEach(key => updateData[key] === undefined && delete updateData[key]);
+
+      const { error } = await supabase
+        .from('references')
+        .update(updateData)
+        .eq('id', id);
+
+      if (error) throw error;
+      cachedRefs = null;
+      return true;
+    } catch (e) {
+      console.error("Supabase Update Error:", e);
+      return false;
+    }
+  },
+
+  async deleteReference(id: string): Promise<boolean> {
+    if (!supabase) return false;
+
+    try {
+      const { error } = await supabase
+        .from('references')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+      cachedRefs = null;
+      return true;
+    } catch (e) {
+      console.error("Supabase Delete Error:", e);
       return false;
     }
   },

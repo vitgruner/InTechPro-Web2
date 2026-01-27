@@ -1,8 +1,9 @@
 ﻿import React, { useState, useMemo } from 'react';
 import { Send, CheckCircle2, Zap, Thermometer, Shield, Radio, Sun, Wifi, Car, Home, Factory, Building2, Waves, Sprout, Droplets, Blinds, Calculator, Sparkles, History, Mail, Phone, MessageSquare, Loader2, AlertCircle, Check } from 'lucide-react';
 import VisionaryAssistant from './VisionaryAssistant';
-import { Message } from '../types';
+import { Message, ContactFormProps } from '../types';
 import SectionHeader from './SectionHeader';
+import Breadcrumbs from './Breadcrumbs';
 import emailjs from '@emailjs/browser';
 
 interface FormData {
@@ -17,7 +18,7 @@ interface FormData {
   gdprConsent: boolean;
 }
 
-const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
+const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView }) => {
   const [submitted, setSubmitted] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -173,6 +174,12 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#69C350]/5 dark:bg-[#69C350]/10 rounded-full blur-[150px] -z-10 pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-6">
+        {isStandalone && setView && (
+          <Breadcrumbs
+            items={[{ label: 'KONTAKT' }]}
+            setView={setView}
+          />
+        )}
         <SectionHeader
           eyebrow="Kontaktujte nás"
           title="Zhmotněte svou"

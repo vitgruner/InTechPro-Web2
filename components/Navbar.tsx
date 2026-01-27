@@ -1,5 +1,5 @@
 ﻿import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowRight, Sun, Moon, Zap, ChevronDown, Lock, Activity } from 'lucide-react';
+import { Menu, X, ArrowRight, Sun, Moon, Zap, ChevronDown, Lock, Activity, Unlock } from 'lucide-react';
 import { NavProps, ViewState } from '../types';
 
 const Logo = () => (
@@ -16,7 +16,7 @@ const Logo = () => (
   </div>
 );
 
-const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView }) => {
+const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView, isAdmin, onLogout }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
@@ -149,13 +149,13 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
 
           <div className="flex items-center gap-2">
             <button
-              onClick={() => handleNavClick('admin-login')}
-              className={`p-2.5 rounded-2xl transition-all active:scale-95 ${currentView === 'admin-login' ? 'bg-[#69C350] text-white shadow-lg' : 'hover:bg-black/5 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400'
+              onClick={() => isAdmin ? (currentView === 'admin-dashboard' ? onLogout() : handleNavClick('admin-dashboard')) : handleNavClick('admin-login')}
+              className={`p-2.5 rounded-2xl transition-all active:scale-95 ${currentView === 'admin-login' || (isAdmin && currentView === 'admin-dashboard') ? 'bg-[#69C350] text-white shadow-lg' : 'hover:bg-black/5 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400'
                 }`}
-              title="Klientská zóna"
-              aria-label="Klientská zóna"
+              title={isAdmin ? (currentView === 'admin-dashboard' ? "Odhlásit se" : "Admin Dashboard") : "Klientská zóna"}
+              aria-label={isAdmin ? (currentView === 'admin-dashboard' ? "Odhlásit se" : "Admin Dashboard") : "Klientská zóna"}
             >
-              <Lock className="w-5 h-5" aria-hidden="true" />
+              {isAdmin ? <Unlock className="w-5 h-5" aria-hidden="true" /> : <Lock className="w-5 h-5" aria-hidden="true" />}
             </button>
             <button
               onClick={toggleTheme}
@@ -169,6 +169,16 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
 
         {/* Mobile Menu */}
         <div className="lg:hidden flex items-center gap-1.5">
+          {isAdmin && (
+            <button
+              onClick={onLogout}
+              className="p-2 text-[#69C350] dark:text-[#95E87D] transition-all active:scale-90"
+              title="Odhlásit se"
+              aria-label="Odhlásit se"
+            >
+              <Unlock className="w-5 h-5" aria-hidden="true" />
+            </button>
+          )}
           <button onClick={toggleTheme} className="p-2 text-gray-600 dark:text-gray-400 transition-all active:scale-90" aria-label={isDark ? "Přepnout na světlý režim" : "Přepnout na tmavý režim"}>
             {isDark ? <Sun className="w-5 h-5" aria-hidden="true" /> : <Moon className="w-5 h-5" aria-hidden="true" />}
           </button>
@@ -231,6 +241,21 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
                 )}
               </div>
             ))}
+
+            {isAdmin && (
+              <button
+                onClick={() => handleNavClick('admin-dashboard')}
+                className={`flex items-center justify-between p-4 rounded-xl text-[12px] font-black uppercase tracking-[0.2em] transition-all ${currentView === 'admin-dashboard'
+                  ? 'bg-[#69C350]/10 text-[#69C350]'
+                  : 'bg-[#69C350]/5 text-[#69C350] hover:bg-[#69C350]/10'
+                  }`}
+              >
+                <span className="flex items-center gap-2">
+                  Admin Dashboard
+                  <Unlock className="w-3.5 h-3.5" />
+                </span>
+              </button>
+            )}
 
             <button
               onClick={() => handleNavClick('kontakt')}

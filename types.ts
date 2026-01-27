@@ -58,6 +58,7 @@ export interface TopologyStats {
 }
 
 export interface Reference {
+  id?: string;
   title: string;
   category: string;
   location: string;
@@ -68,13 +69,15 @@ export interface Reference {
   topology?: TopologyStats;
 }
 
-export interface ReferenceCardProps extends Reference {}
+export interface ReferenceCardProps extends Reference { }
 
 export interface NavProps {
   isDark: boolean;
   toggleTheme: () => void;
   setView: (view: ViewState) => void;
   currentView: ViewState;
+  isAdmin: boolean;
+  onLogout: () => void;
 }
 
 export interface HeroProps {
@@ -95,8 +98,14 @@ export interface AdminLoginProps {
 }
 
 export interface ReferenceFormProps {
-  onAdd: (ref: Reference) => void;
+  initialData?: Partial<Reference>;
+  onAdd: (ref: Reference) => Promise<boolean>;
   onCancel: () => void;
+}
+
+export interface ContactFormProps {
+  isStandalone?: boolean;
+  setView?: (view: ViewState) => void;
 }
 
 export interface ReferencesProps {
