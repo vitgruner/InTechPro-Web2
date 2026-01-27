@@ -165,6 +165,11 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel, initialD
   return (
     <div className="pb-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="max-w-4xl mx-auto">
+        {submitStatus === 'idle' && (
+          <h2 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] mb-8 ml-1">
+            {initialData ? 'Úprava existujícího projektu' : 'Přidat nový projekt'}
+          </h2>
+        )}
         <form onSubmit={handleSubmit} className="space-y-10">
           <div className="grid md:grid-cols-2 gap-10">
             <div className="space-y-4">
@@ -202,7 +207,7 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel, initialD
                     setFormData(prev => ({ ...prev, title: e.target.value }));
                     if (validationError) setValidationError(null);
                   }}
-                  className={`w-full bg-black/5 dark:bg-white/5 border rounded-2xl py-4 px-6 text-sm focus:outline-none transition-all dark:text-white ${validationError && !formData.title ? 'border-red-500/50' : 'border-black/10 dark:border-white/10 focus:border-[#69C350]'}`}
+                  className={`w-full bg-black/5 dark:bg-white/5 border rounded-2xl py-4 px-6 text-base focus:outline-none transition-all dark:text-white ${validationError && !formData.title ? 'border-red-500/50' : 'border-black/10 dark:border-white/10 focus:border-[#69C350]'}`}
                   placeholder="např. Villa Futurista"
                 />
               </div>
@@ -214,7 +219,7 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel, initialD
                   required
                   value={formData.location}
                   onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
-                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
+                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl py-4 px-6 text-base focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
                   placeholder="např. Praha, Česká republika"
                 />
               </div>
@@ -257,7 +262,7 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel, initialD
                     if (tech === 'KNX' || tech === 'DALI') icon = 'building';
                     setFormData(prev => ({ ...prev, tech, techIcon: icon }));
                   }}
-                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none cursor-pointer dark:text-white"
+                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl py-4 px-6 text-base focus:outline-none cursor-pointer dark:text-white"
                 >
                   {['Loxone', 'KNX', 'Ampio', 'DALI', 'Modbus'].map(t => (
                     <option key={t} value={t} className="bg-white dark:bg-[#1a1d21]">{t}</option>
@@ -299,7 +304,7 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel, initialD
                     ...prev,
                     topology: { ...(prev.topology || { sensors: 0, cablingKm: 0, modules: 0, racks: 0 }), sensors: parseInt(e.target.value) || 0 }
                   }))}
-                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-3 px-4 text-xs focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
+                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-3 px-4 text-base focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
                   placeholder="např. 142"
                 />
               </div>
@@ -313,7 +318,7 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel, initialD
                     ...prev,
                     topology: { ...(prev.topology || { sensors: 0, cablingKm: 0, modules: 0, racks: 0 }), cablingKm: parseFloat(e.target.value) || 0 }
                   }))}
-                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-3 px-4 text-xs focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
+                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-3 px-4 text-base focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
                   placeholder="např. 3.2"
                 />
               </div>
@@ -326,7 +331,7 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel, initialD
                     ...prev,
                     topology: { ...(prev.topology || { sensors: 0, cablingKm: 0, modules: 0, racks: 0 }), modules: parseInt(e.target.value) || 0 }
                   }))}
-                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-3 px-4 text-xs focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
+                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-3 px-4 text-base focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
                   placeholder="např. 48"
                 />
               </div>
@@ -339,7 +344,7 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel, initialD
                     ...prev,
                     topology: { ...(prev.topology || { sensors: 0, cablingKm: 0, modules: 0, racks: 0 }), racks: parseInt(e.target.value) || 0 }
                   }))}
-                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-3 px-4 text-xs focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
+                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-3 px-4 text-base focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
                   placeholder="např. 2"
                 />
               </div>

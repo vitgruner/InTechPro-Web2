@@ -27,7 +27,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
   return (
     <div className="min-h-screen pt-32 md:pt-40 flex items-center justify-center px-6 relative overflow-hidden pb-16">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#69C350]/10 blur-[120px] rounded-full -z-10"></div>
-      
+
       <div className="max-w-md w-full glass-panel p-10 rounded-[3rem] border-black/10 dark:border-white/10 shadow-2xl animate-in fade-in zoom-in duration-500 bg-white/80 dark:bg-black/40 backdrop-blur-3xl">
         <div className="text-center mb-10">
           <div className="w-16 h-16 bg-[#69C350] rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl shadow-[#7BD462]/20 relative group">
@@ -45,12 +45,12 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
             <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Identifikátor</label>
             <div className="relative">
               <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input 
-                type="text" 
+              <input
+                type="text"
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl py-4 pl-12 pr-6 text-sm focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
+                className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl py-4 pl-12 pr-6 text-base focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
                 placeholder="Uživatelské jméno"
                 disabled={isSubmitting}
               />
@@ -61,12 +61,12 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
             <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Klíč k přístupu</label>
             <div className="relative">
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input 
-                type="password" 
+              <input
+                type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl py-4 pl-12 pr-6 text-sm focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
+                className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl py-4 pl-12 pr-6 text-base focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
                 placeholder="••••••••"
                 disabled={isSubmitting}
               />
@@ -79,7 +79,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
             </div>
           )}
 
-          <button 
+          <button
             type="submit"
             disabled={isSubmitting}
             className="w-full bg-[#69C350] text-white py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-[#4BA038] transition-all shadow-xl shadow-[#7BD462]/20 flex items-center justify-center gap-3 group disabled:opacity-50"
@@ -99,8 +99,8 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
         </form>
 
         <div className="mt-10 pt-8 border-t border-black/5 dark:border-white/5 flex items-center justify-center gap-3 opacity-40">
-           <ShieldCheck className="w-4 h-4" />
-           <span className="text-[9px] font-bold uppercase tracking-widest">End-to-End Encryption Active</span>
+          <ShieldCheck className="w-4 h-4" />
+          <span className="text-[9px] font-bold uppercase tracking-widest">End-to-End Encryption Active</span>
         </div>
       </div>
     </div>

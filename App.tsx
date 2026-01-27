@@ -18,6 +18,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
 import AdminReferenceList from './components/AdminReferenceList';
 import Breadcrumbs from './components/Breadcrumbs';
+import SectionHeader from './components/SectionHeader';
 
 // Add smooth scroll helper
 const scrollToTop = () => {
@@ -351,28 +352,33 @@ const App = () => {
               return <Impresum setView={navigateTo} />;
             case 'admin-dashboard':
               return (
-                <div className="pt-32 pb-24 bg-slate-50 dark:bg-[#050505]">
+                <div className="pt-28 md:pt-32 pb-24 bg-[#f4f7f9] dark:bg-[#050505]">
                   <div className="max-w-7xl mx-auto px-6 text-left">
                     <Breadcrumbs
                       items={[{ label: 'ADMIN DASHBOARD' }]}
                       setView={navigateTo}
                     />
-                    <div className="flex justify-between items-center mb-12">
+                    <SectionHeader
+                      variant="page"
+                      align="left"
+                      eyebrow="Zabezpečená správa databáze"
+                      title="Databáze"
+                      highlight="Projektů"
+                      description="Kompletní správa vašich projektových referencí synchronizovaná s cloudovou databází Supabase."
+                    />
+
+                    <div className="flex justify-between items-center mb-6 -mt-4">
                       <div className="flex items-center gap-4">
-                        <h1 className="text-4xl font-bold tracking-normal">Databáze <span className="text-[#69C350]">Projektů</span></h1>
                         {isSyncing && <div className="flex items-center gap-2 text-[#69C350] animate-pulse text-[10px] font-black uppercase tracking-widest bg-[#69C350]/10 px-3 py-1 rounded-full"><CloudUpload className="w-3 h-3" /> Syncing</div>}
                         {!localStorage.getItem('intechpro-admin') && !supabase && (
                           <div className="text-[10px] font-bold text-red-500 uppercase tracking-widest bg-red-500/10 px-3 py-1 rounded-full">Chybí připojení k Supabase</div>
                         )}
                       </div>
-                      <button type="button" onClick={handleLogout} className="hidden md:block px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest bg-slate-200 dark:bg-white/10 transition-all hover:bg-red-500 hover:text-white">Odhlásit se</button>
+                      <button type="button" onClick={handleLogout} className="px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest bg-slate-200 dark:bg-white/10 transition-all hover:bg-red-500 hover:text-white">Odhlásit se</button>
                     </div>
 
                     <div className="space-y-8">
                       <section>
-                        <h2 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] mb-8 ml-1">
-                          {editingReference ? 'Úprava existujícího projektu' : 'Přidat nový projekt'}
-                        </h2>
                         <ReferenceForm
                           initialData={editingReference || undefined}
                           onAdd={handleSaveReference}
@@ -386,7 +392,7 @@ const App = () => {
                       <section className="pt-6 border-t border-black/5 dark:border-white/5">
                         <AdminReferenceList
                           references={referenceProjects}
-                          onEdit={(ref) => {
+                          onEdit={(ref: Reference) => {
                             setEditingReference(ref);
                             scrollToTop();
                           }}
