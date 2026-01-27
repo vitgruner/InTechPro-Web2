@@ -43,6 +43,9 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView,
   }, [isMobileMenuOpen]);
 
   const handleNavClick = (viewName: ViewState) => {
+    if (viewName === 'home' && currentView === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
     setView(viewName);
     setIsMobileMenuOpen(false);
     setIsServicesOpen(false);
