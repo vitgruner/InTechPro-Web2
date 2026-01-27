@@ -10,9 +10,10 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react(), tailwindcss()],
     define: {
-      // Předá API_KEY do aplikace jako process.env.API_KEY
-      // Použije buď hodnotu z .env (lokálně) nebo ze systému (Vercel)
+      // Předá proměnné do aplikace
       'process.env.API_KEY': JSON.stringify(env.API_KEY),
+      'process.env.SUPABASE_URL': JSON.stringify(env.SUPABASE_URL),
+      'process.env.SUPABASE_ANON_KEY': JSON.stringify(env.SUPABASE_ANON_KEY),
     },
     build: {
       outDir: 'dist',
