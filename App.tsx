@@ -25,18 +25,30 @@ const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
+// Utility to handle chunk loading errors (e.g. after a new deployment)
+const lazyWithRetry = (componentImport: () => Promise<any>) =>
+  lazy(async () => {
+    try {
+      return await componentImport();
+    } catch (error) {
+      console.error("Chunk load failed, refreshing...", error);
+      window.location.reload();
+      return { default: () => null }; // Fallback
+    }
+  });
+
 // Lazy loading komponent, které nejsou potřeba pro první zobrazení (LCP)
-const Dashboard = lazy(() => import('./components/Dashboard'));
-const AboutUs = lazy(() => import('./components/AboutUs'));
-const ProjekceDetail = lazy(() => import('./components/ProjekceDetail'));
-const OsvetleniDetail = lazy(() => import('./components/OsvetleniDetail'));
-const RozvadeceDetail = lazy(() => import('./components/RozvadeceDetail'));
-const LoxoneDetail = lazy(() => import('./components/LoxoneDetail'));
-const TechnologieDetail = lazy(() => import('./components/TechnologieDetail'));
-const AdminLogin = lazy(() => import('./components/AdminLogin'));
-const ReferenceForm = lazy(() => import('./components/ReferenceForm'));
-const PrivacyPolicy = lazy(() => import('./components/PrivacyPolicy'));
-const Impresum = lazy(() => import('./components/Impresum'));
+const Dashboard = lazyWithRetry(() => import('./components/Dashboard'));
+const AboutUs = lazyWithRetry(() => import('./components/AboutUs'));
+const ProjekceDetail = lazyWithRetry(() => import('./components/ProjekceDetail'));
+const OsvetleniDetail = lazyWithRetry(() => import('./components/OsvetleniDetail'));
+const RozvadeceDetail = lazyWithRetry(() => import('./components/RozvadeceDetail'));
+const LoxoneDetail = lazyWithRetry(() => import('./components/LoxoneDetail'));
+const TechnologieDetail = lazyWithRetry(() => import('./components/TechnologieDetail'));
+const AdminLogin = lazyWithRetry(() => import('./components/AdminLogin'));
+const ReferenceForm = lazyWithRetry(() => import('./components/ReferenceForm'));
+const PrivacyPolicy = lazyWithRetry(() => import('./components/PrivacyPolicy'));
+const Impresum = lazyWithRetry(() => import('./components/Impresum'));
 
 const FooterLogo = () => (
   <div className="flex items-center gap-2.5 group cursor-pointer select-none">
