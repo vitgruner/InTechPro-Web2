@@ -111,4 +111,35 @@
     .theme-transition {
         transition: all 0.5s ease;
     }
+
+    /* Custom Premium Scrollbar */
+    ::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: rgba(105, 195, 80, 0.2);
+        border-radius: 20px;
+        border: 4px solid transparent;
+        background-clip: content-box;
+        transition: background 0.3s ease;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgba(105, 195, 80, 0.4);
+        background-clip: content-box;
+    }
+
+    .dark ::-webkit-scrollbar-thumb {
+        background: rgba(149, 232, 125, 0.15);
+    }
+
+    .dark ::-webkit-scrollbar-thumb:hover {
+        background: rgba(149, 232, 125, 0.3);
+    }
 }
