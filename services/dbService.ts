@@ -12,6 +12,11 @@ export const dbService = {
   async fetchReferences(): Promise<Reference[]> {
     if (cachedRefs) return cachedRefs;
 
+    if (!supabase) {
+      console.warn('Supabase not initialized, falling back to empty list.');
+      return [];
+    }
+
     try {
       const { data, error } = await supabase
         .from('references')
@@ -40,6 +45,11 @@ export const dbService = {
   },
 
   async saveReference(reference: Reference): Promise<boolean> {
+    if (!supabase) {
+      console.warn('Supabase not initialized, cannot save reference.');
+      return false;
+    }
+
     try {
       const { error } = await supabase
         .from('references')
