@@ -87,8 +87,8 @@ const SmartHomeWireframe = () => {
     if (!isReady) return;
 
     if (currentIndex < SYSTEM_LOGS.length) {
-      // Faster delays on mobile for quicker total load time
-      const delay = isMobile ? 400 : (Math.random() * 600 + 200);
+      // significantly slower on mobile to preserve CPU/TBT
+      const delay = isMobile ? (Math.random() * 1000 + 800) : (Math.random() * 600 + 200);
 
       const timeout = setTimeout(() => {
         const newLine: LogLine = {
