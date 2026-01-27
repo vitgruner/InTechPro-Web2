@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useMemo } from 'react';
 import {
   Home, Zap, Search, Filter, LayoutGrid, Building2, Factory,
@@ -37,7 +37,7 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
   }, [image]);
 
   return (
-    <div className="group relative glass-panel rounded-2xl md:rounded-3xl overflow-hidden border border-black/10 dark:border-white/10 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all duration-700 shadow-sm hover:shadow-xl h-full flex flex-col active:scale-[0.99] active:opacity-95">
+    <div className="group relative glass-panel rounded-2xl md:rounded-3xl overflow-hidden border border-black/10 dark:border-white/10 hover:border-[#69C350]/30 dark:hover:border-[#7BD462]/30 transition-all duration-700 shadow-sm hover:shadow-xl h-full flex flex-col active:scale-[0.99] active:opacity-95">
       <div className="relative h-48 md:h-56 overflow-hidden bg-gray-100 dark:bg-gray-900">
         <img
           src={optimizedImage || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=70&w=600"}
@@ -48,14 +48,14 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 dark:from-[#050505] via-transparent to-transparent opacity-90"></div>
 
         <div className="absolute top-3 right-3 bg-white/90 dark:bg-black/80 backdrop-blur-xl border border-black/10 dark:border-white/20 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-xl">
-          <TechIconComp className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" aria-hidden="true" />
+          <TechIconComp className="w-3.5 h-3.5 text-[#69C350] dark:text-[#95E87D]" aria-hidden="true" />
           <span className="text-[9px] font-black text-gray-900 dark:text-white uppercase tracking-[0.15em]">{tech}</span>
         </div>
       </div>
 
       <div className="p-5 flex flex-col flex-1">
         <div className="mb-4 text-left">
-          <span className="text-[9px] font-black text-blue-600 dark:text-blue-500 uppercase tracking-[0.2em] mb-1.5 block truncate">{location}</span>
+          <span className="text-[9px] font-black text-[#69C350] dark:text-[#7BD462] uppercase tracking-[0.2em] mb-1.5 block truncate">{location}</span>
           <h3 className="text-lg font-black text-gray-900 dark:text-white transition-colors duration-500 tracking-tight leading-tight line-clamp-2">{title}</h3>
         </div>
 
@@ -65,8 +65,8 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
               const sIconKey = (service.icon as string)?.toLowerCase();
               const ServiceIcon = IconMap[sIconKey] || Zap;
               return (
-                <div key={idx} className="flex items-center gap-1.5 bg-black/5 dark:bg-white/5 px-2.5 py-1.5 rounded-lg border border-black/5 dark:border-white/5 transition-colors hover:bg-blue-600/5">
-                  <span className="text-blue-600 dark:text-blue-400"><ServiceIcon className="w-3 h-3" aria-hidden="true" /></span>
+                <div key={idx} className="flex items-center gap-1.5 bg-black/5 dark:bg-white/5 px-2.5 py-1.5 rounded-lg border border-black/5 dark:border-white/5 transition-colors hover:bg-[#69C350]/5">
+                  <span className="text-[#69C350] dark:text-[#95E87D]"><ServiceIcon className="w-3 h-3" aria-hidden="true" /></span>
                   <span className="text-[9px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-tight truncate max-w-[100px]">{service.label}</span>
                 </div>
               );
@@ -82,7 +82,7 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
                     <span className="text-[7px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Senzory</span>
                     <span className="text-[10px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.sensors}</span>
                   </div>
-                  <Share2 className="w-3 h-3 text-blue-600 dark:text-blue-500 opacity-80" />
+                  <Share2 className="w-3 h-3 text-[#69C350] dark:text-[#7BD462] opacity-80" />
                 </div>
                 {/* Kabeláž */}
                 <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 px-3 py-2 rounded-lg">
@@ -167,7 +167,7 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
           <div className="mt-8 md:mt-12 flex justify-center">
             <button
               onClick={() => setView('reference')}
-              className="group flex items-center gap-3 px-8 py-4 bg-blue-600 text-white rounded-full font-black uppercase tracking-widest text-xs hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20"
+              className="group flex items-center gap-3 px-8 py-4 bg-[#69C350] text-white rounded-full font-black uppercase tracking-widest text-xs hover:bg-[#4BA038] transition-all shadow-xl shadow-[#7BD462]/20"
             >
               Zobrazit všechny reference
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />

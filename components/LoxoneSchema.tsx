@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useEffect } from 'react';
 import { Cpu, Radio, Lightbulb, Thermometer, Share2, Activity } from 'lucide-react';
 
@@ -82,7 +82,7 @@ const LoxoneSchema = () => {
   }, []);
 
   const nodes = [
-    { id: 'BUS.AIR', label: 'Senzory Air', icon: Radio, x: 130, y: 100, colorClass: 'blue', colorHex: '#2563eb' },
+    { id: 'BUS.AIR', label: 'Senzory Air', icon: Radio, x: 130, y: 100, colorClass: 'blue', colorHex: '#69C350' },
     { id: 'BUS.TREE', label: 'Tree Periférie', icon: Share2, x: 670, y: 100, colorClass: 'lime', colorHex: '#84cc16' },
     { id: 'PWM.DALI', label: 'Osvětlení', icon: Lightbulb, x: 130, y: 360, colorClass: 'orange', colorHex: '#ea580c' },
     { id: 'IO.HVAC', label: 'Klima / Relé', icon: Thermometer, x: 670, y: 360, colorClass: 'purple', colorHex: '#9333ea' },
@@ -151,7 +151,7 @@ const LoxoneSchema = () => {
             <circle cx="-60" cy="0" r="4" className={`fill-green-400 ${!isMobile ? 'animate-pulse' : ''}`} />
             <circle cx="-35" cy="0" r="4" className={`fill-green-400 ${!isMobile ? 'animate-pulse' : ''}`} style={{ animationDelay: '0.4s' }} />
             <rect x="-1" y="-10" width="2" height="20" rx="1" className="fill-white/20" />
-            <circle cx="35" cy="0" r="4" className={`fill-blue-400 ${!isMobile ? 'animate-pulse' : ''}`} style={{ animationDelay: '0.8s' }} />
+            <circle cx="35" cy="0" r="4" className={`fill-[#95E87D] ${!isMobile ? 'animate-pulse' : ''}`} style={{ animationDelay: '0.8s' }} />
             <circle cx="60" cy="0" r="4" className={`fill-orange-400 ${!isMobile ? 'animate-pulse' : ''}`} style={{ animationDelay: '1.2s' }} />
           </g>
 
@@ -174,7 +174,7 @@ const LoxoneSchema = () => {
             </div>
             <div className="flex items-center gap-4">
               <span className="text-[13px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-[0.3em]">Load: Optimal</span>
-              <Activity className="w-5 h-5 text-blue-600 opacity-50" />
+              <Activity className="w-5 h-5 text-[#69C350] opacity-50" />
             </div>
           </div>
         </foreignObject>

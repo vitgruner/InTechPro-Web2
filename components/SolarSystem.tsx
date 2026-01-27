@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useEffect } from 'react';
 import { Sun, Zap, Battery, Home, Globe, LucideIcon } from 'lucide-react';
 
@@ -25,7 +25,7 @@ const PowerNode: React.FC<PowerNodeProps> = ({ icon: Icon, label, value, unit, c
         <span className="text-xs md:text-sm font-black text-gray-900 dark:text-white tabular-nums font-mono">{Math.abs(value).toFixed(1)}</span>
         <span className="text-[7px] md:text-[8px] font-bold text-gray-500">{unit}</span>
       </div>
-      {subValue && <div className="text-[7px] md:text-[8px] font-bold text-blue-500 mt-0.5 border-t border-black/5 dark:border-white/5 pt-0.5">{subValue}</div>}
+      {subValue && <div className="text-[7px] md:text-[8px] font-bold text-[#7BD462] mt-0.5 border-t border-black/5 dark:border-white/5 pt-0.5">{subValue}</div>}
     </div>
   </div>
 );
@@ -69,7 +69,7 @@ const SolarSystem = React.memo(() => {
     <div className="w-full h-full bg-white/5 dark:bg-black/20 transition-colors duration-500 p-2 md:p-12 select-none overflow-hidden relative min-h-[450px] md:min-h-[600px] flex flex-col items-center justify-center">
 
       <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.03] pointer-events-none"
-        style={{ backgroundImage: 'linear-gradient(#2563eb 1px, transparent 1px), linear-gradient(90deg, #2563eb 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+        style={{ backgroundImage: 'linear-gradient(#69C350 1px, transparent 1px), linear-gradient(90deg, #69C350 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
       <div className="relative w-full max-w-[280px] md:max-w-lg aspect-square">
 

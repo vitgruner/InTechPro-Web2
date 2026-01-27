@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -31,12 +31,12 @@ const Impresum = lazy(() => import('./components/Impresum'));
 
 const FooterLogo = () => (
   <div className="flex items-center gap-2.5 group cursor-pointer select-none">
-    <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center transition-all group-hover:rotate-[15deg] group-hover:scale-110 shadow-lg shadow-blue-500/20">
+    <div className="w-8 h-8 bg-[#69C350] rounded-lg flex items-center justify-center transition-all group-hover:rotate-[15deg] group-hover:scale-110 shadow-lg shadow-[#7BD462]/20">
       < Zap className="w-4 h-4 text-white fill-white" aria-hidden="true" />
     </div>
     <div className="flex items-center font-black text-white tracking-tighter leading-none">
-      <span className="text-[18px] text-blue-600">IN</span>
-      <div className="w-1 h-1 bg-blue-600 rounded-full mx-1" />
+      <span className="text-[18px] text-[#69C350]">IN</span>
+      <div className="w-1 h-1 bg-[#69C350] rounded-full mx-1" />
       <span className="text-[18px]">TECH</span>
       <span className="text-[18px] ml-0.5 font-light opacity-50">PRO</span>
     </div>
@@ -95,12 +95,12 @@ const LoadingScreen = ({ progress }: { progress?: number }) => (
   <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-6 bg-white/90 dark:bg-black/90 backdrop-blur-md animate-in fade-in duration-300">
     <div className="relative w-48">
       <div className="flex justify-between items-end mb-2">
-        <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600">Systém</h2>
+        <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#69C350]">Systém</h2>
         <span className="text-[20px] font-black tabular-nums leading-none tracking-tighter">{Math.round(progress || 0)}%</span>
       </div>
       <div className="h-1 w-full bg-black/5 dark:bg-white/10 rounded-full overflow-hidden">
         <div
-          className="h-full bg-blue-600 transition-all duration-500 ease-out"
+          className="h-full bg-[#69C350] transition-all duration-500 ease-out"
           style={{ width: `${progress}%` }}
         />
       </div>
@@ -222,9 +222,9 @@ const App = () => {
           <div className="relative w-64 md:w-80">
             <div className="flex justify-between items-end mb-3">
               <div className="space-y-1">
-                <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-600">Zavádění Jádra</h2>
+                <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#69C350]">Zavádění Jádra</h2>
                 <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-ping" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#69C350] animate-ping" />
                   <span className="text-[9px] font-bold uppercase tracking-widest text-gray-400">Verze 2.4.0</span>
                 </div>
               </div>
@@ -235,7 +235,7 @@ const App = () => {
 
             <div className="h-1.5 w-full bg-slate-200 dark:bg-white/5 rounded-full overflow-hidden shadow-inner">
               <div
-                className="h-full bg-gradient-to-r from-blue-700 to-blue-500 shadow-[0_0_15px_rgba(37,99,235,0.4)] transition-all duration-700 ease-out"
+                className="h-full bg-gradient-to-r from-[#4BA038] to-[#7BD462] shadow-[0_0_15px_rgba(105,195,80,0.4)] transition-all duration-700 ease-out"
                 style={{ width: `${loadingProgress}%` }}
               />
             </div>
@@ -243,7 +243,7 @@ const App = () => {
             <div className="mt-8 flex justify-between items-center opacity-40">
               <div className="flex gap-1">
                 {[...Array(5)].map((_, i) => (
-                  <div key={i} className={`w-1 h-3 rounded-full ${i < (loadingProgress / 20) ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-700'}`} />
+                  <div key={i} className={`w-1 h-3 rounded-full ${i < (loadingProgress / 20) ? 'bg-[#69C350]' : 'bg-gray-300 dark:bg-gray-700'}`} />
                 ))}
               </div>
               <span className="text-[8px] font-black uppercase tracking-[0.4em] text-gray-500">Secure Protocol AES-256</span>
@@ -292,8 +292,8 @@ const App = () => {
                   <div className="max-w-7xl mx-auto px-6 text-left">
                     <div className="flex justify-between items-center mb-12">
                       <div className="flex items-center gap-4">
-                        <h1 className="text-4xl font-black uppercase tracking-tight">Databáze <span className="text-blue-600">Projektů</span></h1>
-                        {isSyncing && <div className="flex items-center gap-2 text-blue-600 animate-pulse text-[10px] font-black uppercase tracking-widest bg-blue-600/10 px-3 py-1 rounded-full"><CloudUpload className="w-3 h-3" /> Syncing</div>}
+                        <h1 className="text-4xl font-black uppercase tracking-tight">Databáze <span className="text-[#69C350]">Projektů</span></h1>
+                        {isSyncing && <div className="flex items-center gap-2 text-[#69C350] animate-pulse text-[10px] font-black uppercase tracking-widest bg-[#69C350]/10 px-3 py-1 rounded-full"><CloudUpload className="w-3 h-3" /> Syncing</div>}
                       </div>
                       <button type="button" onClick={() => { setIsAdmin(false); navigateTo('home'); }} className="px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest bg-slate-200 dark:bg-white/10">Odhlásit se</button>
                     </div>
@@ -348,7 +348,7 @@ const App = () => {
                 <li><button type="button" onClick={() => navigateTo('reference')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Reference</button></li>
                 <li>
                   <button type="button" onClick={() => navigateTo('online-showroom')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm flex items-center gap-2">
-                    Online Showroom <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" />
+                    Online Showroom <span className="w-1.5 h-1.5 rounded-full bg-[#69C350] animate-pulse" />
                   </button>
                 </li>
                 <li><button type="button" onClick={() => navigateTo('kontakt')} className="text-gray-400 hover:text-white font-bold transition-colors text-sm">Kontakt</button></li>

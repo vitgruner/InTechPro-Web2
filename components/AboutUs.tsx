@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Target, ShieldCheck, Zap } from 'lucide-react';
 import SectionHeader from './SectionHeader';
 import Breadcrumbs from './Breadcrumbs';
@@ -24,8 +24,8 @@ const AboutUs: React.FC<DetailProps> = ({ setView }) => {
             />
             <div className="space-y-6">
               <div className="flex gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-blue-600/10 flex items-center justify-center flex-shrink-0">
-                  <Target className="text-blue-600 w-6 h-6" />
+                <div className="w-12 h-12 rounded-2xl bg-[#69C350]/10 flex items-center justify-center flex-shrink-0">
+                  <Target className="text-[#69C350] w-6 h-6" />
                 </div>
                 <div className="text-left">
                   <h3 className="font-bold text-gray-900 dark:text-white uppercase text-xs tracking-widest mb-1">Jeden partner, jedno řešení</h3>
@@ -33,8 +33,8 @@ const AboutUs: React.FC<DetailProps> = ({ setView }) => {
                 </div>
               </div>
               <div className="flex gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-blue-600/10 flex items-center justify-center flex-shrink-0">
-                  <ShieldCheck className="text-blue-600 w-6 h-6" />
+                <div className="w-12 h-12 rounded-2xl bg-[#69C350]/10 flex items-center justify-center flex-shrink-0">
+                  <ShieldCheck className="text-[#69C350] w-6 h-6" />
                 </div>
                 <div className="text-left">
                   <h3 className="font-bold text-gray-900 dark:text-white uppercase text-xs tracking-widest mb-1">Jasná odpovědnost</h3>
@@ -44,7 +44,7 @@ const AboutUs: React.FC<DetailProps> = ({ setView }) => {
             </div>
           </div>
           <div className="relative group">
-            <div className="absolute inset-0 bg-blue-600/20 blur-[100px] -z-10 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+            <div className="absolute inset-0 bg-[#69C350]/20 blur-[100px] -z-10 opacity-50 group-hover:opacity-100 transition-opacity"></div>
             <div className="rounded-[3rem] overflow-hidden shadow-2xl border border-black/10 dark:border-white/10 aspect-square">
               <img
                 src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800"
@@ -52,13 +52,13 @@ const AboutUs: React.FC<DetailProps> = ({ setView }) => {
                 alt="Tým IN TECH PRO při spolupráci"
               />
             </div>
-            <div className="absolute -bottom-6 -right-6 glass-panel p-8 rounded-[2rem] border-blue-600/20 shadow-xl hidden md:block animate-in slide-in-from-right-8 duration-700">
+            <div className="absolute -bottom-6 -right-6 glass-panel p-8 rounded-[2rem] border-[#69C350]/20 shadow-xl hidden md:block animate-in slide-in-from-right-8 duration-700">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                <div className="w-10 h-10 bg-[#69C350] rounded-full flex items-center justify-center text-white">
                   <Zap className="w-5 h-5 fill-white" />
                 </div>
                 <div className="text-left">
-                  <p className="text-[10px] font-black uppercase tracking-widest text-blue-600">Založeno</p>
+                  <p className="text-[10px] font-black uppercase tracking-widest text-[#69C350]">Založeno</p>
                   <p className="text-xl font-black text-gray-900 dark:text-white">v roce 2024</p>
                 </div>
               </div>

@@ -1,4 +1,4 @@
-
+﻿
 import React from 'react';
 
 interface SectionHeaderProps {
@@ -27,7 +27,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
   return (
     <div className={`mb-10 md:mb-12 ${align === 'center' ? 'text-center' : 'text-left'} ${className}`}>
       {eyebrow && (
-        <span className="text-blue-600 font-black uppercase tracking-[0.35em] text-[10px] mb-3 block">
+        <span className="text-[#69C350] font-black uppercase tracking-[0.35em] text-[10px] mb-3 block">
           {eyebrow}
         </span>
       )}

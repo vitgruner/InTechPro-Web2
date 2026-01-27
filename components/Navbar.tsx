@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Menu, X, ArrowRight, Sun, Moon, Zap, ChevronDown, Lock, Activity } from 'lucide-react';
 import { NavProps, ViewState } from '../types';
 
 const Logo = () => (
   <div className="flex items-center gap-2.5 group cursor-pointer select-none">
-    <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center transition-all group-hover:rotate-[15deg] group-hover:scale-110 shadow-lg shadow-blue-500/20">
+    <div className="w-8 h-8 bg-[#69C350] rounded-lg flex items-center justify-center transition-all group-hover:rotate-[15deg] group-hover:scale-110 shadow-lg shadow-[#7BD462]/20">
       < Zap className="w-4 h-4 text-white fill-white" aria-hidden="true" />
     </div>
     <div className="flex items-center font-black text-[#1a1d21] dark:text-white transition-colors duration-500 tracking-tighter leading-none">
-      <span className="text-[18px] text-blue-600">IN</span>
-      <div className="w-1 h-1 bg-blue-600 rounded-full mx-1" />
+      <span className="text-[18px] text-[#69C350]">IN</span>
+      <div className="w-1 h-1 bg-[#69C350] rounded-full mx-1" />
       <span className="text-[18px]">TECH</span>
       <span className="text-[18px] ml-0.5 font-light opacity-50">PRO</span>
     </div>
@@ -99,15 +99,15 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
               <button
                 onClick={() => !item.dropdown && handleNavClick(item.value)}
                 className={`text-[11px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2 ${currentView === item.value || (item.dropdown?.some(d => d.value === currentView))
-                  ? 'text-blue-600 dark:text-blue-400'
-                  : 'text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-white'
+                  ? 'text-[#69C350] dark:text-[#95E87D]'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-[#69C350] dark:hover:text-white'
                   }`}
               >
                 {item.label}
                 {item.isLive && (
                   <span className="flex h-2 w-2 relative">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#95E87D] opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#69C350]"></span>
                   </span>
                 )}
                 {item.dropdown && <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${isServicesOpen ? 'rotate-180' : ''}`} aria-hidden="true" />}
@@ -121,8 +121,8 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
                         key={sub.value}
                         onClick={() => handleNavClick(sub.value)}
                         className={`w-full text-left px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${currentView === sub.value
-                          ? 'bg-blue-600 text-white'
-                          : 'text-gray-500 dark:text-gray-400 hover:bg-black/5 dark:hover:bg-white/5 hover:text-blue-600'
+                          ? 'bg-[#69C350] text-white'
+                          : 'text-gray-500 dark:text-gray-400 hover:bg-black/5 dark:hover:bg-white/5 hover:text-[#69C350]'
                           }`}
                       >
                         {sub.label}
@@ -137,8 +137,8 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
           <button
             onClick={() => handleNavClick('kontakt')}
             className={`px-7 py-3 rounded-full text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-3 group glow ${currentView === 'kontakt'
-              ? 'bg-white text-blue-600 border border-blue-600 shadow-lg'
-              : 'bg-blue-600 text-white hover:bg-blue-700 border border-transparent'
+              ? 'bg-white text-[#69C350] border border-[#69C350] shadow-lg'
+              : 'bg-[#69C350] text-white hover:bg-[#4BA038] border border-transparent'
               }`}
           >
             Kontakt
@@ -150,7 +150,7 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
           <div className="flex items-center gap-2">
             <button
               onClick={() => handleNavClick('admin-login')}
-              className={`p-2.5 rounded-2xl transition-all active:scale-95 ${currentView === 'admin-login' ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-black/5 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400'
+              className={`p-2.5 rounded-2xl transition-all active:scale-95 ${currentView === 'admin-login' ? 'bg-[#69C350] text-white shadow-lg' : 'hover:bg-black/5 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400'
                 }`}
               title="Klientská zóna"
               aria-label="Klientská zóna"
@@ -162,7 +162,7 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
               className="p-2.5 rounded-2xl hover:bg-black/5 dark:hover:bg-white/10 transition-all active:scale-95"
               aria-label="Přepnout režim"
             >
-              {isDark ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-blue-600" />}
+              {isDark ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-[#69C350]" />}
             </button>
           </div>
         </div>
@@ -197,7 +197,7 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
                     }
                   }}
                   className={`flex items-center justify-between p-4 rounded-xl text-[12px] font-black uppercase tracking-[0.2em] transition-all ${currentView === item.value
-                    ? 'bg-blue-600/10 text-blue-600'
+                    ? 'bg-[#69C350]/10 text-[#69C350]'
                     : 'bg-black/5 dark:bg-white/5 text-gray-500 dark:text-gray-400 hover:bg-black/10 dark:hover:bg-white/10'
                     }`}
                 >
@@ -205,8 +205,8 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
                     {item.label}
                     {item.isLive && (
                       <span className="flex h-2 w-2 relative">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#95E87D] opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#69C350]"></span>
                       </span>
                     )}
                   </span>
@@ -220,8 +220,8 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
                         key={sub.value}
                         onClick={() => handleNavClick(sub.value)}
                         className={`w-full text-left p-3 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all ${currentView === sub.value
-                          ? 'text-blue-600 bg-blue-600/5'
-                          : 'text-gray-400 hover:text-blue-600'
+                          ? 'text-[#69C350] bg-[#69C350]/5'
+                          : 'text-gray-400 hover:text-[#69C350]'
                           }`}
                       >
                         {sub.label}
@@ -234,7 +234,7 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView 
 
             <button
               onClick={() => handleNavClick('kontakt')}
-              className="w-full bg-blue-600 text-white p-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20 flex items-center justify-center gap-3 mt-4"
+              className="w-full bg-[#69C350] text-white p-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-[#4BA038] transition-all shadow-xl shadow-[#7BD462]/20 flex items-center justify-center gap-3 mt-4"
             >
               Nezávazná poptávka
               <ArrowRight className="w-4 h-4" aria-hidden="true" />

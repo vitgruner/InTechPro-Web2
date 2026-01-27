@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useEffect } from 'react';
 import { Cpu, Zap, Activity } from 'lucide-react';
 
@@ -37,8 +37,8 @@ const Module: React.FC<ModuleProps> = React.memo(({ comp, activeLabel, setActive
 
     {activeLabel === comp.id && (
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none">
-        <div className="bg-white/95 dark:bg-black/95 text-[10px] font-black text-blue-600 px-4 py-1.5 rounded-full border border-blue-500/20 shadow-2xl uppercase tracking-widest flex items-center gap-2 whitespace-nowrap">
-          <span className="w-2 h-2 bg-blue-500 rounded-full animate-ping" />
+        <div className="bg-white/95 dark:bg-black/95 text-[10px] font-black text-[#69C350] px-4 py-1.5 rounded-full border border-[#7BD462]/20 shadow-2xl uppercase tracking-widest flex items-center gap-2 whitespace-nowrap">
+          <span className="w-2 h-2 bg-[#7BD462] rounded-full animate-ping" />
           Online
         </div>
       </div>
@@ -87,7 +87,7 @@ const LoxoneUnit = React.memo(() => {
         <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.1] pointer-events-none"
           style={{ backgroundImage: 'linear-gradient(var(--text-color) 1px, transparent 1px)', backgroundSize: '100% 120px' }} />
 
-        <div className="md:hidden absolute top-2 right-4 z-50 animate-pulse text-[8px] font-black text-blue-500 uppercase tracking-widest pointer-events-none">
+        <div className="md:hidden absolute top-2 right-4 z-50 animate-pulse text-[8px] font-black text-[#7BD462] uppercase tracking-widest pointer-events-none">
           Swipe Rail ⟷
         </div>
 
@@ -112,7 +112,7 @@ const LoxoneUnit = React.memo(() => {
             <div className="flex gap-1 md:gap-1.5 flex-shrink-0">
               {Array.from({ length: 20 }).map((_, i) => (
                 <div key={i} className="w-4 md:w-5 h-12 md:h-16 bg-zinc-50 dark:bg-zinc-100 rounded border border-gray-300 dark:border-zinc-400 flex flex-col items-center justify-between py-1 shadow-sm">
-                  <div className="w-full h-1 bg-blue-500 rounded-full" />
+                  <div className="w-full h-1 bg-[#7BD462] rounded-full" />
                   <div className="w-2.5 md:w-3 h-4 md:h-6 bg-gray-200 dark:bg-zinc-300 rounded-sm border border-gray-300" />
                   <span className="text-[4px] md:text-[5px] font-black text-gray-500 uppercase">B16</span>
                 </div>
@@ -132,7 +132,7 @@ const LoxoneUnit = React.memo(() => {
               <span className="text-[9px] md:text-[11px] font-black text-gray-600 dark:text-white/60 uppercase tracking-widest">Active</span>
             </div>
             <div className="flex items-center gap-2 md:gap-2.5">
-              <Zap className="w-3.5 h-3.5 md:w-4 md:h-4 text-blue-500" />
+              <Zap className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#7BD462]" />
               <span className="text-[9px] md:text-[11px] font-black text-gray-600 dark:text-white/60 uppercase tracking-widest">1.3kW</span>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { Terminal, Cpu, Shield, Zap } from 'lucide-react';
 
 interface LogLine {
@@ -129,7 +129,7 @@ const SmartHomeWireframe = () => {
       case 'success': return 'text-green-400';
       case 'warning': return 'text-yellow-400';
       case 'error': return 'text-red-500';
-      case 'system': return 'text-blue-400 font-bold';
+      case 'system': return 'text-[#95E87D] font-bold';
       default: return 'text-gray-300';
     }
   };
@@ -178,7 +178,7 @@ const SmartHomeWireframe = () => {
 
         <div className="flex gap-3">
           <span className="text-gray-600 opacity-0 select-none">[{cursorTs}]</span>
-          <span className="text-blue-500 font-bold animate-pulse">_</span>
+          <span className="text-[#7BD462] font-bold animate-pulse">_</span>
         </div>
       </div>
 
@@ -201,7 +201,7 @@ const SmartHomeWireframe = () => {
         </div>
       </div>
 
-      <div className="absolute inset-0 bg-blue-500/[0.02] pointer-events-none" />
+      <div className="absolute inset-0 bg-[#7BD462]/[0.02] pointer-events-none" />
     </div>
   );
 };

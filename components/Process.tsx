@@ -1,4 +1,4 @@
-
+﻿
 import React from 'react';
 import { Search, PenTool, Settings, CheckSquare, FileText, ClipboardCheck, Zap, Rocket, Sliders } from 'lucide-react';
 import SectionHeader from './SectionHeader';
@@ -34,11 +34,11 @@ const Process = () => {
           {steps.map((step, idx) => (
             <div
               key={idx}
-              className="glass-panel p-4 md:p-5 rounded-2xl border-black/5 dark:border-white/5 hover:border-blue-600/30 transition-all group flex flex-col justify-center h-full"
+              className="glass-panel p-4 md:p-5 rounded-2xl border-black/5 dark:border-white/5 hover:border-[#69C350]/30 transition-all group flex flex-col justify-center h-full"
             >
               {/* HEADER: ICON + TITLE */}
               <div className="flex items-center gap-3 mb-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-600/10 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#69C350]/10 text-[#69C350] dark:text-[#95E87D] group-hover:bg-[#69C350] group-hover:text-white transition-all">
                   <span className="[&>svg]:w-4 [&>svg]:h-4">
                     {step.icon}
                   </span>

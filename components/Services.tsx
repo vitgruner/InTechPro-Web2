@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState } from 'react';
 import { Home, Zap, DraftingCompass, Cpu, Lightbulb, Thermometer, Shield, Radio, Wind, Blinds, Waves, Car, Droplets, Sprout, Settings, CheckSquare, Sun, ArrowRight } from 'lucide-react';
 import { ServiceCardProps, ServicesProps } from '../types';
@@ -6,14 +6,14 @@ import { ServiceCardProps, ServicesProps } from '../types';
 const ServiceCard: React.FC<ServiceCardProps & { features?: string[], onClick?: () => void }> = ({ title, description, icon, category, features, onClick }) => (
   <div
     onClick={onClick}
-    className="group p-3.5 md:p-6 rounded-2xl glass-panel border border-black/5 dark:border-white/5 hover:border-blue-600/30 dark:hover:border-blue-500/30 transition-all cursor-pointer flex flex-col h-full shadow-sm md:hover:shadow-xl min-w-0 active:scale-[0.98] active:opacity-90"
+    className="group p-3.5 md:p-6 rounded-2xl glass-panel border border-black/5 dark:border-white/5 hover:border-[#69C350]/30 dark:hover:border-[#7BD462]/30 transition-all cursor-pointer flex flex-col h-full shadow-sm md:hover:shadow-xl min-w-0 active:scale-[0.98] active:opacity-90"
   >
     <div className="flex items-center md:items-start gap-3 mb-3 md:mb-0">
-      <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-600/10 rounded-xl flex items-center justify-center flex-shrink-0 md:group-hover:bg-blue-600 transition-colors">
-        <div className="text-blue-600 dark:text-blue-400 md:group-hover:text-white md:group-hover:scale-110 transition-all [&>svg]:w-5 [&>svg]:h-5 md:[&>svg]:w-6 md:[&>svg]:h-6" aria-hidden="true">{icon}</div>
+      <div className="w-10 h-10 md:w-12 md:h-12 bg-[#69C350]/10 rounded-xl flex items-center justify-center flex-shrink-0 md:group-hover:bg-[#69C350] transition-colors">
+        <div className="text-[#69C350] dark:text-[#95E87D] md:group-hover:text-white md:group-hover:scale-110 transition-all [&>svg]:w-5 [&>svg]:h-5 md:[&>svg]:w-6 md:[&>svg]:h-6" aria-hidden="true">{icon}</div>
       </div>
       <div className="min-w-0 md:pt-1">
-        <span className="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-500 mb-0.5 block truncate">{category}</span>
+        <span className="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.2em] text-[#69C350] dark:text-[#7BD462] mb-0.5 block truncate">{category}</span>
         <h3 className="text-sm md:text-lg font-black text-gray-900 dark:text-white transition-colors duration-500 truncate leading-tight" title={title}>{title}</h3>
       </div>
     </div>
@@ -70,26 +70,26 @@ const Services: React.FC<ServicesProps> = React.memo(({ setView, isStandalone = 
           {/* Loxone Section */}
           <div
             onClick={() => setView('loxone-smart-home')}
-            className="lg:col-span-2 bg-[#f8fafc] dark:bg-[#0a0c10] p-6 md:p-12 rounded-[2rem] md:rounded-[2.5rem] border border-blue-600/10 dark:border-blue-500/10 relative overflow-hidden group cursor-pointer md:hover:border-blue-600/40 transition-all md:hover:shadow-[0_0_80px_rgba(37,99,235,0.1)]"
+            className="lg:col-span-2 bg-[#f8fafc] dark:bg-[#0a0c10] p-6 md:p-12 rounded-[2rem] md:rounded-[2.5rem] border border-[#69C350]/10 dark:border-[#7BD462]/10 relative overflow-hidden group cursor-pointer md:hover:border-[#69C350]/40 transition-all md:hover:shadow-[0_0_80px_rgba(37,99,235,0.1)]"
           >
             <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none"
-              style={{ backgroundImage: 'linear-gradient(#2563eb 1px, transparent 1px), linear-gradient(90deg, #2563eb 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
+              style={{ backgroundImage: 'linear-gradient(#69C350 1px, transparent 1px), linear-gradient(90deg, #69C350 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
 
             <div className="relative z-10 grid xl:grid-cols-2 gap-8 md:gap-16 items-center">
               <div className="min-w-0 text-left">
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-600/10 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-4 md:mb-6 border border-blue-600/20">
-                  <span className="w-1.5 h-1.5 bg-blue-600 rounded-full" />
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#69C350]/10 text-[#69C350] rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-4 md:mb-6 border border-[#69C350]/20">
+                  <span className="w-1.5 h-1.5 bg-[#69C350] rounded-full" />
                   Vlajková loď integrace
                 </div>
                 <h2 className="text-2xl md:text-5xl font-black mb-4 md:mb-6 leading-[1.1] tracking-tight text-gray-900 dark:text-white max-w-[15ch] md:max-w-[20ch]">
-                  Návrh a realizace <span className="text-blue-600">Smart Home Loxone</span>
+                  Návrh a realizace <span className="text-[#69C350]">Smart Home Loxone</span>
                 </h2>
                 <p className="text-gray-600 dark:text-gray-400 mb-6 md:mb-8 leading-relaxed text-xs md:text-lg font-medium">
                   Loxone propojí všechny technologie v domě do jednoho inteligentního systému, který je řídí jako celek. Jedna přehledná aplikace a spolupráce technologií zajistí maximální komfort.
                 </p>
 
                 <div className="flex flex-wrap gap-4 mb-8">
-                  <button className="px-6 py-3 bg-blue-600 text-white rounded-xl font-black uppercase tracking-[0.2em] text-[10px] shadow-lg shadow-blue-500/20">
+                  <button className="px-6 py-3 bg-[#69C350] text-white rounded-xl font-black uppercase tracking-[0.2em] text-[10px] shadow-lg shadow-[#7BD462]/20">
                     Více o Loxone
                   </button>
                 </div>
@@ -98,11 +98,11 @@ const Services: React.FC<ServicesProps> = React.memo(({ setView, isStandalone = 
               <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-3 gap-2 md:gap-4 p-3 md:p-6 bg-black/5 dark:bg-white/5 rounded-2xl md:rounded-[2rem] border border-black/5 dark:border-white/10">
                 {loxoneIntegrations.map((item, i) => (
                   <div key={i} className="flex flex-col items-center justify-center p-2 md:p-3 bg-white dark:bg-white/5 rounded-xl border border-black/5 dark:border-white/10 text-center shadow-sm">
-                    <div className="text-blue-600 dark:text-blue-400 mb-1.5 md:mb-2 flex-shrink-0 [&>svg]:w-4 [&>svg]:h-4 md:[&>svg]:w-5 md:[&>svg]:h-5" aria-hidden="true">
+                    <div className="text-[#69C350] dark:text-[#95E87D] mb-1.5 md:mb-2 flex-shrink-0 [&>svg]:w-4 [&>svg]:h-4 md:[&>svg]:w-5 md:[&>svg]:h-5" aria-hidden="true">
                       {item.icon}
                     </div>
                     <span className="text-[8px] md:text-[9px] font-black uppercase tracking-tight text-gray-600 dark:text-gray-400 leading-tight truncate w-full px-0.5 mb-0.5">{item.label}</span>
-                    <span className="text-[7px] md:text-[8px] font-bold text-blue-600/70 dark:text-blue-400/70 uppercase tracking-widest">{liveStats[item.label] || "OK"}</span>
+                    <span className="text-[7px] md:text-[8px] font-bold text-[#69C350]/70 dark:text-[#95E87D]/70 uppercase tracking-widest">{liveStats[item.label] || "OK"}</span>
                   </div>
                 ))}
               </div>

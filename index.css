@@ -14,6 +14,20 @@
     --glass-bg: rgba(255, 255, 255, 0.85);
     --glass-border: rgba(0, 0, 0, 0.1);
     --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+
+    /* Custom Tech Green Palette based on #69C350 - Enhanced Contrast */
+    --green-300: #B8F5A3;
+    /* Brighter for dark mode text */
+    --green-400: #95E87D;
+    /* More vibrant accent */
+    --green-500: #7BD462;
+    /* Slightly brighter mid-tone */
+    --green-600: #69C350;
+    /* Primary - unchanged */
+    --green-700: #4BA038;
+    /* Darker for hover states */
+    --green-800: #3D8A2D;
+    /* Even darker for strong contrast */
 }
 
 .dark {
@@ -62,19 +76,19 @@
     }
 
     .text-gradient {
-        background: linear-gradient(135deg, #444 0%, #2563eb 100%);
+        background: linear-gradient(135deg, #444 0%, #69C350 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
 
     .dark .text-gradient {
-        background: linear-gradient(135deg, #fff 0%, #60a5fa 100%);
+        background: linear-gradient(135deg, #fff 0%, #8EDE7A 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
 
     .glow {
-        box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+        box-shadow: 0 0 25px rgba(105, 195, 80, 0.4);
     }
 
     .btn-magnetic {

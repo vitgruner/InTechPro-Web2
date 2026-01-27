@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { 
   Zap, Thermometer, Wind, Blinds, Shield, Radio, Droplets, Waves, Car, 
   Search, PenTool, Settings, CheckSquare, FileText, ClipboardCheck, 
@@ -69,19 +69,19 @@ const LoxoneDetail: React.FC<DetailProps> = ({ setView }) => {
             </div>
             
             <div className="w-full lg:w-80 flex flex-col gap-4 md:gap-6">
-              <div className="glass-panel p-6 md:p-8 rounded-[2rem] border-blue-600/10 bg-blue-600/5 flex-1">
+              <div className="glass-panel p-6 md:p-8 rounded-[2rem] border-[#69C350]/10 bg-[#69C350]/5 flex-1">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center text-white">
+                  <div className="w-8 h-8 rounded-xl bg-[#69C350] flex items-center justify-center text-white">
                     <Info className="w-4 h-4" />
                   </div>
-                  <h3 className="font-black uppercase tracking-widest text-[11px] text-blue-600 truncate">Architektura systému</h3>
+                  <h3 className="font-black uppercase tracking-widest text-[11px] text-[#69C350] truncate">Architektura systému</h3>
                 </div>
                 <p className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
                   Vizualizace toku dat mezi centrálním Miniserverem a periferními klastry v reálném čase. Každý pohyb kuličky reprezentuje synchronizační paket sběrnice Tree nebo Air.
                 </p>
                 <div className="mt-4 pt-4 border-t border-black/5 dark:border-white/5 space-y-2">
                   <div className="flex items-center gap-3">
-                    <div className="w-1.5 h-1.5 rounded-full bg-blue-600" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#69C350]" />
                     <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Air Sběrnice</span>
                   </div>
                   <div className="flex items-center gap-3">
@@ -94,16 +94,16 @@ const LoxoneDetail: React.FC<DetailProps> = ({ setView }) => {
               <div className="glass-panel p-6 md:p-8 rounded-[2rem] border-black/5 dark:bg-white/5">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Systémový Log</span>
-                  <Activity className="w-4 h-4 text-blue-600" />
+                  <Activity className="w-4 h-4 text-[#69C350]" />
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between items-center text-[10px]">
                     <span className="text-gray-500 font-medium">Latence Jádra</span>
-                    <span className="text-blue-600 font-black">2.4ms</span>
+                    <span className="text-[#69C350] font-black">2.4ms</span>
                   </div>
                   <div className="flex justify-between items-center text-[10px]">
                     <span className="text-gray-500 font-medium">Zatížení CPU</span>
-                    <span className="text-blue-600 font-black">12%</span>
+                    <span className="text-[#69C350] font-black">12%</span>
                   </div>
                 </div>
               </div>
@@ -127,18 +127,18 @@ const LoxoneDetail: React.FC<DetailProps> = ({ setView }) => {
                 </div>
             </div>
             <div className="space-y-6">
-               <h2 className="text-2xl md:text-3xl font-black tracking-tight">Standard pro <span className="text-blue-600">Moderní domov</span></h2>
+               <h2 className="text-2xl md:text-3xl font-black tracking-tight">Standard pro <span className="text-[#69C350]">Moderní domov</span></h2>
                <p className="text-gray-600 dark:text-gray-400 font-medium leading-relaxed text-sm">
                   Loxone není jen ovládání přes mobil. Je to dům, který ví, že má zatáhnout žaluzie dříve, než se interiér přehřeje. Ví, že má vypnout topení v místnosti, kde je otevřené okno. A ví, že když odejdete, má zhasnout a zajistit dům.
                </p>
                <div className="flex gap-6 pt-2">
                   <div className="flex flex-col">
-                    <span className="text-xl md:text-2xl font-black text-blue-600">50,000+</span>
+                    <span className="text-xl md:text-2xl font-black text-[#69C350]">50,000+</span>
                     <span className="text-[9px] font-bold text-gray-400 uppercase">Rozhodnutí denně</span>
                   </div>
                   <div className="w-[1px] h-10 bg-gray-200 dark:bg-white/10" />
                   <div className="flex flex-col">
-                    <span className="text-xl md:text-2xl font-black text-blue-600">100%</span>
+                    <span className="text-xl md:text-2xl font-black text-[#69C350]">100%</span>
                     <span className="text-[9px] font-bold text-gray-400 uppercase">Soukromí (Local)</span>
                   </div>
                </div>

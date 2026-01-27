@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+﻿import React, { useState, useMemo } from 'react';
 import { Send, CheckCircle2, Zap, Thermometer, Shield, Radio, Sun, Wifi, Car, Home, Factory, Building2, Waves, Sprout, Droplets, Blinds, Calculator, Sparkles, History, Mail, Phone, MessageSquare, Loader2, AlertCircle, Check } from 'lucide-react';
 import VisionaryAssistant from './VisionaryAssistant';
 import { Message } from '../types';
@@ -160,7 +160,7 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
         </p>
         <button
           onClick={handleReset}
-          className="px-10 py-4 bg-blue-600 text-white rounded-full font-bold uppercase tracking-widest text-[10px] hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20 active:scale-95"
+          className="px-10 py-4 bg-[#69C350] text-white rounded-full font-bold uppercase tracking-widest text-[10px] hover:bg-[#4BA038] transition-all shadow-xl shadow-[#7BD462]/20 active:scale-95"
         >
           Nová poptávka
         </button>
@@ -170,7 +170,7 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
 
   return (
     <section id="contact" className={`py-10 md:py-20 relative overflow-hidden bg-gray-50/30 dark:bg-[#080808] transition-colors duration-500 ${isStandalone ? 'pt-28 md:pt-36' : ''}`}>
-      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-blue-600/5 dark:bg-blue-600/10 rounded-full blur-[150px] -z-10 pointer-events-none"></div>
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#69C350]/5 dark:bg-[#69C350]/10 rounded-full blur-[150px] -z-10 pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-6">
         <SectionHeader
@@ -185,9 +185,9 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
 
           {isStandalone && (
             <div className="lg:col-span-5 flex flex-col gap-6">
-              <div className="glass-panel p-6 rounded-[2rem] bg-blue-600/5 border-blue-600/20 mb-2">
+              <div className="glass-panel p-6 rounded-[2rem] bg-[#69C350]/5 border-[#69C350]/20 mb-2">
                 <div className="flex items-center gap-3 mb-3">
-                  <Sparkles className="w-5 h-5 text-blue-600" />
+                  <Sparkles className="w-5 h-5 text-[#69C350]" />
                   <h3 className="text-sm font-black uppercase tracking-tight">Krok 1: Konzultace</h3>
                 </div>
                 <p className="text-[11px] text-gray-500 font-medium leading-relaxed">
@@ -203,7 +203,7 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
           <div className={`${isStandalone ? 'lg:col-span-7' : 'w-full'}`}>
             <form onSubmit={handleSubmit} className="glass-panel p-8 md:p-10 rounded-[2.5rem] border border-black/10 dark:border-white/10 shadow-xl space-y-8 transition-all duration-500 h-full flex flex-col">
               <div className="flex items-center gap-3 mb-2">
-                <div className="w-8 h-8 bg-blue-600/10 rounded-lg flex items-center justify-center text-blue-600">
+                <div className="w-8 h-8 bg-[#69C350]/10 rounded-lg flex items-center justify-center text-[#69C350]">
                   <Calculator className="w-4 h-4" />
                 </div>
                 <h3 className="text-sm font-black uppercase tracking-tight">{isStandalone ? 'Krok 2: Specifikace projektu' : 'Specifikace projektu'}</h3>
@@ -212,11 +212,11 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2 text-left">
                   <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Jméno a Příjmení</label>
-                  <input required type="text" value={formData.name} onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))} placeholder="např. Jan Novák" className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-4 px-5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-600 transition-all text-xs" />
+                  <input required type="text" value={formData.name} onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))} placeholder="např. Jan Novák" className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-4 px-5 text-gray-900 dark:text-white focus:outline-none focus:border-[#69C350] transition-all text-xs" />
                 </div>
                 <div className="space-y-2 text-left">
                   <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Váš E-mail</label>
-                  <input required type="email" value={formData.email} onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))} placeholder="vysledek@projekt.cz" className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-4 px-5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-600 transition-all text-xs" />
+                  <input required type="email" value={formData.email} onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))} placeholder="vysledek@projekt.cz" className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-4 px-5 text-gray-900 dark:text-white focus:outline-none focus:border-[#69C350] transition-all text-xs" />
                 </div>
                 <div className="space-y-2 text-left md:col-span-2">
                   <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1 flex items-center gap-2">
@@ -228,7 +228,7 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
                     value={formData.phone}
                     onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.target.value }))}
                     placeholder="+420 777 000 000"
-                    className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-4 px-5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-600 transition-all text-xs"
+                    className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-4 px-5 text-gray-900 dark:text-white focus:outline-none focus:border-[#69C350] transition-all text-xs"
                   />
                 </div>
               </div>
@@ -237,7 +237,7 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
                 <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Typ objektu</label>
                 <div className="grid grid-cols-3 gap-3">
                   {[{ id: 'Rezidenční', icon: <Home className="w-3.5 h-3.5" /> }, { id: 'Komerční', icon: <Building2 className="w-3.5 h-3.5" /> }, { id: 'Průmyslová', icon: <Factory className="w-3.5 h-3.5" /> }].map(type => (
-                    <button key={type.id} type="button" onClick={() => setFormData((prev) => ({ ...prev, property: type.id }))} className={`flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border transition-all ${formData.property === type.id ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-500/20' : 'bg-black/5 dark:bg-white/5 border-black/10 text-gray-500'}`}>
+                    <button key={type.id} type="button" onClick={() => setFormData((prev) => ({ ...prev, property: type.id }))} className={`flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border transition-all ${formData.property === type.id ? 'bg-[#69C350] border-[#69C350] text-white shadow-lg shadow-[#7BD462]/20' : 'bg-black/5 dark:bg-white/5 border-black/10 text-gray-500'}`}>
                       {type.icon}
                       <span className="text-[9px] font-bold uppercase">{type.id}</span>
                     </button>
@@ -249,7 +249,7 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
                 <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Klíčové systémy</label>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1.5 sm:gap-2">
                   {featureOptions.slice(0, 8).map(feature => (
-                    <button key={feature.id} type="button" onClick={() => toggleFeature(feature.id)} className={`flex items-center gap-2 px-3 py-3 rounded-xl border text-left transition-all ${formData.features.includes(feature.id) ? 'bg-blue-600 text-white border-blue-600 shadow-md' : 'bg-black/5 dark:bg-white/5 border-black/10 text-gray-500'}`}>
+                    <button key={feature.id} type="button" onClick={() => toggleFeature(feature.id)} className={`flex items-center gap-2 px-3 py-3 rounded-xl border text-left transition-all ${formData.features.includes(feature.id) ? 'bg-[#69C350] text-white border-[#69C350] shadow-md' : 'bg-black/5 dark:bg-white/5 border-black/10 text-gray-500'}`}>
                       <div className="flex-shrink-0">{feature.icon}</div>
                       <span className="text-[9px] font-bold uppercase truncate">{feature.label}</span>
                     </button>
@@ -267,18 +267,18 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
                   value={formData.message}
                   onChange={(e) => setFormData((prev) => ({ ...prev, message: e.target.value }))}
                   placeholder="Popište nám své specifické požadavky, dotazy nebo detaily projektu..."
-                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-4 px-5 text-gray-900 dark:text-white focus:outline-none focus:border-blue-600 transition-all text-xs resize-none"
+                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-4 px-5 text-gray-900 dark:text-white focus:outline-none focus:border-[#69C350] transition-all text-xs resize-none"
                 />
               </div>
 
               {/* GDPR Consent Checkbox */}
-              <div className="flex items-start gap-4 p-4 rounded-2xl bg-blue-600/5 border border-blue-600/10 cursor-pointer group" onClick={() => setFormData(p => ({ ...p, gdprConsent: !p.gdprConsent }))}>
-                <div className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all flex-shrink-0 ${formData.gdprConsent ? 'bg-blue-600 border-blue-600 shadow-lg' : 'border-black/10 dark:border-white/20'}`}>
+              <div className="flex items-start gap-4 p-4 rounded-2xl bg-[#69C350]/5 border border-[#69C350]/10 cursor-pointer group" onClick={() => setFormData(p => ({ ...p, gdprConsent: !p.gdprConsent }))}>
+                <div className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all flex-shrink-0 ${formData.gdprConsent ? 'bg-[#69C350] border-[#69C350] shadow-lg' : 'border-black/10 dark:border-white/20'}`}>
                   {formData.gdprConsent && <Check className="w-4 h-4 text-white" />}
                 </div>
                 <div className="flex-1 text-left">
                   <p className="text-[10px] text-gray-600 dark:text-gray-400 font-medium leading-relaxed">
-                    Souhlasím se <button type="button" onClick={(e) => { e.stopPropagation(); document.dispatchEvent(new CustomEvent('intechpro-open-cookies')); }} className="text-blue-600 dark:text-blue-400 font-bold hover:underline">zpracováním osobních údajů</button> pro účely vyřízení této poptávky a technické konzultace.
+                    Souhlasím se <button type="button" onClick={(e) => { e.stopPropagation(); document.dispatchEvent(new CustomEvent('intechpro-open-cookies')); }} className="text-[#69C350] dark:text-[#95E87D] font-bold hover:underline">zpracováním osobních údajů</button> pro účely vyřízení této poptávky a technické konzultace.
                   </p>
                 </div>
               </div>
@@ -292,16 +292,16 @@ const ContactForm = ({ isStandalone = false }: { isStandalone?: boolean }) => {
 
               <div className="mt-auto pt-8 border-t border-black/5 dark:border-white/5 flex flex-col sm:flex-row items-center justify-between gap-8">
                 <div className="text-left">
-                  <p className="text-[9px] font-black text-blue-600 uppercase tracking-widest mb-1">Odhadovaná investice</p>
+                  <p className="text-[9px] font-black text-[#69C350] uppercase tracking-widest mb-1">Odhadovaná investice</p>
                   <div className="flex items-baseline gap-1.5">
                     <span className="text-3xl font-black text-gray-900 dark:text-white tabular-nums">{estimatedTotal.toLocaleString()}</span>
-                    <span className="text-xs font-bold text-blue-600">Kč</span>
+                    <span className="text-xs font-bold text-[#69C350]">Kč</span>
                   </div>
                 </div>
                 <button
                   type="submit"
                   disabled={isSending || !formData.gdprConsent}
-                  className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-[0.2em] py-5 px-12 rounded-2xl transition-all shadow-xl flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full sm:w-auto bg-[#69C350] hover:bg-[#4BA038] text-white font-black uppercase tracking-[0.2em] py-5 px-12 rounded-2xl transition-all shadow-xl flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSending ? (
                     <>

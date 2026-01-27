@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useEffect } from 'react';
 import { Cookie, ShieldCheck, ChevronDown, ChevronUp, Check, X, Info } from 'lucide-react';
 
@@ -133,7 +133,7 @@ const CookieConsent = () => {
 
         {/* Header */}
         <div className="flex items-start gap-4 mb-4">
-          <div className="w-12 h-12 bg-blue-600/10 rounded-2xl flex items-center justify-center flex-shrink-0 text-blue-600 dark:text-blue-400">
+          <div className="w-12 h-12 bg-[#69C350]/10 rounded-2xl flex items-center justify-center flex-shrink-0 text-[#69C350] dark:text-[#95E87D]">
             <Cookie className="w-6 h-6" />
           </div>
           <div className="flex-1">
@@ -162,32 +162,32 @@ const CookieConsent = () => {
 
             <button
               onClick={() => toggleCategory('analytics')}
-              className={`w-full p-4 rounded-xl border flex items-center justify-between transition-all ${consent.analytics ? 'bg-blue-600/5 border-blue-600/30' : 'bg-transparent border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5'}`}
+              className={`w-full p-4 rounded-xl border flex items-center justify-between transition-all ${consent.analytics ? 'bg-[#69C350]/5 border-[#69C350]/30' : 'bg-transparent border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5'}`}
             >
               <div className="flex items-center gap-3">
-                <Info className={`w-4 h-4 ${consent.analytics ? 'text-blue-600' : 'text-gray-400'}`} />
+                <Info className={`w-4 h-4 ${consent.analytics ? 'text-[#69C350]' : 'text-gray-400'}`} />
                 <div className="text-left">
                   <div className="text-xs font-black uppercase tracking-widest text-gray-900 dark:text-white">Analytické</div>
                   <div className="text-[10px] text-gray-500 font-medium">Měření návštěvnosti, vylepšování UX</div>
                 </div>
               </div>
-              <div className={`w-10 h-6 rounded-full p-1 transition-colors ${consent.analytics ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-700'}`}>
+              <div className={`w-10 h-6 rounded-full p-1 transition-colors ${consent.analytics ? 'bg-[#69C350]' : 'bg-gray-300 dark:bg-gray-700'}`}>
                 <div className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform ${consent.analytics ? 'translate-x-4' : 'translate-x-0'}`} />
               </div>
             </button>
 
             <button
               onClick={() => toggleCategory('marketing')}
-              className={`w-full p-4 rounded-xl border flex items-center justify-between transition-all ${consent.marketing ? 'bg-blue-600/5 border-blue-600/30' : 'bg-transparent border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5'}`}
+              className={`w-full p-4 rounded-xl border flex items-center justify-between transition-all ${consent.marketing ? 'bg-[#69C350]/5 border-[#69C350]/30' : 'bg-transparent border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5'}`}
             >
               <div className="flex items-center gap-3">
-                <Info className={`w-4 h-4 ${consent.marketing ? 'text-blue-600' : 'text-gray-400'}`} />
+                <Info className={`w-4 h-4 ${consent.marketing ? 'text-[#69C350]' : 'text-gray-400'}`} />
                 <div className="text-left">
                   <div className="text-xs font-black uppercase tracking-widest text-gray-900 dark:text-white">Marketingové</div>
                   <div className="text-[10px] text-gray-500 font-medium">Personalizace obsahu</div>
                 </div>
               </div>
-              <div className={`w-10 h-6 rounded-full p-1 transition-colors ${consent.marketing ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-700'}`}>
+              <div className={`w-10 h-6 rounded-full p-1 transition-colors ${consent.marketing ? 'bg-[#69C350]' : 'bg-gray-300 dark:bg-gray-700'}`}>
                 <div className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform ${consent.marketing ? 'translate-x-4' : 'translate-x-0'}`} />
               </div>
             </button>
@@ -198,7 +198,7 @@ const CookieConsent = () => {
         <div className="flex flex-col sm:flex-row gap-3">
           <button
             onClick={handleAcceptAll}
-            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3.5 rounded-xl font-black uppercase tracking-widest text-[10px] transition-all shadow-lg shadow-blue-500/20 active:scale-95"
+            className="flex-1 bg-[#69C350] hover:bg-[#4BA038] text-white px-6 py-3.5 rounded-xl font-black uppercase tracking-widest text-[10px] transition-all shadow-lg shadow-[#7BD462]/20 active:scale-95"
           >
             Povolit vše
           </button>
@@ -221,7 +221,7 @@ const CookieConsent = () => {
 
           <button
             onClick={() => setShowDetails(!showDetails)}
-            className="sm:w-auto w-full bg-transparent text-gray-500 hover:text-blue-600 px-4 py-3.5 rounded-xl font-bold text-xs transition-colors flex items-center justify-center gap-2"
+            className="sm:w-auto w-full bg-transparent text-gray-500 hover:text-[#69C350] px-4 py-3.5 rounded-xl font-bold text-xs transition-colors flex items-center justify-center gap-2"
           >
             {showDetails ? (
               <>Méně <ChevronUp className="w-3 h-3" /></>
@@ -232,9 +232,9 @@ const CookieConsent = () => {
         </div>
 
         <div className="mt-4 flex justify-center gap-4 text-[9px] text-gray-400 font-medium">
-          <button onClick={() => document.dispatchEvent(new CustomEvent('intechpro-open-cookies'))} className="hover:text-blue-600 transition-colors">Zásady ochrany osobních údajů</button>
+          <button onClick={() => document.dispatchEvent(new CustomEvent('intechpro-open-cookies'))} className="hover:text-[#69C350] transition-colors">Zásady ochrany osobních údajů</button>
           <span>•</span>
-          <button onClick={() => document.dispatchEvent(new CustomEvent('intechpro-open-cookies'))} className="hover:text-blue-600 transition-colors">Seznam cookies</button>
+          <button onClick={() => document.dispatchEvent(new CustomEvent('intechpro-open-cookies'))} className="hover:text-[#69C350] transition-colors">Seznam cookies</button>
         </div>
       </div>
     </div>

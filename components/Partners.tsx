@@ -1,4 +1,4 @@
-
+﻿
 import React from 'react';
 
 const Partners = ({ isStandalone = false }: { isStandalone?: boolean }) => {
@@ -32,7 +32,7 @@ const Partners = ({ isStandalone = false }: { isStandalone?: boolean }) => {
       `}</style>
       
       <div className="max-w-7xl mx-auto px-6 text-center mb-10">
-        <span className="text-blue-600 font-black uppercase tracking-[0.4em] text-[10px] mb-4 block animate-in fade-in slide-in-from-bottom-2">
+        <span className="text-[#69C350] font-black uppercase tracking-[0.4em] text-[10px] mb-4 block animate-in fade-in slide-in-from-bottom-2">
            Certifikovaní partneři
         </span>
         <h2 className="text-2xl md:text-3xl font-black text-gray-900 dark:text-white transition-colors animate-in fade-in slide-in-from-bottom-3">
@@ -50,7 +50,7 @@ const Partners = ({ isStandalone = false }: { isStandalone?: boolean }) => {
               key={i} 
               className="group flex flex-col items-center justify-center gap-4 min-w-[120px] md:min-w-[160px] cursor-default"
             >
-               <div className="w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-white dark:bg-white/5 border border-black/5 dark:border-white/10 flex items-center justify-center p-6 shadow-sm transition-all duration-500 group-hover:scale-110 group-hover:shadow-xl group-hover:border-blue-600/30">
+               <div className="w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-white dark:bg-white/5 border border-black/5 dark:border-white/10 flex items-center justify-center p-6 shadow-sm transition-all duration-500 group-hover:scale-110 group-hover:shadow-xl group-hover:border-[#69C350]/30">
                   <img 
                     src={p.logo} 
                     alt={p.name} 

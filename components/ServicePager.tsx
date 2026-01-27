@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { ArrowRight, ArrowLeft, Mail, LayoutGrid } from 'lucide-react';
 import { ViewState } from '../types';
 
@@ -45,9 +45,9 @@ const ServicePager: React.FC<ServicePagerProps> = ({ currentView, setView }) => 
             setView(prevView as ViewState);
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
-          className="group flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white transition-colors"
+          className="group flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-[#69C350] dark:text-gray-400 dark:hover:text-white transition-colors"
         >
-          <PrevIcon className="w-4 h-4 text-gray-400 group-hover:text-blue-600 dark:group-hover:text-white transition-colors" />
+          <PrevIcon className="w-4 h-4 text-gray-400 group-hover:text-[#69C350] dark:group-hover:text-white transition-colors" />
           {prevLabel}
         </button>
 
@@ -56,7 +56,7 @@ const ServicePager: React.FC<ServicePagerProps> = ({ currentView, setView }) => 
               setView(nextView as ViewState);
               window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
-          className="group flex items-center gap-3 bg-blue-600 text-white px-8 py-4 rounded-full font-black uppercase tracking-widest text-xs hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20"
+          className="group flex items-center gap-3 bg-[#69C350] text-white px-8 py-4 rounded-full font-black uppercase tracking-widest text-xs hover:bg-[#4BA038] transition-all shadow-xl shadow-[#7BD462]/20"
         >
           {isLast ? (
              <>Kontaktovat <Mail className="w-4 h-4 group-hover:translate-x-1 transition-transform" /></>

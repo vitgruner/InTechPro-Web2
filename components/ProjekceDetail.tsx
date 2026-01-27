@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { FileText, ClipboardList, PenTool, Layout, Layers, CheckCircle2, ArrowLeft, Info, Send } from 'lucide-react';
 import ProjectionVisualizer from './ProjectionVisualizer';
 import { DetailProps } from '../types';
@@ -30,11 +30,11 @@ const ProjekceDetail: React.FC<DetailProps> = ({ setView }) => {
               className="mb-0"
             />
           </div>
-          <div className="hidden lg:flex items-center gap-3 bg-blue-600/5 px-6 py-4 rounded-3xl border border-blue-600/20 mb-1 lg:mb-3">
-            <div className="w-10 h-10 bg-blue-600/10 rounded-full flex items-center justify-center">
-              <Info className="w-5 h-5 text-blue-600" />
+          <div className="hidden lg:flex items-center gap-3 bg-[#69C350]/5 px-6 py-4 rounded-3xl border border-[#69C350]/20 mb-1 lg:mb-3">
+            <div className="w-10 h-10 bg-[#69C350]/10 rounded-full flex items-center justify-center">
+              <Info className="w-5 h-5 text-[#69C350]" />
             </div>
-            <span className="text-[10px] font-black uppercase tracking-widest text-blue-700">Přesnost projektu = 100% spolehlivost</span>
+            <span className="text-[10px] font-black uppercase tracking-widest text-[#4BA038]">Přesnost projektu = 100% spolehlivost</span>
           </div>
         </div>
 
@@ -45,7 +45,7 @@ const ProjekceDetail: React.FC<DetailProps> = ({ setView }) => {
         <div className="grid md:grid-cols-2 gap-4 md:gap-8 mb-10">
           <div className="glass-panel p-6 md:p-10 rounded-2xl md:rounded-[2.5rem] border border-slate-200 dark:border-white/5 text-left bg-white/40 dark:bg-white/[0.02]">
             <div className="flex items-center gap-4 md:block">
-              <div className="w-10 h-10 md:w-14 md:h-14 bg-blue-600/10 rounded-xl md:rounded-2xl flex items-center justify-center md:mb-6 text-blue-600 shrink-0">
+              <div className="w-10 h-10 md:w-14 md:h-14 bg-[#69C350]/10 rounded-xl md:rounded-2xl flex items-center justify-center md:mb-6 text-[#69C350] shrink-0">
                 <PenTool className="w-5 h-5 md:w-7 md:h-7" />
               </div>
               <h3 className="text-sm md:text-2xl font-black uppercase tracking-tight">Podklad pro realizaci</h3>
@@ -57,7 +57,7 @@ const ProjekceDetail: React.FC<DetailProps> = ({ setView }) => {
 
           <div className="glass-panel p-6 md:p-10 rounded-2xl md:rounded-[2.5rem] border border-slate-200 dark:border-white/5 text-left bg-white/40 dark:bg-white/[0.02]">
             <div className="flex items-center gap-4 md:block">
-              <div className="w-10 h-10 md:w-14 md:h-14 bg-blue-600/10 rounded-xl md:rounded-2xl flex items-center justify-center md:mb-6 text-blue-600 shrink-0">
+              <div className="w-10 h-10 md:w-14 md:h-14 bg-[#69C350]/10 rounded-xl md:rounded-2xl flex items-center justify-center md:mb-6 text-[#69C350] shrink-0">
                 <Layers className="w-5 h-5 md:w-7 md:h-7" />
               </div>
               <h3 className="text-sm md:text-2xl font-black uppercase tracking-tight">Komplexní dokumentace</h3>
@@ -76,7 +76,7 @@ const ProjekceDetail: React.FC<DetailProps> = ({ setView }) => {
             { icon: <Layout />, label: 'Návrh rozvaděčů' }
           ].map((item, i) => (
             <div key={i} className="flex flex-col items-center gap-4 text-center">
-              <div className="w-10 h-10 md:w-14 md:h-14 bg-gray-100 dark:bg-white/5 rounded-xl md:rounded-2xl flex items-center justify-center text-blue-600 dark:text-blue-400">
+              <div className="w-10 h-10 md:w-14 md:h-14 bg-gray-100 dark:bg-white/5 rounded-xl md:rounded-2xl flex items-center justify-center text-[#69C350] dark:text-[#95E87D]">
                 <div className="[&>svg]:w-5 [&>svg]:h-5 md:[&>svg]:w-6 md:[&>svg]:h-6">
                   {item.icon}
                 </div>

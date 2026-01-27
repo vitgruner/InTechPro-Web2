@@ -22,11 +22,11 @@ const colorClasses: Record<string, { bg: string; bgHover: string; text: string; 
   'bg-green-600': { bg: 'bg-green-600/10', bgHover: 'group-hover:bg-green-600', text: 'text-green-600', border: 'border-green-500/20', borderStatus: 'border-green-600/20' },
   'bg-yellow-500': { bg: 'bg-yellow-500/10', bgHover: 'group-hover:bg-yellow-500', text: 'text-yellow-500', border: 'border-yellow-500/20', borderStatus: 'border-yellow-500/20' },
   'bg-red-600': { bg: 'bg-red-600/10', bgHover: 'group-hover:bg-red-600', text: 'text-red-600', border: 'border-red-500/20', borderStatus: 'border-red-600/20' },
-  'bg-blue-600': { bg: 'bg-blue-600/10', bgHover: 'group-hover:bg-blue-600', text: 'text-blue-600', border: 'border-blue-500/20', borderStatus: 'border-blue-600/20' },
+  'bg-[#69C350]': { bg: 'bg-[#69C350]/10', bgHover: 'group-hover:bg-[#69C350]', text: 'text-[#69C350]', border: 'border-[#7BD462]/20', borderStatus: 'border-[#69C350]/20' },
 };
 
 const VisualizationBox: React.FC<VisualizationBoxProps> = React.memo(({ icon: Icon, title, subtitle, color, children, statusLabel = "Aktivní spojení" }) => {
-  const colors = colorClasses[color] || colorClasses['bg-blue-600'];
+  const colors = colorClasses[color] || colorClasses['bg-[#69C350]'];
   return (
     <div className="glass-panel rounded-3xl p-5 md:p-6 border border-black/10 dark:border-white/20 overflow-hidden shadow-2xl flex flex-col transition-all group">
       <div className="mb-5 flex items-center justify-between gap-4">
@@ -52,15 +52,15 @@ const VisualizationBox: React.FC<VisualizationBoxProps> = React.memo(({ icon: Ic
 });
 
 const SensorCard = React.memo(({ sensor }: { sensor: any }) => (
-  <div className="glass-panel p-3 rounded-2xl border border-black/5 dark:border-white/10 flex items-center gap-3 group hover:border-blue-600/40 dark:hover:border-blue-500/40 transition-all hover:bg-white/80 dark:hover:bg-white/[0.07] shadow-sm hover:shadow-md duration-500 min-w-0">
-    <div className="w-10 h-10 bg-blue-600/10 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all border border-blue-500/10 flex-shrink-0">
+  <div className="glass-panel p-3 rounded-2xl border border-black/5 dark:border-white/10 flex items-center gap-3 group hover:border-[#69C350]/40 dark:hover:border-[#7BD462]/40 transition-all hover:bg-white/80 dark:hover:bg-white/[0.07] shadow-sm hover:shadow-md duration-500 min-w-0">
+    <div className="w-10 h-10 bg-[#69C350]/10 rounded-xl flex items-center justify-center text-[#69C350] dark:text-[#95E87D] group-hover:bg-[#69C350] group-hover:text-white transition-all border border-[#7BD462]/10 flex-shrink-0">
       {React.cloneElement(sensor.icon, { 'aria-hidden': 'true' })}
     </div>
     <div className="min-w-0 flex flex-col justify-center">
       <div className="flex items-center gap-2 mb-2">
         <p className="text-[9px] text-gray-400 dark:text-gray-500 font-black uppercase tracking-widest truncate" title={sensor.label}>{sensor.label}</p>
         {sensor.trend !== 'stable' && (
-          <span className={`text-[9px] font-bold ${sensor.trend === 'up' ? 'text-blue-600' : 'text-red-500'}`}>
+          <span className={`text-[9px] font-bold ${sensor.trend === 'up' ? 'text-[#69C350]' : 'text-red-500'}`}>
             {sensor.trend === 'up' ? '↑' : '↓'}
           </span>
         )}
@@ -117,10 +117,10 @@ const Dashboard: React.FC<DetailProps> = ({ setView }) => {
               className="mb-0"
             />
           </div>
-          <div className="flex items-center gap-3 bg-blue-600/5 dark:bg-blue-600/10 px-6 py-4 rounded-3xl border border-blue-600/10 dark:border-blue-500/20 shadow-sm w-full md:w-auto justify-center md:justify-start mb-1">
-            <ShieldCheck className="w-6 h-6 text-blue-600 dark:text-blue-400" aria-hidden="true" />
+          <div className="flex items-center gap-3 bg-[#69C350]/5 dark:bg-[#69C350]/10 px-6 py-4 rounded-3xl border border-[#69C350]/10 dark:border-[#7BD462]/20 shadow-sm w-full md:w-auto justify-center md:justify-start mb-1">
+            <ShieldCheck className="w-6 h-6 text-[#69C350] dark:text-[#95E87D]" aria-hidden="true" />
             <div className="flex flex-col text-left">
-              <span className="text-[10px] font-black text-blue-600 dark:text-blue-300 uppercase tracking-widest leading-none mb-1">Globální zabezpečení</span>
+              <span className="text-[10px] font-black text-[#69C350] dark:text-[#B8F5A3] uppercase tracking-widest leading-none mb-1">Globální zabezpečení</span>
               <span className="text-sm font-bold text-gray-800 dark:text-white">Šifrované spojení SSL aktivní</span>
             </div>
           </div>
@@ -166,7 +166,7 @@ const Dashboard: React.FC<DetailProps> = ({ setView }) => {
             icon={Palette}
             title="RGB osvětlení"
             subtitle="Správa spektrálního osvětlení"
-            color="bg-blue-600"
+            color="bg-[#69C350]"
             statusLabel="Manuální ovládání"
           >
             <LightControl />
@@ -176,7 +176,7 @@ const Dashboard: React.FC<DetailProps> = ({ setView }) => {
       <div className="fixed bottom-6 right-6 z-40 lg:hidden">
         <button
           onClick={() => setView('home')}
-          className="p-4 bg-blue-600 text-white rounded-full shadow-2xl active:scale-95 transition-all"
+          className="p-4 bg-[#69C350] text-white rounded-full shadow-2xl active:scale-95 transition-all"
           aria-label="Vrátit se na úvodní stránku"
         >
           <ArrowLeft className="w-6 h-6" aria-hidden="true" />

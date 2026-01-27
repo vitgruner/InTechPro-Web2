@@ -1,4 +1,4 @@
-
+﻿
 import React from 'react';
 import { Zap } from 'lucide-react';
 import { HeroProps } from '../types';
@@ -10,10 +10,10 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
       {/* Statické pozadí s jemnými gradienty */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         {/* Primární modrá záře vpravo nahoře */}
-        <div className="absolute top-[-10%] right-[-10%] w-[70%] h-[70%] rounded-full bg-blue-600/10 dark:bg-blue-500/15 blur-[120px]" />
+        <div className="absolute top-[-10%] right-[-10%] w-[70%] h-[70%] rounded-full bg-[#69C350]/10 dark:bg-[#7BD462]/15 blur-[120px]" />
 
         {/* Sekundární jemná modrá záře vlevo dole pro hloubku */}
-        <div className="absolute bottom-[-10%] left-[-5%] w-[50%] h-[50%] rounded-full bg-blue-400/5 dark:bg-blue-400/10 blur-[100px]" />
+        <div className="absolute bottom-[-10%] left-[-5%] w-[50%] h-[50%] rounded-full bg-[#95E87D]/5 dark:bg-[#95E87D]/10 blur-[100px]" />
 
         {/* Finální gradientní přechod do barvy pozadí stránky */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#f4f7f9] dark:to-[#050505]" />
@@ -21,8 +21,8 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
 
       <div className="max-w-7xl mx-auto px-6 w-full grid lg:grid-cols-2 gap-10 lg:gap-12 items-center relative z-10">
         <div className="text-center lg:text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600/10 dark:bg-blue-500/20 border border-blue-600/20 dark:border-blue-400/30 text-blue-600 dark:text-blue-300 text-xs font-bold tracking-wider uppercase mb-6 mx-auto lg:mx-0 animate-in slide-in-from-bottom-4 fade-in duration-700">
-            < Zap className="w-3 h-3 text-blue-600 dark:text-blue-400" aria-hidden="true" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#69C350]/10 dark:bg-[#7BD462]/20 border border-[#69C350]/20 dark:border-[#95E87D]/30 text-[#69C350] dark:text-[#B8F5A3] text-xs font-bold tracking-wider uppercase mb-6 mx-auto lg:mx-0 animate-in slide-in-from-bottom-4 fade-in duration-700">
+            < Zap className="w-3 h-3 text-[#69C350] dark:text-[#95E87D]" aria-hidden="true" />
             22. století již dnes
           </div>
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6 text-gray-900 dark:text-white transition-colors duration-500 animate-in slide-in-from-bottom-6 fade-in duration-1000">
@@ -35,7 +35,7 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
           <div className="flex flex-wrap gap-4 justify-center lg:justify-start animate-in slide-in-from-bottom-10 fade-in duration-1000">
             <button
               onClick={() => setView('sluzby')}
-              className="btn-magnetic px-8 py-4 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition-all glow text-sm md:text-base shadow-lg shadow-blue-500/30"
+              className="btn-magnetic px-8 py-4 bg-[#69C350] text-white rounded-full font-bold hover:bg-[#4BA038] transition-all glow text-sm md:text-base shadow-lg shadow-[#7BD462]/30"
             >
               Naše služby
             </button>
@@ -66,7 +66,7 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
         </div>
 
         <div className="relative group w-full max-w-[84rem] mx-auto animate-in fade-in zoom-in duration-1000 delay-500">
-          <div className="absolute inset-0 bg-blue-500/10 dark:bg-blue-500/25 rounded-3xl blur-2xl group-hover:blur-3xl transition-all"></div>
+          <div className="absolute inset-0 bg-[#7BD462]/10 dark:bg-[#7BD462]/25 rounded-3xl blur-2xl group-hover:blur-3xl transition-all"></div>
           <div className="relative rounded-3xl overflow-hidden glass-panel border border-black/10 dark:border-white/20 shadow-xl
                           h-[280px] md:h-[400px] lg:h-[512px] min-h-[50vw] md:min-h-0 bg-black/40 backdrop-blur-md">
             <React.Suspense fallback={<div className="w-full h-full bg-black/20 animate-pulse" />}>

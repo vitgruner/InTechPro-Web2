@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState } from 'react';
 import { Image as ImageIcon, Plus, Save, X, Cpu, Zap, Thermometer, Radio, Shield, Home, Building2, Factory, Loader2 } from 'lucide-react';
 import { Reference, ReferenceService, ReferenceFormProps } from '../types';
@@ -48,7 +48,7 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.title || !formData.image || isSubmitting) return;
-    
+
     setIsSubmitting(true);
     try {
       await onAdd({
@@ -71,7 +71,7 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel }) => {
                 {formData.image ? (
                   <>
                     <img src={formData.image} className="w-full h-full object-cover" alt="Náhled" />
-                    <button 
+                    <button
                       type="button"
                       onClick={() => setFormData(prev => ({ ...prev, image: '' }))}
                       className="absolute top-4 right-4 p-2 bg-black/60 text-white rounded-full hover:bg-red-500 transition-all shadow-xl"
@@ -92,24 +92,24 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel }) => {
             <div className="space-y-6">
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Název projektu</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   required
                   value={formData.title}
                   onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-blue-600 transition-all dark:text-white"
+                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
                   placeholder="např. Villa Futurista"
                 />
               </div>
 
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Lokalita</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   required
                   value={formData.location}
                   onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
-                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-blue-600 transition-all dark:text-white"
+                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
                   placeholder="např. Praha, Česká republika"
                 />
               </div>
@@ -130,11 +130,10 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel }) => {
                       key={cat.id}
                       type="button"
                       onClick={() => setFormData(prev => ({ ...prev, category: cat.id }))}
-                      className={`flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all ${
-                        formData.category === cat.id 
-                        ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-500/20' 
-                        : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-gray-500'
-                      }`}
+                      className={`flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all ${formData.category === cat.id
+                          ? 'bg-[#69C350] text-white border-[#69C350] shadow-lg shadow-[#7BD462]/20'
+                          : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-gray-500'
+                        }`}
                     >
                       {cat.icon}
                       <span className="text-[8px] font-bold uppercase">{cat.id}</span>
@@ -145,7 +144,7 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel }) => {
 
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Použitá technologie</label>
-                <select 
+                <select
                   value={formData.tech}
                   onChange={(e) => {
                     const tech = e.target.value;
@@ -170,11 +169,10 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel }) => {
                     key={service.label}
                     type="button"
                     onClick={() => toggleService(service.label, service.icon)}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-xl border text-left transition-all ${
-                      formData.services?.find(s => s.label === service.label)
-                      ? 'bg-blue-600 text-white border-blue-600 shadow-md'
-                      : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-gray-500'
-                    }`}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-xl border text-left transition-all ${formData.services?.find(s => s.label === service.label)
+                        ? 'bg-[#69C350] text-white border-[#69C350] shadow-md'
+                        : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-gray-500'
+                      }`}
                   >
                     {service.Lucide}
                     <span className="text-[9px] font-bold uppercase">{service.label}</span>
@@ -184,16 +182,75 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel }) => {
             </div>
           </div>
 
+          <div className="space-y-6">
+            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Topologie Systému (Statistiky)</label>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <label className="text-[9px] font-bold text-gray-500 uppercase tracking-wider ml-1">Senzory (ks)</label>
+                <input
+                  type="number"
+                  value={formData.topology?.sensors || ''}
+                  onChange={(e) => setFormData(prev => ({
+                    ...prev,
+                    topology: { ...(prev.topology || { sensors: 0, cablingKm: 0, modules: 0, racks: 0 }), sensors: parseInt(e.target.value) || 0 }
+                  }))}
+                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-3 px-4 text-xs focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
+                  placeholder="např. 142"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-[9px] font-bold text-gray-500 uppercase tracking-wider ml-1">Kabeláž (km)</label>
+                <input
+                  type="number"
+                  step="0.1"
+                  value={formData.topology?.cablingKm || ''}
+                  onChange={(e) => setFormData(prev => ({
+                    ...prev,
+                    topology: { ...(prev.topology || { sensors: 0, cablingKm: 0, modules: 0, racks: 0 }), cablingKm: parseFloat(e.target.value) || 0 }
+                  }))}
+                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-3 px-4 text-xs focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
+                  placeholder="např. 3.2"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-[9px] font-bold text-gray-500 uppercase tracking-wider ml-1">Moduly (ks)</label>
+                <input
+                  type="number"
+                  value={formData.topology?.modules || ''}
+                  onChange={(e) => setFormData(prev => ({
+                    ...prev,
+                    topology: { ...(prev.topology || { sensors: 0, cablingKm: 0, modules: 0, racks: 0 }), modules: parseInt(e.target.value) || 0 }
+                  }))}
+                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-3 px-4 text-xs focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
+                  placeholder="např. 48"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-[9px] font-bold text-gray-500 uppercase tracking-wider ml-1">Pole / Rozvaděče</label>
+                <input
+                  type="number"
+                  value={formData.topology?.racks || ''}
+                  onChange={(e) => setFormData(prev => ({
+                    ...prev,
+                    topology: { ...(prev.topology || { sensors: 0, cablingKm: 0, modules: 0, racks: 0 }), racks: parseInt(e.target.value) || 0 }
+                  }))}
+                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-3 px-4 text-xs focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
+                  placeholder="např. 2"
+                />
+              </div>
+            </div>
+          </div>
+
           <div className="pt-10 flex flex-col sm:flex-row gap-4">
-            <button 
+            <button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 bg-blue-600 text-white py-6 rounded-3xl font-black uppercase tracking-widest text-xs hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20 flex items-center justify-center gap-3 group disabled:opacity-50"
+              className="flex-1 bg-[#69C350] text-white py-6 rounded-3xl font-black uppercase tracking-widest text-xs hover:bg-[#4BA038] transition-all shadow-xl shadow-[#7BD462]/20 flex items-center justify-center gap-3 group disabled:opacity-50"
             >
               {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5 group-hover:scale-110 transition-transform" />}
               {isSubmitting ? 'Synchronizace se serverem...' : 'Uložit do cloudové databáze'}
             </button>
-            <button 
+            <button
               type="button"
               onClick={onCancel}
               className="px-10 py-6 glass-panel rounded-3xl font-black uppercase tracking-widest text-xs hover:bg-red-500 hover:text-white transition-all dark:text-white"

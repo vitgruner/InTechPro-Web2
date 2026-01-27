@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Settings, Box, ShieldCheck, PenTool, Truck, Calculator, FileText, BadgeCheck, TrendingUp, ArrowLeft, Zap, Cpu } from 'lucide-react';
 import LoxoneUnit from './LoxoneUnit';
 import { DetailProps } from '../types';
@@ -76,7 +76,7 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
           <div className="lg:col-span-4 space-y-6">
             <div className="glass-panel p-8 rounded-[2rem] border border-slate-200 dark:border-white/10 bg-white/50 dark:bg-black/20 text-left h-full flex flex-col justify-center shadow-xl">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-600">
+                <div className="w-12 h-12 bg-[#69C350]/10 rounded-2xl flex items-center justify-center text-[#69C350]">
                   <PenTool className="w-6 h-6" />
                 </div>
                 <h3 className="text-2xl font-black uppercase tracking-tight">Dokumentace a revize</h3>
@@ -91,8 +91,8 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
                   <span className="text-[10px] font-black uppercase tracking-widest text-green-700 dark:text-green-400">Podklad pro revizi a kolaudaci</span>
                 </div>
                 {whyUs.map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 bg-blue-600/5 p-3 rounded-xl border border-blue-600/10 opacity-80 hover:opacity-100 transition-opacity">
-                    <div className="text-blue-600 dark:text-blue-400">{item.icon}</div>
+                  <div key={i} className="flex items-center gap-3 bg-[#69C350]/5 p-3 rounded-xl border border-[#69C350]/10 opacity-80 hover:opacity-100 transition-opacity">
+                    <div className="text-[#69C350] dark:text-[#95E87D]">{item.icon}</div>
                     <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 dark:text-gray-300">{item.label}</span>
                   </div>
                 ))}
@@ -115,7 +115,7 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
         <div className="grid md:grid-cols-2 gap-4 md:gap-8 mb-5">
           <div className="glass-panel p-6 md:p-10 rounded-2xl md:rounded-[2.5rem] border border-slate-200 dark:border-white/5 text-left bg-white/40 dark:bg-white/[0.02]">
             <div className="flex items-center gap-4 md:block">
-              <div className="w-10 h-10 md:w-14 md:h-14 bg-blue-600/10 rounded-xl md:rounded-2xl flex items-center justify-center md:mb-8 text-blue-600 shrink-0">
+              <div className="w-10 h-10 md:w-14 md:h-14 bg-[#69C350]/10 rounded-xl md:rounded-2xl flex items-center justify-center md:mb-8 text-[#69C350] shrink-0">
                 <Calculator className="w-5 h-5 md:w-7 md:h-7" />
               </div>
               <h3 className="text-sm md:text-2xl font-black uppercase tracking-tight">Přesné nacenění bez překvapení</h3>
@@ -127,7 +127,7 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
           
           <div className="glass-panel p-6 md:p-10 rounded-2xl md:rounded-[2.5rem] border border-slate-200 dark:border-white/5 text-left bg-white/40 dark:bg-white/[0.02]">
             <div className="flex items-center gap-4 md:block">
-              <div className="w-10 h-10 md:w-14 md:h-14 bg-blue-600/10 rounded-xl md:rounded-2xl flex items-center justify-center md:mb-8 text-blue-600 shrink-0">
+              <div className="w-10 h-10 md:w-14 md:h-14 bg-[#69C350]/10 rounded-xl md:rounded-2xl flex items-center justify-center md:mb-8 text-[#69C350] shrink-0">
                 <Truck className="w-5 h-5 md:w-7 md:h-7" />
               </div>
               <h3 className="text-sm md:text-2xl font-black uppercase tracking-tight">Výroba a rychlá montáž</h3>

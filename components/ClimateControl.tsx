@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useMemo } from 'react';
 import { Thermometer, Wind, Flame, Snowflake, ChevronUp, ChevronDown } from 'lucide-react';
 
@@ -28,7 +28,7 @@ const ClimateControl = React.memo(() => {
         <div className="lg:col-span-2 flex items-center justify-between bg-black/5 dark:bg-white/5 p-3 rounded-2xl border border-black/5 dark:border-white/10 shadow-inner">
           <button
             onClick={decrement}
-            className="p-3 bg-white dark:bg-white/10 rounded-xl shadow-sm hover:scale-105 active:scale-95 transition-all text-blue-600 dark:text-blue-400 border border-black/5 dark:border-white/5"
+            className="p-3 bg-white dark:bg-white/10 rounded-xl shadow-sm hover:scale-105 active:scale-95 transition-all text-[#69C350] dark:text-[#95E87D] border border-black/5 dark:border-white/5"
           >
             <ChevronDown className="w-5 h-5" />
           </button>
@@ -39,7 +39,7 @@ const ClimateControl = React.memo(() => {
               <span className="text-3xl font-black text-gray-900 dark:text-white tabular-nums transition-colors">
                 {targetTemp.toFixed(1)}
               </span>
-              <span className="text-sm font-bold text-blue-600 dark:text-blue-400 ml-0.5">°C</span>
+              <span className="text-sm font-bold text-[#69C350] dark:text-[#95E87D] ml-0.5">°C</span>
             </div>
           </div>
 
@@ -64,8 +64,8 @@ const ClimateControl = React.memo(() => {
 
         {/* State Card */}
         <div className="glass-panel p-3 rounded-2xl border border-black/5 dark:border-white/5 flex items-center justify-center gap-3 bg-white/40 dark:bg-white/5">
-          <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${targetTemp > 21 ? 'bg-red-500/10' : 'bg-blue-400/10'}`}>
-            {targetTemp > 21 ? <Flame className="w-5 h-5 text-red-500 animate-pulse" /> : <Snowflake className="w-5 h-5 text-blue-400" />}
+          <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${targetTemp > 21 ? 'bg-red-500/10' : 'bg-[#95E87D]/10'}`}>
+            {targetTemp > 21 ? <Flame className="w-5 h-5 text-red-500 animate-pulse" /> : <Snowflake className="w-5 h-5 text-[#95E87D]" />}
           </div>
           <div className="flex flex-col">
             <span className="text-[7px] font-black text-gray-400 uppercase leading-none mb-1">State</span>

@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { ChevronRight, Home } from 'lucide-react';
 import { BreadcrumbsProps } from '../types';
 
@@ -9,7 +9,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, setView }) => {
         <li className="flex items-center">
           <button 
             onClick={() => setView('home')}
-            className="flex items-center gap-2 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors p-1"
+            className="flex items-center gap-2 text-gray-400 hover:text-[#69C350] dark:hover:text-[#95E87D] transition-colors p-1"
           >
             <Home className="w-3.5 h-3.5" />
           </button>
@@ -20,12 +20,12 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, setView }) => {
             {item.view ? (
               <button
                 onClick={() => setView(item.view!)}
-                className="text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white transition-colors"
+                className="text-gray-500 hover:text-[#69C350] dark:text-gray-400 dark:hover:text-white transition-colors"
               >
                 {item.label}
               </button>
             ) : (
-              <span className="text-blue-600 dark:text-blue-400" aria-current="page">
+              <span className="text-[#69C350] dark:text-[#95E87D]" aria-current="page">
                 {item.label}
               </span>
             )}
