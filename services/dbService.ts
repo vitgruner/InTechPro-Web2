@@ -125,9 +125,9 @@ export const dbService = {
     }
   },
 
-  async resetDatabase(_defaultRefs: Reference[]): Promise<void> {
+  async resetDatabase(_defaultRefs: Reference[]): Promise<boolean> {
     // Reset database isn't typically supported for live DB without extra precautions
     console.warn("resetDatabase called: This is a manual operation in Supabase.");
-    return Promise.resolve();
+    return Promise.resolve(false);
   }
 };

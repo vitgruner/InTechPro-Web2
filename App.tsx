@@ -8,6 +8,7 @@ import References from './components/References';
 import ContactForm from './components/ContactForm';
 import CookieConsent from './components/CookieConsent';
 import { dbService } from './services/dbService';
+import { supabase } from './services/supabase';
 import {
   Zap, Loader2, CloudUpload, Twitter, Linkedin, Instagram, Lock, Unlock
 } from 'lucide-react';
@@ -188,7 +189,10 @@ const App = () => {
       try {
         const data = await dbService.fetchReferences();
         if (!data || data.length === 0) {
-          await dbService.resetDatabase(DEFAULT_REFERENCES);
+          const success = await dbService.resetDatabase(DEFAULT_REFERENCES);
+          if (!success) {
+            console.warn('Could not reset database. Using local defaults.');
+          }
           setReferenceProjects(DEFAULT_REFERENCES);
         } else {
           setReferenceProjects(data);
@@ -354,6 +358,9 @@ const App = () => {
                       <div className="flex items-center gap-4">
                         <h1 className="text-4xl font-bold tracking-normal">Databáze <span className="text-[#69C350]">Projektů</span></h1>
                         {isSyncing && <div className="flex items-center gap-2 text-[#69C350] animate-pulse text-[10px] font-black uppercase tracking-widest bg-[#69C350]/10 px-3 py-1 rounded-full"><CloudUpload className="w-3 h-3" /> Syncing</div>}
+                        {!localStorage.getItem('intechpro-admin') && !supabase && (
+                          <div className="text-[10px] font-bold text-red-500 uppercase tracking-widest bg-red-500/10 px-3 py-1 rounded-full">Chybí připojení k Supabase</div>
+                        )}
                       </div>
                       <button type="button" onClick={handleLogout} className="hidden md:block px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest bg-slate-200 dark:bg-white/10 transition-all hover:bg-red-500 hover:text-white">Odhlásit se</button>
                     </div>
