@@ -32,10 +32,21 @@ const lazyWithRetry = (componentImport: () => Promise<any>) =>
       return await componentImport();
     } catch (error) {
       console.error("Chunk load failed, refreshing...", error);
-      window.location.reload();
-      return { default: () => null }; // Fallback
+      // Pridat timestamp pro vynuceni refreshnuti bez mezipameti
+      window.location.href = window.location.origin + window.location.pathname + window.location.hash + (window.location.hash ? '' : '#') + '?v=' + Date.now();
+      return { default: () => null };
     }
   });
+
+// Globalni zachytavani chyb pro dynamicke importy
+if (typeof window !== 'undefined') {
+  window.addEventListener('error', (e) => {
+    if (e.message && (e.message.includes('Failed to fetch dynamically imported module') || e.message.includes('Importing a transcompiled module'))) {
+      console.warn("Zachycena chyba dynamickeho importu, restartuji aplikaci...");
+      window.location.reload();
+    }
+  });
+}
 
 // Lazy loading komponent, které nejsou potřeba pro první zobrazení (LCP)
 const Dashboard = lazyWithRetry(() => import('./components/Dashboard'));
