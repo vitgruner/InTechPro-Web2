@@ -25,7 +25,7 @@ export const dbService = {
 
       if (error) throw error;
 
-      const mappedData: Reference[] = (data || []).map(row => ({
+      const mappedData: Reference[] = (data || []).map((row: any) => ({
         title: row.title,
         category: row.category,
         location: row.location,
