@@ -184,7 +184,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
           eyebrow="Kontaktujte nás"
           title="Zhmotněte svou"
           highlight="Vizi"
-          description="Nezávazně vyplňte formulář níže. Naši inženýři zanalyzují vaše požadavky and připraví koncept inteligentního řešení přesně na míru vašemu projektu."
+          description="Nezávazně vyplňte formulář níže. Naši specialisté zanalyzují vaše požadavky a připraví koncept inteligentního řešení přesně na míru vašemu projektu."
           align={isStandalone ? 'left' : 'center'}
         />
 

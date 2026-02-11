@@ -50,6 +50,11 @@ export interface ReferenceService {
   icon: string;
 }
 
+export interface Technology {
+  label: string;
+  icon: string;
+}
+
 export interface TopologyStats {
   sensors: number;
   cablingKm: number;
@@ -62,10 +67,13 @@ export interface Reference {
   title: string;
   category: string;
   location: string;
-  image: string;
+  description?: string;
+  image: string; // Kept for backward compatibility
+  images: string[]; // New: Multiple images support
   tech: string;
   techIcon: string;
-  services: ReferenceService[];
+  services: ReferenceService[]; // Kept for backward compatibility
+  technologies?: Technology[]; // New: Integrated technologies
   topology?: TopologyStats;
 }
 

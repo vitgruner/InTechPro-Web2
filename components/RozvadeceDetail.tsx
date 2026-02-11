@@ -41,7 +41,7 @@ const VisualizationBox: React.FC<VisualizationBoxProps> = ({ icon: Icon, title, 
 const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
   const whyUs = [
     { label: 'Přehledná a profesionální dokumentace', icon: <FileText className="w-4 h-4" /> },
-    { label: 'Připraveno pro revizi a kolaudaci', icon: <BadgeCheck className="w-4 h-4" /> },
+    // { label: 'Připraveno pro revizi a kolaudaci', icon: <BadgeCheck className="w-4 h-4" /> },
     { label: 'Rychlejší montáž na stavbě', icon: <Zap className="w-4 h-4" /> },
     { label: 'Vysoká kvalita zpracování', icon: <ShieldCheck className="w-4 h-4" /> },
     { label: 'Snadná údržba a budoucí rozšíření', icon: <TrendingUp className="w-4 h-4" /> }
@@ -50,7 +50,7 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
   return (
     <div className="pt-28 md:pt-32 pb-12 md:pb-16 animate-in fade-in duration-700">
       <div className="max-w-7xl mx-auto px-6">
-        <Breadcrumbs 
+        <Breadcrumbs
           items={[
             { label: 'SLUŽBY', view: 'sluzby' },
             { label: 'Výroba Rozvaděčů' }
@@ -60,7 +60,7 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
 
         <div className="mb-6 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10">
           <div className="max-w-3xl text-left w-full">
-            <SectionHeader 
+            <SectionHeader
               variant="page"
               align="left"
               eyebrow="Navrženo s důrazem na spolehlivost"
@@ -84,7 +84,7 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
               <p className="text-gray-600 dark:text-gray-400 leading-relaxed font-medium mb-8 text-sm">
                 Vytváříme přehledná schémata – ať už jde o Loxone technologie nebo domovní rozvaděč. Díky promyšlenému návrhu je rozvaděč funkční, přehledný a servisovatelný.
               </p>
-              
+
               <div className="space-y-3">
                 <div className="flex items-center gap-3 bg-green-500/5 p-4 rounded-2xl border border-green-500/10">
                   <ShieldCheck className="w-5 h-5 text-green-500" />
@@ -99,12 +99,12 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
               </div>
             </div>
           </div>
-          
+
           <div className="lg:col-span-8 min-w-0 overflow-hidden">
-            <VisualizationBox 
-              icon={Cpu} 
-              title="Centrální rozvaděc" 
-              subtitle="Logika, měření a distribuce" 
+            <VisualizationBox
+              icon={Cpu}
+              title="Centrální rozvaděč"
+              subtitle="Logika, měření a distribuce"
               color="bg-green-600"
             >
               <LoxoneUnit />
@@ -124,7 +124,7 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
               Na základě návrhu rozvaděče připravíme detailní a přesné nacenění, díky kterému máte jasnou představu o finální ceně ještě před zahájením výroby.
             </p>
           </div>
-          
+
           <div className="glass-panel p-6 md:p-10 rounded-2xl md:rounded-[2.5rem] border border-slate-200 dark:border-white/5 text-left bg-white/40 dark:bg-white/[0.02]">
             <div className="flex items-center gap-4 md:block">
               <div className="w-10 h-10 md:w-14 md:h-14 bg-[#69C350]/10 rounded-xl md:rounded-2xl flex items-center justify-center md:mb-8 text-[#69C350] shrink-0">

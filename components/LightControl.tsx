@@ -12,8 +12,9 @@ const LightControl = React.memo(() => {
     '#f59e0b', // Solar Amber
     '#ef4444', // Alert Red
     '#ffffff', // Daylight
-    '#fde047', // Warm White
   ];
+
+  const roomNames = ['Kuchyně', 'Obývací pokoj', 'Ložnice'];
 
   // Calculate dynamic glow opacity based on intensity
   const glowOpacity = (intensity / 100) * 0.5;
@@ -26,29 +27,29 @@ const LightControl = React.memo(() => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center glass-panel p-6 rounded-[2rem] border-black/5 dark:border-white/5 shadow-inner">
 
         {/* Color Interface & Presets */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2 mb-1">
             <Palette className="w-4 h-4 text-[#69C350]" />
-            <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Color & Presets</span>
+            <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Barvy</span>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="flex gap-1.5">
+          <div className="flex items-center gap-2 flex-wrap">
+            <div className="flex gap-1.5 flex-wrap">
               {presets.map((p) => (
                 <button
                   key={p}
                   onClick={() => setColor(p)}
-                  className={`w-6 h-6 rounded-md transition-all hover:scale-110 ${color === p ? 'ring-2 ring-[#69C350] ring-offset-2 dark:ring-offset-black scale-110 shadow-lg' : ''
+                  className={`w-5 h-5 rounded-md transition-all hover:scale-110 ${color === p ? 'ring-2 ring-[#69C350] ring-offset-1 dark:ring-offset-black scale-110 shadow-lg' : ''
                     }`}
                   style={{ backgroundColor: p }}
                 />
               ))}
             </div>
-            <div className="w-[1px] h-6 bg-black/10 dark:bg-white/10 mx-1" />
+            <div className="w-[1px] h-5 bg-black/10 dark:bg-white/10" />
             <input
               type="color"
               value={color}
               onChange={(e) => setColor(e.target.value)}
-              className="w-8 h-8 rounded-md bg-transparent border-none cursor-pointer p-0 overflow-hidden"
+              className="w-7 h-7 rounded-md bg-transparent border-none cursor-pointer p-0 overflow-hidden"
             />
           </div>
         </div>
@@ -58,7 +59,7 @@ const LightControl = React.memo(() => {
           <div className="flex items-center justify-between mb-1">
             <div className="flex items-center gap-2">
               <Sliders className="w-4 h-4 text-[#69C350]" />
-              <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Intensity PWM</span>
+              <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Jas</span>
             </div>
             <span className="text-[10px] font-black text-[#69C350] tabular-nums">{intensity}%</span>
           </div>
@@ -78,7 +79,7 @@ const LightControl = React.memo(() => {
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2 mb-1">
             <Zap className="w-4 h-4 text-[#69C350]" />
-            <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Live Telemetry</span>
+            <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Živé ovládání</span>
           </div>
           <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 px-4 py-2.5 rounded-xl border border-black/5 dark:border-white/5">
             <span className="text-[10px] font-black text-gray-500 uppercase tracking-tight">HEX ADDR</span>
@@ -119,7 +120,7 @@ const LightControl = React.memo(() => {
                 </div>
               </div>
               <div className="flex flex-col items-center">
-                <span className="text-[8px] md:text-[10px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest">Unit {i + 1}</span>
+                <span className="text-[7px] md:text-[8px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest">{roomNames[i]}</span>
                 <div className="flex items-center gap-1.5">
                   <Sparkles className="w-2.5 h-2.5 text-[#69C350]" />
                   <span className="text-[10px] font-bold text-gray-900 dark:text-white tabular-nums tracking-widest">{intensity}% PWR</span>

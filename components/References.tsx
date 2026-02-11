@@ -3,9 +3,10 @@ import React, { useState, useMemo } from 'react';
 import {
   Home, Zap, Search, Filter, LayoutGrid, Building2, Factory,
   Cpu, Thermometer, Radio, Shield, Sun, Building, Activity, ArrowRight,
-  Share2, Ruler, Server
+  Share2, Ruler, Server, Snowflake, Wind, Blinds, DoorOpen, Lightbulb, Camera, Flame, Car, Droplets,
+  ChevronLeft, ChevronRight
 } from 'lucide-react';
-import { Reference, ReferenceCardProps, ReferencesProps, ReferenceService } from '../types';
+import { Reference, ReferenceCardProps, ReferencesProps, Technology } from '../types';
 import SectionHeader from './SectionHeader';
 import Partners from './Partners';
 import Breadcrumbs from './Breadcrumbs';
@@ -21,20 +22,47 @@ const IconMap: Record<string, React.ElementType> = {
   'building': Building,
   'factory': Factory,
   'building2': Building2,
-  'activity': Activity
+  'activity': Activity,
+  'snowflake': Snowflake,
+  'wind': Wind,
+  'blinds': Blinds,
+  'dooropen': DoorOpen,
+  'lightbulb': Lightbulb,
+  'camera': Camera,
+  'flame': Flame,
+  'car': Car,
+  'droplets': Droplets
 };
 
-const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, tech, services = [], techIcon, topology }) => {
+
+const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, images, title, location, tech, services = [], technologies, techIcon, topology, description }) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const iconKey = (techIcon as string)?.toLowerCase();
   const TechIconComp = IconMap[iconKey] || Cpu;
 
+  // Use images array if available, fallback to image field for backward compatibility
+  const imageArray = (images && images.length > 0) ? images : (image ? [image] : []);
+  const displayImage = imageArray[currentImageIndex] || imageArray[0];
+  const hasMultipleImages = imageArray.length > 1;
+
+  // Use technologies if available, otherwise fall back to services
+  const displayTechs = technologies && technologies.length > 0 ? technologies : services;
+
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % imageArray.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + imageArray.length) % imageArray.length);
+  };
+
   // Optimalizace Unsplash URL pro web (přidání q a w parametrů)
   const optimizedImage = useMemo(() => {
-    if (image?.includes('unsplash.com')) {
-      return `${image.split('?')[0]}?auto=format&fit=crop&q=70&w=600`;
+    if (displayImage?.includes('unsplash.com')) {
+      return `${displayImage.split('?')[0]}?auto=format&fit=crop&q=70&w=600`;
     }
-    return image;
-  }, [image]);
+    return displayImage;
+  }, [displayImage]);
 
   return (
     <div className="group relative glass-panel rounded-2xl md:rounded-3xl overflow-hidden border border-black/10 dark:border-white/10 hover:border-[#69C350]/30 dark:hover:border-[#7BD462]/30 transition-all duration-700 shadow-sm hover:shadow-xl h-full flex flex-col active:scale-[0.99] active:opacity-95">
@@ -43,9 +71,33 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
           src={optimizedImage || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=70&w=600"}
           alt={title}
           loading="lazy"
-          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+          className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 dark:from-[#050505] via-transparent to-transparent opacity-90"></div>
+
+        {/* Navigation Arrows */}
+        {hasMultipleImages && (
+          <>
+            <button
+              onClick={(e) => { e.preventDefault(); prevImage(); }}
+              className="absolute left-2 top-1/2 -translate-y-1/2 p-1.5 bg-black/60 hover:bg-black/80 text-white rounded-full transition-all opacity-0 group-hover:opacity-100 shadow-lg"
+              aria-label="Previous image"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              onClick={(e) => { e.preventDefault(); nextImage(); }}
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 bg-black/60 hover:bg-black/80 text-white rounded-full transition-all opacity-0 group-hover:opacity-100 shadow-lg"
+              aria-label="Next image"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+            {/* Image counter */}
+            <div className="absolute bottom-3 left-3 bg-black/60 backdrop-blur-sm px-2 py-1 rounded-lg">
+              <span className="text-[9px] font-bold text-white">{currentImageIndex + 1}/{imageArray.length}</span>
+            </div>
+          </>
+        )}
 
         <div className="absolute top-3 right-3 bg-white/90 dark:bg-black/80 backdrop-blur-xl border border-black/10 dark:border-white/20 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-xl">
           <TechIconComp className="w-3.5 h-3.5 text-[#69C350] dark:text-[#95E87D]" aria-hidden="true" />
@@ -54,20 +106,27 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, title, location, t
       </div>
 
       <div className="p-5 flex flex-col flex-1">
-        <div className="mb-4 text-left">
+        <div className="mb-3 text-left">
           <span className="text-[9px] font-black text-[#69C350] dark:text-[#7BD462] uppercase tracking-[0.2em] mb-1.5 block truncate">{location}</span>
           <h3 className="text-lg font-black text-gray-900 dark:text-white transition-colors duration-500 tracking-tight leading-tight line-clamp-2">{title}</h3>
+          <div className="h-[34px] mt-2">
+            {description && (
+              <p className="text-[11px] text-gray-600 dark:text-gray-400 line-clamp-2 leading-relaxed">
+                {description}
+              </p>
+            )}
+          </div>
         </div>
 
         <div className="space-y-4 mt-auto">
           <div className="flex flex-wrap gap-2">
-            {services && services.slice(0, 3).map((service, idx) => {
-              const sIconKey = (service.icon as string)?.toLowerCase();
-              const ServiceIcon = IconMap[sIconKey] || Zap;
+            {displayTechs && displayTechs.slice(0, 4).map((tech, idx) => {
+              const tIconKey = (tech.icon as string)?.toLowerCase();
+              const TechIcon = IconMap[tIconKey] || Zap;
               return (
                 <div key={idx} className="flex items-center gap-1.5 bg-black/5 dark:bg-white/5 px-2.5 py-1.5 rounded-lg border border-black/5 dark:border-white/5 transition-colors hover:bg-[#69C350]/5">
-                  <span className="text-[#69C350] dark:text-[#95E87D]"><ServiceIcon className="w-3 h-3" aria-hidden="true" /></span>
-                  <span className="text-[9px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-tight truncate max-w-[100px]">{service.label}</span>
+                  <span className="text-[#69C350] dark:text-[#95E87D]"><TechIcon className="w-3 h-3" aria-hidden="true" /></span>
+                  <span className="text-[9px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-tight truncate max-w-[100px]">{tech.label}</span>
                 </div>
               );
             })}
@@ -145,9 +204,9 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
 
         <SectionHeader
           eyebrow="Výběr z portfolia"
-          title="Naše globální"
+          title="Naše "
           highlight="Realizace"
-          description="Definitivní kolekce projektů s vysokou věrností v rezidenčním, komerčním i průmyslovém sektoru."
+          description="Přehled realizovaných projektů."
           align={isStandalone ? 'left' : 'center'}
         />
 

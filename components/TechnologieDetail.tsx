@@ -9,23 +9,23 @@ import Breadcrumbs from './Breadcrumbs';
 
 const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
   const techCards = [
-    { 
-      title: 'Tepelná čerpadla', 
-      desc: 'Efektivní vytápění a chlazení s prediktivní logikou podle předpovědi.',
+    {
+      title: 'Vytápění',
+      desc: 'Efektivní teplovodní/ elektrické vytápění s prediktivní logikou podle předpovědi.',
       icon: <Thermometer className="w-5 h-5" />
     },
-    { 
-      title: 'Rekuperace', 
+    {
+      title: 'Rekuperace',
       desc: 'Automatická výměna vzduchu na základě hladiny CO2 v interiéru.',
       icon: <Wind className="w-5 h-5" />
     },
-    { 
-      title: 'Klimatizace', 
-      desc: 'Chlazení reagující na přítomnost osob a intenzitu slunečního svitu.',
+    {
+      title: 'Klimatizace',
+      desc: 'Chlazení reagující na přítomnost osob a intenzitu slunečního svitu a teplotu.',
       icon: <Snowflake className="w-5 h-5" />
     },
-    { 
-      title: 'Fotovoltaika', 
+    {
+      title: 'Fotovoltaika',
       desc: 'Maximální využití vlastní energie díky chytrému řízení přebytků.',
       icon: <Sun className="w-5 h-5" />
     }
@@ -41,7 +41,7 @@ const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
   return (
     <div className="pt-28 md:pt-32 pb-12 md:pb-16 animate-in fade-in duration-700">
       <div className="max-w-7xl mx-auto px-6">
-        <Breadcrumbs 
+        <Breadcrumbs
           items={[
             { label: 'SLUŽBY', view: 'sluzby' },
             { label: 'Moderní Technologie' }
@@ -50,7 +50,7 @@ const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
         />
 
         <div className="mb-6">
-          <SectionHeader 
+          <SectionHeader
             variant="page"
             align="left"
             eyebrow="Pokročilé systémové inženýrství"
@@ -70,7 +70,7 @@ const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
                 </div>
                 <h3 className="text-2xl font-black uppercase tracking-tight">Rozsah dodávky</h3>
               </div>
-              
+
               <div className="space-y-3">
                 {scope.map((item, i) => (
                   <div key={i} className="flex items-center gap-4 bg-white dark:bg-white/5 p-3 md:p-4 rounded-xl md:rounded-2xl border border-black/5 dark:border-white/10 shadow-sm">
@@ -81,7 +81,7 @@ const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
               </div>
             </div>
           </div>
-          
+
           <div className="lg:col-span-7 h-full">
             <div className="glass-panel rounded-3xl p-5 md:p-6 border border-black/10 dark:border-white/20 overflow-hidden shadow-2xl flex flex-col transition-all group h-full">
               <div className="mb-5 flex items-center justify-between gap-4">

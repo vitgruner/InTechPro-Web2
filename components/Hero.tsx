@@ -30,7 +30,7 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
             <span className="text-gradient">Inteligence</span>
           </h1>
           <p className="text-base md:text-lg text-gray-600 dark:text-gray-200 max-w-lg mb-8 leading-relaxed mx-auto lg:mx-0 font-medium transition-colors duration-500 animate-in slide-in-from-bottom-8 fade-in duration-1000">
-            Plánujeme, projektujeme a realizujeme špičkovou inteligentní infrastrukturu. Od automatizovaných domovů po inteligentní průmyslové areály.
+            Plánujeme, projektujeme a realizujeme špičkovou inteligentní infrastrukturu. Od automatizovaných domů a kanceláří, až po inteligentní průmyslové areály.
           </p>
           <div className="flex flex-wrap gap-4 justify-center lg:justify-start animate-in slide-in-from-bottom-10 fade-in duration-1000">
             <button
@@ -49,7 +49,7 @@ const Hero: React.FC<HeroProps> = ({ setView }) => {
 
           <div className="mt-10 flex items-center justify-center lg:justify-start gap-6 md:gap-8 animate-in slide-in-from-bottom-12 fade-in duration-1000">
             <div className="flex flex-col">
-              <span className="text-xl md:text-2xl font-black text-gray-900 dark:text-white">500+</span>
+              <span className="text-xl md:text-2xl font-black text-gray-900 dark:text-white">200+</span>
               <span className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-bold">Projektů</span>
             </div>
             <div className="h-10 w-[1px] bg-black/10 dark:bg-white/10"></div>

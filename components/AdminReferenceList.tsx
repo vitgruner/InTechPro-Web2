@@ -32,7 +32,7 @@ const AdminReferenceList: React.FC<AdminReferenceListProps> = ({ references, onE
                     >
                         <div className="flex items-center gap-4 sm:gap-6">
                             <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl overflow-hidden flex-shrink-0 border border-black/5 dark:border-white/10 shadow-inner">
-                                <img src={ref.image} alt={ref.title} className="w-full h-full object-cover" />
+                                <img src={(ref.images && ref.images.length > 0) ? ref.images[0] : ref.image} alt={ref.title} className="w-full h-full object-cover" />
                             </div>
 
                             <div className="space-y-1 min-w-0">
@@ -41,6 +41,16 @@ const AdminReferenceList: React.FC<AdminReferenceListProps> = ({ references, onE
                                     <span className="flex items-center gap-1 whitespace-nowrap"><Tag className="w-3 h-3 text-[#69C350]" /> {ref.category}</span>
                                     <span className="flex items-center gap-1 whitespace-nowrap"><MapPin className="w-3 h-3 text-[#69C350]" /> {ref.location}</span>
                                     <span className="flex items-center gap-1 whitespace-nowrap"><Cpu className="w-3 h-3 text-[#69C350]" /> {ref.tech}</span>
+                                    {ref.technologies && ref.technologies.length > 0 && (
+                                        <span className="flex items-center gap-1 whitespace-nowrap text-blue-500">
+                                            {ref.technologies.length} technologií
+                                        </span>
+                                    )}
+                                    {ref.images && ref.images.length > 1 && (
+                                        <span className="flex items-center gap-1 whitespace-nowrap text-purple-500">
+                                            {ref.images.length} fotek
+                                        </span>
+                                    )}
                                 </div>
                             </div>
                         </div>

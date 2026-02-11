@@ -1,6 +1,6 @@
 ﻿import React, { useState, useEffect } from 'react';
-import { Image as ImageIcon, Plus, Save, X, Cpu, Zap, Thermometer, Radio, Shield, Home, Building2, Factory, Loader2, CheckCircle } from 'lucide-react';
-import { Reference, ReferenceService, ReferenceFormProps } from '../types';
+import { Image as ImageIcon, Plus, Save, X, Cpu, Zap, Thermometer, Radio, Shield, Home, Building2, Factory, Loader2, CheckCircle, Snowflake, Wind, Blinds, DoorOpen, Sun, Lightbulb, Camera, Flame, Car, Droplets } from 'lucide-react';
+import { Reference, Technology, ReferenceFormProps } from '../types';
 
 const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel, initialData }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -11,27 +11,61 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel, initialD
     title: '',
     category: 'Rezidenční',
     location: '',
+    description: '',
     image: '',
+    images: [],
     tech: 'Loxone',
     techIcon: 'cpu',
-    services: []
+    services: [],
+    technologies: []
   };
 
-  const [formData, setFormData] = useState<Partial<Reference>>(initialData || defaultData);
+  const [formData, setFormData] = useState<Partial<Reference>>(() => {
+    if (initialData) {
+      // Ensure images array is populated for editing
+      const images = initialData.images && initialData.images.length > 0
+        ? initialData.images
+        : (initialData.image ? [initialData.image] : []);
+
+      return {
+        ...initialData,
+        images,
+        technologies: initialData.technologies || initialData.services || []
+      };
+    }
+    return defaultData;
+  });
 
   useEffect(() => {
     if (initialData) {
-      setFormData(initialData);
+      // Ensure images array is populated for editing
+      const images = initialData.images && initialData.images.length > 0
+        ? initialData.images
+        : (initialData.image ? [initialData.image] : []);
+
+      setFormData({
+        ...initialData,
+        images,
+        technologies: initialData.technologies || initialData.services || []
+      });
       setSubmitStatus('idle');
     }
   }, [initialData]);
 
-  const availableServices = [
-    { label: 'Osvětlení', icon: 'zap', Lucide: <Zap className="w-3 h-3" /> },
-    { label: 'HVAC', icon: 'thermometer', Lucide: <Thermometer className="w-3 h-3" /> },
+  const availableTechnologies = [
+    { label: 'Topení', icon: 'thermometer', Lucide: <Thermometer className="w-3 h-3" /> },
+    { label: 'Chlazení', icon: 'snowflake', Lucide: <Snowflake className="w-3 h-3" /> },
+    { label: 'Rekuperace', icon: 'wind', Lucide: <Wind className="w-3 h-3" /> },
+    { label: 'Stínění', icon: 'blinds', Lucide: <Blinds className="w-3 h-3" /> },
+    { label: 'Přístup', icon: 'dooropen', Lucide: <DoorOpen className="w-3 h-3" /> },
+    { label: 'FVE', icon: 'sun', Lucide: <Sun className="w-3 h-3" /> },
+    { label: 'Osvětlení', icon: 'lightbulb', Lucide: <Lightbulb className="w-3 h-3" /> },
+    { label: 'Zabezpečení', icon: 'shield', Lucide: <Shield className="w-3 h-3" /> },
     { label: 'Audio', icon: 'radio', Lucide: <Radio className="w-3 h-3" /> },
-    { label: 'Bezpečnost', icon: 'shield', Lucide: <Shield className="w-3 h-3" /> },
-    { label: 'Automatizace', icon: 'cpu', Lucide: <Cpu className="w-3 h-3" /> }
+    { label: 'Kamerový systém', icon: 'camera', Lucide: <Camera className="w-3 h-3" /> },
+    { label: 'Závlaha', icon: 'droplets', Lucide: <Droplets className="w-3 h-3" /> },
+    { label: 'Sauna', icon: 'flame', Lucide: <Flame className="w-3 h-3" /> },
+    { label: 'Wallbox', icon: 'car', Lucide: <Car className="w-3 h-3" /> }
   ];
 
   const compressImage = (base64Str: string, maxWidth = 1200, maxHeight = 1200): Promise<string> => {
@@ -72,21 +106,36 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel, initialD
       reader.onloadend = async () => {
         const originalBase64 = reader.result as string;
         const compressed = await compressImage(originalBase64);
-        setFormData(prev => ({ ...prev, image: compressed }));
+        setFormData(prev => ({
+          ...prev,
+          image: (prev.images && prev.images.length === 0) ? compressed : prev.image, // Set as main image if first
+          images: [...(prev.images || []), compressed]
+        }));
         setValidationError(null);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const toggleService = (label: string, icon: string) => {
+  const removeImage = (index: number) => {
     setFormData(prev => {
-      const services = prev.services || [];
-      const exists = services.find(s => s.label === label);
+      const newImages = (prev.images || []).filter((_, i) => i !== index);
+      return {
+        ...prev,
+        images: newImages,
+        image: newImages.length > 0 ? newImages[0] : '' // Update main image
+      };
+    });
+  };
+
+  const toggleTechnology = (label: string, icon: string) => {
+    setFormData(prev => {
+      const technologies = prev.technologies || [];
+      const exists = technologies.find(t => t.label === label);
       if (exists) {
-        return { ...prev, services: services.filter(s => s.label !== label) };
+        return { ...prev, technologies: technologies.filter(t => t.label !== label) };
       }
-      return { ...prev, services: [...services, { label, icon }] };
+      return { ...prev, technologies: [...technologies, { label, icon }] };
     });
   };
 
@@ -104,8 +153,8 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel, initialD
       setValidationError('Prosím zadejte název projektu.');
       return;
     }
-    if (!formData.image) {
-      setValidationError('Prosím nahrajte obrázek projektu.');
+    if (!formData.images || formData.images.length === 0) {
+      setValidationError('Prosím nahrajte alespoň jeden obrázek projektu.');
       return;
     }
 
@@ -173,27 +222,39 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel, initialD
         <form onSubmit={handleSubmit} className="space-y-10">
           <div className="grid md:grid-cols-2 gap-10">
             <div className="space-y-4">
-              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Hlavní vizuál projektu</label>
-              <div className={`relative aspect-video rounded-[2rem] overflow-hidden glass-panel border-dashed border-2 ${validationError && !formData.image ? 'border-red-500/50' : 'border-black/10 dark:border-white/10'} group transition-colors`}>
-                {formData.image ? (
-                  <>
-                    <img src={formData.image} className="w-full h-full object-cover" alt="Náhled" />
-                    <button
-                      type="button"
-                      onClick={() => setFormData(prev => ({ ...prev, image: '' }))}
-                      className="absolute top-4 right-4 p-2 bg-black/60 text-white rounded-full hover:bg-red-500 transition-all shadow-xl"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  </>
-                ) : (
-                  <label className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 transition-all">
-                    <ImageIcon className={`w-12 h-12 mb-4 group-hover:scale-110 transition-transform ${validationError && !formData.image ? 'text-red-400' : 'text-gray-300'}`} />
-                    <span className={`text-[10px] font-black uppercase tracking-widest ${validationError && !formData.image ? 'text-red-400' : 'text-gray-400'}`}>Nahrát soubor (JPG, PNG)</span>
-                    <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-                  </label>
-                )}
-              </div>
+              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Fotogalerie projektu</label>
+
+              {/* Image Gallery */}
+              {formData.images && formData.images.length > 0 && (
+                <div className="grid grid-cols-2 gap-3 mb-4">
+                  {formData.images.map((img, index) => (
+                    <div key={index} className="relative aspect-video rounded-xl overflow-hidden group">
+                      <img src={img} className="w-full h-full object-cover" alt={`Náhled ${index + 1}`} />
+                      <button
+                        type="button"
+                        onClick={() => removeImage(index)}
+                        className="absolute top-2 right-2 p-1.5 bg-black/60 text-white rounded-full hover:bg-red-500 transition-all shadow-lg opacity-0 group-hover:opacity-100"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                      {index === 0 && (
+                        <div className="absolute bottom-2 left-2 px-2 py-1 bg-[#69C350] text-white text-[8px] font-black uppercase rounded-md">
+                          Hlavní
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Upload Button */}
+              <label className={`relative aspect-video rounded-[2rem] overflow-hidden glass-panel border-dashed border-2 ${validationError && (!formData.images || formData.images.length === 0) ? 'border-red-500/50' : 'border-black/10 dark:border-white/10'} group transition-colors cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 flex flex-col items-center justify-center`}>
+                <ImageIcon className={`w-12 h-12 mb-4 group-hover:scale-110 transition-transform ${validationError && (!formData.images || formData.images.length === 0) ? 'text-red-400' : 'text-gray-300'}`} />
+                <span className={`text-[10px] font-black uppercase tracking-widest ${validationError && (!formData.images || formData.images.length === 0) ? 'text-red-400' : 'text-gray-400'}`}>
+                  {formData.images && formData.images.length > 0 ? 'Přidat další foto' : 'Nahrát foto (JPG, PNG)'}
+                </span>
+                <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+              </label>
             </div>
 
             <div className="space-y-6">
@@ -221,6 +282,17 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel, initialD
                   onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
                   className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl py-4 px-6 text-base focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
                   placeholder="např. Praha, Česká republika"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Popis projektu</label>
+                <textarea
+                  value={formData.description || ''}
+                  onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                  className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl py-4 px-6 text-base focus:outline-none focus:border-[#69C350] transition-all dark:text-white resize-none"
+                  placeholder="Stručný popis realizace, rozsahu prací a specifik projektu..."
+                  rows={4}
                 />
               </div>
             </div>
@@ -272,20 +344,20 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel, initialD
             </div>
 
             <div className="space-y-4">
-              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Integrované služby</label>
-              <div className="grid grid-cols-2 gap-3">
-                {availableServices.map((service) => (
+              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Integrované technologie</label>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {availableTechnologies.map((technology) => (
                   <button
-                    key={service.label}
+                    key={technology.label}
                     type="button"
-                    onClick={() => toggleService(service.label, service.icon)}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-xl border text-left transition-all ${formData.services?.find(s => s.label === service.label)
+                    onClick={() => toggleTechnology(technology.label, technology.icon)}
+                    className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-left transition-all ${formData.technologies?.find(t => t.label === technology.label)
                       ? 'bg-[#69C350] text-white border-[#69C350] shadow-md'
                       : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-gray-500'
                       }`}
                   >
-                    {service.Lucide}
-                    <span className="text-[9px] font-bold uppercase">{service.label}</span>
+                    {technology.Lucide}
+                    <span className="text-[9px] font-bold uppercase">{technology.label}</span>
                   </button>
                 ))}
               </div>

@@ -1,5 +1,5 @@
 ﻿import React, { useState, useEffect } from 'react';
-import { Thermometer, Droplets, Zap, Activity, ShieldCheck, Wifi, Battery, Droplet, Lock, Cpu, Sun, Palette, Wind, ArrowLeft } from 'lucide-react';
+import { Thermometer, Droplets, Zap, Activity, ShieldCheck, Wifi, Battery, Droplet, Lock, Cpu, Sun, Palette, Wind, ArrowLeft, Lightbulb, Blinds } from 'lucide-react';
 import LoxoneUnit from './LoxoneUnit';
 import SolarSystem from './SolarSystem';
 import LightControl from './LightControl';
@@ -77,9 +77,9 @@ const Dashboard: React.FC<DetailProps> = ({ setView }) => {
   const [sensors, setSensors] = useState([
     { id: 't1', label: 'Teplota obývací p.', value: 22.4, unit: '°C', trend: 'stable', icon: <Thermometer className="w-4 h-4" /> },
     { id: 'h1', label: 'Vlhkost vzduchu', value: 48, unit: '%', trend: 'down', icon: <Droplets className="w-4 h-4" /> },
-    { id: 'p1', label: 'Aktuální příkon', value: 1.24, unit: 'kW', trend: 'up', icon: <Zap className="w-4 h-4" /> },
+    { id: 'p1', label: 'Stav osvětlení', value: 85, unit: '%', trend: 'up', icon: <Lightbulb className="w-4 h-4" /> },
     { id: 'a1', label: 'Kvalita vzduchu', value: 'Vynikající', unit: '', trend: 'stable', icon: <Activity className="w-4 h-4" /> },
-    { id: 'n1', label: 'Latence sítě', value: 12, unit: 'ms', trend: 'stable', icon: <Wifi className="w-4 h-4" /> },
+    { id: 'n1', label: 'Stav stínění', value: 45, unit: '%', trend: 'stable', icon: <Blinds className="w-4 h-4" /> },
     { id: 'b1', label: 'Kapacita úložiště', value: 88, unit: '%', trend: 'up', icon: <Battery className="w-4 h-4" /> },
     { id: 'w1', label: 'Průtok vody', value: 0.4, unit: 'L/h', trend: 'down', icon: <Droplet className="w-4 h-4" /> },
     { id: 's1', label: 'Stav zabezpečení', value: 'Aktivní', unit: '', trend: 'stable', icon: <Lock className="w-4 h-4" /> },
@@ -144,7 +144,7 @@ const Dashboard: React.FC<DetailProps> = ({ setView }) => {
 
           <VisualizationBox
             icon={Sun}
-            title="Solární matice FVE"
+            title="Stav systému FVE"
             subtitle="Energetické toky v reálném čase"
             color="bg-yellow-500"
             statusLabel="Vysoký výtěžek"

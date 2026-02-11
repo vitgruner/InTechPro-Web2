@@ -17,7 +17,7 @@ const AboutUs: React.FC<DetailProps> = ({ setView }) => {
           <div>
             <SectionHeader
               eyebrow="Naše Mise"
-              title="Inženýři s vášní pro"
+              title="Specialisté s vášní pro"
               highlight="Inteligenci"
               description="V InTechPro věříme, že technologie by měly sloužit lidem, ne naopak. Naším cílem je eliminovat chaos v moderních instalacích a nahradit jej jedním harmonickým systémem, který dává smysl."
               align="left"
@@ -59,7 +59,7 @@ const AboutUs: React.FC<DetailProps> = ({ setView }) => {
                 </div>
                 <div className="text-left">
                   <p className="text-[10px] font-black uppercase tracking-widest text-[#69C350]">Založeno</p>
-                  <p className="text-xl font-black text-gray-900 dark:text-white">v roce 2024</p>
+                  <p className="text-xl font-black text-gray-900 dark:text-white">v roce 2025</p>
                 </div>
               </div>
             </div>

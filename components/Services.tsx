@@ -115,7 +115,7 @@ const Services: React.FC<ServicesProps> = React.memo(({ setView, isStandalone = 
             description="Zpracováváme přehledné a srozumitelné projekty, které slouží jako jasný podklad pro realizaci, nacenění i koordinaci profesí."
             icon={<DraftingCompass />}
             category="PROJEKCE"
-            features={["Technická zpráva", "Výkaz výměr", "Schémata"]}
+            features={["Technická zpráva", "Výkaz výměr", "Půdorysy"]}
           />
           <ServiceCard
             onClick={() => setView('vyroba-rozvadecu')}
@@ -123,7 +123,7 @@ const Services: React.FC<ServicesProps> = React.memo(({ setView, isStandalone = 
             description="Kvalitní rozvaděč je základ. Zajišťujeme kompletní výrobu na dílně, čímž zkracujeme dobu montáže a minimalizujeme chyby."
             icon={<Settings />}
             category="VÝROBA"
-            features={["Loxone moduly", "Silnoproud", "Revize"]}
+            features={["Loxone moduly", "Silnoproud", "Slaboproud", "Revize", "Schémata"]}
           />
           <ServiceCard
             onClick={() => setView('moderni-technologie')}
@@ -131,15 +131,15 @@ const Services: React.FC<ServicesProps> = React.memo(({ setView, isStandalone = 
             description="Navrhneme vhodné řešení a konkrétní značky technologií – od tepelných čerpadel po fotovoltaiku pod kontrolou Loxone."
             icon={<Cpu />}
             category="TECHNOLOGIE"
-            features={["Tepelná čerpadla", "FVE", "Klima"]}
+            features={["Tepelná čerpadla", "FVE", "Klimatizace", "Rekuperace"]}
           />
           <ServiceCard
             onClick={() => setView('navrh-osvetleni')}
             title="Designový návrh osvětlení"
-            description="Kompletní služba od návrhu přes výběr svítidel až po samotnou realizaci a automatizaci scénických režimů."
+            description="Kompletní služba od návrhu přes výběr svítidel až po samotnou realizaci a automatizaci světelných nálad."
             icon={<Lightbulb />}
             category="DESIGN"
-            features={["DALI & LED", "Scény", "Smart Dimming"]}
+            features={["DALI", "LED", "Scény", "Stmívání"]}
           />
         </div>
       </div>

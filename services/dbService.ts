@@ -30,10 +30,13 @@ export const dbService = {
         title: row.title,
         category: row.category,
         location: row.location,
+        description: row.description,
         image: row.image,
+        images: row.images || (row.image ? [row.image] : []), // Fallback for backward compatibility
         tech: row.tech,
         techIcon: row.tech_icon, // Mapping snake_case to camelCase
-        services: row.services,
+        services: row.services || [],
+        technologies: row.technologies || [],
         topology: row.topology
       }));
 
@@ -58,10 +61,13 @@ export const dbService = {
           title: reference.title,
           category: reference.category,
           location: reference.location,
-          image: reference.image,
+          description: reference.description,
+          image: reference.image || (reference.images && reference.images[0]) || '',
+          images: reference.images || [],
           tech: reference.tech,
           tech_icon: reference.techIcon, // Mapping camelCase to snake_case
-          services: reference.services,
+          services: reference.services || [],
+          technologies: reference.technologies || [],
           topology: reference.topology
         });
 
@@ -83,10 +89,13 @@ export const dbService = {
         title: reference.title,
         category: reference.category,
         location: reference.location,
-        image: reference.image,
+        description: reference.description,
+        image: reference.image || (reference.images && reference.images[0]) || '',
+        images: reference.images || [],
         tech: reference.tech,
         tech_icon: reference.techIcon,
-        services: reference.services,
+        services: reference.services || [],
+        technologies: reference.technologies || [],
         topology: reference.topology
       };
 

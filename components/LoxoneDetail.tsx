@@ -1,7 +1,7 @@
 ﻿import React, { useState, useEffect } from 'react';
-import { 
-  Zap, Thermometer, Wind, Blinds, Shield, Radio, Droplets, Waves, Car, 
-  Search, PenTool, Settings, CheckSquare, FileText, ClipboardCheck, 
+import {
+  Zap, Thermometer, Wind, Blinds, Shield, Radio, Droplets, Waves, Car,
+  Search, PenTool, Settings, CheckSquare, FileText, ClipboardCheck,
   Rocket, Sliders, ArrowLeft, Activity, Info
 } from 'lucide-react';
 import LoxoneSchema from './LoxoneSchema';
@@ -31,7 +31,7 @@ const LoxoneDetail: React.FC<DetailProps> = ({ setView }) => {
         ...prev,
         lighting: { ...prev.lighting, pwr: parseFloat((0.2 + Math.random() * 0.1).toFixed(2)) },
         heating: { ...prev.heating, temp: parseFloat((prev.heating.temp + (Math.random() - 0.5) * 0.1).toFixed(1)) },
-        energy: { 
+        energy: {
           production: parseFloat((prev.energy.production + (Math.random() - 0.5) * 0.2).toFixed(1)),
           consumption: parseFloat((prev.energy.consumption + (Math.random() - 0.5) * 0.1).toFixed(1))
         },
@@ -45,7 +45,7 @@ const LoxoneDetail: React.FC<DetailProps> = ({ setView }) => {
   return (
     <div className="pt-28 md:pt-32 pb-12 md:pb-16 animate-in fade-in duration-700">
       <div className="max-w-7xl mx-auto px-6">
-        <Breadcrumbs 
+        <Breadcrumbs
           items={[
             { label: 'SLUŽBY', view: 'sluzby' },
             { label: 'Loxone Smart Home' }
@@ -53,7 +53,7 @@ const LoxoneDetail: React.FC<DetailProps> = ({ setView }) => {
           setView={setView}
         />
 
-        <SectionHeader 
+        <SectionHeader
           variant="page"
           align="left"
           eyebrow="Mozek inteligentní infrastruktury"
@@ -67,7 +67,7 @@ const LoxoneDetail: React.FC<DetailProps> = ({ setView }) => {
             <div className="flex-1 w-full glass-panel rounded-[2rem] md:rounded-[3rem] overflow-hidden border-black/5 dark:border-white/10 shadow-2xl relative min-w-0">
               <LoxoneSchema />
             </div>
-            
+
             <div className="w-full lg:w-80 flex flex-col gap-4 md:gap-6">
               <div className="glass-panel p-6 md:p-8 rounded-[2rem] border-[#69C350]/10 bg-[#69C350]/5 flex-1">
                 <div className="flex items-center gap-3 mb-4">
@@ -91,7 +91,7 @@ const LoxoneDetail: React.FC<DetailProps> = ({ setView }) => {
                 </div>
               </div>
 
-              <div className="glass-panel p-6 md:p-8 rounded-[2rem] border-black/5 dark:bg-white/5">
+              {/*<div className="glass-panel p-6 md:p-8 rounded-[2rem] border-black/5 dark:bg-white/5">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Systémový Log</span>
                   <Activity className="w-4 h-4 text-[#69C350]" />
@@ -106,45 +106,45 @@ const LoxoneDetail: React.FC<DetailProps> = ({ setView }) => {
                     <span className="text-[#69C350] font-black">12%</span>
                   </div>
                 </div>
-              </div>
+              </div>*/}
             </div>
           </div>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8 md:gap-16 mb-12 items-center">
-            <div className="grid sm:grid-cols-2 lg:grid-cols-1 gap-4">
-                <div className="glass-panel p-6 md:p-8 rounded-[2rem] border-red-500/10 bg-red-500/5">
-                    <h3 className="font-black uppercase tracking-widest text-[11px] text-red-600 mb-3">Problém: Technologický chaos</h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-xs leading-relaxed font-medium">
-                        Typickým příkladem je situace, kdy topení i chlazení běží současně a „bojují“ proti sobě. Každý systém má svou aplikaci, logiku i ovládání.
-                    </p>
-                </div>
-                <div className="glass-panel p-6 md:p-8 rounded-[2rem] border-green-500/10 bg-green-500/5">
-                    <h3 className="font-black uppercase tracking-widest text-[11px] text-green-600 mb-3">Řešení: Loxone Harmonie</h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-xs leading-relaxed font-medium">
-                        Jedna přehledná aplikace, logika automatizací a spolupráce technologií zajistí maximální komfort a dům, který funguje sám.
-                    </p>
-                </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-1 gap-4">
+            <div className="glass-panel p-6 md:p-8 rounded-[2rem] border-red-500/10 bg-red-500/5">
+              <h3 className="font-black uppercase tracking-widest text-[11px] text-red-600 mb-3">Problém: Technologický chaos</h3>
+              <p className="text-gray-600 dark:text-gray-400 text-xs leading-relaxed font-medium">
+                Typickým příkladem je situace, kdy topení i chlazení běží současně a „bojují“ proti sobě. Každý systém má svou aplikaci, logiku i ovládání.
+              </p>
             </div>
-            <div className="space-y-6">
-               <h2 className="text-2xl md:text-3xl font-black tracking-tight">Standard pro <span className="text-[#69C350]">Moderní domov</span></h2>
-               <p className="text-gray-600 dark:text-gray-400 font-medium leading-relaxed text-sm">
-                  Loxone není jen ovládání přes mobil. Je to dům, který ví, že má zatáhnout žaluzie dříve, než se interiér přehřeje. Ví, že má vypnout topení v místnosti, kde je otevřené okno. A ví, že když odejdete, má zhasnout a zajistit dům.
-               </p>
-               <div className="flex gap-6 pt-2">
-                  <div className="flex flex-col">
-                    <span className="text-xl md:text-2xl font-black text-[#69C350]">50,000+</span>
-                    <span className="text-[9px] font-bold text-gray-400 uppercase">Rozhodnutí denně</span>
-                  </div>
-                  <div className="w-[1px] h-10 bg-gray-200 dark:bg-white/10" />
-                  <div className="flex flex-col">
-                    <span className="text-xl md:text-2xl font-black text-[#69C350]">100%</span>
-                    <span className="text-[9px] font-bold text-gray-400 uppercase">Soukromí (Local)</span>
-                  </div>
-               </div>
+            <div className="glass-panel p-6 md:p-8 rounded-[2rem] border-green-500/10 bg-green-500/5">
+              <h3 className="font-black uppercase tracking-widest text-[11px] text-green-600 mb-3">Řešení: Loxone Harmonie</h3>
+              <p className="text-gray-600 dark:text-gray-400 text-xs leading-relaxed font-medium">
+                Jedna přehledná aplikace, logika automatizací a spolupráce technologií zajistí maximální komfort a dům, který funguje sám.
+              </p>
             </div>
+          </div>
+          <div className="space-y-6">
+            <h2 className="text-2xl md:text-3xl font-black tracking-tight">Standard pro <span className="text-[#69C350]">Moderní domov</span></h2>
+            <p className="text-gray-600 dark:text-gray-400 font-medium leading-relaxed text-sm">
+              Loxone není jen ovládání přes mobil. Je to dům, který ví, že má zatáhnout žaluzie dříve, než se interiér přehřeje. Ví, že má vypnout topení v místnosti, kde je otevřené okno. A ví, že když odejdete, má zhasnout a zajistit dům.
+            </p>
+            <div className="flex gap-6 pt-2">
+              <div className="flex flex-col">
+                <span className="text-xl md:text-2xl font-black text-[#69C350]">50,000+</span>
+                <span className="text-[9px] font-bold text-gray-400 uppercase">Rozhodnutí denně</span>
+              </div>
+              <div className="w-[1px] h-10 bg-gray-200 dark:bg-white/10" />
+              <div className="flex flex-col">
+                <span className="text-xl md:text-2xl font-black text-[#69C350]">100%</span>
+                <span className="text-[9px] font-bold text-gray-400 uppercase">Soukromí (Local)</span>
+              </div>
+            </div>
+          </div>
         </div>
-        
+
         <ServicePager currentView="loxone-smart-home" setView={setView} />
       </div>
     </div>

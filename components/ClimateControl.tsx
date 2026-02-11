@@ -34,7 +34,7 @@ const ClimateControl = React.memo(() => {
           </button>
 
           <div className="flex flex-col items-center">
-            <span className="text-[8px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1 leading-none">Target</span>
+            <span className="text-[8px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1 leading-none">Cíl</span>
             <div className="flex items-baseline">
               <span className="text-3xl font-black text-gray-900 dark:text-white tabular-nums transition-colors">
                 {targetTemp.toFixed(1)}
@@ -57,7 +57,7 @@ const ClimateControl = React.memo(() => {
             <Thermometer className="w-5 h-5 text-orange-500" />
           </div>
           <div className="flex flex-col">
-            <span className="text-[7px] font-black text-gray-400 uppercase leading-none mb-1">Return</span>
+            <span className="text-[7px] font-black text-gray-400 uppercase leading-none mb-1">Zpět</span>
             <span className="text-lg font-black text-gray-700 dark:text-gray-200 tabular-nums">20.8°</span>
           </div>
         </div>
@@ -68,8 +68,8 @@ const ClimateControl = React.memo(() => {
             {targetTemp > 21 ? <Flame className="w-5 h-5 text-red-500 animate-pulse" /> : <Snowflake className="w-5 h-5 text-[#95E87D]" />}
           </div>
           <div className="flex flex-col">
-            <span className="text-[7px] font-black text-gray-400 uppercase leading-none mb-1">State</span>
-            <span className="text-sm font-black text-gray-700 dark:text-gray-200">{targetTemp > 21 ? 'Heating' : 'Stable'}</span>
+            <span className="text-[7px] font-black text-gray-400 uppercase leading-none mb-1">Stav</span>
+            <span className="text-xs font-black text-gray-700 dark:text-gray-200">{targetTemp > 21 ? 'Topení' : 'Stabilní'}</span>
           </div>
         </div>
       </div>
@@ -83,10 +83,10 @@ const ClimateControl = React.memo(() => {
         />
 
         <div className="absolute top-4 left-6 right-6 flex items-center justify-between z-10">
-          <span className="text-[8px] font-black text-gray-500 uppercase tracking-widest">Thermal Grid</span>
+          <span className="text-[8px] font-black text-gray-500 uppercase tracking-widest">Tepelná síť</span>
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: snakeColor }} />
-            <span className="text-[8px] font-bold text-gray-400 uppercase">Flow Active</span>
+            <span className="text-[8px] font-bold text-gray-400 uppercase">Tok aktivní</span>
           </div>
         </div>
 
@@ -128,8 +128,8 @@ const ClimateControl = React.memo(() => {
         </svg>
 
         <div className="absolute bottom-4 left-6 right-6 flex justify-between items-center text-[8px] font-black uppercase tracking-widest text-gray-500 z-10">
-          <span>Area: 24m²</span>
-          <span>Pump: 12%</span>
+          <span>Plocha: 24m²</span>
+          <span>Čerpadlo: 12%</span>
         </div>
       </div>
     </div>
