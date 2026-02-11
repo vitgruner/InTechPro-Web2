@@ -4,7 +4,7 @@
 Intechpro Web
 This contains everything you need to run your app locally.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1UJp9OzRdSOlyHUQGCWdZ2SZ4iEPGsdk8
+
 
 ## Run Locally
 
