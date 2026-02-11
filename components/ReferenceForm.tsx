@@ -338,11 +338,12 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel, initialD
                     const tech = e.target.value;
                     let icon = 'cpu';
                     if (tech === 'KNX' || tech === 'DALI') icon = 'building';
+                    if (tech === 'Klasická elektroinstalace') icon = 'zap';
                     setFormData(prev => ({ ...prev, tech, techIcon: icon }));
                   }}
                   className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl py-4 px-6 text-base focus:outline-none cursor-pointer dark:text-white"
                 >
-                  {['Loxone', 'KNX', 'Ampio', 'DALI', 'Modbus'].map(t => (
+                  {['Loxone', 'KNX', 'Ampio', 'DALI', 'Modbus', 'Klasická elektroinstalace'].map(t => (
                     <option key={t} value={t} className="bg-white dark:bg-[#1a1d21]">{t}</option>
                   ))}
                 </select>
