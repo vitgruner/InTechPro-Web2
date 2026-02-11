@@ -259,11 +259,10 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
           align={isStandalone ? 'left' : 'center'}
         />
 
-        <div className={`grid gap-10 items-stretch ${isStandalone ? 'lg:grid-cols-12' : 'grid-cols-1 max-w-4xl mx-auto'}`}>
-
+        <div className="flex flex-col gap-10 max-w-4xl mx-auto">
           {isStandalone && (
-            <div className="lg:col-span-5 flex flex-col gap-6">
-              <div className="glass-panel p-6 rounded-[2rem] bg-[#69C350]/5 border-[#69C350]/20 mb-2">
+            <div className="w-full space-y-6">
+              <div className="glass-panel p-6 rounded-[2rem] bg-[#69C350]/5 border-[#69C350]/20">
                 <div className="flex items-center gap-3 mb-3">
                   <Sparkles className="w-5 h-5 text-[#69C350]" />
                   <h3 className="text-sm font-black uppercase tracking-tight">Krok 1: Konzultace</h3>
@@ -272,13 +271,13 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
                   Poraďte se o technických detailech. Přepis chatu automaticky odešleme spolu s vaší poptávkou.
                 </p>
               </div>
-              <div className="flex-1 min-h-[400px] md:min-h-[500px]">
+              <div className="min-h-[350px] md:min-h-[400px]">
                 <VisionaryAssistant messages={aiMessages} setMessages={setAiMessages} isLoading={isAiLoading} setIsLoading={setIsAiLoading} compact={true} />
               </div>
             </div>
           )}
 
-          <div className={`${isStandalone ? 'lg:col-span-7' : 'w-full'}`}>
+          <div className="w-full">
             <form onSubmit={handleSubmit} className="glass-panel p-8 md:p-10 rounded-[2.5rem] border border-black/10 dark:border-white/10 shadow-xl space-y-8 transition-all duration-500 h-full flex flex-col">
               <div className="flex items-center gap-3 mb-2">
                 <div className="w-8 h-8 bg-[#69C350]/10 rounded-lg flex items-center justify-center text-[#69C350]">
