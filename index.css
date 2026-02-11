@@ -112,34 +112,49 @@
         transition: all 0.5s ease;
     }
 
-    /* Custom Premium Scrollbar */
+    /* Custom Premium Scrollbar - Enhanced Visibility */
     ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
+        width: 12px;
+        height: 12px;
     }
 
     ::-webkit-scrollbar-track {
-        background: transparent;
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
     }
 
     ::-webkit-scrollbar-thumb {
-        background: rgba(105, 195, 80, 0.2);
-        border-radius: 20px;
-        border: 4px solid transparent;
+        background: rgba(105, 195, 80, 0.5);
+        border-radius: 10px;
+        border: 2px solid transparent;
         background-clip: content-box;
         transition: background 0.3s ease;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-        background: rgba(105, 195, 80, 0.4);
+        background: rgba(105, 195, 80, 0.7);
         background-clip: content-box;
     }
 
+    .dark ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
     .dark ::-webkit-scrollbar-thumb {
-        background: rgba(149, 232, 125, 0.15);
+        background: rgba(149, 232, 125, 0.4);
     }
 
     .dark ::-webkit-scrollbar-thumb:hover {
-        background: rgba(149, 232, 125, 0.3);
+        background: rgba(149, 232, 125, 0.6);
+    }
+
+    /* Firefox scrollbar styling */
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(105, 195, 80, 0.5) rgba(0, 0, 0, 0.05);
+    }
+
+    .dark * {
+        scrollbar-color: rgba(149, 232, 125, 0.4) rgba(255, 255, 255, 0.05);
     }
 }

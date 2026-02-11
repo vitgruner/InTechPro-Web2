@@ -81,6 +81,7 @@ const DEFAULT_REFERENCES: Reference[] = [
     category: "Rezidenční",
     location: "Curych, Švýcarsko",
     image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200",
+    images: ["https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200"],
     tech: "Loxone",
     techIcon: "cpu",
     topology: { sensors: 142, cablingKm: 3.2, modules: 48, racks: 2 },
@@ -96,14 +97,29 @@ const DEFAULT_REFERENCES: Reference[] = [
     category: "Komerční",
     location: "Praha, CZ",
     image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200",
+    images: ["https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200"],
     tech: "DALI / KNX",
     techIcon: "building",
-    topology: { sensors: 380, cablingKm: 12.5, modules: 124, racks: 6 },
+    topology: { sensors: 850, cablingKm: 12.5, modules: 156, racks: 6 },
     services: [
       { label: "Osvětlení", icon: "zap" },
-      { label: "Přístup", icon: "shield" },
-      { label: "Energie", icon: "sun" },
-      { label: "Automatizace", icon: "cpu" }
+      { label: "Řízení přístupu", icon: "shield" },
+      { label: "Energetika", icon: "sun" }
+    ]
+  },
+  {
+    title: "Smart Logistics Center",
+    category: "Průmyslová",
+    location: "Brno, CZ",
+    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1200",
+    images: ["https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1200"],
+    tech: "Beckhoff / Loxone",
+    techIcon: "factory",
+    topology: { sensors: 1200, cablingKm: 25.0, modules: 312, racks: 12 },
+    services: [
+      { label: "Průmyslová automatizace", icon: "factory" },
+      { label: "Monitoring energií", icon: "zap" },
+      { label: "Vzduchotechnika", icon: "wind" }
     ]
   },
   {
@@ -111,6 +127,7 @@ const DEFAULT_REFERENCES: Reference[] = [
     category: "Průmyslová",
     location: "Ostrava, CZ",
     image: "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&q=80&w=1200",
+    images: ["https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&q=80&w=1200"],
     tech: "Loxone / Modbus",
     techIcon: "factory",
     topology: { sensors: 850, cablingKm: 45.0, modules: 210, racks: 12 },

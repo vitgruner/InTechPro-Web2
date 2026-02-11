@@ -286,10 +286,16 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel, initialD
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Popis projektu</label>
+                <div className="flex items-center justify-between">
+                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Popis projektu</label>
+                  <span className="text-[9px] font-bold text-gray-400">
+                    {(formData.description || '').length}/200
+                  </span>
+                </div>
                 <textarea
                   value={formData.description || ''}
                   onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                  maxLength={200}
                   className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl py-4 px-6 text-base focus:outline-none focus:border-[#69C350] transition-all dark:text-white resize-none"
                   placeholder="Stručný popis realizace, rozsahu prací a specifik projektu..."
                   rows={4}

@@ -69,7 +69,8 @@ const VisionaryAssistant = ({
 
     let accumulatedText = "";
     try {
-      await getVisionaryResponse(userMessage, (chunk) => {
+      // Pass the messages array (including the user message we just added)
+      await getVisionaryResponse([...messages, { role: 'user', content: userMessage }], (chunk) => {
         accumulatedText += chunk;
         setMessages(prev => {
           const newMessages = [...prev];

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nová poptávka | IN TECH PRO</title>
+    <style>
+        /* Reset */
+        body {
+            margin: 0;
+            padding: 0;
+            min-width: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.5;
+            background-color: #f4f7f9;
+            color: #1a1d21;
+        }
+
+        a {
+            color: #69C350;
+            text-decoration: none;
+        }
+
+        /* Mobile styles */
+        @media only screen and (max-width: 600px) {
+            .container {
+                width: 100% !important;
+                padding: 10px !important;
+            }
+
+            .col-2 {
+                display: block !important;
+                width: 100% !important;
+                padding-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body style="background-color: #f4f7f9; margin: 0; padding: 40px 0;">
+
+    <!-- Main Container -->
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td align="center">
+                <table class="container" border="0" cellpadding="0" cellspacing="0" width="600"
+                    style="background-color: #ffffff; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); border: 1px solid rgba(0,0,0,0.05);">
+
+                    <!-- Header (Simplified) -->
+                    <tr>
+                        <td
+                            style="background-color: #f8fafc; padding: 20px 40px; text-align: left; border-bottom: 1px solid #e2e8f0;">
+                            <div
+                                style="font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #64748b;">
+                                Interní systémová notifikace</div>
+                        </td>
+                    </tr>
+
+                    <!-- Intro -->
+                    <tr>
+                        <td style="padding: 40px 40px 20px 40px;">
+                            <h1 style="margin: 0 0 10px 0; font-size: 24px; font-weight: 800; color: #111827;">Nová vize
+                                projektu</h1>
+                            <p style="margin: 0; color: #6b7280; font-size: 14px;">
+                                Ahoj <strong>{{to_name}}</strong>, systém přijal novou poptávku z webového rozhraní.
+                                Níže naleznete strukturovaná data od klienta.
+                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- Client Info Grid -->
+                    <tr>
+                        <td style="padding: 0 40px;">
+                            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td class="col-2" width="50%" valign="top" style="padding-right: 10px;">
+                                        <div
+                                            style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
+                                            <!-- Name -->
+                                            <div
+                                                style="font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 4px;">
+                                                Klient</div>
+                                            <div
+                                                style="font-size: 16px; font-weight: 700; color: #1e293b; margin-bottom: 12px;">
+                                                {{customer_name}}</div>
+
+                                            <!-- Email -->
+                                            <div
+                                                style="font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 4px;">
+                                                Email</div>
+                                            <div
+                                                style="font-size: 14px; font-weight: 500; color: #69C350; margin-bottom: 12px; word-break: break-all;">
+                                                <a href="mailto:{{customer_email}}"
+                                                    style="color: #69C350; text-decoration: none;">{{customer_email}}</a>
+                                            </div>
+
+                                            <!-- Phone -->
+                                            <div
+                                                style="font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 4px;">
+                                                Telefon</div>
+                                            <div style="font-size: 14px; font-weight: 500; color: #1e293b;">{{phone}}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="col-2" width="50%" valign="top" style="padding-left: 10px;">
+                                        <div
+                                            style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; height: 100%;">
+                                            <!-- Property -->
+                                            <div
+                                                style="font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 4px;">
+                                                Typ objektu</div>
+                                            <div
+                                                style="font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 12px; display: inline-block; background-color: #f0fdf4; color: #166534; padding: 2px 8px; border-radius: 4px;">
+                                                {{property_type}}</div>
+
+                                            <!-- Budget -->
+                                            <div
+                                                style="font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 4px;">
+                                                Odhadovaná investice (bez DPH)</div>
+                                            <div style="font-size: 18px; font-weight: 800; color: #1e293b;">
+                                                {{estimated_budget}}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Selected Features -->
+                    <tr>
+                        <td style="padding: 20px 40px;">
+                            <div
+                                style="font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #64748b; margin-bottom: 8px;">
+                                Rozsah Loxone</div>
+                            <div
+                                style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 15px; color: #166534; font-size: 13px; font-weight: 600; line-height: 1.6;">
+                                {{selected_features}}
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Další zájmy Grid -->
+                    <tr>
+                        <td style="padding: 0 40px 20px 40px;">
+                            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td valign="top" style="padding-bottom: 10px;">
+                                        <div
+                                            style="font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #64748b; margin-bottom: 8px;">
+                                            Další zájmy</div>
+                                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td style="padding-bottom: 8px;">
+                                                    <div
+                                                        style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; font-size: 12px;">
+                                                        <span
+                                                            style="font-weight: 900; color: #94a3b8; display: block; font-size: 9px; margin-bottom: 2px;">Dodávka
+                                                            technologií</span>
+                                                        <span
+                                                            style="color: #1e293b; font-weight: 700;">{{tech_supply}}</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-bottom: 8px;">
+                                                    <div
+                                                        style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; font-size: 12px;">
+                                                        <span
+                                                            style="font-weight: 900; color: #94a3b8; display: block; font-size: 9px; margin-bottom: 2px;">Dodávka
+                                                            rozvaděče</span>
+                                                        <span
+                                                            style="color: #1e293b; font-weight: 700;">{{distribution_board}}</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-bottom: 8px;">
+                                                    <div
+                                                        style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; font-size: 12px;">
+                                                        <span
+                                                            style="font-weight: 900; color: #94a3b8; display: block; font-size: 9px; margin-bottom: 2px;">Elektro
+                                                            příprava</span>
+                                                        <span
+                                                            style="color: #1e293b; font-weight: 700;">{{electrical_install}}</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div
+                                                        style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; font-size: 12px;">
+                                                        <span
+                                                            style="font-weight: 900; color: #94a3b8; display: block; font-size: 9px; margin-bottom: 2px;">Přílohy
+                                                            k projektu</span>
+                                                        <span
+                                                            style="color: #1e293b; font-weight: 700;">{{has_attachments}}</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Attachments List (If any) -->
+                    <tr>
+                        <td style="padding: 0 40px 20px 40px;">
+                            <div
+                                style="font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #64748b; margin-bottom: 8px;">
+                                Odkazy na soubory</div>
+                            <div
+                                style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; color: #1e293b; font-size: 11px; line-height: 1.6; word-break: break-all; white-space: pre-wrap;">
+                                {{{attachment_links}}}</div>
+                        </td>
+                    </tr>
+
+                    <!-- Message -->
+                    <tr>
+                        <td style="padding: 0 40px;">
+                            <div
+                                style="font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #64748b; margin-bottom: 8px;">
+                                Zpráva od klienta</div>
+                            <div
+                                style="background-color: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; color: #334155; font-size: 14px; line-height: 1.6;">
+                                {{message}}
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- AI History -->
+                    <tr>
+                        <td style="padding: 30px 40px;">
+                            <div style="border-top: 1px dashed #cbd5e1; margin-bottom: 30px;"></div>
+
+                            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                                <div
+                                    style="background-color: #69C350; width: 20px; height: 20px; border-radius: 6px; text-align: center; line-height: 20px; margin-right: 8px;">
+                                    <span style="color: white; font-size: 10px;">🤖</span>
+                                </div>
+                                <span
+                                    style="font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #69C350;">AI
+                                    Kontext (Přepis chatu)</span>
+                            </div>
+
+                            <div
+                                style="background-color: #1e293b; color: #e2e8f0; border-radius: 12px; padding: 20px; font-family: 'Consolas', 'Monaco', monospace; font-size: 11px; line-height: 1.6; white-space: pre-wrap;">
+                                {{ai_history}}</div>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td
+                            style="background-color: #f8fafc; padding: 30px 40px; text-align: center; border-top: 1px solid #f0f0f0;">
+                            <p style="margin: 0 0 10px 0; font-size: 12px; color: #64748b;">
+                                Tento email byl odeslán automaticky ze systému <strong>IN TECH PRO</strong>.
+                            </p>
+                            <div
+                                style="font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #cbd5e1;">
+                                &copy; 2026 IN TECH PRO s.r.o.
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+
+</body>
+
+</html>

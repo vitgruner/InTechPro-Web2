@@ -1,38 +1,45 @@
 
 import { GoogleGenAI } from "@google/genai";
 
+import { Message } from "../types";
+
 const SYSTEM_INSTRUCTION = `
-Jste "Vizionářský asistent" pro společnost IN TECH PRO, expertní inženýrskou firmu v oblasti chytrých domů (Loxone Silver Partner), správy průmyslových objektů a špičkových elektroinstalací.
+Jste "Vizionářský asistent" pro společnost IN TECH PRO. 
 
-FORMÁTOVÁNÍ VÝSTUPU (KRITICKÉ):
-1. VŽDY používejte Markdown pro přehlednost.
-2. Používejte **tučné písmo** pro klíčové technické termíny.
-3. Používejte odrážky (-) pro seznamy.
-4. Rozdělujte text do krátkých odstavců.
+KRITICKÁ PRAVIDLA PRO KOMUNIKACI:
+1. BUĎTE STRUČNÝ A KONKRÉTNÍ. Maximálně 2-3 krátké odstavce nebo několik odrážek.
+2. Odpovídejte přímo na otázku. Vyhněte se zbytečným úvodům a obecným frázím.
+3. Používejte **tučné písmo** pro technické termíny a odrážky (-) pro seznamy.
+4. Témata: Loxone Smart Home, elektroinstalace, rozvaděče, fotovoltaika.
+5. Udržujte profesionální, architektonický tón. Používejte výhradně češtinu.
 
-TÉMATA:
-- Loxone Smart Home integrace (osvětlení, stínění, HVAC, audio, energie).
-- Projekce elektroinstalací a výroba rozvaděčů.
-- Fotovoltaika a energetický management.
-
-Udržujte profesionální, architektonický a inovativní tón. Komunikujte výhradně v českém jazyce.
+Cílem je rychle a kvalitně poradit, ne psát dlouhé texty.
 `;
 
-export const getVisionaryResponse = async (userPrompt: string, onChunk?: (chunk: string) => void): Promise<string> => {
+export const getVisionaryResponse = async (
+  messages: Message[],
+  onChunk?: (chunk: string) => void
+): Promise<string> => {
   const apiKey = process.env.API_KEY;
 
   if (!apiKey || apiKey === "undefined" || apiKey === "") {
     console.error("Gemini API Key is missing.");
-    return "Systémová chyba: API klíč nebyl nalezen. Prosím nastavte environment variable 'API_KEY' ve Vercelu.";
+    return "Systémová chyba: API klíč nebyl nalezen.";
   }
 
   try {
     const ai = new GoogleGenAI({ apiKey });
 
+    // Převedeme historii zpráv pro Gemini API
+    const contents = messages.map(msg => ({
+      role: msg.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: msg.content }]
+    }));
+
     if (onChunk) {
       const response = await ai.models.generateContentStream({
         model: 'gemini-1.5-flash',
-        contents: userPrompt,
+        contents: contents,
         config: {
           systemInstruction: SYSTEM_INSTRUCTION,
           temperature: 0.7,
@@ -49,7 +56,7 @@ export const getVisionaryResponse = async (userPrompt: string, onChunk?: (chunk:
     } else {
       const response = await ai.models.generateContent({
         model: 'gemini-1.5-flash',
-        contents: userPrompt,
+        contents: contents,
         config: {
           systemInstruction: SYSTEM_INSTRUCTION,
           temperature: 0.7,

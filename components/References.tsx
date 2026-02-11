@@ -3,13 +3,13 @@ import React, { useState, useMemo } from 'react';
 import {
   Home, Zap, Search, Filter, LayoutGrid, Building2, Factory,
   Cpu, Thermometer, Radio, Shield, Sun, Building, Activity, ArrowRight,
-  Share2, Ruler, Server, Snowflake, Wind, Blinds, DoorOpen, Lightbulb, Camera, Flame, Car, Droplets,
-  ChevronLeft, ChevronRight
+  Share2, Ruler, Server, Snowflake, Wind, Blinds, DoorOpen, Lightbulb, Camera, Flame, Car, Droplets, Image as ImageIcon
 } from 'lucide-react';
 import { Reference, ReferenceCardProps, ReferencesProps, Technology } from '../types';
 import SectionHeader from './SectionHeader';
 import Partners from './Partners';
 import Breadcrumbs from './Breadcrumbs';
+import ReferenceDetailModal from './ReferenceDetailModal';
 
 const IconMap: Record<string, React.ElementType> = {
   'home': Home,
@@ -35,26 +35,17 @@ const IconMap: Record<string, React.ElementType> = {
 };
 
 
-const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, images, title, location, tech, services = [], technologies, techIcon, topology, description }) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+const ReferenceCard: React.FC<ReferenceCardProps & { onClick?: () => void }> = ({ image, images, title, location, tech, services = [], technologies, techIcon, topology, description, onClick }) => {
   const iconKey = (techIcon as string)?.toLowerCase();
   const TechIconComp = IconMap[iconKey] || Cpu;
 
   // Use images array if available, fallback to image field for backward compatibility
   const imageArray = (images && images.length > 0) ? images : (image ? [image] : []);
-  const displayImage = imageArray[currentImageIndex] || imageArray[0];
+  const displayImage = imageArray[0];
   const hasMultipleImages = imageArray.length > 1;
 
   // Use technologies if available, otherwise fall back to services
   const displayTechs = technologies && technologies.length > 0 ? technologies : services;
-
-  const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % imageArray.length);
-  };
-
-  const prevImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + imageArray.length) % imageArray.length);
-  };
 
   // Optimalizace Unsplash URL pro web (přidání q a w parametrů)
   const optimizedImage = useMemo(() => {
@@ -65,7 +56,10 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, images, title, loc
   }, [displayImage]);
 
   return (
-    <div className="group relative glass-panel rounded-2xl md:rounded-3xl overflow-hidden border border-black/10 dark:border-white/10 hover:border-[#69C350]/30 dark:hover:border-[#7BD462]/30 transition-all duration-700 shadow-sm hover:shadow-xl h-full flex flex-col active:scale-[0.99] active:opacity-95">
+    <div
+      onClick={onClick}
+      className="group relative glass-panel rounded-2xl md:rounded-3xl overflow-hidden border border-black/10 dark:border-white/10 hover:border-[#69C350]/30 dark:hover:border-[#7BD462]/30 transition-all duration-700 shadow-sm hover:shadow-xl h-full flex flex-col active:scale-[0.99] active:opacity-95 cursor-pointer"
+    >
       <div className="relative h-48 md:h-56 overflow-hidden bg-gray-100 dark:bg-gray-900">
         <img
           src={optimizedImage || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=70&w=600"}
@@ -75,28 +69,12 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, images, title, loc
         />
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 dark:from-[#050505] via-transparent to-transparent opacity-90"></div>
 
-        {/* Navigation Arrows */}
+        {/* Multi-image indicator */}
         {hasMultipleImages && (
-          <>
-            <button
-              onClick={(e) => { e.preventDefault(); prevImage(); }}
-              className="absolute left-2 top-1/2 -translate-y-1/2 p-1.5 bg-black/60 hover:bg-black/80 text-white rounded-full transition-all opacity-0 group-hover:opacity-100 shadow-lg"
-              aria-label="Previous image"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button
-              onClick={(e) => { e.preventDefault(); nextImage(); }}
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 bg-black/60 hover:bg-black/80 text-white rounded-full transition-all opacity-0 group-hover:opacity-100 shadow-lg"
-              aria-label="Next image"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-            {/* Image counter */}
-            <div className="absolute bottom-3 left-3 bg-black/60 backdrop-blur-sm px-2 py-1 rounded-lg">
-              <span className="text-[9px] font-bold text-white">{currentImageIndex + 1}/{imageArray.length}</span>
-            </div>
-          </>
+          <div className="absolute bottom-3 right-3 bg-black/70 backdrop-blur-sm px-2.5 py-1 rounded-lg flex items-center gap-1.5 shadow-lg">
+            <ImageIcon className="w-3 h-3 text-white" />
+            <span className="text-[10px] font-bold text-white">{imageArray.length}</span>
+          </div>
         )}
 
         <div className="absolute top-3 right-3 bg-white/90 dark:bg-black/80 backdrop-blur-xl border border-black/10 dark:border-white/20 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-xl">
@@ -120,7 +98,7 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, images, title, loc
 
         <div className="space-y-4 mt-auto">
           <div className="flex flex-wrap gap-2">
-            {displayTechs && displayTechs.slice(0, 4).map((tech, idx) => {
+            {displayTechs && displayTechs.slice(0, 8).map((tech, idx) => {
               const tIconKey = (tech.icon as string)?.toLowerCase();
               const TechIcon = IconMap[tIconKey] || Zap;
               return (
@@ -130,6 +108,11 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, images, title, loc
                 </div>
               );
             })}
+            {displayTechs && displayTechs.length > 8 && (
+              <div className="flex items-center justify-center bg-black/5 dark:bg-white/5 px-3 py-1.5 rounded-lg border border-black/5 dark:border-white/5">
+                <span className="text-[11px] font-black text-gray-500 dark:text-gray-400">...</span>
+              </div>
+            )}
           </div>
 
           <div className="pt-4 border-t border-black/5 dark:border-white/10">
@@ -179,6 +162,7 @@ const ReferenceCard: React.FC<ReferenceCardProps> = ({ image, images, title, loc
 const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = false, setView }) => {
   const [filter, setFilter] = useState('Vše');
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedReference, setSelectedReference] = useState<Reference | null>(null);
 
   const filteredProjects = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
@@ -213,7 +197,11 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
         {displayProjects.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {displayProjects.map((project: Reference, idx: number) => (
-              <ReferenceCard key={idx} {...project} />
+              <ReferenceCard
+                key={idx}
+                {...project}
+                onClick={() => setSelectedReference(project)}
+              />
             ))}
           </div>
         ) : (
@@ -234,6 +222,13 @@ const References: React.FC<ReferencesProps> = ({ projects = [], isStandalone = f
           </div>
         )}
       </div>
+
+      {/* Reference Detail Modal */}
+      <ReferenceDetailModal
+        reference={selectedReference}
+        isOpen={!!selectedReference}
+        onClose={() => setSelectedReference(null)}
+      />
     </section>
   );
 };

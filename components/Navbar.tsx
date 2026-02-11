@@ -1,17 +1,27 @@
 ﻿import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowRight, Sun, Moon, Zap, ChevronDown, Lock, Activity, Unlock } from 'lucide-react';
+import { Menu, X, ArrowRight, Sun, Moon, ChevronDown, Lock, Activity, Unlock } from 'lucide-react';
 import { NavProps, ViewState } from '../types';
 
 const Logo = () => (
-  <div className="flex items-center gap-2.5 group cursor-pointer select-none">
-    <div className="w-8 h-8 bg-[#69C350] rounded-lg flex items-center justify-center transition-all group-hover:rotate-[15deg] group-hover:scale-110 shadow-lg shadow-[#7BD462]/20">
-      < Zap className="w-4 h-4 text-white fill-white" aria-hidden="true" />
-    </div>
-    <div className="flex items-center font-black text-[#1a1d21] dark:text-white transition-colors duration-500 tracking-tighter leading-none">
-      <span className="text-[18px] text-[#69C350]">IN</span>
-      <div className="w-1 h-1 bg-[#69C350] rounded-full mx-1" />
-      <span className="text-[18px]">TECH</span>
-      <span className="text-[18px] ml-0.5 font-light opacity-50">PRO</span>
+  <div className="flex items-center gap-2.5 md:gap-3 group cursor-pointer select-none">
+    {/* Logo Image */}
+    <img
+      src="https://messtzramsuvjnrvwmfc.supabase.co/storage/v1/object/public/InTechProImgs/INTECHPROLOGO.png"
+      alt="InTechPro Logo"
+      className="h-9 md:h-11 w-auto transition-all group-hover:scale-105 dark:invert"
+    />
+
+    {/* Text Content */}
+    <div className="flex flex-col gap-0.5">
+      {/* Company Name */}
+      <span className="text-base md:text-lg font-black text-[#69C350] dark:text-[#7BD462] tracking-tight leading-none transition-colors duration-500">
+        InTechPro
+      </span>
+
+      {/* Tagline - Hidden on mobile */}
+      <span className="hidden md:block text-[9px] font-light text-gray-500 dark:text-gray-400 tracking-wide leading-tight uppercase">
+        Inteligence, technologie a projekce
+      </span>
     </div>
   </div>
 );
