@@ -38,7 +38,7 @@ export const getVisionaryResponse = async (
 
     if (onChunk) {
       const response = await ai.models.generateContentStream({
-        model: 'gemini-1.5-flash-latest', // Použijeme -latest alias pro lepší stabilitu v v1beta
+        model: 'gemini-2.0-flash', // Model 2.0 Flash je plně podporován v tomto SDK
         contents: contents,
         config: {
           systemInstruction: SYSTEM_INSTRUCTION,
@@ -55,7 +55,7 @@ export const getVisionaryResponse = async (
       return fullText;
     } else {
       const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.0-flash',
         contents: contents,
         config: {
           systemInstruction: SYSTEM_INSTRUCTION,
