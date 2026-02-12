@@ -67,8 +67,8 @@ const FooterLogo = () => (
       < Zap className="w-4 h-4 text-white fill-white" aria-hidden="true" />
     </div>
     <div className="flex items-center font-black text-white tracking-tighter leading-none">
-      <span className="text-[18px] text-[#69C350]">IN</span>
-      <div className="w-1 h-1 bg-[#69C350] rounded-full mx-1" />
+      <span className="text-[18px]">IN</span>
+      <div className="w-1 h-1 bg-white rounded-full mx-1" />
       <span className="text-[18px]">TECH</span>
       <span className="text-[18px] ml-0.5 font-light opacity-50">PRO</span>
     </div>

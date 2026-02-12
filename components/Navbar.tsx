@@ -14,7 +14,7 @@ const Logo = () => (
     {/* Text Content */}
     <div className="flex flex-col gap-0.5">
       {/* Company Name */}
-      <span className="text-base md:text-lg font-black text-[#69C350] dark:text-[#7BD462] tracking-tight leading-none transition-colors duration-500">
+      <span className="text-base md:text-lg font-black text-gray-900 dark:text-white tracking-tight leading-none transition-colors duration-500">
         InTechPro
       </span>
 
