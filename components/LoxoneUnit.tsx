@@ -124,12 +124,12 @@ const LoxoneUnit = React.memo(() => {
         <div className="bg-gray-50 dark:bg-[#1a1d21] border-t border-gray-200 dark:border-white/5 px-6 md:px-10 py-3 md:py-4 flex flex-col sm:flex-row justify-between items-center opacity-80 gap-3">
           <div className="flex items-center gap-2 md:gap-3">
             <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-green-500 opacity-80 shadow-[0_0_8px_#22c55e]" />
-            <span className="text-[9px] md:text-[11px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest text-center sm:text-left">Intelligence Synchronized</span>
+            <span className="text-[9px] md:text-[11px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest text-center sm:text-left">Logika synchronizována</span>
           </div>
           <div className="flex items-center gap-6 md:gap-8">
             <div className="flex items-center gap-2 md:gap-2.5">
               <Activity className="w-3.5 h-3.5 md:w-4 md:h-4 text-green-500" />
-              <span className="text-[9px] md:text-[11px] font-black text-gray-600 dark:text-white/60 uppercase tracking-widest">Active</span>
+              <span className="text-[9px] md:text-[11px] font-black text-gray-600 dark:text-white/60 uppercase tracking-widest">Aktivní</span>
             </div>
             <div className="flex items-center gap-2 md:gap-2.5">
               <Zap className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#7BD462]" />
