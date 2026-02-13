@@ -80,6 +80,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
     { id: 'heat_pump', label: 'Tepelné čerpadlo', icon: <Thermometer className="w-3 h-3" /> },
     { id: 'ac_unit', label: 'Klimatizace', icon: <Snowflake className="w-3 h-3" /> },
     { id: 'recuperation', label: 'Rekuperace', icon: <Waves className="w-3 h-3" /> },
+    { id: 'el_heating', label: 'El. vytápění', icon: <Thermometer className="w-3 h-3" /> },
     { id: 'pv_system', label: 'Fotovoltaika', icon: <Sun className="w-3 h-3" /> },
     { id: 'audio_hw', label: 'Audio technika', icon: <Radio className="w-3 h-3" /> },
     { id: 'security_hw', label: 'EZS / CCTV', icon: <Shield className="w-3 h-3" /> },
