@@ -19,6 +19,7 @@ import { Analytics } from '@vercel/analytics/react';
 import AdminReferenceList from './components/AdminReferenceList';
 import Breadcrumbs from './components/Breadcrumbs';
 import SectionHeader from './components/SectionHeader';
+import { isAdminWhitelisted } from './src/auth/adminGuard';
 
 // Add smooth scroll helper
 const scrollToTop = () => {
@@ -175,9 +176,8 @@ const App = () => {
   };
 
   const [view, setView] = useState<ViewState>(getViewStateFromHash());
-  const [isAdmin, setIsAdmin] = useState(() => {
-    return localStorage.getItem('intechpro-admin') === 'true';
-  });
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
   const [referenceProjects, setReferenceProjects] = useState<Reference[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -215,6 +215,40 @@ const App = () => {
     };
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  useEffect(() => {
+    if (!supabase) return;
+
+    // Check initial session
+    supabase.auth.getSession().then(({ data: { session } }: any) => {
+      const email = session?.user?.email ?? null;
+      setUserEmail(email);
+      const isWhitelisted = isAdminWhitelisted(email);
+      setIsAdmin(isWhitelisted);
+
+      // Redirect if on admin view but not authorized
+      const currentView = getViewStateFromHash();
+      if ((currentView === 'admin-dashboard' || currentView === 'admin-login') && !isWhitelisted && currentView !== 'admin-login') {
+        navigateTo('admin-login');
+      }
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event: any, session: any) => {
+      const email = session?.user?.email ?? null;
+      setUserEmail(email);
+      const isWhitelisted = isAdminWhitelisted(email);
+      setIsAdmin(isWhitelisted);
+
+      if (_event === 'SIGNED_OUT') {
+        navigateTo('home');
+      } else if (_event === 'SIGNED_IN' && isWhitelisted) {
+        navigateTo('admin-dashboard');
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const navigateTo = (newView: ViewState) => {
@@ -303,16 +337,18 @@ const App = () => {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    if (supabase) {
+      await supabase.auth.signOut();
+    }
     setIsAdmin(false);
-    localStorage.removeItem('intechpro-admin');
+    setUserEmail(null);
     navigateTo('home');
     setEditingReference(null);
   };
 
   const handleAdminLoginSuccess = () => {
     setIsAdmin(true);
-    localStorage.setItem('intechpro-admin', 'true');
     navigateTo('admin-dashboard');
   };
 
@@ -407,8 +443,11 @@ const App = () => {
                     <div className="flex justify-between items-center mb-6 -mt-4">
                       <div className="flex items-center gap-4">
                         {isSyncing && <div className="flex items-center gap-2 text-[#69C350] animate-pulse text-[10px] font-black uppercase tracking-widest bg-[#69C350]/10 px-3 py-1 rounded-full"><CloudUpload className="w-3 h-3" /> Syncing</div>}
-                        {!localStorage.getItem('intechpro-admin') && !supabase && (
-                          <div className="text-[10px] font-bold text-red-500 uppercase tracking-widest bg-red-500/10 px-3 py-1 rounded-full">Chybí připojení k Supabase</div>
+                        {!isAdmin && (
+                          <div className="text-[10px] font-bold text-red-500 uppercase tracking-widest bg-red-500/10 px-3 py-1 rounded-full">Neautorizovaný přístup</div>
+                        )}
+                        {isAdmin && userEmail && (
+                          <div className="text-[10px] font-bold text-[#69C350] uppercase tracking-widest bg-[#69C350]/10 px-3 py-1 rounded-full">Přihlášen jako: {userEmail}</div>
                         )}
                       </div>
                       <button type="button" onClick={handleLogout} className="px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest bg-slate-200 dark:bg-white/10 transition-all hover:bg-red-500 hover:text-white">Odhlásit se</button>

@@ -4,8 +4,8 @@ import VisionaryAssistant from './VisionaryAssistant';
 import { Message, ContactFormProps } from '../types';
 import SectionHeader from './SectionHeader';
 import Breadcrumbs from './Breadcrumbs';
-import emailjs from '@emailjs/browser';
 import { supabase } from '../services/supabase';
+import { sanitizeString, limitString } from '../src/security/validation';
 
 interface FormData {
   name: string;
@@ -148,7 +148,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
     }));
   };
 
-  const uploadFiles = async (files: File[]): Promise<string[]> => {
+  const uploadFiles = async (files: File[]): Promise<{ path: string, name: string }[]> => {
     if (!supabase || files.length === 0) return [];
 
     const uploadPromises = files.map(async (file) => {
@@ -165,15 +165,11 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
         return null;
       }
 
-      const { data: { publicUrl } } = supabase.storage
-        .from('project-documents')
-        .getPublicUrl(filePath);
-
-      return publicUrl;
+      return { path: filePath, name: file.name };
     });
 
     const results = await Promise.all(uploadPromises);
-    return results.filter((url): url is string => url !== null);
+    return results.filter((res): res is { path: string, name: string } => res !== null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -184,66 +180,66 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
       return;
     }
 
+    // Input sanitization
+    const sanitizedData = {
+      name: limitString(sanitizeString(formData.name), 100),
+      email: limitString(formData.email.trim(), 100),
+      phone: limitString(formData.phone.trim(), 30),
+      message: limitString(sanitizeString(formData.message), 2000),
+    };
+
     setIsSending(true);
     setErrorMessage(null);
 
     try {
       // 0) Upload files to Supabase if any
-      let fileLinks: string[] = [];
+      let fileInfos: { path: string, name: string }[] = [];
       if (formData.projectFiles.length > 0) {
-        fileLinks = await uploadFiles(formData.projectFiles);
-        console.log('Files uploaded successfully. Links:', fileLinks);
+        fileInfos = await uploadFiles(formData.projectFiles);
+        console.log('Files uploaded successfully. Info:', fileInfos);
       }
 
       const templateParams = {
-        customer_name: formData.name,
-        customer_email: formData.email,
-        phone: formData.phone,
-        property_type: formData.property,
-        selected_features: formData.features.length > 0
+        name: sanitizedData.name,
+        email: sanitizedData.email,
+        phone: sanitizedData.phone,
+        property: formData.property,
+        features: formData.features.length > 0
           ? formData.features.map(f => featureOptions.find(o => o.id === f)?.label).join(', ')
           : 'Žádné specifické systémy nevybrány',
-        project_area: (formData.area || 0) + ' m2',
-        estimated_budget: estimatedTotal.toLocaleString('cs-CZ') + ' Kč',
-        tech_supply: formData.techSupplyInterest ? 'ANO' : 'NE',
-        tech_supply_details: formData.techSupplyFields.length > 0
+        area: (formData.area || 0) + ' m2',
+        estimatedBudget: estimatedTotal.toLocaleString('cs-CZ') + ' Kč',
+        techSupply: formData.techSupplyInterest,
+        techSupplyDetails: formData.techSupplyFields.length > 0
           ? formData.techSupplyFields.map(f => techSupplyOptions.find(o => o.id === f)?.label).join(', ')
           : 'Nespecifikováno',
-        distribution_board: formData.distributionBoardInterest ? 'ANO' : 'NE',
-        electrical_install: formData.electricalInstallInterest ? 'ANO' : 'NE',
-        has_attachments: formData.projectFiles.length > 0 ? `${formData.projectFiles.length} souborů` : 'NE',
-        attachment_links: fileLinks.length > 0
-          ? fileLinks.map(url => `<a href="${url}" target="_blank" style="color: #69C350; text-decoration: underline;">Stáhnout přílohu</a>`).join('<br>')
-          : 'Žádné soubory nebyly nahrány',
-        message: formData.message || 'Bez doplňující zprávy.',
-        ai_history: aiMessages.map(m => `[${m.role.toUpperCase()}]: ${m.content}`).join('\n\n')
+        distributionBoard: formData.distributionBoardInterest,
+        electricalInstall: formData.electricalInstallInterest,
+        fileInfos: fileInfos,
+        message: sanitizedData.message || 'Bez doplňující zprávy.',
+        aiHistory: aiMessages.map(m => `[${m.role.toUpperCase()}]: ${m.content}`).join('\n\n'),
+        botCheck: (e.target as any).botCheck?.value // Honeypot
       };
 
-      const SERVICE_ID = 'service_qrgvofr';
-      const TEMPLATE_ADMIN_ID = 'template_76vc4mm';
-      const TEMPLATE_CUSTOMER_ID = 'template_customer_confirm';
-      const PUBLIC_KEY = 'JowaJUIrtXne2eHJM';
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(templateParams),
+      });
 
-      // Inicializace EmailJS
-      emailjs.init(PUBLIC_KEY);
-
-      // 1) Odeslání poptávky adminovi (Klíčové)
-      const resAdmin = await emailjs.send(SERVICE_ID, TEMPLATE_ADMIN_ID, templateParams);
-      console.log('Admin email response:', resAdmin.status, resAdmin.text);
-
-      // 2) Odeslání potvrzení zákazníkovi (Sekundární)
-      try {
-        await emailjs.send(SERVICE_ID, TEMPLATE_CUSTOMER_ID, templateParams);
-      } catch (custErr: any) {
-        console.warn('Upozornění: Potvrzení zákazníkovi nebylo odesláno. Zkontrolujte, zda existuje šablona "template_customer_confirm" v EmailJS dashboardu.', custErr?.text || custErr);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Odesílání selhalo.');
       }
 
       setSubmitted(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (error: any) {
-      const errorDetail = error?.text || error?.message || (typeof error === 'string' ? error : JSON.stringify(error));
+      const errorDetail = error?.message || (typeof error === 'string' ? error : JSON.stringify(error));
       console.error('Submission Error:', errorDetail);
-      setErrorMessage(`Chyba při odesílání: ${error?.status === 404 ? 'Šablona nebo služba nebyla nalezena' : errorDetail}`);
+      setErrorMessage(`Chyba při odesílání: ${errorDetail}`);
     } finally {
       setIsSending(false);
     }
@@ -308,6 +304,9 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
 
           <div className="w-full">
             <form onSubmit={handleSubmit} className="glass-panel p-8 md:p-10 rounded-[2.5rem] border border-black/10 dark:border-white/10 shadow-xl space-y-8 transition-all duration-500 h-full flex flex-col">
+              {/* Honeypot field - visually hidden */}
+              <input type="text" name="botCheck" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
+
               <div className="flex items-center gap-3 mb-2">
                 <div className="w-8 h-8 bg-[#69C350]/10 rounded-lg flex items-center justify-center text-[#69C350]">
                   <Calculator className="w-4 h-4" />

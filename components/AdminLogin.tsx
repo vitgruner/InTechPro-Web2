@@ -1,27 +1,52 @@
 ﻿
 import React, { useState } from 'react';
-import { Lock, User, ArrowRight, ShieldCheck, Zap } from 'lucide-react';
+import { Lock, Mail, ArrowRight, ShieldCheck, Zap } from 'lucide-react';
 import { AdminLoginProps } from '../types';
+import { supabase } from '../services/supabase';
+import { isAdminWhitelisted } from '../src/auth/adminGuard';
 
 const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError('');
 
-    setTimeout(() => {
-      if (username === 'admin' && password === 'intechpro2024') {
-        onLogin();
-      } else {
-        setError('PŘÍSTUP ODEPŘEN: Neplatná autorizační data.');
+    if (!supabase) {
+      setError('SYSTÉMOVÁ CHYBA: Supabase není inicializován.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      const { data, error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (authError) {
+        setError(`PŘÍSTUP ODEPŘEN: ${authError.message === 'Invalid login credentials' ? 'Neplatná autorizační data.' : authError.message}`);
         setIsSubmitting(false);
+        return;
       }
-    }, 800);
+
+      const user = data.user;
+      if (!user || !isAdminWhitelisted(user.email)) {
+        await supabase.auth.signOut();
+        setError('PŘÍSTUP ODEPŘEN: Váš e-mail není v seznamu administrátorů.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      onLogin();
+    } catch (err: any) {
+      setError(`CHYBA SYSTÉMU: ${err.message || 'Neočekávaná chyba při přihlašování.'}`);
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -42,16 +67,16 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2 text-left">
-            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Identifikátor</label>
+            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">E-mail</label>
             <div className="relative">
-              <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
-                type="text"
+                type="email"
                 required
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-2xl py-4 pl-12 pr-6 text-base focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
-                placeholder="Uživatelské jméno"
+                placeholder="vas@email.cz"
                 disabled={isSubmitting}
               />
             </div>

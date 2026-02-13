@@ -20,7 +20,24 @@ export default defineConfig(({ mode }) => {
       viteCompression({
         algorithm: 'brotliCompress',
         ext: '.br',
-      })
+      }),
+      {
+        name: 'api-mock',
+        configureServer(server) {
+          server.middlewares.use((req, res, next) => {
+            if (req.url === '/api/contact' && req.method === 'POST') {
+              res.statusCode = 200;
+              res.setHeader('Content-Type', 'application/json');
+              res.end(JSON.stringify({
+                success: true,
+                message: 'MOCK: Zpráva byla přijata (lokální vývoj)'
+              }));
+              return;
+            }
+            next();
+          });
+        }
+      }
     ],
     define: {
       // Předá proměnné do aplikace (jako fallback pro process.env)

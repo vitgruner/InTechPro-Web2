@@ -26,11 +26,11 @@ export const getVisionaryResponse = async (
   messages: Message[],
   onChunk?: (chunk: string) => void
 ): Promise<string> => {
-  const apiKey = process.env.API_KEY;
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
   if (!apiKey || apiKey === "undefined" || apiKey === "") {
-    console.error("Gemini API Key is missing.");
-    return "Systémová chyba: API klíč nebyl nalezen.";
+    console.error("Gemini API Key is missing. Please set VITE_GEMINI_API_KEY in your .env file.");
+    return "Systémová chyba: AI asistent není momentálně dostupný (chybějící konfigurace).";
   }
 
   try {
