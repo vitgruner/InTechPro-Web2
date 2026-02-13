@@ -32,7 +32,7 @@ const PowerNode: React.FC<PowerNodeProps> = ({ icon: Icon, label, value, unit, c
       <div className="relative">
         <div className={`absolute inset-[-8px] md:inset-[-12px] rounded-full bg-${color}-500/5 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
 
-        <div className="w-12 h-12 md:w-20 md:h-20 rounded-2xl md:rounded-[2rem] bg-white/90 dark:bg-white/[0.03] backdrop-blur-2xl border border-white/40 dark:border-white/10 shadow-2xl flex items-center justify-center relative z-10 transition-all duration-500 group-hover:scale-110">
+        <div className="w-12 h-12 md:w-20 md:h-20 rounded-2xl md:rounded-[2rem] bg-white/90 dark:bg-white/[0.03] md:backdrop-blur-2xl border border-white/40 dark:border-white/10 shadow-2xl flex items-center justify-center relative z-10 transition-all duration-500 group-hover:scale-110">
           {/* Inner Accent Box */}
           <div className={`w-9 h-9 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-${color}-500/10 flex items-center justify-center relative overflow-hidden group-hover:bg-${color}-500/20 transition-colors duration-500`}>
             <Icon className={`w-5 h-5 md:w-8 md:h-8 text-${color}-500 md:text-${color}-500/80 group-hover:text-${color}-500 transition-colors duration-500`} />
@@ -117,7 +117,7 @@ const SolarSystem = React.memo(() => {
 
           <g>
             {/* Energy flow dots on spokes */}
-            <circle r="2.5" fill="#69C350" className="filter blur-[1px]">
+            <circle r="2.5" fill="#69C350" className="filter blur-[1px] will-change-transform">
               <animateMotion path={`M 200 ${cy - nodeDistance + 20} L 200 ${cy - hubRadius}`} dur="2s" repeatCount="indefinite" />
             </circle>
 
@@ -139,7 +139,7 @@ const SolarSystem = React.memo(() => {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
           <div className="relative group">
             <div className="absolute inset-[-20px] bg-yellow-500/5 blur-3xl rounded-full scale-150 animate-pulse" />
-            <div className="w-20 h-20 md:w-32 md:h-32 rounded-[2rem] md:rounded-[2.5rem] bg-white/90 dark:bg-white/[0.03] backdrop-blur-2xl border border-white/40 dark:border-white/10 shadow-2xl flex flex-col items-center justify-center relative transition-transform duration-500 hover:scale-105">
+            <div className="w-20 h-20 md:w-32 md:h-32 rounded-[2rem] md:rounded-[2.5rem] bg-white/90 dark:bg-white/[0.03] md:backdrop-blur-2xl border border-white/40 dark:border-white/10 shadow-2xl flex flex-col items-center justify-center relative transition-transform duration-500 hover:scale-105">
               <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-yellow-500/10 flex items-center justify-center mb-1 md:mb-2 text-yellow-500">
                 <Zap className="w-6 h-6 md:w-10 md:h-10 fill-current" />
               </div>

@@ -96,7 +96,8 @@ const LightControl = React.memo(() => {
           style={{
             backgroundColor: color,
             opacity: glowOpacity,
-            transform: `scale(${0.8 + (intensity / 100) * 0.5})`
+            transform: `scale(${0.8 + (intensity / 100) * 0.5})`,
+            willChange: 'opacity, transform'
           }}
         />
 
@@ -108,7 +109,7 @@ const LightControl = React.memo(() => {
                   className="absolute inset-0 blur-2xl transition-all duration-700 opacity-40 group-hover:opacity-60"
                   style={{ backgroundColor: color, transform: `scale(${intensity / 100})` }}
                 />
-                <div className="relative w-20 h-20 md:w-32 md:h-32 glass-panel rounded-[2.5rem] border-2 border-white/20 flex items-center justify-center bg-white/5 backdrop-blur-3xl shadow-2xl transition-all">
+                <div className="relative w-20 h-20 md:w-32 md:h-32 glass-panel rounded-[2.5rem] border-2 border-white/20 flex items-center justify-center bg-white/5 md:backdrop-blur-3xl shadow-2xl transition-all">
                   <Lightbulb
                     className="w-10 h-10 md:w-16 md:h-16 transition-all duration-700"
                     style={{
