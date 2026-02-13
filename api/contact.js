@@ -66,11 +66,11 @@ export default async function handler(req, res) {
 
                     if (error) {
                         console.error(`Signed URL error for ${f.name}:`, error.message);
-                        return `Soubor: ${f.name} (Chyba odkazu)`;
+                        return `<li>Soubor: ${f.name} (Chyba odkazu)</li>`;
                     }
-                    return `Soubor: ${f.name} - Odkaz ke stažení: ${data.signedUrl}`;
+                    return `<li><a href="${data.signedUrl}" style="color: #69C350; text-decoration: underline; font-weight: bold;">Stáhnout: ${f.name}</a></li>`;
                 }));
-                attachmentLinksStr = signedLinks.join('\n');
+                attachmentLinksStr = `<ul style="margin: 0; padding-left: 20px;">${signedLinks.join('')}</ul>`;
             }
         }
 
