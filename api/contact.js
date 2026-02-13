@@ -35,10 +35,9 @@ export default async function handler(req, res) {
     // For now, we rely on Vercel's edge protection and basic validation.
 
     try {
-        // 4. (Optional) Log to Database using Service Role Key to bypass RLS for logging inquiries
         if (supabaseUrl && supabaseServiceKey) {
             const supabase = createClient(supabaseUrl, supabaseServiceKey);
-            await supabase.from('inquiries').insert([{
+            const { error: dbError } = await supabase.from('inquiries').insert([{
                 name, email, phone, message, property, area, features,
                 tech_supply: techSupply,
                 tech_supply_details: techSupplyDetails,
@@ -47,6 +46,15 @@ export default async function handler(req, res) {
                 file_paths: fileInfos?.map(f => f.path) || [],
                 ai_history: aiHistory
             }]);
+
+            if (dbError) {
+                console.error('Supabase Database Error:', dbError);
+                // We don't necessarily want to kill the whole process if DB log fails, 
+                // but for debugging we should know.
+                if (process.env.NODE_ENV === 'development') {
+                    throw new Error(`Database Error: ${dbError.message}`);
+                }
+            }
         }
 
         // 5. Send Email via EmailJS (Server-side REST API) or other provider
@@ -89,6 +97,10 @@ export default async function handler(req, res) {
         return res.status(200).json({ success: true });
     } catch (error) {
         console.error('Inquiry processing error:', error);
-        return res.status(500).json({ error: 'Interní chyba při zpracování poptávky.' });
+        return res.status(500).json({
+            error: 'Interní chyba při zpracování poptávky.',
+            details: error.message,
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        });
     }
 }
