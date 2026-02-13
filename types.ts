@@ -56,10 +56,10 @@ export interface Technology {
 }
 
 export interface TopologyStats {
-  sensors: number;
-  cablingKm: number;
-  modules: number;
-  racks: number;
+  year: number;
+  area: number;
+  zones: number;
+  scope: string;
 }
 
 export interface Reference {

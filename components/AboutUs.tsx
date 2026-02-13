@@ -1,68 +1,102 @@
 ﻿import React from 'react';
-import { Target, ShieldCheck, Zap } from 'lucide-react';
+import { Target, Lightbulb, Users, Award, MoveRight, CheckCircle2 } from 'lucide-react';
 import SectionHeader from './SectionHeader';
 import Breadcrumbs from './Breadcrumbs';
-import { DetailProps } from '../types';
 
-const AboutUs: React.FC<DetailProps> = ({ setView }) => {
+const AboutUs = ({ setView }: { setView?: (view: any) => void }) => {
   return (
-    <section className="pt-28 md:pt-32 pb-16 md:pb-24 relative overflow-hidden bg-transparent transition-colors duration-500">
-      <div className="max-w-7xl mx-auto px-6">
-        <Breadcrumbs
-          items={[{ label: 'O nás' }]}
-          setView={setView}
-        />
+    <section id="o-nas" className="pt-28 md:pt-32 pb-24 bg-white dark:bg-[#050505] relative overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#69C350]/5 to-transparent pointer-none" />
 
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div>
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        {setView && (
+          <Breadcrumbs items={[{ label: 'O nás' }]} setView={setView} />
+        )}
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="text-left">
             <SectionHeader
-              eyebrow="Naše Mise"
-              title="Specialisté s vášní pro"
-              highlight="Inteligenci"
-              description="V InTechPro věříme, že technologie by měly sloužit lidem, ne naopak. Naším cílem je eliminovat chaos v moderních instalacích a nahradit jej jedním harmonickým systémem, který dává smysl."
+              eyebrow="Náš příběh a mise"
+              title="Inovujeme "
+              highlight="Budoucnost"
+              description="Jsme InTechPro – tým expertů, kteří propojují moderní technologie s každodenním životem. Od první konzultace až po finální servis stojíme na straně kvality."
               align="left"
             />
+
             <div className="space-y-6">
               <div className="flex gap-4">
                 <div className="w-12 h-12 rounded-2xl bg-[#69C350]/10 flex items-center justify-center flex-shrink-0">
                   <Target className="text-[#69C350] w-6 h-6" />
                 </div>
-                <div className="text-left">
-                  <h3 className="font-bold text-gray-900 dark:text-white uppercase text-xs tracking-widest mb-1">Jeden partner, jedno řešení</h3>
-                  <p className="text-gray-500 text-sm font-medium">Díky koordinaci všech profesí odpadá zbytečné ladění mezi dodavateli.</p>
+                <div>
+                  <h4 className="text-lg font-black text-gray-900 dark:text-white mb-2 uppercase tracking-tight">Naše vize</h4>
+                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-sm">
+                    V InTechPro věříme, že technologie by měly sloužit lidem, ne naopak. Naším cílem je vytvářet prostředí, která jsou nejen chytrá, ale především intuitivní, bezpečná a energeticky úsporná.
+                  </p>
                 </div>
               </div>
+
               <div className="flex gap-4">
                 <div className="w-12 h-12 rounded-2xl bg-[#69C350]/10 flex items-center justify-center flex-shrink-0">
-                  <ShieldCheck className="text-[#69C350] w-6 h-6" />
+                  <Award className="text-[#69C350] w-6 h-6" />
                 </div>
-                <div className="text-left">
-                  <h3 className="font-bold text-gray-900 dark:text-white uppercase text-xs tracking-widest mb-1">Jasná odpovědnost</h3>
-                  <p className="text-gray-500 text-sm font-medium">Stojíme si za kvalitou každého zapojeného vodiče i řádku kódu.</p>
+                <div>
+                  <h4 className="text-lg font-black text-gray-900 dark:text-white mb-2 uppercase tracking-tight">Kvalita bez kompromisů</h4>
+                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-sm">
+                    Jako certifikovaný Loxone Silver Partner garantujeme profesionální přístup a špičkovou kvalitu provedení u každého projektu.
+                  </p>
                 </div>
+              </div>
+
+              <div className="pt-4">
+                <button
+                  onClick={() => setView?.('kontakt')}
+                  className="group flex items-center gap-3 text-xs font-black uppercase tracking-widest text-[#69C350] hover:text-[#4BA038] transition-all"
+                >
+                  Zjistěte, jak můžeme pomoci i vám
+                  <MoveRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+                </button>
               </div>
             </div>
           </div>
+
           <div className="relative group">
-            <div className="absolute inset-0 bg-[#69C350]/20 blur-[100px] -z-10 opacity-50 group-hover:opacity-100 transition-opacity"></div>
-            <div className="rounded-[3rem] overflow-hidden shadow-2xl border border-black/10 dark:border-white/10 aspect-square">
+            <div className="aspect-square rounded-[3rem] overflow-hidden border border-black/5 dark:border-white/10 shadow-2xl relative z-10 bg-gray-100 dark:bg-white/5">
               <img
                 src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800"
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100"
-                alt="Tým IN TECH PRO při spolupráci"
+                alt="Tým InTechPro při spolupráci"
               />
             </div>
+
+            {/* Stats Badge */}
             <div className="absolute -bottom-6 -right-6 glass-panel p-8 rounded-[2rem] border-[#69C350]/20 shadow-xl hidden md:block animate-in slide-in-from-right-8 duration-700">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-[#69C350] rounded-full flex items-center justify-center text-white">
-                  <Zap className="w-5 h-5 fill-white" />
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#69C350] flex items-center justify-center text-white shadow-lg">
+                    <CheckCircle2 className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-black text-gray-900 dark:text-white leading-none">250+</div>
+                    <div className="text-[10px] font-black text-[#69C350] uppercase tracking-widest">Projektů</div>
+                  </div>
                 </div>
-                <div className="text-left">
-                  <p className="text-[10px] font-black uppercase tracking-widest text-[#69C350]">Založeno</p>
-                  <p className="text-xl font-black text-gray-900 dark:text-white">v roce 2025</p>
+                <div className="h-px bg-black/5 dark:bg-white/5 w-full" />
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-orange-500 flex items-center justify-center text-white shadow-lg">
+                    <Award className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-black text-gray-900 dark:text-white leading-none">Silver</div>
+                    <div className="text-[10px] font-black text-orange-500 uppercase tracking-widest">Loxone Partner</div>
+                  </div>
                 </div>
               </div>
             </div>
+
+            {/* Decorative background blob */}
+            <div className="absolute -top-12 -left-12 w-64 h-64 bg-[#69C350]/10 rounded-full blur-3xl" />
           </div>
         </div>
       </div>

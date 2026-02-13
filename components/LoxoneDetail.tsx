@@ -77,16 +77,24 @@ const LoxoneDetail: React.FC<DetailProps> = ({ setView }) => {
                   <h3 className="font-black uppercase tracking-widest text-[11px] text-[#69C350] truncate">Architektura systému</h3>
                 </div>
                 <p className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
-                  Vizualizace toku dat mezi centrálním Miniserverem a periferními klastry v reálném čase. Každý pohyb kuličky reprezentuje synchronizační paket sběrnice Tree nebo Air.
+                  Vizualizace toku dat mezi centrálním Miniserverem a periferními klastry v reálném čase. Každý pohyb kuličky reprezentuje synchronizační paket technologií Loxone Air nebo Tree.
                 </p>
                 <div className="mt-4 pt-4 border-t border-black/5 dark:border-white/5 space-y-2">
                   <div className="flex items-center gap-3">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#69C350]" />
-                    <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Air Sběrnice</span>
+                    <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Bezdrátové prvky</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-1.5 h-1.5 rounded-full bg-lime-500" />
-                    <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Tree Sběrnice</span>
+                    <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Tree sběrnice</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
+                    <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Osvětlení</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-purple-500" />
+                    <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Topení / Chlazení</span>
                   </div>
                 </div>
               </div>

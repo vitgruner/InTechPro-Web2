@@ -372,59 +372,58 @@ const ReferenceForm: React.FC<ReferenceFormProps> = ({ onAdd, onCancel, initialD
           </div>
 
           <div className="space-y-6">
-            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Topologie Systému (Statistiky)</label>
+            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Detaily projektu (Statistiky)</label>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-[9px] font-bold text-gray-500 uppercase tracking-wider ml-1">Senzory (ks)</label>
+                <label className="text-[9px] font-bold text-gray-500 uppercase tracking-wider ml-1">Rok realizace</label>
                 <input
                   type="number"
-                  value={formData.topology?.sensors || ''}
+                  value={formData.topology?.year || ''}
                   onChange={(e) => setFormData(prev => ({
                     ...prev,
-                    topology: { ...(prev.topology || { sensors: 0, cablingKm: 0, modules: 0, racks: 0 }), sensors: parseInt(e.target.value) || 0 }
+                    topology: { ...(prev.topology || { year: 0, area: 0, zones: 0, scope: '' }), year: parseInt(e.target.value) || 0 }
                   }))}
                   className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-3 px-4 text-base focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
-                  placeholder="např. 142"
+                  placeholder="např. 2024"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-[9px] font-bold text-gray-500 uppercase tracking-wider ml-1">Kabeláž (km)</label>
+                <label className="text-[9px] font-bold text-gray-500 uppercase tracking-wider ml-1">Plocha domu (m2)</label>
                 <input
                   type="number"
-                  step="0.1"
-                  value={formData.topology?.cablingKm || ''}
+                  value={formData.topology?.area || ''}
                   onChange={(e) => setFormData(prev => ({
                     ...prev,
-                    topology: { ...(prev.topology || { sensors: 0, cablingKm: 0, modules: 0, racks: 0 }), cablingKm: parseFloat(e.target.value) || 0 }
+                    topology: { ...(prev.topology || { year: 0, area: 0, zones: 0, scope: '' }), area: parseInt(e.target.value) || 0 }
                   }))}
                   className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-3 px-4 text-base focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
-                  placeholder="např. 3.2"
+                  placeholder="např. 180"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-[9px] font-bold text-gray-500 uppercase tracking-wider ml-1">Moduly (ks)</label>
+                <label className="text-[9px] font-bold text-gray-500 uppercase tracking-wider ml-1">Řízené zóny</label>
                 <input
                   type="number"
-                  value={formData.topology?.modules || ''}
+                  value={formData.topology?.zones || ''}
                   onChange={(e) => setFormData(prev => ({
                     ...prev,
-                    topology: { ...(prev.topology || { sensors: 0, cablingKm: 0, modules: 0, racks: 0 }), modules: parseInt(e.target.value) || 0 }
+                    topology: { ...(prev.topology || { year: 0, area: 0, zones: 0, scope: '' }), zones: parseInt(e.target.value) || 0 }
                   }))}
                   className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-3 px-4 text-base focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
-                  placeholder="např. 48"
+                  placeholder="např. 12"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-[9px] font-bold text-gray-500 uppercase tracking-wider ml-1">Pole / Rozvaděče</label>
+                <label className="text-[9px] font-bold text-gray-500 uppercase tracking-wider ml-1">Rozsah dodávky</label>
                 <input
-                  type="number"
-                  value={formData.topology?.racks || ''}
+                  type="text"
+                  value={formData.topology?.scope || ''}
                   onChange={(e) => setFormData(prev => ({
                     ...prev,
-                    topology: { ...(prev.topology || { sensors: 0, cablingKm: 0, modules: 0, racks: 0 }), racks: parseInt(e.target.value) || 0 }
+                    topology: { ...(prev.topology || { year: 0, area: 0, zones: 0, scope: '' }), scope: e.target.value }
                   }))}
                   className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-3 px-4 text-base focus:outline-none focus:border-[#69C350] transition-all dark:text-white"
-                  placeholder="např. 2"
+                  placeholder="např. Na klíč"
                 />
               </div>
             </div>

@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Reference } from '../types';
 import {
     X, ChevronLeft, ChevronRight, MapPin, Zap, Thermometer, Radio, Shield, Sun, Building, Activity,
-    Share2, Ruler, Server, Snowflake, Wind, Blinds, DoorOpen, Lightbulb, Camera, Flame, Car, Droplets, Cpu, Factory, Home
+    Share2, Ruler, Server, Snowflake, Wind, Blinds, DoorOpen, Lightbulb, Camera, Flame, Car, Droplets, Cpu, Factory, Home,
+    Calendar, Maximize, Layers, CheckCircle2
 } from 'lucide-react';
 
 interface ReferenceDetailModalProps {
@@ -285,40 +286,40 @@ const ReferenceDetailModal: React.FC<ReferenceDetailModalProps> = ({ reference, 
                             <div>
                                 <h3 className="text-[9px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Topologie projektu</h3>
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-1.5">
-                                    {reference.topology.sensors && (
+                                    {reference.topology.year && (
                                         <div className="bg-gradient-to-br from-[#69C350]/10 to-transparent p-1.5 rounded-md border border-[#69C350]/20 flex items-center justify-between">
                                             <div className="flex items-center gap-1">
-                                                <Activity className="w-2.5 h-2.5 text-[#69C350]" />
-                                                <span className="text-[8px] font-bold text-gray-500 dark:text-gray-400 uppercase">Senzory</span>
+                                                <Calendar className="w-2.5 h-2.5 text-[#69C350]" />
+                                                <span className="text-[8px] font-bold text-gray-500 dark:text-gray-400 uppercase">Rok realizace</span>
                                             </div>
-                                            <p className="text-sm font-bold text-gray-900 dark:text-white">{reference.topology.sensors}</p>
+                                            <p className="text-sm font-bold text-gray-900 dark:text-white">{reference.topology.year}</p>
                                         </div>
                                     )}
-                                    {reference.topology.cablingKm && (
+                                    {reference.topology.area && (
                                         <div className="bg-gradient-to-br from-[#69C350]/10 to-transparent p-1.5 rounded-md border border-[#69C350]/20 flex items-center justify-between">
                                             <div className="flex items-center gap-1">
-                                                <Share2 className="w-2.5 h-2.5 text-[#69C350]" />
-                                                <span className="text-[8px] font-bold text-gray-500 dark:text-gray-400 uppercase">Kabeláž</span>
+                                                <Maximize className="w-2.5 h-2.5 text-[#69C350]" />
+                                                <span className="text-[8px] font-bold text-gray-500 dark:text-gray-400 uppercase">Plocha domu</span>
                                             </div>
-                                            <p className="text-sm font-bold text-gray-900 dark:text-white">{reference.topology.cablingKm} km</p>
+                                            <p className="text-sm font-bold text-gray-900 dark:text-white">{reference.topology.area} m2</p>
                                         </div>
                                     )}
-                                    {reference.topology.modules && (
+                                    {reference.topology.zones && (
                                         <div className="bg-gradient-to-br from-[#69C350]/10 to-transparent p-1.5 rounded-md border border-[#69C350]/20 flex items-center justify-between">
                                             <div className="flex items-center gap-1">
-                                                <Server className="w-2.5 h-2.5 text-[#69C350]" />
-                                                <span className="text-[8px] font-bold text-gray-500 dark:text-gray-400 uppercase">Moduly</span>
+                                                <Layers className="w-2.5 h-2.5 text-[#69C350]" />
+                                                <span className="text-[8px] font-bold text-gray-500 dark:text-gray-400 uppercase">Řízené zóny</span>
                                             </div>
-                                            <p className="text-sm font-bold text-gray-900 dark:text-white">{reference.topology.modules}</p>
+                                            <p className="text-sm font-bold text-gray-900 dark:text-white">{reference.topology.zones}</p>
                                         </div>
                                     )}
-                                    {reference.topology.racks && (
+                                    {reference.topology.scope && (
                                         <div className="bg-gradient-to-br from-[#69C350]/10 to-transparent p-1.5 rounded-md border border-[#69C350]/20 flex items-center justify-between">
                                             <div className="flex items-center gap-1">
-                                                <Ruler className="w-2.5 h-2.5 text-[#69C350]" />
-                                                <span className="text-[8px] font-bold text-gray-500 dark:text-gray-400 uppercase">Pole</span>
+                                                <CheckCircle2 className="w-2.5 h-2.5 text-[#69C350]" />
+                                                <span className="text-[8px] font-bold text-gray-500 dark:text-gray-400 uppercase">Rozsah dodávky</span>
                                             </div>
-                                            <p className="text-sm font-bold text-gray-900 dark:text-white">{reference.topology.racks}</p>
+                                            <p className="text-sm font-bold text-gray-900 dark:text-white">{reference.topology.scope}</p>
                                         </div>
                                     )}
                                 </div>

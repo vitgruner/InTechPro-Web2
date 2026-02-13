@@ -1,5 +1,5 @@
 ﻿import React, { useState, useMemo } from 'react';
-import { Send, CheckCircle2, Zap, Thermometer, Shield, Radio, Sun, Wifi, Car, Home, Factory, Building2, Waves, Sprout, Droplets, Blinds, Calculator, Sparkles, History, Mail, Phone, MessageSquare, Loader2, AlertCircle, Check, Snowflake, DoorOpen, Camera, Flame, Upload, X } from 'lucide-react';
+import { Send, CheckCircle2, Zap, Thermometer, Shield, Radio, Sun, Wifi, Car, Home, Factory, Building2, Waves, Sprout, Droplets, Blinds, Calculator, Sparkles, History, Mail, Phone, MessageSquare, Loader2, AlertCircle, Check, Snowflake, DoorOpen, Camera, Flame, Upload, X, Maximize } from 'lucide-react';
 import VisionaryAssistant from './VisionaryAssistant';
 import { Message, ContactFormProps } from '../types';
 import SectionHeader from './SectionHeader';
@@ -21,6 +21,8 @@ interface FormData {
   distributionBoardInterest: boolean;
   electricalInstallInterest: boolean;
   projectFiles: File[];
+  area: number;
+  techSupplyFields: string[];
 }
 
 const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView }) => {
@@ -30,7 +32,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
   const [isAiLoading, setIsAiLoading] = useState(false);
 
   const initialAiMessages: Message[] = [
-    { role: 'assistant', content: 'Zdravím vás. Jsem váš **digitální průvodce** světem inteligentní infrastruktury IN TECH PRO. \n\nMáte konkrétní představu o svém projektu, nebo potřebujete inspirovat možnostmi moderní automatizace?' }
+    { role: 'assistant', content: 'Zdravím vás. Jsem váš **digitální průvodce** světem inteligentní infrastruktury InTechPro. \n\nMáte konkrétní představu o svém projektu, nebo potřebujete inspirovat možnostmi moderní automatizace?' }
   ];
 
   const [aiMessages, setAiMessages] = useState<Message[]>(initialAiMessages);
@@ -48,7 +50,9 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
     techSupplyInterest: false,
     distributionBoardInterest: false,
     electricalInstallInterest: false,
-    projectFiles: []
+    projectFiles: [],
+    area: 0,
+    techSupplyFields: []
   };
 
   const [formData, setFormData] = useState<FormData>(initialFormData);
@@ -63,13 +67,23 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
     { id: 'access', label: 'Přístup', icon: <DoorOpen className="w-4 h-4" />, price: 35000 },
     { id: 'audio', label: 'Multi-room audio', icon: <Radio className="w-4 h-4" />, price: 40000 },
     { id: 'energy', label: 'FVE a energie', icon: <Sun className="w-4 h-4" />, price: 80000 },
-    { id: 'network', label: 'Síťová infra', icon: <Wifi className="w-4 h-4" />, price: 25000 },
+    { id: 'network', label: 'Datová síť', icon: <Wifi className="w-4 h-4" />, price: 25000 },
     { id: 'ev', label: 'Nabíjení EV / Wallbox', icon: <Car className="w-4 h-4" />, price: 30000 },
     { id: 'blinds', label: 'Stínění', icon: <Blinds className="w-4 h-4" />, price: 25000 },
     { id: 'pool', label: 'Bazénová techn.', icon: <Waves className="w-4 h-4" />, price: 60000 },
     { id: 'sauna', label: 'Sauna', icon: <Flame className="w-4 h-4" />, price: 35000 },
-    { id: 'greenhouse', label: 'Skleník', icon: <Sprout className="w-4 h-4" />, price: 45000 },
     { id: 'irrigation', label: 'Závlaha zahrady', icon: <Droplets className="w-4 h-4" />, price: 35000 }
+  ];
+
+  const techSupplyOptions = [
+    { id: 'lighting_fixtures', label: 'Svítidla', icon: <Zap className="w-3 h-3" /> },
+    { id: 'heat_pump', label: 'Tepelné čerpadlo', icon: <Thermometer className="w-3 h-3" /> },
+    { id: 'ac_unit', label: 'Klimatizace', icon: <Snowflake className="w-3 h-3" /> },
+    { id: 'recuperation', label: 'Rekuperace', icon: <Waves className="w-3 h-3" /> },
+    { id: 'pv_system', label: 'Fotovoltaika', icon: <Sun className="w-3 h-3" /> },
+    { id: 'audio_hw', label: 'Audio technika', icon: <Radio className="w-3 h-3" /> },
+    { id: 'security_hw', label: 'EZS / CCTV', icon: <Shield className="w-3 h-3" /> },
+    { id: 'network_hw', label: 'Datová síť', icon: <Wifi className="w-3 h-3" /> }
   ];
 
   const propertyMultipliers: Record<string, number> = {
@@ -85,8 +99,9 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
     }, 0);
     const multiplier = propertyMultipliers[formData.property] || 1;
     const basePrice = 150000;
+    const areaPrice = (formData.area || 0) * 500; // 500 CZK per m2
 
-    return (basePrice + featuresTotal) * multiplier;
+    return (basePrice + areaPrice + featuresTotal) * multiplier;
   }, [formData]);
 
   const toggleFeature = (id: string) => {
@@ -95,6 +110,15 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
       features: prev.features.includes(id)
         ? prev.features.filter((f: string) => f !== id)
         : [...prev.features, id]
+    }));
+  };
+
+  const toggleTechSupplyField = (id: string) => {
+    setFormData((prev: FormData) => ({
+      ...prev,
+      techSupplyFields: prev.techSupplyFields.includes(id)
+        ? prev.techSupplyFields.filter((f: string) => f !== id)
+        : [...prev.techSupplyFields, id]
     }));
   };
 
@@ -178,8 +202,12 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
         selected_features: formData.features.length > 0
           ? formData.features.map(f => featureOptions.find(o => o.id === f)?.label).join(', ')
           : 'Žádné specifické systémy nevybrány',
+        project_area: (formData.area || 0) + ' m2',
         estimated_budget: estimatedTotal.toLocaleString('cs-CZ') + ' Kč',
         tech_supply: formData.techSupplyInterest ? 'ANO' : 'NE',
+        tech_supply_details: formData.techSupplyFields.length > 0
+          ? formData.techSupplyFields.map(f => techSupplyOptions.find(o => o.id === f)?.label).join(', ')
+          : 'Nespecifikováno',
         distribution_board: formData.distributionBoardInterest ? 'ANO' : 'NE',
         electrical_install: formData.electricalInstallInterest ? 'ANO' : 'NE',
         has_attachments: formData.projectFiles.length > 0 ? `${formData.projectFiles.length} souborů` : 'NE',
@@ -312,15 +340,66 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
 
               <div className="space-y-3 text-left">
                 <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Typ objektu</label>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-3 gap-2">
                   {[{ id: 'Rezidenční', icon: <Home className="w-3.5 h-3.5" /> }, { id: 'Komerční', icon: <Building2 className="w-3.5 h-3.5" /> }, { id: 'Průmyslová', icon: <Factory className="w-3.5 h-3.5" /> }].map(type => (
-                    <button key={type.id} type="button" onClick={() => setFormData((prev) => ({ ...prev, property: type.id }))} className={`flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border transition-all ${formData.property === type.id ? 'bg-[#69C350] border-[#69C350] text-white shadow-lg shadow-[#7BD462]/20' : 'bg-black/5 dark:bg-white/5 border-black/10 text-gray-500'}`}>
+                    <button key={type.id} type="button" onClick={() => setFormData((prev) => ({ ...prev, property: type.id }))} className={`flex flex-col items-center justify-center gap-1.5 p-3 rounded-2xl border transition-all ${formData.property === type.id ? 'bg-[#69C350] border-[#69C350] text-white shadow-lg shadow-[#7BD462]/20' : 'bg-black/5 dark:bg-white/5 border-black/10 text-gray-500'}`}>
                       {type.icon}
-                      <span className="text-[9px] font-bold uppercase">{type.id}</span>
+                      <span className="text-[8px] font-bold uppercase">{type.id}</span>
                     </button>
                   ))}
                 </div>
               </div>
+
+              <div className="grid md:grid-cols-2 gap-6 items-start">
+                <div className="space-y-3 text-left">
+                  <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Plocha projektu</label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#69C350]">
+                      <Maximize className="w-4 h-4" />
+                    </div>
+                    <input
+                      type="number"
+                      value={formData.area || ''}
+                      onChange={(e) => setFormData(prev => ({ ...prev, area: parseInt(e.target.value) || 0 }))}
+                      placeholder="např. 150"
+                      className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-4 pl-12 pr-5 text-gray-900 dark:text-white focus:outline-none focus:border-[#69C350] transition-all text-sm font-bold"
+                    />
+                    <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                      <span className="text-[10px] font-bold text-gray-400">m²</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3 text-left">
+                  <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Podklady k projektu</label>
+                  <div className="relative group">
+                    <input type="file" multiple onChange={handleFileChange} className="hidden" id="project-docs" />
+                    <label htmlFor="project-docs" className="flex items-center gap-4 p-4 border-2 border-dashed border-black/10 dark:border-white/10 rounded-2xl bg-black/5 dark:bg-white/5 cursor-pointer hover:bg-black/[0.08] dark:hover:bg-white/[0.08] transition-all group-hover:border-[#69C350]/50 h-[56px]">
+                      <div className="w-8 h-8 rounded-lg bg-[#69C350]/10 flex items-center justify-center text-[#69C350] group-hover:scale-105 transition-transform flex-shrink-0">
+                        <Upload className="w-4 h-4" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[10px] font-black uppercase text-gray-900 dark:text-white mb-0">Nahrát dokumentaci</p>
+                        <p className="text-[7px] text-gray-500 font-medium truncate uppercase">PDF, JPG, PNG podklady</p>
+                      </div>
+                    </label>
+                  </div>
+                  {formData.projectFiles.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 mt-2">
+                      {formData.projectFiles.map((file, idx) => (
+                        <div key={idx} className="relative group/file bg-[#69C350]/10 border border-[#69C350]/30 rounded px-2 py-1 flex items-center gap-1.5 animate-in fade-in zoom-in-95 duration-200">
+                          <span className="text-[7px] font-black text-[#69C350] truncate max-w-[60px] uppercase">{file.name}</span>
+                          <button type="button" onClick={() => removeFile(idx)} className="text-red-500 hover:text-red-600 transition-colors">
+                            <X className="w-2.5 h-2.5" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+
 
               <div className="space-y-3 text-left">
                 <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Rozsah Loxone</label>
@@ -357,55 +436,35 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
                     </div>
                   ))}
                 </div>
-              </div>
 
-              <div className="space-y-3 text-left">
-                <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Podklady k projektu</label>
-                <div className="relative group">
-                  <input
-                    type="file"
-                    multiple
-                    onChange={handleFileChange}
-                    className="hidden"
-                    id="project-docs"
-                  />
-                  <label
-                    htmlFor="project-docs"
-                    className="flex flex-col items-center justify-center gap-3 p-8 border-2 border-dashed border-black/10 dark:border-white/10 rounded-[2rem] bg-black/5 dark:bg-white/5 cursor-pointer hover:bg-black/[0.08] dark:hover:bg-white/[0.08] transition-all group-hover:border-[#69C350]/50"
-                  >
-                    <div className="w-12 h-12 rounded-2xl bg-[#69C350]/10 flex items-center justify-center text-[#69C350] group-hover:scale-110 transition-transform">
-                      <Upload className="w-6 h-6" />
+                {/* Conditional Tech Supply Choice */}
+                {formData.techSupplyInterest && (
+                  <div className="mt-4 p-5 bg-[#69C350]/5 border border-[#69C350]/10 rounded-[1.5rem] animate-in slide-in-from-top-4 fade-in duration-500">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Sparkles className="w-3.5 h-3.5 text-[#69C350]" />
+                      <span className="text-[9px] font-black text-[#69C350] uppercase tracking-[0.2em]">Upřesnění dodávky hardwaru</span>
                     </div>
-                    <div className="text-center">
-                      <p className="text-xs font-black uppercase text-gray-900 dark:text-white mb-1">Vložit podklady k projektu</p>
-                      <p className="text-[10px] text-gray-500 font-medium tracking-wide leading-relaxed">PDF, JPG nebo PNG podklady náhledů vašeho půdorysu</p>
-                    </div>
-                  </label>
-                </div>
-
-                {formData.projectFiles.length > 0 && (
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
-                    {formData.projectFiles.map((file, idx) => (
-                      <div key={idx} className="relative group/file bg-[#69C350]/5 border border-[#69C350]/20 rounded-xl p-3 flex items-center gap-2 animate-in fade-in zoom-in-95 duration-200">
-                        <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-[#69C350]/10 flex items-center justify-center text-[#69C350]">
-                          <CheckCircle2 className="w-4 h-4" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-[10px] font-bold text-gray-900 dark:text-white truncate uppercase">{file.name}</p>
-                          <p className="text-[8px] text-gray-500 font-medium uppercase tracking-wider">{(file.size / 1024 / 1024).toFixed(1)} MB</p>
-                        </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                      {techSupplyOptions.map((opt) => (
                         <button
+                          key={opt.id}
                           type="button"
-                          onClick={() => removeFile(idx)}
-                          className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover/file:opacity-100 transition-opacity shadow-lg"
+                          onClick={() => toggleTechSupplyField(opt.id)}
+                          className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-left transition-all ${formData.techSupplyFields.includes(opt.id) ? 'bg-[#69C350] text-white border-[#69C350] shadow-sm' : 'bg-black/5 dark:bg-white/5 border-black/10 text-gray-400 hover:border-[#69C350]/30'}`}
                         >
-                          <X className="w-3.5 h-3.5" />
+                          <div className="flex-shrink-0">{opt.icon}</div>
+                          <span className="text-[8px] font-bold uppercase leading-tight">{opt.label}</span>
                         </button>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
+                    <p className="mt-4 text-[8px] text-gray-500 font-medium italic opacity-70">
+                      * Prosím označte všechny technologie, které si přejete od nás dodat a namontovat.
+                    </p>
                   </div>
                 )}
               </div>
+
+
 
               <div className="space-y-2 text-left">
                 <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1 flex items-center gap-2">
@@ -440,12 +499,16 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
                 </div>
               )}
 
-              <div className="mt-auto pt-8 border-t border-black/5 dark:border-white/5 flex flex-col sm:flex-row items-center justify-between gap-8">
+              <div className="pt-8 border-t border-black/5 dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+
                 <div className="text-left">
                   <p className="text-[9px] font-black text-[#69C350] uppercase tracking-widest mb-1">Odhadovaná investice</p>
-                  <div className="flex items-baseline gap-1.5">
+                  <div className="flex items-center gap-1.5">
                     <span className="text-3xl font-black text-gray-900 dark:text-white tabular-nums">{estimatedTotal.toLocaleString()}</span>
-                    <span className="text-xs font-bold text-[#69C350]">Kč <span className="text-[10px] font-normal opacity-70">(bez DPH)</span></span>
+                    <div className="flex flex-col text-left">
+                      <span className="text-xs font-bold text-[#69C350]">Kč <span className="text-[10px] font-normal opacity-70">(bez DPH)</span></span>
+                      <span className="text-[7px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider leading-none mt-0.5">Včetně montáže a programování</span>
+                    </div>
                   </div>
                 </div>
                 <button

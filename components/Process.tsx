@@ -22,7 +22,7 @@ const Process = () => {
       className="py-10 md:py-14 bg-gray-50 dark:bg-[#0a0a0a] border-y border-black/5 dark:border-white/5"
     >
       <div className="max-w-7xl mx-auto px-6">
-        <SectionHeader 
+        <SectionHeader
           eyebrow="Průběh realizace"
           title="Jak probíhá"
           highlight="spolupráce"
@@ -34,17 +34,21 @@ const Process = () => {
           {steps.map((step, idx) => (
             <div
               key={idx}
-              className="glass-panel p-4 md:p-5 rounded-2xl border-black/5 dark:border-white/5 hover:border-[#69C350]/30 transition-all group flex flex-col justify-center h-full"
+              className="glass-panel p-6 md:p-8 rounded-2xl border border-black/5 dark:border-white/5 hover:border-[#69C350]/30 transition-all group flex flex-col justify-start h-full"
             >
-              {/* HEADER: ICON + TITLE */}
-              <div className="flex items-center gap-3 mb-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#69C350]/10 text-[#69C350] dark:text-[#95E87D] group-hover:bg-[#69C350] group-hover:text-white transition-all">
-                  <span className="[&>svg]:w-4 [&>svg]:h-4">
+              {/* HEADER: ICON + NUMBER + TITLE */}
+              <div className="flex items-center gap-4 mb-4">
+                <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#69C350]/10 text-[#69C350] dark:text-[#95E87D] group-hover:bg-[#69C350] group-hover:text-white transition-all shadow-inner">
+                  <span className="[&>svg]:w-5 [&>svg]:h-5">
                     {step.icon}
                   </span>
+                  {/* Step Number */}
+                  <div className="absolute -top-2 -left-2 w-5 h-5 bg-white dark:bg-[#1a1d21] border border-black/5 dark:border-white/10 rounded-md flex items-center justify-center shadow-sm">
+                    <span className="text-[10px] font-black text-gray-400 dark:text-gray-500">{idx + 1}</span>
+                  </div>
                 </div>
 
-                <h3 className="text-sm md:text-base font-bold text-gray-900 dark:text-white leading-tight">
+                <h3 className="text-sm md:text-base font-black text-gray-900 dark:text-white leading-tight uppercase tracking-tight">
                   {step.title}
                 </h3>
               </div>

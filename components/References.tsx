@@ -1,13 +1,12 @@
-﻿
-import React, { useState, useMemo } from 'react';
+﻿import React, { useState, useMemo } from 'react';
 import {
   Home, Zap, Search, Filter, LayoutGrid, Building2, Factory,
   Cpu, Thermometer, Radio, Shield, Sun, Building, Activity, ArrowRight,
-  Share2, Ruler, Server, Snowflake, Wind, Blinds, DoorOpen, Lightbulb, Camera, Flame, Car, Droplets, Image as ImageIcon
+  Share2, Ruler, Server, Snowflake, Wind, Blinds, DoorOpen, Lightbulb, Camera, Flame, Car, Droplets, Image as ImageIcon,
+  Calendar, Maximize, Layers, CheckCircle2
 } from 'lucide-react';
-import { Reference, ReferenceCardProps, ReferencesProps, Technology } from '../types';
+import { Reference, ReferenceCardProps, ReferencesProps } from '../types';
 import SectionHeader from './SectionHeader';
-import Partners from './Partners';
 import Breadcrumbs from './Breadcrumbs';
 import ReferenceDetailModal from './ReferenceDetailModal';
 
@@ -118,37 +117,37 @@ const ReferenceCard: React.FC<ReferenceCardProps & { onClick?: () => void }> = (
           <div className="pt-4 border-t border-black/5 dark:border-white/10">
             {topology && (
               <div className="grid grid-cols-2 gap-2">
-                {/* Senzory */}
+                {/* Year */}
                 <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 px-3 py-2 rounded-lg">
                   <div className="flex flex-col">
-                    <span className="text-[7px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Senzory</span>
-                    <span className="text-[10px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.sensors}</span>
+                    <span className="text-[7px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Rok realizace</span>
+                    <span className="text-[10px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.year}</span>
                   </div>
-                  <Share2 className="w-3 h-3 text-[#69C350] dark:text-[#7BD462] opacity-80" />
+                  <Calendar className="w-3 h-3 text-[#69C350] dark:text-[#7BD462] opacity-80" />
                 </div>
-                {/* Kabeláž */}
+                {/* Area */}
                 <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 px-3 py-2 rounded-lg">
                   <div className="flex flex-col">
-                    <span className="text-[7px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Kabeláž</span>
-                    <span className="text-[10px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.cablingKm}km</span>
+                    <span className="text-[7px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Plocha domu</span>
+                    <span className="text-[10px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.area} m2</span>
                   </div>
-                  <Ruler className="w-3 h-3 text-lime-600 dark:text-lime-500 opacity-80" />
+                  <Maximize className="w-3 h-3 text-lime-600 dark:text-lime-500 opacity-80" />
                 </div>
-                {/* Moduly */}
+                {/* Zones */}
                 <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 px-3 py-2 rounded-lg">
                   <div className="flex flex-col">
-                    <span className="text-[7px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Moduly</span>
-                    <span className="text-[10px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.modules} ks</span>
+                    <span className="text-[7px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Řízené zóny</span>
+                    <span className="text-[10px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.zones}</span>
                   </div>
-                  <Cpu className="w-3 h-3 text-orange-500 dark:text-orange-400 opacity-80" />
+                  <Layers className="w-3 h-3 text-orange-500 dark:text-orange-400 opacity-80" />
                 </div>
-                {/* Rozvaděče */}
+                {/* Scope */}
                 <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 px-3 py-2 rounded-lg">
                   <div className="flex flex-col">
-                    <span className="text-[7px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Pole</span>
-                    <span className="text-[10px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.racks}x</span>
+                    <span className="text-[7px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Rozsah dodávky</span>
+                    <span className="text-[10px] font-black font-mono text-gray-900 dark:text-white leading-none">{topology.scope}</span>
                   </div>
-                  <Server className="w-3 h-3 text-purple-600 dark:text-purple-400 opacity-80" aria-hidden="true" />
+                  <CheckCircle2 className="w-3 h-3 text-purple-600 dark:text-purple-400 opacity-80" aria-hidden="true" />
                 </div>
               </div>
             )}

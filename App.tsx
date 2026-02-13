@@ -67,10 +67,7 @@ const FooterLogo = () => (
       < Zap className="w-4 h-4 text-white fill-white" aria-hidden="true" />
     </div>
     <div className="flex items-center font-black text-white tracking-tighter leading-none">
-      <span className="text-[18px]">IN</span>
-      <div className="w-1 h-1 bg-white rounded-full mx-1" />
-      <span className="text-[18px]">TECH</span>
-      <span className="text-[18px] ml-0.5 font-light opacity-50">PRO</span>
+      <span className="text-[18px]">InTechPro</span>
     </div>
   </div>
 );
@@ -84,7 +81,7 @@ const DEFAULT_REFERENCES: Reference[] = [
     images: ["https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200"],
     tech: "Loxone",
     techIcon: "cpu",
-    topology: { sensors: 142, cablingKm: 3.2, modules: 48, racks: 2 },
+    topology: { year: 2023, area: 350, zones: 24, scope: "Komplet" },
     services: [
       { label: "Osvětlení", icon: "zap" },
       { label: "HVAC", icon: "thermometer" },
@@ -100,7 +97,7 @@ const DEFAULT_REFERENCES: Reference[] = [
     images: ["https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200"],
     tech: "DALI / KNX",
     techIcon: "building",
-    topology: { sensors: 850, cablingKm: 12.5, modules: 156, racks: 6 },
+    topology: { year: 2024, area: 1200, zones: 48, scope: "Projekce+Dodávka" },
     services: [
       { label: "Osvětlení", icon: "zap" },
       { label: "Řízení přístupu", icon: "shield" },
@@ -115,7 +112,7 @@ const DEFAULT_REFERENCES: Reference[] = [
     images: ["https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1200"],
     tech: "Beckhoff / Loxone",
     techIcon: "factory",
-    topology: { sensors: 1200, cablingKm: 25.0, modules: 312, racks: 12 },
+    topology: { year: 2022, area: 5400, zones: 120, scope: "MaR" },
     services: [
       { label: "Průmyslová automatizace", icon: "factory" },
       { label: "Monitoring energií", icon: "zap" },
@@ -130,7 +127,7 @@ const DEFAULT_REFERENCES: Reference[] = [
     images: ["https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&q=80&w=1200"],
     tech: "Loxone / Modbus",
     techIcon: "factory",
-    topology: { sensors: 850, cablingKm: 45.0, modules: 210, racks: 12 },
+    topology: { year: 2024, area: 8500, zones: 64, scope: "MaR+FVE" },
     services: [
       { label: "Měření", icon: "activity" },
       { label: "Vytápění", icon: "thermometer" },
@@ -516,7 +513,7 @@ const App = () => {
 
           <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
             <p className="text-[10px] font-black uppercase tracking-widest text-gray-500 text-center md:text-left">
-              © 2024 IN TECH PRO s.r.o. Synchronizováno a zabezpečeno.
+              © 2025 InTechPro s.r.o. Synchronizováno a zabezpečeno.
             </p>
             <div className="flex flex-wrap justify-center gap-8">
               <button type="button" onClick={() => navigateTo('ochrana-soukromi')} className="text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors">Ochrana soukromí</button>

@@ -77,9 +77,9 @@ const Dashboard: React.FC<DetailProps> = ({ setView }) => {
   const [sensors, setSensors] = useState([
     { id: 't1', label: 'Teplota obývací p.', value: 22.4, unit: '°C', trend: 'stable', icon: <Thermometer className="w-4 h-4" /> },
     { id: 'h1', label: 'Vlhkost vzduchu', value: 48, unit: '%', trend: 'down', icon: <Droplets className="w-4 h-4" /> },
-    { id: 'p1', label: 'Stav osvětlení', value: 85, unit: '%', trend: 'up', icon: <Lightbulb className="w-4 h-4" /> },
+    { id: 'p1', label: 'Stav osvětlení', value: 5, unit: 'místností svítí', trend: 'stable', icon: <Lightbulb className="w-4 h-4" /> },
     { id: 'a1', label: 'Kvalita vzduchu', value: 'Vynikající', unit: '', trend: 'stable', icon: <Activity className="w-4 h-4" /> },
-    { id: 'n1', label: 'Stav stínění', value: 45, unit: '%', trend: 'stable', icon: <Blinds className="w-4 h-4" /> },
+    { id: 'n1', label: 'Stav stínění', value: 'Automatika', unit: '', trend: 'stable', icon: <Blinds className="w-4 h-4" /> },
     { id: 'b1', label: 'Kapacita úložiště', value: 88, unit: '%', trend: 'up', icon: <Battery className="w-4 h-4" /> },
     { id: 'w1', label: 'Průtok vody', value: 0.4, unit: 'L/h', trend: 'down', icon: <Droplet className="w-4 h-4" /> },
     { id: 's1', label: 'Stav zabezpečení', value: 'Aktivní', unit: '', trend: 'stable', icon: <Lock className="w-4 h-4" /> },
@@ -88,6 +88,23 @@ const Dashboard: React.FC<DetailProps> = ({ setView }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setSensors(prev => prev.map(s => {
+        // Handle lighting simulation (integer)
+        if (s.id === 'p1') {
+          const change = Math.random() > 0.8 ? (Math.random() > 0.5 ? 1 : -1) : 0;
+          const newValue = Math.max(2, Math.min(8, (s.value as number) + change));
+          return { ...s, value: newValue, trend: change === 0 ? 'stable' : (change > 0 ? 'up' : 'down') };
+        }
+
+        // Handle shading simulation (states)
+        if (s.id === 'n1') {
+          if (Math.random() > 0.95) {
+            const states = ['Automatika', 'Zataženo', 'Vytaženo'];
+            const newState = states[Math.floor(Math.random() * states.length)];
+            return { ...s, value: newState };
+          }
+          return s;
+        }
+
         if (typeof s.value === 'number') {
           const change = (Math.random() - 0.5) * 0.2;
           return { ...s, value: parseFloat((s.value + change).toFixed(2)) };

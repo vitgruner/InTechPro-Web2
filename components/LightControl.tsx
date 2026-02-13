@@ -82,7 +82,7 @@ const LightControl = React.memo(() => {
             <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Živé ovládání</span>
           </div>
           <div className="flex items-center justify-between bg-black/5 dark:bg-white/5 px-4 py-2.5 rounded-xl border border-black/5 dark:border-white/5">
-            <span className="text-[10px] font-black text-gray-500 uppercase tracking-tight">HEX ADDR</span>
+            <span className="text-[10px] font-black text-gray-500 uppercase tracking-tight">HEX</span>
             <span className="text-[11px] font-black text-[#69C350] dark:text-[#95E87D] tabular-nums tracking-widest">{color.toUpperCase()}</span>
           </div>
         </div>

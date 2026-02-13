@@ -21,7 +21,7 @@ const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
     },
     {
       title: 'Klimatizace',
-      desc: 'Chlazení reagující na přítomnost osob a intenzitu slunečního svitu a teplotu.',
+      desc: 'Chlazení reagující na přítomnost osob, intenzitu slunečního svitu a teplotu.',
       icon: <Snowflake className="w-5 h-5" />
     },
     {

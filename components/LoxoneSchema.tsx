@@ -1,6 +1,6 @@
 ﻿
 import React, { useState, useEffect } from 'react';
-import { Cpu, Radio, Lightbulb, Thermometer, Share2, Activity } from 'lucide-react';
+import { Cpu, Radio, Lightbulb, Thermometer, Share2 } from 'lucide-react';
 
 interface NodeConnectorProps {
   x: number;
@@ -16,13 +16,13 @@ const NodeConnector: React.FC<NodeConnectorProps> = ({ x, y, label, id, icon: Ic
   <g transform={`translate(${x}, ${y})`} className="cursor-pointer group">
     <circle r="55" fill={colorHex} opacity="0.01" className="group-hover:opacity-10 transition-all duration-500" />
     <circle r="38" fill="none" stroke={colorHex} strokeWidth="0.5" strokeDasharray="2 6" opacity="0.1" className="group-hover:opacity-40 transition-opacity" />
-    
-    <rect 
-      x="-28" 
-      y="-28" 
-      width="56" 
-      height="56" 
-      rx="16" 
+
+    <rect
+      x="-28"
+      y="-28"
+      width="56"
+      height="56"
+      rx="16"
       className="fill-white/80 dark:fill-white/5 transition-all duration-500 group-hover:scale-110"
       stroke={colorHex}
       strokeWidth="1"
@@ -36,7 +36,7 @@ const NodeConnector: React.FC<NodeConnectorProps> = ({ x, y, label, id, icon: Ic
     </foreignObject>
 
     <text y="62" textAnchor="middle" className="fill-slate-400 dark:fill-gray-500 text-[10px] font-black uppercase tracking-[0.35em] pointer-events-none">{id}</text>
-    <text y="82" textAnchor="middle" className="fill-slate-900 dark:text-white text-[14px] font-black uppercase tracking-[0.2em] pointer-events-none">{label}</text>
+    <text y="82" textAnchor="middle" className="fill-slate-900 dark:fill-white text-[14px] font-black uppercase tracking-[0.2em] pointer-events-none">{label}</text>
   </g>
 );
 
@@ -50,18 +50,18 @@ interface DataPacketsProps {
 const DataPackets: React.FC<DataPacketsProps> = ({ path, color, delay = "0s", isMobile }) => {
   // Na mobilu animace zcela vypneme - je to nejnáročnější část SVG
   if (isMobile) return null;
-  
+
   const packetCount = [0, 0.8, 1.6, 2.4];
-  
+
   return (
     <>
       {packetCount.map((d, i) => (
         <circle key={i} r="2.8" fill={color} filter="url(#packetGlow)">
-          <animateMotion 
-            path={path} 
-            dur="4.5s" 
-            begin={`${parseFloat(delay) + d}s`} 
-            repeatCount="indefinite" 
+          <animateMotion
+            path={path}
+            dur="4.5s"
+            begin={`${parseFloat(delay) + d}s`}
+            repeatCount="indefinite"
             calcMode="spline"
             keySplines="0.4 0 0.6 1"
           />
@@ -82,17 +82,17 @@ const LoxoneSchema = () => {
   }, []);
 
   const nodes = [
-    { id: 'BUS.AIR', label: 'Senzory Air', icon: Radio, x: 130, y: 100, colorClass: 'blue', colorHex: '#69C350' },
-    { id: 'BUS.TREE', label: 'Tree Periférie', icon: Share2, x: 670, y: 100, colorClass: 'lime', colorHex: '#84cc16' },
-    { id: 'PWM.DALI', label: 'Osvětlení', icon: Lightbulb, x: 130, y: 360, colorClass: 'orange', colorHex: '#ea580c' },
-    { id: 'IO.HVAC', label: 'Klima / Relé', icon: Thermometer, x: 670, y: 360, colorClass: 'purple', colorHex: '#9333ea' },
+    { id: 'LOXONE.AIR', label: 'Bezdrátové prvky', icon: Radio, x: 130, y: 100, colorClass: 'blue', colorHex: '#69C350' },
+    { id: 'LOXONE.TREE', label: 'Tree sběrnice', icon: Share2, x: 670, y: 100, colorClass: 'lime', colorHex: '#84cc16' },
+    { id: 'LOXONE.DALI.EXTENSION', label: 'Osvětlení', icon: Lightbulb, x: 130, y: 360, colorClass: 'orange', colorHex: '#ea580c' },
+    { id: 'LOXONE.DIGITÁLNÍ.VÝSTUP', label: 'Topení/Chlazení', icon: Thermometer, x: 670, y: 360, colorClass: 'purple', colorHex: '#9333ea' },
   ];
 
   return (
     <div className="w-full bg-slate-50 dark:bg-[#080808] transition-colors duration-500 p-6 md:p-12 select-none overflow-hidden">
-      <svg 
-        viewBox="0 0 800 500" 
-        className="w-full h-auto overflow-visible" 
+      <svg
+        viewBox="0 0 800 500"
+        className="w-full h-auto overflow-visible"
         preserveAspectRatio="xMidYMid meet"
       >
         <defs>
@@ -113,7 +113,7 @@ const LoxoneSchema = () => {
               </filter>
             </>
           )}
-          
+
           <linearGradient id="miniserverGrad" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#84cc16" />
             <stop offset="100%" stopColor="#4d7c0f" />
@@ -142,11 +142,11 @@ const LoxoneSchema = () => {
               <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="45s" repeatCount="indefinite" />
             </ellipse>
           )}
-          
+
           <rect x="-150" y="-70" width="300" height="140" rx="24" fill="url(#miniserverGrad)" />
-          
+
           <rect x="-110" y="-48" width="220" height="38" rx="10" fill="black" fillOpacity="0.3" />
-          
+
           <g transform="translate(0, -29)">
             <circle cx="-60" cy="0" r="4" className={`fill-green-400 ${!isMobile ? 'animate-pulse' : ''}`} />
             <circle cx="-35" cy="0" r="4" className={`fill-green-400 ${!isMobile ? 'animate-pulse' : ''}`} style={{ animationDelay: '0.4s' }} />
@@ -166,18 +166,7 @@ const LoxoneSchema = () => {
           <NodeConnector key={node.id} {...node} />
         ))}
 
-        <foreignObject x="0" y="450" width="800" height="50">
-          <div className="flex justify-between items-center w-full h-full px-16">
-            <div className="flex items-center gap-4">
-              <div className={`w-3 h-3 rounded-full bg-green-500 ${!isMobile ? 'animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.5)]' : ''}`} />
-              <span className="text-[13px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-[0.3em]">Synchronized</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <span className="text-[13px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-[0.3em]">Load: Optimal</span>
-              <Activity className="w-5 h-5 text-[#69C350] opacity-50" />
-            </div>
-          </div>
-        </foreignObject>
+
       </svg>
     </div>
   );

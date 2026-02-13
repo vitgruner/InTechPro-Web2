@@ -4,7 +4,7 @@ import { GoogleGenAI } from "@google/genai";
 import { Message } from "../types";
 
 const SYSTEM_INSTRUCTION = `
-Jste "Vizionářský asistent" pro společnost IN TECH PRO. 
+Jste "Vizionářský asistent" pro společnost InTechPro. 
 
 ZÁKLADNÍ ZNALOSTI O SPOLEČNOSTI:
 - Hlavní zaměření: Inteligentní elektroinstalace, Loxone Smart Home, fotovoltaika, rozvaděče.
