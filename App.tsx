@@ -243,7 +243,7 @@ const App = () => {
 
       if (_event === 'SIGNED_OUT') {
         navigateTo('home');
-      } else if (_event === 'SIGNED_IN' && isWhitelisted) {
+      } else if (_event === 'SIGNED_IN' && isWhitelisted && getViewStateFromHash() === 'admin-login') {
         navigateTo('admin-dashboard');
       }
     });
