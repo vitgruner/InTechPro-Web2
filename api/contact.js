@@ -63,8 +63,9 @@ export default async function handler(req, res) {
         const serviceId = process.env.EMAILJS_SERVICE_ID;
         const templateId = process.env.EMAILJS_TEMPLATE_ID;
         const publicKey = process.env.EMAILJS_PUBLIC_KEY;
+        const privateKey = process.env.EMAILJS_PRIVATE_KEY;
 
-        console.log('EmailJS check:', { serviceId: !!serviceId, templateId: !!templateId, publicKey: !!publicKey });
+        console.log('EmailJS check:', { serviceId: !!serviceId, templateId: !!templateId, publicKey: !!publicKey, privateKey: !!privateKey });
 
         if (!serviceId || !templateId || !publicKey) {
             throw new Error('EmailJS configuration is incomplete on the server.');
@@ -74,6 +75,7 @@ export default async function handler(req, res) {
             service_id: serviceId,
             template_id: templateId,
             user_id: publicKey,
+            accessToken: privateKey, // Required for non-browser calls
             template_params: {
                 to_name: 'InTechPro',
                 customer_name: name,
