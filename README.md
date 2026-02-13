@@ -21,16 +21,16 @@ This contains everything you need to run your app locally.
 
 ### 1. Konfigurace SMTP Služby
 V administraci EmailJS přidejte novou službu **SMTP server** s následujícími parametry:
-- **Service ID**: `service_qrgvofr`
+- **Service ID**: ``
 - **Host**: `smtp.websupport.cz`
 - **Port**: `465`
 - **SSL**: Zapnuto (Checked)
-- **User**: `web@intechpro.cz`
+- **User**: ``
 
 ### 2. Šablona pro Admina (Inquiry)
-Vytvořte šablonu s ID `template_76vc4mm` (nebo dle kódu):
+Vytvořte šablonu s ID `` (nebo dle kódu):
 - **Subject**: `Nová poptávka od {{from_name}}`
-- **To Email**: `hron@intechpro.cz, stanura@intechpro.cz` (seznam příjemců)
+- **To Email**: `` (seznam příjemců)
 - **From Name**: `{{name}}`
 - **Reply To**: `{{from_email}}`
 - **Obsah**: Použijte HTML ze souboru [emailjs-admin-template.html](file:///c:/intechpro3/InTechPro-Web2/emailjs-admin-template.html).
