@@ -35,8 +35,7 @@ export default async function handler(req, res) {
         // 3. Supabase setup
         const supabaseUrl = process.env.VITE_SUPABASE_URL;
         const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-        console.log('Supabase check:', { url: !!supabaseUrl, key: !!supabaseServiceKey });
+        let attachmentLinksStr = 'Žádné soubory';
 
         if (supabaseUrl && supabaseServiceKey) {
             console.log('Inserting into inquiries table...');
@@ -53,9 +52,25 @@ export default async function handler(req, res) {
 
             if (dbError) {
                 console.error('Database insertion failed:', dbError.message);
-                // We continue even if DB fails to ensure email is sent
             } else {
                 console.log('Database insertion successful');
+            }
+
+            // Generate signed URLs for attachments
+            if (fileInfos && fileInfos.length > 0) {
+                console.log('Generating signed URLs for attachments...');
+                const signedLinks = await Promise.all(fileInfos.map(async (f) => {
+                    const { data, error } = await supabase.storage
+                        .from('project-documents')
+                        .createSignedUrl(f.path, 60 * 60 * 24 * 7); // 7 days
+
+                    if (error) {
+                        console.error(`Signed URL error for ${f.name}:`, error.message);
+                        return `Soubor: ${f.name} (Chyba odkazu)`;
+                    }
+                    return `Soubor: ${f.name} - Odkaz ke stažení: ${data.signedUrl}`;
+                }));
+                attachmentLinksStr = signedLinks.join('\n');
             }
         }
 
@@ -90,7 +105,7 @@ export default async function handler(req, res) {
                 distribution_board: distributionBoard ? 'ANO' : 'NE',
                 electrical_install: electricalInstall ? 'ANO' : 'NE',
                 has_attachments: fileInfos && fileInfos.length > 0 ? `ANO (${fileInfos.length})` : 'NE',
-                attachment_links: fileInfos?.map(f => `Soubor: ${f.name} (Cesta: ${f.path})`).join('\n') || 'Žádné soubory',
+                attachment_links: attachmentLinksStr,
                 message: message || 'Žádná zpráva',
                 ai_history: aiHistory || 'Žádný kontext'
             }
