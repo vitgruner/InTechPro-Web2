@@ -227,10 +227,12 @@ const App = () => {
       const isWhitelisted = isAdminWhitelisted(email);
       setIsAdmin(isWhitelisted);
 
-      // Redirect if on admin view but not authorized
+      // Auth guards
       const currentView = getViewStateFromHash();
       if ((currentView === 'admin-dashboard' || currentView === 'admin-login') && !isWhitelisted && currentView !== 'admin-login') {
         navigateTo('admin-login');
+      } else if (currentView === 'admin-login' && isWhitelisted) {
+        navigateTo('admin-dashboard');
       }
     });
 
@@ -243,8 +245,6 @@ const App = () => {
 
       if (_event === 'SIGNED_OUT') {
         navigateTo('home');
-      } else if (_event === 'SIGNED_IN' && isWhitelisted && getViewStateFromHash() === 'admin-login') {
-        navigateTo('admin-dashboard');
       }
     });
 
