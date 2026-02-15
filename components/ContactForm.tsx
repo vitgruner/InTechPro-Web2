@@ -380,7 +380,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
                         <Upload className="w-4 h-4" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-[10px] font-black uppercase text-gray-900 dark:text-white mb-0">Nahrát dokumentaci</p>
+                        <p className="text-[10px] font-black uppercase text-gray-900 dark:text-white mb-0">Nahrát dokumentaci <span className="text-[#69C350] opacity-80">(max 5MB)</span></p>
                         <p className="text-[7px] text-gray-500 font-medium truncate uppercase">PDF, JPG, PNG podklady</p>
                       </div>
                     </label>
