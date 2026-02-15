@@ -229,10 +229,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
 
       if (!response.ok) {
         const errorData = await response.json();
-        const errorMessage = errorData.details
-          ? `${errorData.error} (${errorData.details})`
-          : (errorData.error || 'Odesílání selhalo.');
-        throw new Error(errorMessage);
+        throw new Error(errorData.error || 'Odesílání selhalo.');
       }
 
       setSubmitted(true);

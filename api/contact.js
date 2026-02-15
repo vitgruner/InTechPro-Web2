@@ -42,8 +42,8 @@ export default async function handler(req, res) {
 
     const form = new IncomingForm({
         keepExtensions: true,
-        maxFileSize: 4 * 1024 * 1024, // 4MB per request limit
-        maxFiles: 5,                  // Limit number of files
+        maxFileSize: 4 * 1024 * 1024, // 4MB per file limit
+        maxFiles: 5,                  // Limit number of files per request
     });
 
     try {
