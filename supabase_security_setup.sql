@@ -36,14 +36,21 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 -- Enable RLS
 ALTER TABLE "references" ENABLE ROW LEVEL SECURITY;
 
--- Policy: Anyone can view references
+-- CLEANUP: Drop all possible overlapping/legacy policies
 DROP POLICY IF EXISTS "Public can view references" ON "references";
+DROP POLICY IF EXISTS "Authenticated users can manage references" ON "references";
+DROP POLICY IF EXISTS "Whitelisted admins can manage references" ON "references";
+DROP POLICY IF EXISTS "refs_select" ON "references";
+DROP POLICY IF EXISTS "refs_insert" ON "references";
+DROP POLICY IF EXISTS "refs_update" ON "references";
+DROP POLICY IF EXISTS "refs_delete" ON "references";
+
+-- Policy: Anyone can view references
 CREATE POLICY "Public can view references" 
 ON "references" FOR SELECT 
 USING (true);
 
 -- Policy: Only whitelisted admins can manage references
-DROP POLICY IF EXISTS "Authenticated users can manage references" ON "references";
 CREATE POLICY "Whitelisted admins can manage references" 
 ON "references" FOR ALL 
 USING (public.is_admin_email(auth.jwt() ->> 'email'))
