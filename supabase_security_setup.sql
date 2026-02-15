@@ -1,3 +1,37 @@
+-- 0. ADMIN WHITELIST INFRASTRUCTURE
+-- Table to store authorized admin emails
+CREATE TABLE IF NOT EXISTS "admin_whitelist" (
+  "email" text PRIMARY KEY,
+  "created_at" timestamp with time zone DEFAULT now()
+);
+
+-- Enable RLS on whitelist (only admins or service role can see it)
+ALTER TABLE "admin_whitelist" ENABLE ROW LEVEL SECURITY;
+
+-- Policy: Only service role or whitelisted emails can view the whitelist
+-- Actually, we can just leave it to service role for now or allow admins to see it.
+DROP POLICY IF EXISTS "Admins can view whitelist" ON "admin_whitelist";
+CREATE POLICY "Admins can view whitelist" 
+ON "admin_whitelist" FOR SELECT 
+USING (
+  EXISTS (
+    SELECT 1 FROM "admin_whitelist" aw 
+    WHERE aw.email = auth.jwt() ->> 'email'
+  )
+);
+
+-- Helper function to check if an email is whitelisted
+CREATE OR REPLACE FUNCTION public.is_admin_email(email_to_check text)
+RETURNS boolean AS $$
+BEGIN
+  RETURN EXISTS (
+    SELECT 1 FROM public.admin_whitelist
+    WHERE email = email_to_check
+  );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+
 -- 1. SECURE "references" TABLE
 -- Enable RLS
 ALTER TABLE "references" ENABLE ROW LEVEL SECURITY;
@@ -8,45 +42,44 @@ CREATE POLICY "Public can view references"
 ON "references" FOR SELECT 
 USING (true);
 
--- Policy: Only authenticated users can manage references
--- (We will also check if they are in the whitelist via edge functions or just rely on App-side whitelist for now, 
--- but RLS protects against unauthorized anon writes)
+-- Policy: Only whitelisted admins can manage references
 DROP POLICY IF EXISTS "Authenticated users can manage references" ON "references";
-CREATE POLICY "Authenticated users can manage references" 
+CREATE POLICY "Whitelisted admins can manage references" 
 ON "references" FOR ALL 
-USING (auth.role() = 'authenticated')
-WITH CHECK (auth.role() = 'authenticated');
+USING (public.is_admin_email(auth.jwt() ->> 'email'))
+WITH CHECK (public.is_admin_email(auth.jwt() ->> 'email'));
 
 
 -- 2. SECURE "project-documents" STORAGE BUCKET
 -- Ensure bucket is private (can be done in UI or via SQL)
 -- Note: Setting a bucket to private means getPublicUrl won't work.
+-- Note: RLS protects the objects in the bucket.
 
--- Policy: Only authenticated users can upload documents
-DROP POLICY IF EXISTS "Authenticated users can upload documents" ON storage.objects;
-CREATE POLICY "Authenticated users can upload documents"
+-- Policy: Allow anyone to upload documents (needed for public contact form)
+-- But since they don't have SELECT, they cannot see what they or others uploaded.
+DROP POLICY IF EXISTS "Public can upload documents" ON storage.objects;
+CREATE POLICY "Public can upload documents"
 ON storage.objects FOR INSERT
 WITH CHECK (
-  bucket_id = 'project-documents' AND
-  auth.role() = 'authenticated'
+  bucket_id = 'project-documents'
 );
 
--- Policy: Only authenticated users can view/download (even via signed URL, the object must be accessible)
+-- Policy: Only whitelisted admins can view/download
 DROP POLICY IF EXISTS "Authenticated users can select documents" ON storage.objects;
-CREATE POLICY "Authenticated users can select documents"
+CREATE POLICY "Whitelisted admins can select documents"
 ON storage.objects FOR SELECT
 USING (
   bucket_id = 'project-documents' AND
-  auth.role() = 'authenticated'
+  public.is_admin_email(auth.jwt() ->> 'email')
 );
 
--- Policy: Only authenticated users can delete documents
+-- Policy: Only whitelisted admins can delete documents
 DROP POLICY IF EXISTS "Authenticated users can delete documents" ON storage.objects;
-CREATE POLICY "Authenticated users can delete documents"
+CREATE POLICY "Whitelisted admins can delete documents"
 ON storage.objects FOR DELETE
 USING (
   bucket_id = 'project-documents' AND
-  auth.role() = 'authenticated'
+  public.is_admin_email(auth.jwt() ->> 'email')
 );
 
 
@@ -73,8 +106,8 @@ CREATE TABLE IF NOT EXISTS "inquiries" (
 -- RLS for inquiries: Service role can do everything, but let's restrict public
 ALTER TABLE "inquiries" ENABLE ROW LEVEL SECURITY;
 
--- Only admins/service role can see inquiries
+-- Policy: Only whitelisted admins can see inquiries
 DROP POLICY IF EXISTS "Admins can view inquiries" ON "inquiries";
-CREATE POLICY "Admins can view inquiries"
+CREATE POLICY "Whitelisted admins can view inquiries"
 ON "inquiries" FOR SELECT
-USING (auth.role() = 'authenticated');
+USING (public.is_admin_email(auth.jwt() ->> 'email'));
