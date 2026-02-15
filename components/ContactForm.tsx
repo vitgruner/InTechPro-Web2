@@ -148,28 +148,23 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
     }));
   };
 
-  const uploadFiles = async (files: File[]): Promise<{ path: string, name: string }[]> => {
-    if (!supabase || files.length === 0) return [];
+  const validateFiles = (files: File[]): string | null => {
+    const MAX_SIZE = 5 * 1024 * 1024; // 5MB total
+    const ALLOWED_TYPES = ['application/pdf', 'image/jpeg', 'image/png'];
 
-    const uploadPromises = files.map(async (file) => {
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random().toString(36).substring(2)}_${Date.now()}.${fileExt}`;
-      const filePath = `inquiries/${fileName}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from('project-documents')
-        .upload(filePath, file);
-
-      if (uploadError) {
-        console.error('File upload error:', uploadError);
-        return null;
+    let totalSize = 0;
+    for (const file of files) {
+      if (!ALLOWED_TYPES.includes(file.type)) {
+        return `Nepodporovaný typ souboru: ${file.name}. Povoleny jsou pouze PDF, JPG a PNG.`;
       }
+      totalSize += file.size;
+    }
 
-      return { path: filePath, name: file.name };
-    });
+    if (totalSize > MAX_SIZE) {
+      return 'Celková velikost příloh přesahuje povolený limit 5MB.';
+    }
 
-    const results = await Promise.all(uploadPromises);
-    return results.filter((res): res is { path: string, name: string } => res !== null);
+    return null;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -192,14 +187,15 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
     setErrorMessage(null);
 
     try {
-      // 0) Upload files to Supabase if any
-      let fileInfos: { path: string, name: string }[] = [];
-      if (formData.projectFiles.length > 0) {
-        fileInfos = await uploadFiles(formData.projectFiles);
-        console.log('Files uploaded successfully. Info:', fileInfos);
+      // 0) Validate files
+      const fileValidationError = validateFiles(formData.projectFiles);
+      if (fileValidationError) {
+        setErrorMessage(fileValidationError);
+        setIsSending(false);
+        return;
       }
 
-      const templateParams = {
+      const bodyData = {
         name: sanitizedData.name,
         email: sanitizedData.email,
         phone: sanitizedData.phone,
@@ -215,18 +211,20 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
           : 'Nespecifikováno',
         distributionBoard: formData.distributionBoardInterest,
         electricalInstall: formData.electricalInstallInterest,
-        fileInfos: fileInfos,
         message: sanitizedData.message || 'Bez doplňující zprávy.',
         aiHistory: aiMessages.map(m => `[${m.role.toUpperCase()}]: ${m.content}`).join('\n\n'),
         botCheck: (e.target as any).botCheck?.value // Honeypot
       };
 
+      const payload = new FormData();
+      payload.append('data', JSON.stringify(bodyData));
+      formData.projectFiles.forEach((file) => {
+        payload.append('files', file);
+      });
+
       const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(templateParams),
+        body: payload, // Browser automatically sets'multipart/form-data'
       });
 
       if (!response.ok) {

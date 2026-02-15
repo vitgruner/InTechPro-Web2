@@ -1,8 +1,8 @@
 ﻿import React from 'react';
-import { 
-  Palette, Sun, Moon, Eye, Settings, ArrowLeft, CheckCircle2, 
-  Zap, Layout, Lightbulb, Thermometer, Activity, Info, Sparkles, 
-  Scaling, Layers 
+import {
+  Palette, Sun, Moon, Eye, Settings, ArrowLeft, CheckCircle2,
+  Zap, Layout, Lightbulb, Thermometer, Activity, Info, Sparkles,
+  Scaling, Layers
 } from 'lucide-react';
 import LightControl from './LightControl';
 import { DetailProps } from '../types';
@@ -42,7 +42,7 @@ const OsvetleniDetail: React.FC<DetailProps> = ({ setView }) => {
   return (
     <div className="pt-28 md:pt-32 pb-12 md:pb-16 animate-in fade-in duration-700">
       <div className="max-w-7xl mx-auto px-6">
-        <Breadcrumbs 
+        <Breadcrumbs
           items={[
             { label: 'SLUŽBY', view: 'sluzby' },
             { label: 'Návrh Osvětlení' }
@@ -51,7 +51,7 @@ const OsvetleniDetail: React.FC<DetailProps> = ({ setView }) => {
         />
 
         <div className="mb-6">
-          <SectionHeader 
+          <SectionHeader
             variant="page"
             align="left"
             eyebrow="Design a technické řešení"
@@ -68,7 +68,7 @@ const OsvetleniDetail: React.FC<DetailProps> = ({ setView }) => {
               <p className="text-gray-600 dark:text-gray-400 leading-relaxed font-medium mb-8 text-sm md:text-base">
                 Pomůžeme vám zorientovat se v možnostech a navrhneme osvětlení tak, aby každý prostor fungoval přesně tak, jak má. Hlídáme intenzitu i atmosféru.
               </p>
-              
+
               <div className="p-6 bg-[#69C350]/5 rounded-2xl border border-[#69C350]/20">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="w-10 h-10 bg-[#69C350] rounded-xl flex items-center justify-center text-white shadow-lg">
@@ -82,17 +82,17 @@ const OsvetleniDetail: React.FC<DetailProps> = ({ setView }) => {
               </div>
             </div>
           </div>
-          
+
           <div className="lg:col-span-7">
             <div className="w-full glass-panel rounded-[2.5rem] border border-slate-200 dark:border-white/10 relative overflow-hidden group select-none transition-all duration-500 shadow-xl bg-white/50 dark:bg-black/20 h-full flex flex-col">
-              <div className="absolute inset-0 opacity-[0.08] dark:opacity-[0.05] pointer-events-none" 
-                   style={{ backgroundImage: 'linear-gradient(#69C350 1px, transparent 1px), linear-gradient(90deg, #69C350 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-              
+              <div className="absolute inset-0 opacity-[0.08] dark:opacity-[0.05] pointer-events-none"
+                style={{ backgroundImage: 'linear-gradient(#69C350 1px, transparent 1px), linear-gradient(90deg, #69C350 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+
               <div className="absolute top-0 left-0 right-0 p-4 px-6 flex items-center justify-between border-b border-slate-200/50 dark:border-white/5 bg-white/40 dark:bg-black/20 backdrop-blur-md z-30">
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#7BD462] animate-pulse" />
-                    <span className="text-[10px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-[0.2em]">CHROMA.ENGINE.ACTIVE</span>
+                    <span className="text-[10px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-[0.2em]">RGB OSVĚTLENÍ</span>
                   </div>
                 </div>
               </div>
