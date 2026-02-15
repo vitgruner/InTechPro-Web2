@@ -50,11 +50,21 @@ CREATE POLICY "Public can view references"
 ON "references" FOR SELECT 
 USING (true);
 
--- Policy: Only whitelisted admins can manage references
-CREATE POLICY "Whitelisted admins can manage references" 
-ON "references" FOR ALL 
+-- Policy: Admin INSERT
+CREATE POLICY "refs_insert"
+ON "references" FOR INSERT
+WITH CHECK (public.is_admin_email(auth.jwt() ->> 'email'));
+
+-- Policy: Admin UPDATE
+CREATE POLICY "refs_update"
+ON "references" FOR UPDATE
 USING (public.is_admin_email(auth.jwt() ->> 'email'))
 WITH CHECK (public.is_admin_email(auth.jwt() ->> 'email'));
+
+-- Policy: Admin DELETE
+CREATE POLICY "refs_delete"
+ON "references" FOR DELETE
+USING (public.is_admin_email(auth.jwt() ->> 'email'));
 
 
 -- 2. SECURE "project-documents" STORAGE BUCKET
