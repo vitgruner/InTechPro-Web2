@@ -107,6 +107,21 @@ export default async function handler(req, res) {
                     // ASYNC READ
                     const fileBuffer = await fs.promises.readFile(file.filepath);
 
+                    // 3.1 Magic-Byte Validation (Signature check)
+                    const isPDF = fileBuffer.slice(0, 4).toString('ascii') === '%PDF';
+                    const isPNG = fileBuffer[0] === 0x89 && fileBuffer[1] === 0x50 && fileBuffer[2] === 0x4E && fileBuffer[3] === 0x47;
+                    const isJPEG = fileBuffer[0] === 0xFF && fileBuffer[1] === 0xD8 && fileBuffer[2] === 0xFF;
+
+                    let isValid = false;
+                    if (file.mimetype === 'application/pdf' && isPDF) isValid = true;
+                    if (file.mimetype === 'image/png' && isPNG) isValid = true;
+                    if (file.mimetype === 'image/jpeg' && isJPEG) isValid = true;
+
+                    if (!isValid) {
+                        console.warn(`File signature mismatch or unsupported type: ${file.originalFilename} (MIME: ${file.mimetype})`);
+                        throw new Error(`Neplatný formát souboru: ${file.originalFilename}. Soubor neodpovídá deklarovanému typu.`);
+                    }
+
                     const { error: uploadError } = await supabase.storage
                         .from('project-documents')
                         .upload(filePath, fileBuffer, {
