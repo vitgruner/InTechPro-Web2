@@ -38,148 +38,156 @@
     </style>
 </head>
 
-<body style="background-color: #f4f7f9; margin: 0; padding: 40px 0;">
+<body style="background-color: #f4f7f9; margin: 0; padding: 40px 0; font-family: 'Segoe UI', Arial, sans-serif;">
 
     <!-- Main Container -->
-    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-        <tr>
-            <td align="center">
-                <table class="container" border="0" cellpadding="0" cellspacing="0" width="600"
-                    style="background-color: #ffffff; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); border: 1px solid rgba(0,0,0,0.05);">
-
-                    <!-- Header -->
-                    <tr>
-                        <td style="background-color: #000000; padding: 40px 40px; text-align: center;">
-                            <span
-                                style="color: #ffffff; font-size: 28px; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; font-family: 'Segoe UI', Arial, sans-serif;">INTECHPRO</span>
-                        </td>
-                    </tr>
-
-                    <!-- Intro -->
-                    <tr>
-                        <td style="padding: 40px 40px 20px 40px;">
-                            <h1 style="margin: 0 0 10px 0; font-size: 24px; font-weight: 800; color: #111827;">Děkujeme
-                                za Vaši vizi</h1>
-                            <p style="margin: 0; color: #6b7280; font-size: 14px;">
-                                Dobrý den, pane/paní <strong>{{customer_name}}</strong>, Vaši poptávku jsme v pořádku
-                                přijali. Naši specialisté nyní analyzují technické parametry a brzy se Vám ozveme s
-                                návrhem dalšího postupu.
-                            </p>
-                        </td>
-                    </tr>
-
-                    <!-- Project Info Grid -->
-                    <tr>
-                        <td style="padding: 0 40px;">
-                            <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td class="col-2" width="50%" valign="top" style="padding-right: 10px;">
-                                        <div
-                                            style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; height: 100%;">
-                                            <div
-                                                style="font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 4px;">
-                                                Typ objektu</div>
-                                            <div
-                                                style="font-size: 14px; font-weight: 700; color: #166534; margin-bottom: 12px; display: inline-block; background-color: #f0fdf4; padding: 2px 8px; border-radius: 4px;">
-                                                {{property_type}}</div>
-
-                                            <div
-                                                style="font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 4px;">
-                                                Kontaktní telefon</div>
-                                            <div style="font-size: 14px; font-weight: 500; color: #1e293b;">{{phone}}
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="col-2" width="50%" valign="top" style="padding-left: 10px;">
-                                        <div
-                                            style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; height: 100%;">
-                                            <div
-                                                style="font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 4px;">
-                                                Indikativní investice</div>
-                                            <div style="font-size: 18px; font-weight: 800; color: #1e293b;">
-                                                {{estimated_budget}}</div>
-                                            <div style="font-size: 10px; color: #94a3b8;">(bez DPH)</div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-
-                    <!-- Selected Features -->
-                    <tr>
-                        <td style="padding: 20px 40px;">
-                            <div
-                                style="font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #64748b; margin-bottom: 8px;">
-                                Rozsah Loxone</div>
-                            <div
-                                style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 15px; color: #166534; font-size: 13px; font-weight: 600; line-height: 1.6;">
-                                {{selected_features}}
-                            </div>
-                        </td>
-                    </tr>
-
-                    <!-- Interests & Files -->
-                    <tr>
-                        <td style="padding: 0 40px 20px 40px;">
-                            <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td valign="top">
-                                        <div
-                                            style="font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #64748b; margin-bottom: 8px;">
-                                            Doplňující zájmy</div>
-                                        <div
-                                            style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px;">
-                                            <div style="font-size: 12px; margin-bottom: 10px;">
-                                                <span
-                                                    style="color: #94a3b8; font-size: 9px; font-weight: 900; text-transform: uppercase; display: block;">Nahrané
-                                                    podklady:</span>
-                                                <span
-                                                    style="font-weight: 700; color: #1e293b;">{{has_attachments}}</span>
-                                            </div>
-                                            <div
-                                                style="font-size: 12px; color: #69C350; font-weight: 700; white-space: pre-wrap;">
-                                                {{{attachment_links}}}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-
-                    <!-- Message -->
-                    <tr>
-                        <td style="padding: 0 40px;">
-                            <div
-                                style="font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #64748b; margin-bottom: 8px;">
-                                Vaše zpráva</div>
-                            <div
-                                style="background-color: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; color: #334155; font-size: 14px; line-height: 1.6; font-style: italic;">
-                                "{{message}}"
-                            </div>
-                        </td>
-                    </tr>
-
-                    <!-- Footer -->
-                    <tr>
-                        <td
-                            style="background-color: #f8fafc; padding: 30px 40px; text-align: center; border-top: 1px solid #f0f0f0;">
-                            <p style="margin: 0 0 10px 0; font-size: 13px; color: #1e293b; font-weight: 800;">InTechPro
-                                s.r.o.</p>
-                            <p style="margin: 0 0 10px 0; font-size: 12px; color: #64748b;">Specialisté na integrovanou
-                                inteligenci budov</p>
-                            <div
-                                style="font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #cbd5e1;">
-                                &copy; 2026 InTechPro</div>
-                        </td>
-                    </tr>
-
-                </table>
-            </td>
-        </tr>
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" style="font-family: 'Segoe UI', Arial, sans-serif;">
+        <tbody>
+            <tr>
+                <td align="center">
+                    <table class="container"
+                        style="background-color: #ffffff; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); border: 1px solid rgba(0,0,0,0.05); font-family: 'Segoe UI', Arial, sans-serif;"
+                        border="0" width="600" cellspacing="0" cellpadding="0">
+                        <!-- Header -->
+                        <tbody>
+                            <tr>
+                                <td style="background-color: #000000; padding: 40px 40px; text-align: center;"><span
+                                        style="color: #ffffff; font-size: 28px; font-weight: 900; letter-spacing: 2px; font-family: 'Segoe UI', Arial, sans-serif;">InTechPro
+                                        potvrzen&iacute;</span></td>
+                            </tr>
+                            <!-- Intro -->
+                            <tr>
+                                <td style="padding: 40px 40px 20px 40px; font-family: 'Segoe UI', Arial, sans-serif;">
+                                    <h1
+                                        style="margin: 0 0 10px 0; font-size: 24px; font-weight: 800; color: #111827; font-family: 'Segoe UI', Arial, sans-serif;">
+                                        Děkujeme za Va&scaron;i vizi</h1>
+                                    <p
+                                        style="margin: 0; color: #6b7280; font-size: 14px; font-family: 'Segoe UI', Arial, sans-serif;">
+                                        Dobr&yacute; den, pane/pan&iacute; <strong>{{customer_name}}</strong>,
+                                        Va&scaron;i popt&aacute;vku jsme v poř&aacute;dku přijali. Na&scaron;i
+                                        inžen&yacute;ři nyn&iacute; analyzuj&iacute; technick&eacute; parametry a brzy
+                                        se V&aacute;m ozveme s n&aacute;vrhem dal&scaron;&iacute;ho postupu.</p>
+                                </td>
+                            </tr>
+                            <!-- Project Info Grid -->
+                            <tr>
+                                <td style="padding: 0 40px; font-family: 'Segoe UI', Arial, sans-serif;">
+                                    <table border="0" width="100%" cellspacing="0" cellpadding="0"
+                                        style="font-family: 'Segoe UI', Arial, sans-serif;">
+                                        <tbody>
+                                            <tr>
+                                                <td class="col-2" style="padding-right: 10px;" valign="top" width="50%">
+                                                    <div
+                                                        style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; height: 100%; font-family: 'Segoe UI', Arial, sans-serif;">
+                                                        <div
+                                                            style="font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 4px; font-family: 'Segoe UI', Arial, sans-serif;">
+                                                            Typ objektu</div>
+                                                        <div
+                                                            style="font-size: 14px; font-weight: bold; color: #166534; margin-bottom: 12px; display: inline-block; background-color: #f0fdf4; padding: 2px 8px; border-radius: 4px; font-family: 'Segoe UI', Arial, sans-serif;">
+                                                            {{property_type}}</div>
+                                                        <div
+                                                            style="font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 4px; font-family: 'Segoe UI', Arial, sans-serif;">
+                                                            Kontaktn&iacute; telefon</div>
+                                                        <div
+                                                            style="font-size: 14px; font-weight: 500; color: #1e293b; font-family: 'Segoe UI', Arial, sans-serif;">
+                                                            {{phone}}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="col-2" style="padding-left: 10px;" valign="top" width="50%">
+                                                    <div
+                                                        style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; height: 100%; font-family: 'Segoe UI', Arial, sans-serif;">
+                                                        <div
+                                                            style="font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; margin-bottom: 4px; font-family: 'Segoe UI', Arial, sans-serif;">
+                                                            Indikativn&iacute; investice</div>
+                                                        <div
+                                                            style="font-size: 18px; font-weight: 800; color: #1e293b; font-family: 'Segoe UI', Arial, sans-serif;">
+                                                            {{estimated_budget}}</div>
+                                                        <div
+                                                            style="font-size: 10px; color: #94a3b8; font-family: 'Segoe UI', Arial, sans-serif;">
+                                                            (bez DPH)</div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <!-- Selected Features -->
+                            <tr>
+                                <td style="padding: 20px 40px; font-family: 'Segoe UI', Arial, sans-serif;">
+                                    <div
+                                        style="font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #64748b; margin-bottom: 8px; font-family: 'Segoe UI', Arial, sans-serif;">
+                                        Rozsah Loxone</div>
+                                    <div
+                                        style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 15px; color: #166534; font-size: 13px; font-weight: 600; line-height: 1.6; font-family: 'Segoe UI', Arial, sans-serif;">
+                                        {{selected_features}}</div>
+                                </td>
+                            </tr>
+                            <!-- Interests & Files -->
+                            <tr>
+                                <td style="padding: 0 40px 20px 40px; font-family: 'Segoe UI', Arial, sans-serif;">
+                                    <table border="0" width="100%" cellspacing="0" cellpadding="0"
+                                        style="font-family: 'Segoe UI', Arial, sans-serif;">
+                                        <tbody>
+                                            <tr>
+                                                <td valign="top" style="font-family: 'Segoe UI', Arial, sans-serif;">
+                                                    <div
+                                                        style="font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #64748b; margin-bottom: 8px; font-family: 'Segoe UI', Arial, sans-serif;">
+                                                        Doplňuj&iacute;c&iacute; z&aacute;jmy</div>
+                                                    <div
+                                                        style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; font-family: 'Segoe UI', Arial, sans-serif;">
+                                                        <div
+                                                            style="font-size: 12px; margin-bottom: 10px; font-family: 'Segoe UI', Arial, sans-serif;">
+                                                            <span
+                                                                style="color: #94a3b8; font-size: 9px; font-weight: 900; text-transform: uppercase; display: block; font-family: 'Segoe UI', Arial, sans-serif;">Nahran&eacute;
+                                                                podklady:</span> <span
+                                                                style="font-weight: bold; color: #1e293b; font-family: 'Segoe UI', Arial, sans-serif;">{{has_attachments}}</span>
+                                                        </div>
+                                                        <div
+                                                            style="font-size: 12px; color: #69c350; font-weight: bold; white-space: pre-wrap; font-family: 'Segoe UI', Arial, sans-serif;">
+                                                            {{{attachment_links}}}</div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <!-- Message -->
+                            <tr>
+                                <td style="padding: 0 40px; font-family: 'Segoe UI', Arial, sans-serif;">
+                                    <div
+                                        style="font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #64748b; margin-bottom: 8px; font-family: 'Segoe UI', Arial, sans-serif;">
+                                        Va&scaron;e zpr&aacute;va</div>
+                                    <div
+                                        style="background-color: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; color: #334155; font-size: 14px; line-height: 1.6; font-style: italic; font-family: 'Segoe UI', Arial, sans-serif;">
+                                        "{{message}}"</div>
+                                </td>
+                            </tr>
+                            <!-- Footer -->
+                            <tr>
+                                <td
+                                    style="background-color: #f8fafc; padding: 30px 40px; text-align: center; border-top: 1px solid #f0f0f0; font-family: 'Segoe UI', Arial, sans-serif;">
+                                    <p
+                                        style="margin: 0 0 10px 0; font-size: 13px; color: #1e293b; font-weight: 800; font-family: 'Segoe UI', Arial, sans-serif;">
+                                        InTechPro
+                                        s.r.o.</p>
+                                    <p
+                                        style="margin: 0 0 10px 0; font-size: 12px; color: #64748b; font-family: 'Segoe UI', Arial, sans-serif;">
+                                        Specialist&eacute; na
+                                        integrovanou inteligenci budov</p>
+                                    <div
+                                        style="font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #cbd5e1; font-family: 'Segoe UI', Arial, sans-serif;">
+                                        &copy; 2026 InTechPro</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
     </table>
-
 </body>
 
 </html>
