@@ -55,14 +55,9 @@ WITH CHECK (public.is_admin_email(auth.jwt() ->> 'email'));
 -- Note: Setting a bucket to private means getPublicUrl won't work.
 -- Note: RLS protects the objects in the bucket.
 
--- Policy: Allow anyone to upload documents (needed for public contact form)
--- But since they don't have SELECT, they cannot see what they or others uploaded.
+-- Policy: Storage upload is now handled via API using service_role. 
+-- Public upload policy is REMOVED to prevent DoS/unauthorized storage usage.
 DROP POLICY IF EXISTS "Public can upload documents" ON storage.objects;
-CREATE POLICY "Public can upload documents"
-ON storage.objects FOR INSERT
-WITH CHECK (
-  bucket_id = 'project-documents'
-);
 
 -- Policy: Only whitelisted admins can view/download
 DROP POLICY IF EXISTS "Authenticated users can select documents" ON storage.objects;
