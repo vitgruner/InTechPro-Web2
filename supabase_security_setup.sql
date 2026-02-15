@@ -57,6 +57,10 @@ WITH CHECK (public.is_admin_email(auth.jwt() ->> 'email'));
 
 -- Policy: Storage upload is now handled via API using service_role. 
 -- Public upload policy is REMOVED to prevent DoS/unauthorized storage usage.
+-- Dropping specific auto-generated policies identified in the audit:
+DROP POLICY IF EXISTS "Allow anonymous uploads to project-documents 1tvgydg_1" ON storage.objects;
+DROP POLICY IF EXISTS "Allow anonymous uploads to project-documents 1tvgydg_0" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated users can upload documents" ON storage.objects;
 DROP POLICY IF EXISTS "Public can upload documents" ON storage.objects;
 
 -- Policy: Only whitelisted admins can view/download
