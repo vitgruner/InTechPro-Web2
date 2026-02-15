@@ -10,7 +10,30 @@ export const config = {
     },
 };
 
+// Simple in-memory rate limiter (per-instance)
+const rateLimitMap = new Map();
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const MAX_REQUESTS = 5;
+
 export default async function handler(req, res) {
+    // 0. Rate Limiting (IP-based)
+    const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    const now = Date.now();
+    const clientData = rateLimitMap.get(clientIp) || { count: 0, startTime: now };
+
+    if (now - clientData.startTime > RATE_LIMIT_WINDOW) {
+        clientData.count = 1;
+        clientData.startTime = now;
+    } else {
+        clientData.count++;
+    }
+    rateLimitMap.set(clientIp, clientData);
+
+    if (clientData.count > MAX_REQUESTS) {
+        console.warn(`Rate limit exceeded for IP: ${clientIp}`);
+        return res.status(429).json({ error: 'Příliš mnoho požadavků. Zkuste to prosím za minutu.' });
+    }
+
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
@@ -29,7 +52,7 @@ export default async function handler(req, res) {
         });
 
         const body = JSON.parse(fields.data[0]);
-        const projectFiles = files.files || []; // This can be an array or a single object depending onidable version/config
+        const projectFiles = files.files || [];
 
         const {
             name, email, phone, message, property, features, area,
@@ -37,15 +60,19 @@ export default async function handler(req, res) {
             aiHistory, botCheck
         } = body;
 
-        // 1. Honeypot check
-        if (botCheck) {
-            console.warn('Bot detected by honeypot');
-            return res.status(400).json({ error: 'Invalid submission (Bot)' });
+        // 1. Honeypot check (Server-side Enforcement)
+        if (botCheck || fields.botCheck) {
+            console.warn(`Bot detected by honeypot from IP: ${clientIp}`);
+            return res.status(403).json({ error: 'Přístup odepřen (Bot detection)' });
         }
 
-        // 2. Validate essential fields
+        // 2. Validate essential fields & Message length
         if (!name || !email) {
-            return res.status(400).json({ error: 'Missing name or email' });
+            return res.status(400).json({ error: 'Chybí jméno nebo e-mail' });
+        }
+
+        if (message && message.length > 5000) {
+            return res.status(400).json({ error: 'Zpráva je příliš dlouhá (max 5000 znaků)' });
         }
 
         // 3. Validate Files Server-side
