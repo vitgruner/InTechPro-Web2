@@ -16,8 +16,10 @@ const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
 const MAX_REQUESTS = 5;
 
 export default async function handler(req, res) {
-    // 0. Rate Limiting (IP-based)
-    const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    // 0. Rate Limiting (IP-based) - Secure Extraction
+    const xff = req.headers['x-forwarded-for'];
+    const clientIp = Array.isArray(xff) ? xff[0] : (xff ? xff.split(',')[0].trim() : req.socket.remoteAddress);
+
     const now = Date.now();
     const clientData = rateLimitMap.get(clientIp) || { count: 0, startTime: now };
 
@@ -41,6 +43,7 @@ export default async function handler(req, res) {
     const form = new IncomingForm({
         keepExtensions: true,
         maxFileSize: 4 * 1024 * 1024, // 4MB per request limit
+        maxFiles: 5,                  // Limit number of files
     });
 
     try {
@@ -94,15 +97,16 @@ export default async function handler(req, res) {
         if (supabaseUrl && supabaseServiceKey) {
             const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-            // Upload files
+            // Upload files (Asynchronous I/O)
             if (fileList.length > 0) {
-                console.log(`Uploading ${fileList.length} files to storage...`);
                 fileInfos = await Promise.all(fileList.map(async (file) => {
                     const fileExt = path.extname(file.originalFilename);
                     const fileName = `${Math.random().toString(36).substring(2)}_${Date.now()}${fileExt}`;
                     const filePath = `inquiries/${fileName}`;
 
-                    const fileBuffer = fs.readFileSync(file.filepath);
+                    // ASYNC READ
+                    const fileBuffer = await fs.promises.readFile(file.filepath);
+
                     const { error: uploadError } = await supabase.storage
                         .from('project-documents')
                         .upload(filePath, fileBuffer, {
