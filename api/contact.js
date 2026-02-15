@@ -11,8 +11,6 @@ export const config = {
 };
 
 export default async function handler(req, res) {
-    console.log('--- API CONTACT START (SECURE MULTIPART) ---');
-
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
@@ -172,10 +170,15 @@ export default async function handler(req, res) {
         return res.status(200).json({ success: true });
 
     } catch (err) {
-        console.error('CRITICAL API ERROR:', err);
+        // Detailed error logging for developers (Server Console ONLY)
+        // Ensure PII or sensitive keys are not accidentally logged if you expand this
+        console.error('--- INTERNAL API ERROR ---');
+        console.error('Message:', err.message);
+        console.error('Stack:', err.stack);
+
+        // Return a generic error to the client to prevent info leakage
         return res.status(500).json({
-            error: 'Kritická chyba serveru',
-            details: err.message || err.toString()
+            error: 'Odesílání selhalo. Zkuste to prosím později nebo nás kontaktujte telefonicky.',
         });
     }
 }
