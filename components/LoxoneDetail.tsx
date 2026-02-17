@@ -112,6 +112,13 @@ const LoxoneDetail: React.FC<DetailProps> = ({ setView }) => {
                     <div className="w-1.5 h-1.5 rounded-full bg-slate-500" />
                     <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Systémové integrace</span>
                   </div>
+                  <div className="pt-4 border-t border-black/5 dark:border-white/5 flex justify-center">
+                    <img
+                      src="https://pim.loxone.com//01%20Product%20Data/05%20Product%20Specifications/Certificates%20and%20Compatibilities/Works%20with%20Apple%20Home.svg"
+                      alt="Works with Apple Home"
+                      className="h-8 md:h-10 opacity-60 grayscale dark:invert transition-all hover:opacity-100"
+                    />
+                  </div>
                 </div>
               </div>
 
