@@ -10,13 +10,13 @@ interface NodeConnectorProps {
   x: number;
   y: number;
   label: string;
-  id: string;
+  desc: string;
   icon: React.FC<{ className?: string; style?: React.CSSProperties }>;
   colorClass: string;
   colorHex: string;
 }
 
-const NodeConnector: React.FC<NodeConnectorProps> = ({ x, y, label, id, icon: Icon, colorHex }) => (
+const NodeConnector: React.FC<NodeConnectorProps> = ({ x, y, label, desc, icon: Icon, colorHex }) => (
   <g transform={`translate(${x}, ${y})`} className="cursor-pointer group">
     <circle r="55" fill={colorHex} opacity="0.01" className="group-hover:opacity-10 transition-all duration-500" />
     <circle r="38" fill="none" stroke={colorHex} strokeWidth="0.5" strokeDasharray="2 6" opacity="0.1" className="group-hover:opacity-40 transition-opacity" />
@@ -39,8 +39,8 @@ const NodeConnector: React.FC<NodeConnectorProps> = ({ x, y, label, id, icon: Ic
       </div>
     </foreignObject>
 
-    <text y="62" textAnchor="middle" className="fill-slate-400 dark:fill-gray-500 text-[10px] font-black uppercase tracking-[0.35em] pointer-events-none">{id}</text>
-    <text y="82" textAnchor="middle" className="fill-slate-900 dark:fill-white text-[14px] font-black uppercase tracking-[0.2em] pointer-events-none">{label}</text>
+    <text y="58" textAnchor="middle" className="fill-slate-900 dark:fill-white text-[13px] font-black tracking-[0.15em] pointer-events-none">{label}</text>
+    <text y="74" textAnchor="middle" className="fill-slate-400 dark:fill-gray-500 text-[9px] font-medium tracking-[0.2em] pointer-events-none">{desc}</text>
   </g>
 );
 
@@ -86,19 +86,21 @@ const LoxoneSchema = () => {
   }, []);
 
   const nodes = [
-    { id: 'LOXONE.AIR', label: 'Bezdrátové prvky', icon: LoxoneAirIcon, x: 130, y: 80, colorClass: 'blue', colorHex: '#69C350' },
-    { id: 'LOXONE.AUDIO', label: 'Audio', icon: LoxoneAudioIcon, x: 400, y: 45, colorClass: 'cyan', colorHex: '#06b6d4' },
-    { id: 'LOXONE.TREE', label: 'Tree sběrnice', icon: LoxoneTreeIcon, x: 670, y: 80, colorClass: 'lime', colorHex: '#84cc16' },
-    { id: 'LOXONE.DALI', label: 'Osvětlení', icon: LoxoneLightingIcon, x: 90, y: 330, colorClass: 'orange', colorHex: '#ea580c' },
-    { id: 'LOXONE.DIGITÁLNÍ', label: 'Topení/Chlazení', icon: LoxoneTemperatureIcon, x: 710, y: 330, colorClass: 'purple', colorHex: '#9333ea' },
-    { id: 'LOXONE.VĚTRÁNÍ', label: 'Větrání', icon: LoxoneVentilationIcon, x: 200, y: 470, colorClass: 'teal', colorHex: '#14b8a6' },
-    { id: 'LOXONE.ENERGIE', label: 'Energetický mgmt', icon: LoxoneEnergyIcon, x: 600, y: 470, colorClass: 'amber', colorHex: '#f59e0b' },
+    { label: 'Loxone Air', desc: 'Bezdrátová technologie', icon: LoxoneAirIcon, x: 130, y: 80, colorClass: 'blue', colorHex: '#69C350' },
+    { label: 'Loxone Audio', desc: 'Multiroom audio systém', icon: LoxoneAudioIcon, x: 400, y: 45, colorClass: 'cyan', colorHex: '#06b6d4' },
+    { label: 'Loxone Tree', desc: 'Sběrnicová technologie', icon: LoxoneTreeIcon, x: 670, y: 80, colorClass: 'lime', colorHex: '#84cc16' },
+    { label: 'DALI', desc: 'Řízení osvětlení', icon: LoxoneLightingIcon, x: 90, y: 330, colorClass: 'orange', colorHex: '#ea580c' },
+    { label: 'Vytápění / Chlazení', desc: 'Řízení vytápění a chlazení', icon: LoxoneTemperatureIcon, x: 710, y: 330, colorClass: 'purple', colorHex: '#9333ea' },
+    { label: 'Větrání / Rekuperace', desc: 'Integrace přes Modbus', icon: LoxoneVentilationIcon, x: 200, y: 470, colorClass: 'teal', colorHex: '#14b8a6' },
+    { label: 'Energetický management', desc: 'Energy Management', icon: LoxoneEnergyIcon, x: 600, y: 470, colorClass: 'amber', colorHex: '#f59e0b' },
   ];
+
+  const CENTER_Y = 250;
 
   return (
     <div className="w-full bg-slate-50 dark:bg-[#080808] transition-colors duration-500 p-6 md:p-12 select-none overflow-hidden">
       <svg
-        viewBox="0 0 800 560"
+        viewBox="0 0 800 640"
         className="w-full h-auto overflow-visible"
         preserveAspectRatio="xMidYMid meet"
       >
@@ -131,13 +133,13 @@ const LoxoneSchema = () => {
         </defs>
 
         <g opacity="0.2">
-          <path d="M 0 230 L 800 230 M 400 0 L 400 500" stroke="currentColor" strokeWidth="0.5" className="text-slate-300 dark:text-white/10" />
-          <circle cx="400" cy="230" r="260" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="15 15" className="text-slate-200 dark:text-white/5" />
-          <circle cx="400" cy="230" r="180" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="8 8" className="text-slate-200 dark:text-white/5" />
+          <path d={`M 0 ${CENTER_Y} L 800 ${CENTER_Y} M 400 0 L 400 500`} stroke="currentColor" strokeWidth="0.5" className="text-slate-300 dark:text-white/10" />
+          <circle cx="400" cy={CENTER_Y} r="260" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="15 15" className="text-slate-200 dark:text-white/5" />
+          <circle cx="400" cy={CENTER_Y} r="180" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="8 8" className="text-slate-200 dark:text-white/5" />
         </g>
 
         {nodes.map((node, i) => {
-          const path = `M 400 230 L ${node.x} ${node.y}`;
+          const path = `M 400 ${CENTER_Y} L ${node.x} ${node.y}`;
           return (
             <g key={`path-${i}`}>
               <path d={path} stroke="currentColor" strokeWidth="1" className="text-slate-200 dark:text-white/10" />
@@ -146,7 +148,26 @@ const LoxoneSchema = () => {
           );
         })}
 
-        <g transform="translate(400, 270)" filter="url(#imgShadow)">
+        {/* Bottom integration spoke */}
+        <path d={`M 400 ${CENTER_Y} L 400 580`} stroke="currentColor" strokeWidth="1" className="text-slate-200 dark:text-white/10" />
+        <DataPackets path={`M 400 ${CENTER_Y} L 400 580`} color="#64748b" delay="3.5s" isMobile={isMobile} />
+        <g transform="translate(400, 580)" className="cursor-pointer group">
+          <circle r="55" fill="#64748b" opacity="0.01" className="group-hover:opacity-10 transition-all duration-500" />
+          <circle r="38" fill="none" stroke="#64748b" strokeWidth="0.5" strokeDasharray="2 6" opacity="0.1" className="group-hover:opacity-40 transition-opacity" />
+          <rect x="-28" y="-28" width="56" height="56" rx="16" className="fill-white/80 dark:fill-white/5 transition-all duration-500 group-hover:scale-110" stroke="#64748b" strokeWidth="1" strokeOpacity="0.2" />
+          <foreignObject x="-14" y="-14" width="28" height="28" className="pointer-events-none overflow-visible">
+            <div className="w-full h-full flex items-center justify-center">
+              <svg viewBox="0 0 24 24" className="w-full h-full" fill="none" stroke="#64748b" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="3" />
+                <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" />
+              </svg>
+            </div>
+          </foreignObject>
+          <text y="58" textAnchor="middle" className="fill-slate-900 dark:fill-white text-[13px] font-black tracking-[0.15em] pointer-events-none">Systémové integrace</text>
+          <text y="74" textAnchor="middle" className="fill-slate-400 dark:fill-gray-500 text-[9px] font-medium tracking-[0.15em] pointer-events-none">Modbus • KNX • MQTT • TCP/IP API</text>
+        </g>
+
+        <g transform={`translate(400, ${CENTER_Y + 20})`} filter="url(#imgShadow)">
           {!isMobile && (
             <ellipse cx="0" cy="0" rx="180" ry="120" fill="none" stroke="#84cc16" strokeWidth="0.5" strokeDasharray="10 40" opacity="0.03">
               <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="45s" repeatCount="indefinite" />
@@ -164,7 +185,7 @@ const LoxoneSchema = () => {
         </g>
 
         {nodes.map((node) => (
-          <NodeConnector key={node.id} {...node} />
+          <NodeConnector key={node.label} {...node} />
         ))}
 
 
