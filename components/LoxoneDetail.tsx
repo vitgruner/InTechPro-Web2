@@ -85,6 +85,10 @@ const LoxoneDetail: React.FC<DetailProps> = ({ setView }) => {
                     <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Bezdrátové prvky</span>
                   </div>
                   <div className="flex items-center gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-cyan-500" />
+                    <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Audio</span>
+                  </div>
+                  <div className="flex items-center gap-3">
                     <div className="w-1.5 h-1.5 rounded-full bg-lime-500" />
                     <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Tree sběrnice</span>
                   </div>
@@ -95,6 +99,14 @@ const LoxoneDetail: React.FC<DetailProps> = ({ setView }) => {
                   <div className="flex items-center gap-3">
                     <div className="w-1.5 h-1.5 rounded-full bg-purple-500" />
                     <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Topení / Chlazení</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-teal-500" />
+                    <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Větrání</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                    <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Energetický mgmt</span>
                   </div>
                 </div>
               </div>

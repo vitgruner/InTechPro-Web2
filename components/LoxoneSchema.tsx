@@ -1,18 +1,22 @@
 ﻿
 import React, { useState, useEffect } from 'react';
-import { Cpu, Radio, Lightbulb, Thermometer, Share2 } from 'lucide-react';
+import {
+  LoxoneAirIcon, LoxoneAudioIcon, LoxoneTreeIcon,
+  LoxoneLightingIcon, LoxoneTemperatureIcon,
+  LoxoneVentilationIcon, LoxoneEnergyIcon
+} from './LoxoneIcons';
 
 interface NodeConnectorProps {
   x: number;
   y: number;
   label: string;
   id: string;
-  icon: React.ElementType;
+  icon: React.FC<{ className?: string; style?: React.CSSProperties }>;
   colorClass: string;
   colorHex: string;
 }
 
-const NodeConnector: React.FC<NodeConnectorProps> = ({ x, y, label, id, icon: Icon, colorClass, colorHex }) => (
+const NodeConnector: React.FC<NodeConnectorProps> = ({ x, y, label, id, icon: Icon, colorHex }) => (
   <g transform={`translate(${x}, ${y})`} className="cursor-pointer group">
     <circle r="55" fill={colorHex} opacity="0.01" className="group-hover:opacity-10 transition-all duration-500" />
     <circle r="38" fill="none" stroke={colorHex} strokeWidth="0.5" strokeDasharray="2 6" opacity="0.1" className="group-hover:opacity-40 transition-opacity" />
@@ -29,9 +33,9 @@ const NodeConnector: React.FC<NodeConnectorProps> = ({ x, y, label, id, icon: Ic
       strokeOpacity="0.2"
     />
 
-    <foreignObject x="-14" y="-14" width="28" height="28" className="pointer-events-none group-hover:scale-110 transition-transform duration-500 overflow-visible">
+    <foreignObject x="-16" y="-16" width="32" height="32" className="pointer-events-none overflow-visible">
       <div className="w-full h-full flex items-center justify-center">
-        <Icon className={`w-full h-full text-${colorClass}-600 dark:text-${colorClass}-400`} />
+        <Icon className="w-full h-full" style={{ color: colorHex }} />
       </div>
     </foreignObject>
 
@@ -82,16 +86,19 @@ const LoxoneSchema = () => {
   }, []);
 
   const nodes = [
-    { id: 'LOXONE.AIR', label: 'Bezdrátové prvky', icon: Radio, x: 130, y: 100, colorClass: 'blue', colorHex: '#69C350' },
-    { id: 'LOXONE.TREE', label: 'Tree sběrnice', icon: Share2, x: 670, y: 100, colorClass: 'lime', colorHex: '#84cc16' },
-    { id: 'LOXONE.DALI.EXTENSION', label: 'Osvětlení', icon: Lightbulb, x: 130, y: 360, colorClass: 'orange', colorHex: '#ea580c' },
-    { id: 'LOXONE.DIGITÁLNÍ.VÝSTUP', label: 'Topení/Chlazení', icon: Thermometer, x: 670, y: 360, colorClass: 'purple', colorHex: '#9333ea' },
+    { id: 'LOXONE.AIR', label: 'Bezdrátové prvky', icon: LoxoneAirIcon, x: 130, y: 80, colorClass: 'blue', colorHex: '#69C350' },
+    { id: 'LOXONE.AUDIO', label: 'Audio', icon: LoxoneAudioIcon, x: 400, y: 45, colorClass: 'cyan', colorHex: '#06b6d4' },
+    { id: 'LOXONE.TREE', label: 'Tree sběrnice', icon: LoxoneTreeIcon, x: 670, y: 80, colorClass: 'lime', colorHex: '#84cc16' },
+    { id: 'LOXONE.DALI', label: 'Osvětlení', icon: LoxoneLightingIcon, x: 90, y: 330, colorClass: 'orange', colorHex: '#ea580c' },
+    { id: 'LOXONE.DIGITÁLNÍ', label: 'Topení/Chlazení', icon: LoxoneTemperatureIcon, x: 710, y: 330, colorClass: 'purple', colorHex: '#9333ea' },
+    { id: 'LOXONE.VĚTRÁNÍ', label: 'Větrání', icon: LoxoneVentilationIcon, x: 200, y: 470, colorClass: 'teal', colorHex: '#14b8a6' },
+    { id: 'LOXONE.ENERGIE', label: 'Energetický mgmt', icon: LoxoneEnergyIcon, x: 600, y: 470, colorClass: 'amber', colorHex: '#f59e0b' },
   ];
 
   return (
     <div className="w-full bg-slate-50 dark:bg-[#080808] transition-colors duration-500 p-6 md:p-12 select-none overflow-hidden">
       <svg
-        viewBox="0 0 800 500"
+        viewBox="0 0 800 560"
         className="w-full h-auto overflow-visible"
         preserveAspectRatio="xMidYMid meet"
       >
@@ -118,6 +125,9 @@ const LoxoneSchema = () => {
             <stop offset="0%" stopColor="#84cc16" />
             <stop offset="100%" stopColor="#4d7c0f" />
           </linearGradient>
+          <filter id="imgShadow" x="-10%" y="-10%" width="130%" height="140%">
+            <feDropShadow dx="5" dy="8" stdDeviation="12" floodColor="#000000" floodOpacity="0.4" />
+          </filter>
         </defs>
 
         <g opacity="0.2">
@@ -136,29 +146,21 @@ const LoxoneSchema = () => {
           );
         })}
 
-        <g transform="translate(400, 230)" filter={!isMobile ? "url(#coreGlow)" : undefined}>
+        <g transform="translate(400, 270)" filter="url(#imgShadow)">
           {!isMobile && (
-            <ellipse cx="0" cy="0" rx="180" ry="120" fill="none" stroke="#84cc16" strokeWidth="0.5" strokeDasharray="10 40" opacity="0.05">
+            <ellipse cx="0" cy="0" rx="180" ry="120" fill="none" stroke="#84cc16" strokeWidth="0.5" strokeDasharray="10 40" opacity="0.03">
               <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="45s" repeatCount="indefinite" />
             </ellipse>
           )}
 
-          <rect x="-150" y="-70" width="300" height="140" rx="24" fill="url(#miniserverGrad)" opacity="0.15" />
-
           <image
             href="https://messtzramsuvjnrvwmfc.supabase.co/storage/v1/object/public/project-documents/assets/miniserver-gen2.webp"
-            x="-120"
-            y="-60"
-            width="240"
-            height="100"
+            x="-300"
+            y="-140"
+            width="600"
+            height="280"
             preserveAspectRatio="xMidYMid meet"
           />
-
-          <foreignObject x="-150" y="45" width="300" height="40">
-            <div className="flex flex-col items-center justify-center h-full">
-              <span className="text-[18px] font-black text-[#69C350] dark:text-[#84cc16] tracking-[0.15em] uppercase">Miniserver Gen.2</span>
-            </div>
-          </foreignObject>
         </g>
 
         {nodes.map((node) => (
