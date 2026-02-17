@@ -11,7 +11,7 @@ const Process = () => {
     { icon: <CheckSquare />, title: "Finální nabídka", desc: "Po odsouhlasení rozsahu vytvoříme přesnou cenovou nabídku. Žádná dodatečná navýšení vás nečekají." },
     { icon: <FileText />, title: "Příprava podkladů", desc: "Detailní Loxone studie – rozmístění prvků, typy kabeláže, značení a doporučené trasy." },
     { icon: <ClipboardCheck />, title: "Kontrola na stavbě", desc: "Společná kontrola s elektrikáři před zaklopením kabelů. Jistota správného provedení." },
-    { icon: <Zap />, title: "Rozvaděče (volitelné)", desc: "Projekce a kompletní výroba rozvaděčů na dílně. Dodání hotového a revidovaného kusu na stavbu." },
+    { icon: <Zap />, title: "Rozvaděče (volitelné)", desc: "Projekce a kompletní výroba rozvaděčů na dílně. Dodání hotového kusu na stavbu s dokumenty ke kulaudaci." },
     { icon: <Rocket />, title: "Realizace a spuštění", desc: "Osazení koncových prvků, připojení rozvaděče a oživení systému v čistém a bezprašném prostředí." },
     { icon: <Sliders />, title: "Finální nastavení", desc: "Individuální doladění systému podle vašich skutečných návyků a přání po zabydlení." },
   ];

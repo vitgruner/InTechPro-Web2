@@ -143,21 +143,20 @@ const LoxoneSchema = () => {
             </ellipse>
           )}
 
-          <rect x="-150" y="-70" width="300" height="140" rx="24" fill="url(#miniserverGrad)" />
+          <rect x="-150" y="-70" width="300" height="140" rx="24" fill="url(#miniserverGrad)" opacity="0.15" />
 
-          <rect x="-110" y="-48" width="220" height="38" rx="10" fill="black" fillOpacity="0.3" />
+          <image
+            href="https://messtzramsuvjnrvwmfc.supabase.co/storage/v1/object/public/project-documents/assets/miniserver-gen2.webp"
+            x="-120"
+            y="-60"
+            width="240"
+            height="100"
+            preserveAspectRatio="xMidYMid meet"
+          />
 
-          <g transform="translate(0, -29)">
-            <circle cx="-60" cy="0" r="4" className={`fill-green-400 ${!isMobile ? 'animate-pulse' : ''}`} />
-            <circle cx="-35" cy="0" r="4" className={`fill-green-400 ${!isMobile ? 'animate-pulse' : ''}`} style={{ animationDelay: '0.4s' }} />
-            <rect x="-1" y="-10" width="2" height="20" rx="1" className="fill-white/20" />
-            <circle cx="35" cy="0" r="4" className={`fill-[#95E87D] ${!isMobile ? 'animate-pulse' : ''}`} style={{ animationDelay: '0.8s' }} />
-            <circle cx="60" cy="0" r="4" className={`fill-orange-400 ${!isMobile ? 'animate-pulse' : ''}`} style={{ animationDelay: '1.2s' }} />
-          </g>
-
-          <foreignObject x="-150" y="-10" width="300" height="80">
+          <foreignObject x="-150" y="45" width="300" height="40">
             <div className="flex flex-col items-center justify-center h-full">
-              <span className="text-[18px] font-black text-white tracking-[0.15em] uppercase">Miniserver Gen.2</span>
+              <span className="text-[18px] font-black text-[#69C350] dark:text-[#84cc16] tracking-[0.15em] uppercase">Miniserver Gen.2</span>
             </div>
           </foreignObject>
         </g>
