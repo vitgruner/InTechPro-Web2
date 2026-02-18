@@ -47,12 +47,12 @@ const Impresum: React.FC<DetailProps> = ({ setView }) => {
   return (
     <div className="pt-32 md:pt-40 pb-24 animate-in fade-in duration-700">
       <div className="max-w-4xl mx-auto px-6">
-        <Breadcrumbs 
+        <Breadcrumbs
           items={[{ label: 'Impresum' }]}
           setView={setView}
         />
 
-        <SectionHeader 
+        <SectionHeader
           variant="page"
           align="left"
           eyebrow="Právní identifikace"
@@ -79,8 +79,8 @@ const Impresum: React.FC<DetailProps> = ({ setView }) => {
 
         <div className="mt-8 glass-panel p-8 rounded-[2rem] border border-black/5 dark:border-white/10">
           <div className="flex items-center gap-3 mb-6">
-             <Briefcase className="w-5 h-5 text-[#69C350]" />
-             <h3 className="text-xl font-black uppercase tracking-tight">Předmět podnikání</h3>
+            <Briefcase className="w-5 h-5 text-[#69C350]" />
+            <h3 className="text-xl font-black uppercase tracking-tight">Předmět podnikání</h3>
           </div>
           <ul className="space-y-4">
             {businessActivities.map((activity, i) => (
@@ -103,13 +103,13 @@ const Impresum: React.FC<DetailProps> = ({ setView }) => {
             </div>
             <div className="text-left">
               <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Telefon</span>
-              <a href="tel:+420777000000" className="text-lg font-black text-gray-900 dark:text-white hover:text-[#69C350] transition-colors">+420 777 000 000</a>
+              <a href="tel:+420774299970" className="text-lg font-black text-gray-900 dark:text-white hover:text-[#69C350] transition-colors">+420 774 299 970</a>
             </div>
           </div>
         </div>
 
         <div className="pt-12 flex justify-center">
-          <button 
+          <button
             onClick={() => setView('home')}
             className="group flex items-center gap-3 px-8 py-4 bg-gray-200 dark:bg-white/10 text-gray-900 dark:text-white rounded-full font-black uppercase tracking-widest text-xs hover:bg-[#69C350] hover:text-white transition-all"
           >

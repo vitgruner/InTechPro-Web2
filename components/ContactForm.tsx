@@ -336,7 +336,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
                       type="tel"
                       value={formData.phone}
                       onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.target.value }))}
-                      placeholder="+420 777 000 000"
+                      placeholder="+420 774 299 970"
                       className="w-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl py-4 px-5 text-gray-900 dark:text-white focus:outline-none focus:border-[#69C350] transition-all text-xs"
                     />
                   </div>
