@@ -1,5 +1,5 @@
 ﻿import React, { useState, useMemo } from 'react';
-import { Send, CheckCircle2, Zap, Thermometer, Shield, Radio, Sun, Wifi, Car, Home, Factory, Building2, Waves, Sprout, Droplets, Blinds, Calculator, Sparkles, History, Mail, Phone, MessageSquare, Loader2, AlertCircle, Check, Snowflake, DoorOpen, Camera, Flame, Upload, X, Maximize } from 'lucide-react';
+import { Send, CheckCircle2, Zap, Thermometer, Shield, Radio, Sun, Wifi, Car, Home, Factory, Building2, Waves, Sprout, Droplets, Blinds, Calculator, Sparkles, History, Mail, Phone, MessageSquare, Loader2, AlertCircle, Check, Snowflake, DoorOpen, Camera, Flame, Upload, X, Maximize, Activity } from 'lucide-react';
 import VisionaryAssistant from './VisionaryAssistant';
 import { Message, ContactFormProps } from '../types';
 import SectionHeader from './SectionHeader';
@@ -425,9 +425,12 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
                   <h3 className="text-sm font-black uppercase tracking-tight">Krok 3: Rozsah automatizace</h3>
                 </div>
 
-                <div className="space-y-6">
-                  <div className="space-y-3 text-left">
-                    <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Integrace do loxone automatizace</label>
+                <div className="space-y-8">
+                  <div className="text-left">
+                    <div className="flex items-center gap-2 mb-3 ml-1">
+                      <Zap className="w-3 h-3 text-gray-400" />
+                      <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Integrace do loxone automatizace</label>
+                    </div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
                       {featureOptions.map(feature => (
                         <button
@@ -443,8 +446,11 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
                     </div>
                   </div>
 
-                  <div className="space-y-3">
-                    <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1 text-left block">Doplňkové služby a montáž</label>
+                  <div>
+                    <div className="flex items-center gap-2 mb-3 ml-1">
+                      <Activity className="w-3 h-3 text-gray-400" />
+                      <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Doplňkové služby a montáž</label>
+                    </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {[
                         { id: 'electricalDesignInterest', label: 'Projekce elektro', icon: <Building2 className="w-4 h-4" /> },
@@ -468,22 +474,22 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
                       ))}
                     </div>
 
-                    {/* Hardware Specification (Always visible) */}
-                    <div className="mt-2 p-5 bg-[#69C350]/5 border border-[#69C350]/10 rounded-2xl animate-in slide-in-from-top-2 fade-in duration-300">
-                      <div className="flex items-center gap-2 mb-4">
-                        <Sparkles className="w-3.5 h-3.5 text-[#69C350]" />
-                        <span className="text-[9px] font-black text-[#69C350] uppercase tracking-widest">Dodávka technologií</span>
+                    {/* Hardware Specification */}
+                    <div className="mt-6 animate-in slide-in-from-top-2 fade-in duration-300">
+                      <div className="flex items-center gap-2 mb-3 ml-1">
+                        <Sparkles className="w-3 h-3 text-gray-400" />
+                        <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Dodávka technologií (HW)</label>
                       </div>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
                         {techSupplyOptions.map((opt) => (
                           <button
                             key={opt.id}
                             type="button"
                             onClick={() => toggleTechSupplyField(opt.id)}
-                            className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-left transition-all ${formData.techSupplyFields.includes(opt.id) ? 'bg-[#69C350] text-white border-[#69C350] shadow-sm' : 'bg-black/5 dark:bg-white/5 border-black/10 text-gray-400 hover:border-[#69C350]/30'}`}
+                            className={`flex items-center gap-2 px-3 py-3 rounded-xl border text-left transition-all ${formData.techSupplyFields.includes(opt.id) ? 'bg-[#69C350] text-white border-[#69C350] shadow-md ring-2 ring-[#69C350]/20' : 'bg-black/5 dark:bg-white/5 border-black/10 text-gray-500 hover:border-black/20'}`}
                           >
-                            <div className="flex-shrink-0">{opt.icon}</div>
-                            <span className="text-[8px] font-bold uppercase leading-tight">{opt.label}</span>
+                            <div className="flex-shrink-0 [&>svg]:w-4 [&>svg]:h-4">{opt.icon}</div>
+                            <span className="text-[8px] font-bold uppercase truncate leading-tight">{opt.label}</span>
                           </button>
                         ))}
                       </div>
