@@ -241,7 +241,23 @@ const SolarSystem = React.memo(() => {
               {/* Grid Rows */}
               <div className="flex items-center justify-center gap-3 md:gap-7 w-full h-[95px]">
                 <PowerNode icon={LoxoneGridIcon as any} label="Veřejná síť" value={Math.abs(metrics.gridExport - metrics.gridImport)} unit="kW" color="purple" subValue={metrics.gridExport > 0 ? "Přetok" : "Odběr"} className="flex-1 justify-end" />
-                <PowerNode icon={LoxoneEnergyIcon as any} label="Fotovoltaika" value={metrics.production} unit="kWp" color="green" subValue="Výkon" className="flex-1 justify-center" />
+                <PowerNode
+                  icon={LoxoneEnergyIcon as any}
+                  label="Fotovoltaika"
+                  value={metrics.production}
+                  unit="kWp"
+                  color="green"
+                  subValue={
+                    metrics.production > 0
+                      ? "Vysoký výtěžek"
+                      : metrics.batteryPower < 0
+                        ? "Provoz na baterii"
+                        : metrics.gridImport > 0
+                          ? "Provoz ze sítě"
+                          : "Výkon"
+                  }
+                  className="flex-1 justify-center"
+                />
                 <PowerNode icon={LoxoneBatteryIcon as any} label="Baterie" value={metrics.batteryPower} unit="kW" color="yellow" subValue={`${metrics.battery.toFixed(0)}%`} className="flex-1 justify-start" />
               </div>
 
