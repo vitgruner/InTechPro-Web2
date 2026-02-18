@@ -268,7 +268,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
   }
 
   return (
-    <section id="contact" className={`py-10 md:py-20 relative overflow-hidden bg-gray-50/30 dark:bg-[#080808] transition-colors duration-500 ${isStandalone ? 'pt-28 md:pt-36' : ''}`}>
+    <section id="contact" className={`py-10 md:py-20 relative overflow-hidden bg-gray-50/30 dark:bg-[#080808] transition-colors duration-500 ${isStandalone ? 'pt-28 md:pt-32' : ''}`}>
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#69C350]/5 dark:bg-[#69C350]/10 rounded-full blur-[150px] -z-10 pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-6">
