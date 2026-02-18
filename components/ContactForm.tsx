@@ -20,6 +20,7 @@ interface FormData {
   techSupplyInterest: boolean;
   distributionBoardInterest: boolean;
   electricalInstallInterest: boolean;
+  electricalDesignInterest: boolean;
   projectFiles: File[];
   area: number;
   techSupplyFields: string[];
@@ -50,6 +51,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
     techSupplyInterest: false,
     distributionBoardInterest: false,
     electricalInstallInterest: false,
+    electricalDesignInterest: false,
     projectFiles: [],
     area: 0,
     techSupplyFields: []
@@ -84,7 +86,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
     { id: 'pv_system', label: 'Fotovoltaika', icon: <Sun className="w-3 h-3" /> },
     { id: 'audio_hw', label: 'Audio technika', icon: <Radio className="w-3 h-3" /> },
     { id: 'security_hw', label: 'EZS / CCTV', icon: <Shield className="w-3 h-3" /> },
-    { id: 'network_hw', label: 'Datová síť', icon: <Wifi className="w-3 h-3" /> }
+    { id: 'network_hw', label: 'Datová síť', icon: <Wifi className="w-3 h-3" /> },
+    { id: 'project', label: 'Projekt', icon: <Building2 className="w-3 h-3" /> }
   ];
 
   const propertyMultipliers: Record<string, number> = {
@@ -211,6 +214,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
           : 'Nespecifikováno',
         distributionBoard: formData.distributionBoardInterest,
         electricalInstall: formData.electricalInstallInterest,
+        electricalDesign: formData.electricalDesignInterest,
         message: sanitizedData.message || 'Bez doplňující zprávy.',
         aiHistory: aiMessages.map(m => `[${m.role.toUpperCase()}]: ${m.content}`).join('\n\n'),
         botCheck: (e.target as any).botCheck?.value // Honeypot
@@ -418,12 +422,12 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
                   <div className="w-8 h-8 bg-[#69C350]/10 rounded-lg flex items-center justify-center text-[#69C350]">
                     <Zap className="w-4 h-4" />
                   </div>
-                  <h3 className="text-sm font-black uppercase tracking-tight">Krok 3: Rozsah řešení</h3>
+                  <h3 className="text-sm font-black uppercase tracking-tight">Krok 3: Rozsah automatizace</h3>
                 </div>
 
                 <div className="space-y-6">
                   <div className="space-y-3 text-left">
-                    <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Systémy Loxone (výběr funkcí)</label>
+                    <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Systémy budovy (výběr funkcí)</label>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
                       {featureOptions.map(feature => (
                         <button
@@ -443,6 +447,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
                     <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1 text-left block">Doplňkové služby a montáž</label>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {[
+                        { id: 'electricalDesignInterest', label: 'Projekce elektro', icon: <Building2 className="w-4 h-4" /> },
                         { id: 'techSupplyInterest', label: 'Dodávka technologií (Hardware)', icon: <Zap className="w-4 h-4" /> },
                         { id: 'distributionBoardInterest', label: 'Výroba a dodávka rozvaděče', icon: <Building2 className="w-4 h-4" /> },
                         { id: 'electricalInstallInterest', label: 'Kompletní elektro realizace', icon: <Factory className="w-4 h-4" /> }
@@ -463,28 +468,26 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
                       ))}
                     </div>
 
-                    {/* Conditional Tech Supply Choice */}
-                    {formData.techSupplyInterest && (
-                      <div className="mt-2 p-5 bg-[#69C350]/5 border border-[#69C350]/10 rounded-2xl animate-in slide-in-from-top-2 fade-in duration-300">
-                        <div className="flex items-center gap-2 mb-4">
-                          <Sparkles className="w-3.5 h-3.5 text-[#69C350]" />
-                          <span className="text-[9px] font-black text-[#69C350] uppercase tracking-widest">Upřesnění hardware</span>
-                        </div>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                          {techSupplyOptions.map((opt) => (
-                            <button
-                              key={opt.id}
-                              type="button"
-                              onClick={() => toggleTechSupplyField(opt.id)}
-                              className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-left transition-all ${formData.techSupplyFields.includes(opt.id) ? 'bg-[#69C350] text-white border-[#69C350] shadow-sm' : 'bg-black/5 dark:bg-white/5 border-black/10 text-gray-400 hover:border-[#69C350]/30'}`}
-                            >
-                              <div className="flex-shrink-0">{opt.icon}</div>
-                              <span className="text-[8px] font-bold uppercase leading-tight">{opt.label}</span>
-                            </button>
-                          ))}
-                        </div>
+                    {/* Hardware Specification (Always visible) */}
+                    <div className="mt-2 p-5 bg-[#69C350]/5 border border-[#69C350]/10 rounded-2xl animate-in slide-in-from-top-2 fade-in duration-300">
+                      <div className="flex items-center gap-2 mb-4">
+                        <Sparkles className="w-3.5 h-3.5 text-[#69C350]" />
+                        <span className="text-[9px] font-black text-[#69C350] uppercase tracking-widest">Upřesnění hardware</span>
                       </div>
-                    )}
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                        {techSupplyOptions.map((opt) => (
+                          <button
+                            key={opt.id}
+                            type="button"
+                            onClick={() => toggleTechSupplyField(opt.id)}
+                            className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-left transition-all ${formData.techSupplyFields.includes(opt.id) ? 'bg-[#69C350] text-white border-[#69C350] shadow-sm' : 'bg-black/5 dark:bg-white/5 border-black/10 text-gray-400 hover:border-[#69C350]/30'}`}
+                          >
+                            <div className="flex-shrink-0">{opt.icon}</div>
+                            <span className="text-[8px] font-bold uppercase leading-tight">{opt.label}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -533,7 +536,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
                   )}
 
                   <div className="pt-6 border-t border-black/5 dark:border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-                    <div className="text-left relative">
+                    <div className="text-left relative opacity-0 invisible h-0 overflow-hidden">
                       <div className="absolute -inset-4 bg-[#69C350]/5 blur-2xl rounded-full -z-10 animate-pulse"></div>
                       <p className="text-[9px] font-black text-[#69C350] uppercase tracking-widest mb-1">Odhadovaná investice</p>
                       <div className="flex items-baseline gap-1.5">
