@@ -427,7 +427,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
 
                 <div className="space-y-6">
                   <div className="space-y-3 text-left">
-                    <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Systémy budovy (výběr funkcí)</label>
+                    <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Integrace do loxone automatizace</label>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
                       {featureOptions.map(feature => (
                         <button
@@ -472,7 +472,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ isStandalone = false, setView
                     <div className="mt-2 p-5 bg-[#69C350]/5 border border-[#69C350]/10 rounded-2xl animate-in slide-in-from-top-2 fade-in duration-300">
                       <div className="flex items-center gap-2 mb-4">
                         <Sparkles className="w-3.5 h-3.5 text-[#69C350]" />
-                        <span className="text-[9px] font-black text-[#69C350] uppercase tracking-widest">Upřesnění hardware</span>
+                        <span className="text-[9px] font-black text-[#69C350] uppercase tracking-widest">Dodávka technologií</span>
                       </div>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                         {techSupplyOptions.map((opt) => (
