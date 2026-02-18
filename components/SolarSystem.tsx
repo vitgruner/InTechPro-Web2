@@ -110,23 +110,23 @@ const SolarSystem = React.memo(() => {
   }, []);
 
   return (
-    <div className="w-full h-full bg-transparent transition-colors duration-500 p-4 md:p-8 select-none overflow-visible flex flex-col items-center justify-center">
+    <div className="w-full h-full bg-transparent transition-colors duration-500 p-2 md:p-6 select-none overflow-hidden flex flex-col items-center justify-center">
       {/* Background Grid Pattern */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none"
         style={{ backgroundImage: 'linear-gradient(#69C350 1px, transparent 1px), linear-gradient(90deg, #69C350 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
-      {/* Main Container */}
-      <div className="relative max-w-[725px] mx-auto">
-        <div className="flex flex-col items-center gap-5 md:gap-8 relative group">
+      {/* Main Container with Scale Up */}
+      <div className="relative w-full max-w-[800px] mx-auto scale-[0.9] sm:scale-100 md:scale-[1.1] transition-transform duration-700">
+        <div className="flex flex-col items-center gap-4 md:gap-6 relative group">
 
-          {/* ROW 0: Loxone Miniserver — brain (Independent at top) */}
-          <div className="relative z-20">
+          {/* ROW 0: Loxone Miniserver — brain (Floating at top) */}
+          <div className="relative z-20 md:-mb-2">
             <div className="absolute inset-[-10px] bg-[#69C350]/10 blur-[40px] rounded-full scale-110 animate-pulse" />
             <div className="flex items-center gap-3 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl border border-[#69C350]/20 shadow-xl rounded-xl px-3 py-1.5 relative">
               <img
                 src="https://messtzramsuvjnrvwmfc.supabase.co/storage/v1/object/public/project-documents/assets/miniserver-gen2.webp"
                 alt="Loxone Miniserver Compact"
-                className="w-18 h-18 md:w-20 md:h-20 object-contain drop-shadow-lg"
+                className="w-16 h-16 md:w-18 md:h-18 object-contain drop-shadow-lg"
               />
               <div className="flex flex-col text-left">
                 <span className="text-[7px] md:text-[9px] font-black text-[#69C350] uppercase tracking-widest">Loxone Miniserver</span>
@@ -151,26 +151,21 @@ const SolarSystem = React.memo(() => {
               </defs>
 
               {/* Radial Lines from SolaX (50, 50) to 8 Nodes */}
-              {/* Row 1: y=11 */}
               <line x1="11" y1="11" x2="50" y2="50" stroke="#a855f7" strokeWidth="0.3" strokeOpacity="0.15" />
               <line x1="50" y1="11" x2="50" y2="50" stroke="#69C350" strokeWidth="0.3" strokeOpacity="0.15" />
               <line x1="89" y1="11" x2="50" y2="50" stroke="#eab308" strokeWidth="0.3" strokeOpacity="0.15" />
-              {/* Row 2 Sides: y=50 */}
               <line x1="11" y1="50" x2="50" y2="50" stroke="#3b82f6" strokeWidth="0.3" strokeOpacity="0.15" />
               <line x1="89" y1="50" x2="50" y2="50" stroke="#f97316" strokeWidth="0.3" strokeOpacity="0.15" />
-              {/* Row 3: y=89 */}
               <line x1="11" y1="89" x2="50" y2="50" stroke="#0ea5e9" strokeWidth="0.3" strokeOpacity="0.15" />
               <line x1="50" y1="89" x2="50" y2="50" stroke="#06b6d4" strokeWidth="0.3" strokeOpacity="0.15" />
               <line x1="89" y1="89" x2="50" y2="50" stroke="#6366f1" strokeWidth="0.3" strokeOpacity="0.15" />
 
-              {/* Animated Particles following 45-degree paths */}
-              {/* PV → SolaX */}
+              {/* Animated Particles */}
               {[0, 2.2].map((d, i) => (
                 <circle key={`pv-${i}`} r="1.0" fill="#69C350" filter="url(#packetGlow)">
                   <animateMotion path="M 50 11 L 50 50" dur="4.4s" begin={`${d}s`} repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
                 </circle>
               ))}
-              {/* Grid Flows */}
               {metrics.gridExport > 0 && [0, 2.2].map((d, i) => (
                 <circle key={`gexp-${i}`} r="1.0" fill="#a855f7" filter="url(#packetGlow)">
                   <animateMotion path="M 50 50 L 11 11" dur="4.4s" begin={`${d}s`} repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
@@ -181,7 +176,6 @@ const SolarSystem = React.memo(() => {
                   <animateMotion path="M 11 11 L 50 50" dur="4.4s" begin={`${d}s`} repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
                 </circle>
               ))}
-              {/* Battery Flows */}
               {metrics.batteryPower > 0 && [0, 2.2].map((d, i) => (
                 <circle key={`batch-${i}`} r="1.0" fill="#eab308" filter="url(#packetGlow)">
                   <animateMotion path="M 50 50 L 89 11" dur="4.4s" begin={`${d}s`} repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
@@ -192,7 +186,6 @@ const SolarSystem = React.memo(() => {
                   <animateMotion path="M 89 11 L 50 50" dur="4.4s" begin={`${d}s`} repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
                 </circle>
               ))}
-              {/* Consumer Flows (from SolaX) */}
               {[0, 2.0].map((d, i) => (
                 <circle key={`hs-${i}`} r="1.0" fill="#3b82f6" filter="url(#packetGlow)">
                   <animateMotion path="M 50 50 L 11 50" dur="4s" begin={`${d}s`} repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
@@ -216,16 +209,15 @@ const SolarSystem = React.memo(() => {
               )}
             </svg>
 
-            {/* Content Layer (Cards + Inverter) */}
-            <div className="flex flex-col gap-7 md:gap-10 relative z-10 w-full">
-              {/* ROW 1: Grid + PV + Bat */}
+            {/* Content Layer */}
+            <div className="flex flex-col gap-6 md:gap-10 relative z-10 w-full">
+              {/* Grid Rows */}
               <div className="flex items-center justify-center gap-3 md:gap-7 w-full h-[95px]">
                 <PowerNode icon={LoxoneGridIcon as any} label="Veřejná síť" value={Math.abs(metrics.gridExport - metrics.gridImport)} unit="kW" color="purple" subValue={metrics.gridExport > 0 ? "Přetok" : "Odběr"} className="flex-1 justify-end" />
                 <PowerNode icon={LoxoneEnergyIcon as any} label="Fotovoltaika" value={metrics.production} unit="kWp" color="green" subValue="Výkon" className="flex-1 justify-center" />
                 <PowerNode icon={LoxoneBatteryIcon as any} label="Baterie" value={metrics.batteryPower} unit="kW" color="yellow" subValue={`${metrics.battery.toFixed(0)}%`} className="flex-1 justify-start" />
               </div>
 
-              {/* ROW 2: House + SolaX + Sauna */}
               <div className="flex items-center justify-center gap-3 md:gap-7 w-full h-[95px]">
                 <PowerNode icon={LoxoneHouseIcon as any} label="Dům" value={metrics.load} unit="kW" color="blue" subValue="Spotřeba" className="flex-1 justify-end" />
                 <div className="flex-1 flex justify-center items-center relative min-h-[76px] md:min-h-[95px]">
@@ -235,7 +227,6 @@ const SolarSystem = React.memo(() => {
                 <PowerNode icon={LoxoneSaunaIcon as any} label="Sauna" value={metrics.sauna} unit="kW" color="orange" subValue={metrics.sauna > 0 ? "Aktivní" : "Vypnuto"} className="flex-1 justify-start" />
               </div>
 
-              {/* ROW 3: HP + TUV + EV */}
               <div className="flex items-center justify-center gap-3 md:gap-7 w-full h-[95px]">
                 <PowerNode icon={LoxoneTemperatureIcon as any} label="Čerpadlo" value={metrics.heatPump} unit="kW" color="sky" subValue="Vytápění" className="flex-1 justify-end" />
                 <PowerNode icon={LoxoneHotWaterIcon as any} label="Ohřev TUV" value={metrics.hotWater} unit="kW" color="cyan" subValue="Bojler" className="flex-1 justify-center" />
