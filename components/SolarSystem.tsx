@@ -139,7 +139,7 @@ const SolarSystem = React.memo(() => {
           <div className="relative w-full max-w-[553px] mx-auto">
             {/* SVG Background Layer - 45-degree radial flow system */}
             <svg
-              className="absolute inset-0 w-full h-full pointer-events-none z-0 hidden md:block overflow-visible"
+              className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible"
               viewBox="0 0 100 100"
               preserveAspectRatio="xMidYMid meet"
             >
