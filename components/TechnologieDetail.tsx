@@ -7,6 +7,37 @@ import SectionHeader from './SectionHeader';
 import ServicePager from './ServicePager';
 import Breadcrumbs from './Breadcrumbs';
 
+// VisualizationBox copied from Dashboard.tsx for UI consistency
+const colorClasses: Record<string, { bg: string; bgHover: string; text: string; border: string; borderStatus: string }> = {
+  'bg-yellow-500': { bg: 'bg-yellow-500/10', bgHover: 'group-hover:bg-yellow-500', text: 'text-yellow-500', border: 'border-yellow-500/20', borderStatus: 'border-yellow-500/20' },
+};
+
+const VisualizationBox: React.FC<{ icon: React.ElementType; title: string; subtitle: string; color: string; children: React.ReactNode; statusLabel?: string }> = ({ icon: Icon, title, subtitle, color, children, statusLabel = "Aktivní spojení" }) => {
+  const colors = colorClasses[color] || colorClasses['bg-[#69C350]'];
+  return (
+    <div className="glass-panel rounded-3xl p-5 md:p-6 border border-black/10 dark:border-white/20 overflow-hidden shadow-2xl flex flex-col transition-all group w-full">
+      <div className="mb-5 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-4 min-w-0">
+          <div className={`w-10 h-10 md:w-12 md:h-12 ${colors.bg} rounded-xl flex items-center justify-center border ${colors.border} shadow-lg ${colors.bgHover} group-hover:text-white transition-all duration-500 flex-shrink-0`}>
+            <Icon className={`w-5 h-5 md:w-6 md:h-6 ${colors.text} group-hover:text-white transition-colors`} />
+          </div>
+          <div className="min-w-0 flex flex-col justify-center">
+            <h3 className="text-lg md:text-xl font-black text-gray-900 dark:text-white tracking-tight transition-colors duration-500 truncate leading-tight">{title}</h3>
+            <p className="text-[9px] md:text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mt-0.5 truncate">{subtitle}</p>
+          </div>
+        </div>
+        <div className={`hidden sm:flex flex-shrink-0 items-center gap-2 ${colors.bg} px-3 py-1.5 rounded-full border ${colors.borderStatus}`}>
+          <div className={`w-1.5 h-1.5 ${color} rounded-full animate-pulse shadow-[0_0_8px_currentColor]`} />
+          <span className={`text-[9px] font-black ${colors.text} dark:text-white uppercase tracking-widest`}>{statusLabel}</span>
+        </div>
+      </div>
+      <div className="flex-grow rounded-2xl overflow-hidden border border-black/5 dark:border-white/5 bg-gray-100 dark:bg-black/60 shadow-inner min-h-[500px] md:min-h-[600px] flex items-center justify-center">
+        {children}
+      </div>
+    </div>
+  );
+};
+
 const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
   const techCards = [
     {
@@ -60,10 +91,16 @@ const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
 
         <div className="mb-8 md:mb-12">
           <div className="flex flex-col lg:flex-row gap-6 md:gap-8 items-stretch">
-            <div className="flex-1 w-full glass-panel rounded-[2rem] md:rounded-[3rem] overflow-hidden border-black/5 dark:border-white/10 shadow-2xl relative min-w-0">
-              <div className="flex-grow rounded-2xl bg-gray-100 dark:bg-black/60 shadow-inner h-[620px] w-full relative overflow-visible flex flex-col items-center justify-center">
+            <div className="flex-1 min-w-0">
+              <VisualizationBox
+                icon={Sun}
+                title="Stav systému FVE"
+                subtitle="Energetické toky v reálném čase"
+                color="bg-yellow-500"
+                statusLabel="Vysoký výtěžek"
+              >
                 <SolarSystem />
-              </div>
+              </VisualizationBox>
             </div>
 
             <div className="w-full lg:w-80 flex flex-col gap-4 md:gap-6">
