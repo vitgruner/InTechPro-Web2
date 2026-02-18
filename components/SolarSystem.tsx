@@ -23,8 +23,8 @@ const PowerNode: React.FC<PowerNodeProps> = ({ icon: Icon, label, value, unit, c
   return (
     <div className={`group transition-all duration-700 flex ${className}`}>
       <div className="relative">
-        <div className={`absolute inset-[-10px] rounded-full bg-${color}-500/5 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
-        <div className="w-24 h-[64px] md:w-34 md:h-[77px] bg-white/95 dark:bg-zinc-900/90 md:backdrop-blur-xl border border-slate-200 dark:border-white/10 shadow-xl rounded-xl p-2 flex items-center justify-between transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl">
+        <div className={`absolute inset-[-10px] rounded-full bg-${color}-500/5 blur-xl opacity-0 transition-opacity duration-700`} />
+        <div className="w-24 h-[64px] md:w-34 md:h-[77px] bg-white/95 dark:bg-zinc-900/90 md:backdrop-blur-xl border border-slate-200 dark:border-white/10 shadow-xl rounded-xl p-2 flex items-center justify-between transition-all duration-500">
           <div className="flex flex-col justify-center gap-0.5 text-left min-w-0 flex-1">
             <span className="text-[5px] md:text-[8.5px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest truncate">
               {label}
@@ -52,23 +52,46 @@ const PowerNode: React.FC<PowerNodeProps> = ({ icon: Icon, label, value, unit, c
 };
 
 const SolarSystem = React.memo(() => {
-  const [metrics, setMetrics] = useState({
-    production: 6.2,
-    load: 1.8,
-    heatPump: 2.1,
-    hotWater: 1.5,
-    wallbox: 0.0,
-    sauna: 0.0,
-    battery: 88,
-    batteryPower: 1.5,
-    gridImport: 0.0,
-    gridExport: 0.8,
+  const [metrics, setMetrics] = useState(() => {
+    const now = new Date();
+    const hour = now.getHours();
+    const isDay = hour >= 7 && hour < 20;
+    return {
+      production: isDay ? 6.2 : 0,
+      load: 1.8,
+      heatPump: 2.1,
+      hotWater: 1.5,
+      wallbox: 0.0,
+      sauna: 0.0,
+      battery: 88,
+      batteryPower: 1.5,
+      gridImport: 0.0,
+      gridExport: 0.8,
+    };
   });
 
   useEffect(() => {
     const interval = setInterval(() => {
       setMetrics(prev => {
-        const production = Math.max(0, parseFloat((prev.production + (Math.random() - 0.5) * 0.1).toFixed(1)));
+        const now = new Date();
+        const hour = now.getHours();
+        const isDay = hour >= 7 && hour < 20;
+
+        // Target production based on time (Day: ~6.2kW, Night: 0kW)
+        const targetProduction = isDay ? 6.2 : 0;
+        const step = (targetProduction - prev.production) * 0.1;
+
+        // Only add noise if it's daytime to simulate clouds/intensity changes
+        const noise = isDay ? (Math.random() - 0.5) * 0.2 : 0;
+
+        // Calculate new production
+        let production = Math.max(0, parseFloat((prev.production + step + noise).toFixed(1)));
+
+        // Force 0 if it's night and value is very small to prevent floating point jitter
+        if (!isDay && production < 0.1) {
+          production = 0;
+        }
+
         const load = Math.max(0.4, parseFloat((prev.load + (Math.random() - 0.5) * 0.15).toFixed(1)));
         const heatPump = Math.max(0.8, parseFloat((prev.heatPump + (Math.random() - 0.5) * 0.2).toFixed(1)));
         const hotWater = Math.max(0.5, parseFloat((prev.hotWater + (Math.random() - 0.5) * 0.1).toFixed(1)));
@@ -222,7 +245,7 @@ const SolarSystem = React.memo(() => {
                 <PowerNode icon={LoxoneHouseIcon as any} label="Dům" value={metrics.load} unit="kW" color="blue" subValue="Spotřeba" className="flex-1 justify-end" />
                 <div className="flex-1 flex justify-center items-center relative min-h-[76px] md:min-h-[95px]">
                   <div className="absolute inset-0 bg-[#E62E2D]/5 blur-[60px] rounded-full scale-110 animate-pulse" />
-                  <img src={solaxInverter} alt="SolaX" className="w-22 h-22 md:w-30 md:h-30 object-contain drop-shadow-2xl z-20 hover:scale-110 transition-transform duration-500" />
+                  <img src={solaxInverter} alt="SolaX" className="w-22 h-22 md:w-30 md:h-30 object-contain drop-shadow-2xl z-20 transition-transform duration-500" />
                 </div>
                 <PowerNode icon={LoxoneSaunaIcon as any} label="Sauna" value={metrics.sauna} unit="kW" color="orange" subValue={metrics.sauna > 0 ? "Aktivní" : "Vypnuto"} className="flex-1 justify-start" />
               </div>
