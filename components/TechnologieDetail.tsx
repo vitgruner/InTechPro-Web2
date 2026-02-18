@@ -175,7 +175,7 @@ const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
             <div className="glass-panel p-6 md:p-8 rounded-[2rem] border-green-500/10 bg-green-500/5">
               <h3 className="font-black uppercase tracking-widest text-[11px] text-green-600 mb-3">Řešení: Inteligentní management</h3>
               <p className="text-gray-600 dark:text-gray-400 text-xs leading-relaxed font-medium">
-                Loxone hlídá energetickou bilanci a v reálném čase spíná spotřebiče, nabíjí auto nebo ukládá energii do ohřevu vody a baterií.
+                Loxone hlídá energetickou bilanci a v reálném čase spíná spotřebiče, nabíjí auto nebo ukládá energii do ohřevu vody a baterií. FVE navíc připojujeme na spotový trh pro maximální efektivitu.
               </p>
             </div>
           </div>

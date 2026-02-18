@@ -110,7 +110,7 @@ const SolarSystem = React.memo(() => {
   }, []);
 
   return (
-    <div className="w-full h-full bg-transparent transition-colors duration-500 p-2 md:p-6 select-none overflow-hidden flex flex-col items-center justify-center">
+    <div className="w-full h-full bg-transparent transition-colors duration-500 p-2 md:p-6 select-none overflow-visible flex flex-col items-center justify-center">
       {/* Background Grid Pattern */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none"
         style={{ backgroundImage: 'linear-gradient(#69C350 1px, transparent 1px), linear-gradient(90deg, #69C350 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
