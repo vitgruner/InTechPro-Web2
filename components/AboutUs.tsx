@@ -2,6 +2,7 @@
 import { Target, Lightbulb, Users, Award, MoveRight, CheckCircle2 } from 'lucide-react';
 import SectionHeader from './SectionHeader';
 import Breadcrumbs from './Breadcrumbs';
+import Partners from './Partners';
 
 const AboutUs = ({ setView }: { setView?: (view: any) => void }) => {
   return (
@@ -100,6 +101,7 @@ const AboutUs = ({ setView }: { setView?: (view: any) => void }) => {
           </div>
         </div>
       </div>
+      <Partners />
     </section>
   );
 };
