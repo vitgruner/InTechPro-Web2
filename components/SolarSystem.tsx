@@ -1,6 +1,12 @@
 ﻿
 import React, { useState, useEffect } from 'react';
-import { Sun, Zap, Battery, Home, Globe, LucideIcon } from 'lucide-react';
+import { LucideIcon } from 'lucide-react';
+import {
+  LoxoneEnergyIcon, LoxoneLightingIcon, LoxoneTemperatureIcon,
+  LoxoneGridIcon, LoxoneBatteryIcon, LoxoneHouseIcon,
+  LoxoneSaunaIcon, LoxoneHotWaterIcon, LoxoneEVIcon
+} from './LoxoneIcons';
+import solaxInverter from '../src/_vyr_1503_x3-ultra-1024x1024.webp';
 
 interface PowerNodeProps {
   icon: LucideIcon;
@@ -8,184 +14,236 @@ interface PowerNodeProps {
   value: number;
   unit: string;
   color: string;
-  position: string;
+  specs?: string;
   subValue?: string;
+  className?: string;
 }
 
-const PowerNode: React.FC<PowerNodeProps> = ({ icon: Icon, label, value, unit, color, position, subValue }) => {
-  const isLabelTop = position.includes('bottom') || position.includes('translate-y-1/2');
-
+const PowerNode: React.FC<PowerNodeProps> = ({ icon: Icon, label, value, unit, color, specs, subValue, className = '' }) => {
   return (
-    <div className={`absolute ${position} z-20 flex flex-col items-center group transition-all duration-700`}>
-      {/* Label above node for bottom/side positions */}
-      {!isLabelTop && (
-        <div className="mb-2 md:mb-3 flex flex-col items-center transform group-hover:-translate-y-1 transition-transform duration-500">
-          <div className="text-[7px] md:text-[9px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] leading-none mb-1">{label}</div>
-          <div className="flex items-baseline gap-0.5">
-            <span className="text-sm md:text-lg font-black text-gray-800 dark:text-gray-100 tabular-nums leading-none">{Math.abs(value).toFixed(1)}</span>
-            <span className="text-[7px] md:text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase leading-none">{unit}</span>
-          </div>
-        </div>
-      )}
-
-      {/* Squircle Node matching Inverter Design */}
+    <div className={`group transition-all duration-700 flex ${className}`}>
       <div className="relative">
-        <div className={`absolute inset-[-8px] md:inset-[-12px] rounded-full bg-${color}-500/5 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
+        <div className={`absolute inset-[-10px] rounded-full bg-${color}-500/5 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
+        <div className="w-24 h-[64px] md:w-34 md:h-[77px] bg-white/95 dark:bg-zinc-900/90 md:backdrop-blur-xl border border-slate-200 dark:border-white/10 shadow-xl rounded-xl p-2 flex items-center justify-between transition-all duration-500 group-hover:scale-105 group-hover:shadow-2xl">
+          <div className="flex flex-col justify-center gap-0.5 text-left min-w-0 flex-1">
+            <span className="text-[5px] md:text-[8.5px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest truncate">
+              {label}
+            </span>
+            <div className="flex items-baseline gap-1 mt-0.5">
+              <span className="text-xs md:text-[20px] font-black text-slate-900 dark:text-white tabular-nums tracking-tighter leading-none">
+                {Math.abs(value).toFixed(1)}
+              </span>
+              <span className="text-[6px] md:text-[9.5px] font-bold text-slate-500 dark:text-gray-400 uppercase">
+                {unit}
+              </span>
+            </div>
+            <div className="text-[5px] md:text-[7.5px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider leading-tight truncate mt-0.5">
+              {subValue || specs || "Status"}
+            </div>
+          </div>
 
-        <div className="w-12 h-12 md:w-20 md:h-20 rounded-2xl md:rounded-[2rem] bg-white/90 dark:bg-white/[0.03] md:backdrop-blur-2xl border border-white/40 dark:border-white/10 shadow-2xl flex items-center justify-center relative z-10 transition-all duration-500 group-hover:scale-110">
-          {/* Inner Accent Box */}
-          <div className={`w-9 h-9 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-${color}-500/10 flex items-center justify-center relative overflow-hidden group-hover:bg-${color}-500/20 transition-colors duration-500`}>
-            <Icon className={`w-5 h-5 md:w-8 md:h-8 text-${color}-500 md:text-${color}-500/80 group-hover:text-${color}-500 transition-colors duration-500`} />
-
-            {/* Battery percentage badge */}
-            {subValue && subValue.includes('%') && (
-              <div className="absolute top-0 right-0 bg-[#69C350] text-white text-[5px] md:text-[7px] font-black px-1 py-0.5 rounded-bl shadow-sm z-20">
-                {subValue.split(' ')[0]}
-              </div>
-            )}
+          <div className={`w-7 h-7 md:w-11 md:h-11 rounded-lg bg-${color}-500/10 flex items-center justify-center flex-shrink-0 ml-2`}>
+            <Icon className={`w-4 h-4 md:w-6.5 h-6.5 text-${color}-500`} />
           </div>
         </div>
       </div>
-
-      {/* Label below node for top positions */}
-      {isLabelTop && (
-        <div className="mt-2 md:mt-3 flex flex-col items-center transform group-hover:translate-y-1 transition-transform duration-500">
-          <div className="text-[7px] md:text-[9px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] leading-none mb-1">{label}</div>
-          <div className="flex items-baseline gap-0.5">
-            <span className="text-sm md:text-lg font-black text-gray-800 dark:text-gray-100 tabular-nums leading-none">{Math.abs(value).toFixed(1)}</span>
-            <span className="text-[7px] md:text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase leading-none">{unit}</span>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
 
 const SolarSystem = React.memo(() => {
   const [metrics, setMetrics] = useState({
-    production: 4.3,
+    production: 6.2,
     load: 1.8,
-    battery: 85,
-    batteryPower: 2.0,
-    gridPower: 0.5,
+    heatPump: 2.1,
+    hotWater: 1.5,
+    wallbox: 0.0,
+    sauna: 0.0,
+    battery: 88,
+    batteryPower: 1.5,
+    gridImport: 0.0,
+    gridExport: 0.8,
   });
 
-  const [isMobile, setIsMobile] = useState(false);
-
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    handleResize();
-    window.addEventListener('resize', handleResize);
-
     const interval = setInterval(() => {
-      setMetrics(prev => ({
-        production: Math.max(0, parseFloat((prev.production + (Math.random() - 0.5) * 0.1).toFixed(1))),
-        load: Math.max(0.2, parseFloat((prev.load + (Math.random() - 0.5) * 0.2).toFixed(1))),
-        battery: Math.min(100, Math.max(0, prev.battery)),
-        batteryPower: prev.batteryPower,
-        gridPower: prev.gridPower
-      }));
+      setMetrics(prev => {
+        const production = Math.max(0, parseFloat((prev.production + (Math.random() - 0.5) * 0.1).toFixed(1)));
+        const load = Math.max(0.4, parseFloat((prev.load + (Math.random() - 0.5) * 0.15).toFixed(1)));
+        const heatPump = Math.max(0.8, parseFloat((prev.heatPump + (Math.random() - 0.5) * 0.2).toFixed(1)));
+        const hotWater = Math.max(0.5, parseFloat((prev.hotWater + (Math.random() - 0.5) * 0.1).toFixed(1)));
+        const wallbox = Math.random() > 0.8 ? 11.0 : 0.0;
+        const sauna = Math.random() > 0.9 ? 6.0 : 0.0;
+
+        const totalLoad = load + heatPump + hotWater + wallbox + sauna;
+        const surplus = production - totalLoad;
+
+        let batteryPower: number;
+        let gridExport = 0;
+        let gridImport = 0;
+        let newBattery = prev.battery;
+
+        if (surplus > 0) {
+          batteryPower = surplus * 0.6;
+          gridExport = surplus - batteryPower;
+          newBattery = Math.min(100, prev.battery + 0.02);
+        } else {
+          const deficit = Math.abs(surplus);
+          const maxDischarge = Math.min(deficit, prev.battery > 10 ? 3.0 : 0);
+          batteryPower = -maxDischarge;
+          gridImport = deficit - maxDischarge;
+          newBattery = Math.max(0, prev.battery - 0.02);
+        }
+
+        return {
+          ...prev,
+          production, load, heatPump, hotWater, wallbox, sauna,
+          battery: newBattery,
+          batteryPower: parseFloat(batteryPower.toFixed(1)),
+          gridImport: parseFloat(gridImport.toFixed(1)),
+          gridExport: parseFloat(gridExport.toFixed(1))
+        };
+      });
     }, 5000);
 
-    return () => {
-      clearInterval(interval);
-      window.removeEventListener('resize', handleResize);
-    };
+    return () => clearInterval(interval);
   }, []);
 
-  const cy = 200;
-  const hubRadius = isMobile ? 40 : 60;
-  const nodeDistance = isMobile ? 120 : 160;
-
   return (
-    <div className="w-full h-full bg-transparent transition-colors duration-500 p-4 md:p-12 select-none overflow-hidden relative min-h-[500px] md:min-h-[650px] flex flex-col items-center justify-center">
-
-      {/* Grid Pattern */}
+    <div className="w-full h-full bg-transparent transition-colors duration-500 p-4 md:p-8 select-none overflow-visible flex flex-col items-center justify-center">
+      {/* Background Grid Pattern */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none"
         style={{ backgroundImage: 'linear-gradient(#69C350 1px, transparent 1px), linear-gradient(90deg, #69C350 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
-      <div className="relative w-full max-w-[320px] md:max-w-xl aspect-square">
+      {/* Main Container */}
+      <div className="relative max-w-[725px] mx-auto">
+        <div className="flex flex-col items-center gap-5 md:gap-8 relative group">
 
-        <svg className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible" viewBox="0 0 400 400">
-          {/* Spoke lines from center hub */}
-          <g className="text-gray-200 dark:text-white/5" stroke="currentColor" strokeWidth="1">
-            <line x1="200" y1={cy - hubRadius} x2="200" y2={cy - nodeDistance + 20} strokeDasharray="4 4" />
-            <line x1="200" y1={cy + hubRadius} x2="200" y2={cy + nodeDistance - 20} strokeDasharray="4 4" />
-            <line x1={200 + hubRadius} y1={cy} x2={200 + nodeDistance - 20} y2={cy} strokeDasharray="4 4" />
-            <line x1={200 - hubRadius} y1={cy} x2={200 - nodeDistance + 20} y2={cy} strokeDasharray="4 4" />
-          </g>
-
-          <g>
-            {/* Energy flow dots on spokes */}
-            <circle r="2.5" fill="#69C350" className="filter blur-[1px] will-change-transform">
-              <animateMotion path={`M 200 ${cy - nodeDistance + 20} L 200 ${cy - hubRadius}`} dur="2s" repeatCount="indefinite" />
-            </circle>
-
-            <circle r="2.5" fill="#3b82f6" className="filter blur-[1px]">
-              <animateMotion path={`M 200 ${cy} L ${200 + nodeDistance - 20} ${cy}`} dur="2.5s" repeatCount="indefinite" />
-            </circle>
-
-            <circle r="2.5" fill="#a855f7" className="filter blur-[1px]">
-              <animateMotion path={`M 200 ${cy} L ${200 - nodeDistance + 20} ${cy}`} dur="3s" repeatCount="indefinite" />
-            </circle>
-
-            <circle r="2.5" fill="#fbbf24" className="filter blur-[1px]">
-              <animateMotion path={`M 200 ${cy} L 200 ${cy + nodeDistance - 20}`} dur="3.5s" repeatCount="indefinite" />
-            </circle>
-          </g>
-        </svg>
-
-        {/* Central Inverter Box Hub */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
-          <div className="relative group">
-            <div className="absolute inset-[-20px] bg-yellow-500/5 blur-3xl rounded-full scale-150 animate-pulse" />
-            <div className="w-20 h-20 md:w-32 md:h-32 rounded-[2rem] md:rounded-[2.5rem] bg-white/90 dark:bg-white/[0.03] md:backdrop-blur-2xl border border-white/40 dark:border-white/10 shadow-2xl flex flex-col items-center justify-center relative transition-transform duration-500 hover:scale-105">
-              <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-yellow-500/10 flex items-center justify-center mb-1 md:mb-2 text-yellow-500">
-                <Zap className="w-6 h-6 md:w-10 md:h-10 fill-current" />
+          {/* ROW 0: Loxone Miniserver — brain (Independent at top) */}
+          <div className="relative z-20">
+            <div className="absolute inset-[-10px] bg-[#69C350]/10 blur-[40px] rounded-full scale-110 animate-pulse" />
+            <div className="flex items-center gap-3 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl border border-[#69C350]/20 shadow-xl rounded-xl px-3 py-1.5 relative">
+              <img
+                src="https://messtzramsuvjnrvwmfc.supabase.co/storage/v1/object/public/project-documents/assets/miniserver-gen2.webp"
+                alt="Loxone Miniserver Compact"
+                className="w-18 h-18 md:w-20 md:h-20 object-contain drop-shadow-lg"
+              />
+              <div className="flex flex-col text-left">
+                <span className="text-[7px] md:text-[9px] font-black text-[#69C350] uppercase tracking-widest">Loxone Miniserver</span>
+                <span className="text-[5px] md:text-[7px] font-bold text-gray-400 uppercase tracking-wider">Řídící jednotka systému</span>
               </div>
-              <div className="text-[7px] md:text-[9px] font-black uppercase tracking-[0.3em] text-gray-400 dark:text-gray-500 leading-none">Inverter</div>
+            </div>
+          </div>
+
+          {/* 3x3 Grid Matrix Wrapper */}
+          <div className="relative w-full max-w-[553px] mx-auto">
+            {/* SVG Background Layer - 45-degree radial flow system */}
+            <svg
+              className="absolute inset-0 w-full h-full pointer-events-none z-0 hidden md:block overflow-visible"
+              viewBox="0 0 100 100"
+              preserveAspectRatio="xMidYMid meet"
+            >
+              <defs>
+                <filter id="packetGlow" x="-100%" y="-100%" width="300%" height="300%">
+                  <feGaussianBlur stdDeviation="1.5" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+              </defs>
+
+              {/* Radial Lines from SolaX (50, 50) to 8 Nodes */}
+              {/* Row 1: y=11 */}
+              <line x1="11" y1="11" x2="50" y2="50" stroke="#a855f7" strokeWidth="0.3" strokeOpacity="0.15" />
+              <line x1="50" y1="11" x2="50" y2="50" stroke="#69C350" strokeWidth="0.3" strokeOpacity="0.15" />
+              <line x1="89" y1="11" x2="50" y2="50" stroke="#eab308" strokeWidth="0.3" strokeOpacity="0.15" />
+              {/* Row 2 Sides: y=50 */}
+              <line x1="11" y1="50" x2="50" y2="50" stroke="#3b82f6" strokeWidth="0.3" strokeOpacity="0.15" />
+              <line x1="89" y1="50" x2="50" y2="50" stroke="#f97316" strokeWidth="0.3" strokeOpacity="0.15" />
+              {/* Row 3: y=89 */}
+              <line x1="11" y1="89" x2="50" y2="50" stroke="#0ea5e9" strokeWidth="0.3" strokeOpacity="0.15" />
+              <line x1="50" y1="89" x2="50" y2="50" stroke="#06b6d4" strokeWidth="0.3" strokeOpacity="0.15" />
+              <line x1="89" y1="89" x2="50" y2="50" stroke="#6366f1" strokeWidth="0.3" strokeOpacity="0.15" />
+
+              {/* Animated Particles following 45-degree paths */}
+              {/* PV → SolaX */}
+              {[0, 2.2].map((d, i) => (
+                <circle key={`pv-${i}`} r="1.0" fill="#69C350" filter="url(#packetGlow)">
+                  <animateMotion path="M 50 11 L 50 50" dur="4.4s" begin={`${d}s`} repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
+                </circle>
+              ))}
+              {/* Grid Flows */}
+              {metrics.gridExport > 0 && [0, 2.2].map((d, i) => (
+                <circle key={`gexp-${i}`} r="1.0" fill="#a855f7" filter="url(#packetGlow)">
+                  <animateMotion path="M 50 50 L 11 11" dur="4.4s" begin={`${d}s`} repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
+                </circle>
+              ))}
+              {metrics.gridImport > 0 && [0, 2.2].map((d, i) => (
+                <circle key={`gimp-${i}`} r="1.0" fill="#a855f7" filter="url(#packetGlow)">
+                  <animateMotion path="M 11 11 L 50 50" dur="4.4s" begin={`${d}s`} repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
+                </circle>
+              ))}
+              {/* Battery Flows */}
+              {metrics.batteryPower > 0 && [0, 2.2].map((d, i) => (
+                <circle key={`batch-${i}`} r="1.0" fill="#eab308" filter="url(#packetGlow)">
+                  <animateMotion path="M 50 50 L 89 11" dur="4.4s" begin={`${d}s`} repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
+                </circle>
+              ))}
+              {metrics.batteryPower < 0 && [0, 2.2].map((d, i) => (
+                <circle key={`batdis-${i}`} r="1.0" fill="#eab308" filter="url(#packetGlow)">
+                  <animateMotion path="M 89 11 L 50 50" dur="4.4s" begin={`${d}s`} repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
+                </circle>
+              ))}
+              {/* Consumer Flows (from SolaX) */}
+              {[0, 2.0].map((d, i) => (
+                <circle key={`hs-${i}`} r="1.0" fill="#3b82f6" filter="url(#packetGlow)">
+                  <animateMotion path="M 50 50 L 11 50" dur="4s" begin={`${d}s`} repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
+                </circle>
+              ))}
+              {metrics.sauna > 0 && [0, 2.0].map((d, i) => (
+                <circle key={`sn-${i}`} r="1.0" fill="#f97316" filter="url(#packetGlow)">
+                  <animateMotion path="M 50 50 L 89 50" dur="4s" begin={`${d}s`} repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
+                </circle>
+              ))}
+              <circle r="1.0" fill="#0ea5e9" filter="url(#packetGlow)">
+                <animateMotion path="M 50 50 L 11 89" dur="4.8s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
+              </circle>
+              <circle r="1.0" fill="#06b6d4" filter="url(#packetGlow)">
+                <animateMotion path="M 50 50 L 50 89" dur="4s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
+              </circle>
+              {metrics.wallbox > 0 && (
+                <circle r="1.0" fill="#6366f1" filter="url(#packetGlow)">
+                  <animateMotion path="M 50 50 L 89 89" dur="4.8s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
+                </circle>
+              )}
+            </svg>
+
+            {/* Content Layer (Cards + Inverter) */}
+            <div className="flex flex-col gap-7 md:gap-10 relative z-10 w-full">
+              {/* ROW 1: Grid + PV + Bat */}
+              <div className="flex items-center justify-center gap-3 md:gap-7 w-full h-[95px]">
+                <PowerNode icon={LoxoneGridIcon as any} label="Veřejná síť" value={Math.abs(metrics.gridExport - metrics.gridImport)} unit="kW" color="purple" subValue={metrics.gridExport > 0 ? "Přetok" : "Odběr"} className="flex-1 justify-end" />
+                <PowerNode icon={LoxoneEnergyIcon as any} label="Fotovoltaika" value={metrics.production} unit="kWp" color="green" subValue="Výkon" className="flex-1 justify-center" />
+                <PowerNode icon={LoxoneBatteryIcon as any} label="Baterie" value={metrics.batteryPower} unit="kW" color="yellow" subValue={`${metrics.battery.toFixed(0)}%`} className="flex-1 justify-start" />
+              </div>
+
+              {/* ROW 2: House + SolaX + Sauna */}
+              <div className="flex items-center justify-center gap-3 md:gap-7 w-full h-[95px]">
+                <PowerNode icon={LoxoneHouseIcon as any} label="Dům" value={metrics.load} unit="kW" color="blue" subValue="Spotřeba" className="flex-1 justify-end" />
+                <div className="flex-1 flex justify-center items-center relative min-h-[76px] md:min-h-[95px]">
+                  <div className="absolute inset-0 bg-[#E62E2D]/5 blur-[60px] rounded-full scale-110 animate-pulse" />
+                  <img src={solaxInverter} alt="SolaX" className="w-22 h-22 md:w-30 md:h-30 object-contain drop-shadow-2xl z-20 hover:scale-110 transition-transform duration-500" />
+                </div>
+                <PowerNode icon={LoxoneSaunaIcon as any} label="Sauna" value={metrics.sauna} unit="kW" color="orange" subValue={metrics.sauna > 0 ? "Aktivní" : "Vypnuto"} className="flex-1 justify-start" />
+              </div>
+
+              {/* ROW 3: HP + TUV + EV */}
+              <div className="flex items-center justify-center gap-3 md:gap-7 w-full h-[95px]">
+                <PowerNode icon={LoxoneTemperatureIcon as any} label="Čerpadlo" value={metrics.heatPump} unit="kW" color="sky" subValue="Vytápění" className="flex-1 justify-end" />
+                <PowerNode icon={LoxoneHotWaterIcon as any} label="Ohřev TUV" value={metrics.hotWater} unit="kW" color="cyan" subValue="Bojler" className="flex-1 justify-center" />
+                <PowerNode icon={LoxoneEVIcon as any} label="EV Nabíječka" value={metrics.wallbox} unit="kW" color="indigo" subValue={metrics.wallbox > 0 ? "Nabíjení" : "Odpojeno"} className="flex-1 justify-start" />
+              </div>
             </div>
           </div>
         </div>
-
-        {/* Nodes arranged in Hub-and-Spoke */}
-        <PowerNode
-          icon={Sun}
-          label="FVE (PV)"
-          value={metrics.production}
-          unit="kW"
-          color="green"
-          position="top-0 left-1/2 -translate-x-1/2"
-        />
-
-        <PowerNode
-          icon={Battery}
-          label="Baterie"
-          value={metrics.batteryPower}
-          unit="kW"
-          color="yellow"
-          position="bottom-0 left-1/2 -translate-x-1/2"
-          subValue={`${metrics.battery.toFixed(0)}% nabito`}
-        />
-
-        <PowerNode
-          icon={Home}
-          label="Spotřeba"
-          value={metrics.load}
-          unit="kW"
-          color="blue"
-          position="right-0 top-1/2 -translate-y-1/2"
-        />
-
-        <PowerNode
-          icon={Globe}
-          label="Síť"
-          value={metrics.gridPower}
-          unit="kW"
-          color="purple"
-          position="left-0 top-1/2 -translate-y-1/2"
-        />
-
       </div>
     </div>
   );

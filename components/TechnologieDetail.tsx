@@ -11,7 +11,7 @@ const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
   const techCards = [
     {
       title: 'Vytápění',
-      desc: 'Efektivní teplovodní/ elektrické vytápění s prediktivní logikou podle předpovědi.',
+      desc: 'Efektivní teplovodní / elektrické vytápění s prediktivní logikou podle předpovědi.',
       icon: <Thermometer className="w-5 h-5" />
     },
     {
@@ -90,12 +90,12 @@ const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
                     <Sun className="w-5 h-5 md:w-6 md:h-6 text-yellow-500 group-hover:text-white transition-colors" />
                   </div>
                   <div className="min-w-0 flex flex-col justify-center">
-                    <h3 className="text-lg md:text-xl font-black text-gray-900 dark:text-white tracking-tight transition-colors duration-500 truncate leading-tight">Solární matice FVE</h3>
-                    <p className="text-[9px] md:text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mt-0.5 truncate">Energetické toky real-time</p>
+                    <h3 className="text-lg md:text-xl font-black text-gray-900 dark:text-white tracking-tight transition-colors duration-500 truncate leading-tight">Stav systému FVE</h3>
+                    <p className="text-[9px] md:text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mt-0.5 truncate">Vizualizace energetických toků v reálném čase</p>
                   </div>
                 </div>
               </div>
-              <div className="flex-grow rounded-2xl overflow-hidden border border-black/5 dark:border-white/5 bg-gray-100 dark:bg-black/60 shadow-inner min-h-[400px]">
+              <div className="flex-grow rounded-2xl border border-black/5 dark:border-white/5 bg-gray-100 dark:bg-black/60 shadow-inner h-[620px] w-full relative overflow-visible flex flex-col items-center justify-center">
                 <SolarSystem />
               </div>
             </div>

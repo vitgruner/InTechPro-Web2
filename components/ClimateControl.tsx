@@ -2,8 +2,12 @@
 import React, { useState, useMemo } from 'react';
 import { Thermometer, Wind, Flame, Snowflake, ChevronUp, ChevronDown } from 'lucide-react';
 
-const ClimateControl = React.memo(() => {
-  const [targetTemp, setTargetTemp] = useState(22.5);
+interface ClimateControlProps {
+  targetTemp: number;
+  setTargetTemp: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const ClimateControl = React.memo(({ targetTemp, setTargetTemp }: ClimateControlProps) => {
   const minTemp = 15;
   const maxTemp = 30;
 
@@ -94,7 +98,7 @@ const ClimateControl = React.memo(() => {
         />
 
         <div className="absolute top-4 left-6 right-6 flex items-center justify-between z-10">
-          <span className="text-[8px] font-black text-gray-500 uppercase tracking-widest">Tepelná síť</span>
+          <span className="text-[8px] font-black text-gray-500 uppercase tracking-widest">Teplovodní podlahové vytápění</span>
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: snakeColor }} />
             <span className="text-[8px] font-bold text-gray-400 uppercase">Tok aktivní</span>

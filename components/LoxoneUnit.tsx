@@ -15,56 +15,70 @@ interface ModuleProps {
   isMobile: boolean;
 }
 
-const Module: React.FC<ModuleProps> = React.memo(({ comp, activeLabel, setActiveLabel, isMobile }) => (
-  <div
-    onMouseEnter={() => !isMobile && setActiveLabel(comp.id)}
-    onMouseLeave={() => !isMobile && setActiveLabel(null)}
-    className={`relative h-24 md:h-28 ${comp.width} flex-shrink-0 ${comp.color} rounded-md shadow-lg border-x border-white/10 flex flex-col p-3 transition-all hover:scale-[1.02] hover:z-30 cursor-help overflow-hidden`}
-  >
-    <div className="flex justify-between items-start">
-      <div className="flex gap-1.5">
-        <StatusLED color="bg-green-500" isMobile={isMobile} />
-        <StatusLED color="bg-orange-500" animate={true} isMobile={isMobile} />
-      </div>
-      <div className="opacity-20">
-        <Cpu className={`w-3.5 h-3.5 ${comp.color.includes('lime') ? 'text-black' : 'text-white'}`} />
-      </div>
-    </div>
+const Module: React.FC<ModuleProps> = React.memo(({ comp, activeLabel, setActiveLabel, isMobile }) => {
+  const is2TE = comp.width.includes('35px') || comp.width.includes('44px');
+  const is4TE = comp.width.includes('70px') || comp.width.includes('88px');
+  const is9TE = comp.width.includes('157px') || comp.width.includes('200px');
 
-    <div className={`mt-auto text-[8px] md:text-[10px] font-black uppercase tracking-tight ${comp.color.includes('lime') ? 'text-black/70' : 'text-zinc-400'}`}>
-      {comp.label}
-    </div>
-
-    {activeLabel === comp.id && (
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none">
-        <div className="bg-white/95 dark:bg-black/95 text-[10px] font-black text-[#69C350] px-4 py-1.5 rounded-full border border-[#7BD462]/20 shadow-2xl uppercase tracking-widest flex items-center gap-2 whitespace-nowrap">
-          <span className="w-2 h-2 bg-[#7BD462] rounded-full animate-ping" />
-          Online
+  return (
+    <div
+      onMouseEnter={() => !isMobile && setActiveLabel(comp.id)}
+      onMouseLeave={() => !isMobile && setActiveLabel(null)}
+      className={`relative h-24 md:h-28 ${comp.width} flex-shrink-0 ${comp.color} rounded-md shadow-lg border-x border-white/10 flex flex-col ${is2TE ? 'p-1' : 'p-3'} transition-all hover:scale-[1.02] hover:z-30 cursor-help overflow-hidden`}
+    >
+      <div className="flex justify-between items-start">
+        <div className="flex gap-1">
+          <StatusLED color="bg-green-500" isMobile={isMobile} />
+          <StatusLED color="bg-orange-500" animate={true} isMobile={isMobile} />
+        </div>
+        <div className="opacity-20">
+          <Cpu className={`w-3.5 h-3.5 ${comp.color.includes('lime') ? 'text-black' : 'text-white'}`} />
         </div>
       </div>
-    )}
-  </div>
-));
+
+      <div className={`mt-auto font-black uppercase tracking-tighter ${comp.color.includes('lime') ? 'text-black/70' : 'text-zinc-400'} leading-[0.9] break-normal whitespace-normal
+        ${is2TE ? 'text-[6.5px] md:text-[8px]' : is4TE ? 'text-[8px] md:text-[10px]' : 'text-[9px] md:text-[13px]'}`}>
+        {comp.label}
+      </div>
+
+      {activeLabel === comp.id && (
+        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none transition-all duration-300`}>
+          <div className={`bg-white/95 dark:bg-black/95 font-black text-[#69C350] rounded-full border border-[#7BD462]/20 shadow-2xl uppercase tracking-widest flex items-center gap-1.5 whitespace-nowrap
+            ${is2TE ? 'px-2 py-0.5 text-[8px] md:text-[10px]' : 'px-4 py-1.5 text-[10px] md:text-[12px]'}`}>
+            <span className="w-2 h-2 bg-[#7BD462] rounded-full animate-ping flex-shrink-0" />
+            {is2TE ? 'ON' : 'Online'}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+});
 
 const rail0 = [
-  { id: 'miniserver', label: 'Loxone Miniserver', type: 'core', color: 'bg-lime-500 dark:bg-lime-600', width: 'w-48 md:w-60' },
-  { id: 'ext1', label: 'Multi-Extension Air', type: 'ext', color: 'bg-zinc-800 dark:bg-zinc-900', width: 'w-32 md:w-40' },
-  { id: 'air', label: 'Air Base Extension', type: 'ext', color: 'bg-zinc-800 dark:bg-zinc-900', width: 'w-40 md:w-48' },
-  { id: 'tree', label: 'Tree Extension', type: 'ext', color: 'bg-zinc-800 dark:bg-zinc-900', width: 'w-32 md:w-40' },
+  { id: 'power', label: 'Power Supply', type: 'power', color: 'bg-zinc-600', width: 'w-[70px] md:w-[100px]' }, // 4 TE
+  { id: 'miniserver', label: 'Miniserver Compact', type: 'core', color: 'bg-lime-500 dark:bg-lime-600', width: 'w-[105px] md:w-[150px]' }, // 6 TE
+  { id: 'tree1', label: 'Tree Extension', type: 'ext', color: 'bg-zinc-800 dark:bg-zinc-900', width: 'w-[35px] md:w-[50px]' }, // 2 TE
+  { id: 'air', label: 'Air Base Extension', type: 'ext', color: 'bg-zinc-800 dark:bg-zinc-900', width: 'w-[35px] md:w-[50px]' }, // 2 TE
+  { id: 'stereo', label: 'Stereo Extension', type: 'ext', color: 'bg-zinc-800 dark:bg-zinc-900', width: 'w-[35px] md:w-[50px]' }, // 2 TE
+  { id: 'audioserver', label: 'Audio Server', type: 'audio', color: 'bg-[#964c91]', width: 'w-[157px] md:w-[225px]' }, // 9 TE
 ];
 
 const rail1 = [
-  { id: 'relay1', label: 'Relay Extension', type: 'ext', color: 'bg-zinc-900', width: 'w-44 md:w-56' },
-  { id: 'audioserver', label: 'Audio Server', type: 'ext', color: 'bg-[#964c91]', width: 'w-40 md:w-48' },
-  { id: 'dali', label: 'DALI Extenstion', type: 'ext', color: 'bg-lime-600', width: 'w-40 md:w-48' },
-  { id: 'link', label: 'Link Node', type: 'ext', color: 'bg-zinc-900', width: 'w-28 md:w-36' },
+  { id: 'dimmer_0', label: 'Dimmer Extension', type: 'ext', color: 'bg-zinc-900', width: 'w-[157px] md:w-[225px]' }, // 9 TE
+  { id: 'dimmer_1', label: 'Dimmer Extension', type: 'ext', color: 'bg-zinc-900', width: 'w-[157px] md:w-[225px]' }, // 9 TE
+  { id: 'relay2', label: 'Relay Extension', type: 'ext', color: 'bg-zinc-900', width: 'w-[157px] md:w-[225px]' }, // 9 TE
 ];
 
 const rail2 = [
-  { id: 'relay2', label: 'Relay Extension', type: 'ext', color: 'bg-zinc-900', width: 'w-40 md:w-48' },
-  { id: 'dimmer', label: 'Dimmer', type: 'ext', color: 'bg-zinc-800', width: 'w-44 md:w-56' },
-  { id: 'onewire', label: '1-Wire', type: 'ext', color: 'bg-zinc-900', width: 'w-32 md:w-40' },
-  { id: 'meter', label: '3-phase Meter', type: 'meter', color: 'bg-zinc-800', width: 'w-32 md:w-40' },
+  { id: 'rgbw1', label: 'RGBW Dimmer Tree', type: 'ext', color: 'bg-zinc-900', width: 'w-[35px] md:w-[50px]' }, // 2 TE
+  { id: 'rgbw2', label: 'RGBW Dimmer Tree', type: 'ext', color: 'bg-zinc-900', width: 'w-[35px] md:w-[50px]' }, // 2 TE
+  { id: 'nano3', label: 'Nano IO Air', type: 'ext', color: 'bg-zinc-900', width: 'w-[35px] md:w-[50px]' }, // 2 TE
+  { id: 'nano4', label: 'Nano IO Air', type: 'ext', color: 'bg-zinc-900', width: 'w-[35px] md:w-[50px]' }, // 2 TE
+  { id: 'modbus', label: 'Modbus Extension', type: 'ext', color: 'bg-zinc-900', width: 'w-[35px] md:w-[50px]' }, // 2 TE
+  { id: 'dali1', label: 'DALI Extension', type: 'ext', color: 'bg-zinc-900', width: 'w-[35px] md:w-[50px]' }, // 2 TE
+  { id: 'dali2', label: 'DALI Extension', type: 'ext', color: 'bg-zinc-900', width: 'w-[35px] md:w-[50px]' }, // 2 TE
+  { id: 'di3', label: 'DI Extension', type: 'ext', color: 'bg-zinc-900', width: 'w-[35px] md:w-[50px]' }, // 2 TE
+  { id: 'meter', label: 'Energy Meter Tree', type: 'meter', color: 'bg-zinc-900', width: 'w-[70px] md:w-[100px]' }, // 4 TE
 ];
 
 const rails = [rail0, rail1, rail2];
@@ -80,9 +94,14 @@ const LoxoneUnit = React.memo(() => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  const getModuleWidth = (te: number) => {
+    return `${te * 25}px`; // 25px per TE scale
+  };
+
   return (
     <div className="w-full h-full p-3 md:p-10 flex flex-col items-center justify-center bg-gray-50/50 dark:bg-[#0d0f12] transition-colors duration-500 overflow-hidden">
-      <div className="relative w-full max-w-7xl bg-white dark:bg-[#1a1d21] rounded-xl md:rounded-2xl border-[6px] md:border-[10px] border-gray-200 dark:border-[#2a2e35] shadow-2xl flex flex-col transition-colors duration-500">
+      {/* Cabinet container scaled strictly to 7xl (#vyroba-rozvadecu) */}
+      <div className="relative w-full max-w-7xl bg-white dark:bg-[#1a1d21] rounded-xl md:rounded-2xl border-[6px] md:border-[10px] border-gray-200 dark:border-[#2a2e35] flex flex-col transition-colors duration-500">
 
         <div className="absolute inset-0 opacity-[0.05] dark:opacity-[0.1] pointer-events-none"
           style={{ backgroundImage: 'linear-gradient(var(--text-color) 1px, transparent 1px)', backgroundSize: '100% 120px' }} />
@@ -124,7 +143,7 @@ const LoxoneUnit = React.memo(() => {
         <div className="bg-gray-50 dark:bg-[#1a1d21] border-t border-gray-200 dark:border-white/5 px-6 md:px-10 py-3 md:py-4 flex flex-col sm:flex-row justify-between items-center opacity-80 gap-3">
           <div className="flex items-center gap-2 md:gap-3">
             <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-green-500 opacity-80 shadow-[0_0_8px_#22c55e]" />
-            <span className="text-[9px] md:text-[11px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest text-center sm:text-left">Logika synchronizována</span>
+            <span className="text-[9px] md:text-[11px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest text-center sm:text-left">Loxone cloud</span>
           </div>
           <div className="flex items-center gap-6 md:gap-8">
             <div className="flex items-center gap-2 md:gap-2.5">

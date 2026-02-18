@@ -10,7 +10,7 @@ import CookieConsent from './components/CookieConsent';
 import { dbService } from './services/dbService';
 import { supabase } from './services/supabase';
 import {
-  Zap, Loader2, CloudUpload, Twitter, Linkedin, Instagram, Lock, Unlock
+  Zap, Loader2, CloudUpload, Linkedin, Instagram, Lock, Unlock
 } from 'lucide-react';
 import { Reference, ViewState } from './types';
 import ScrollToTop from './components/ScrollToTop';
@@ -510,7 +510,7 @@ const App = () => {
                 Průkopníci další generace inteligentní infrastruktury prostřednictvím precizního inženýrství, futuristického designu a bezchybné realizace.
               </p>
               <div className="flex gap-4">
-                {[[Twitter, "Twitter"], [Linkedin, "LinkedIn"], [Instagram, "Instagram"]].map(([Icon, label], i) => (
+                {[[Linkedin, "LinkedIn"], [Instagram, "Instagram"]].map(([Icon, label], i) => (
                   <a key={i} href="#" onClick={(e) => e.preventDefault()} className="w-12 h-12 rounded-xl border border-white/10 flex items-center justify-center hover:bg-white/5 transition-all text-gray-300 hover:text-white" aria-label={label as string}>
                     <Icon className="w-5 h-5" aria-hidden="true" />
                   </a>

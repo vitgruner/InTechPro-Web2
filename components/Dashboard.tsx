@@ -53,7 +53,7 @@ const VisualizationBox: React.FC<VisualizationBoxProps> = React.memo(({ icon: Ic
 
 const SensorCard = React.memo(({ sensor }: { sensor: any }) => (
   <div className="glass-panel p-3 rounded-2xl border border-black/5 dark:border-white/10 flex items-center gap-3 group hover:border-[#69C350]/40 dark:hover:border-[#7BD462]/40 transition-all hover:bg-white/80 dark:hover:bg-white/[0.07] shadow-sm hover:shadow-md duration-500 min-w-0">
-    <div className="w-10 h-10 bg-[#69C350]/10 rounded-xl flex items-center justify-center text-[#69C350] dark:text-[#95E87D] group-hover:bg-[#69C350] group-hover:text-white transition-all border border-[#7BD462]/10 flex-shrink-0">
+    <div className={`w-10 h-10 ${sensor.id === 's1' && sensor.value === 'Zastřeženo' ? 'bg-red-500/10 text-red-600' : 'bg-[#69C350]/10 text-[#69C350] dark:text-[#95E87D]'} rounded-xl flex items-center justify-center group-hover:bg-[#69C350] group-hover:text-white transition-all border border-[#7BD462]/10 flex-shrink-0`}>
       {React.cloneElement(sensor.icon, { 'aria-hidden': 'true' })}
     </div>
     <div className="min-w-0 flex flex-col justify-center">
@@ -74,22 +74,38 @@ const SensorCard = React.memo(({ sensor }: { sensor: any }) => (
 ));
 
 const Dashboard: React.FC<DetailProps> = ({ setView }) => {
+  const [targetTemp, setTargetTemp] = useState(22.5);
+
+  // Helper to check if it's currently night mode (00:00 - 07:00)
+  const isNightTime = () => {
+    const hour = new Date().getHours();
+    return hour >= 0 && hour < 7;
+  };
+
   const [sensors, setSensors] = useState([
-    { id: 't1', label: 'Teplota obývací p.', value: 22.4, unit: '°C', trend: 'stable', icon: <Thermometer className="w-4 h-4" /> },
+    { id: 't1', label: 'Nastavená teplota', value: 22.5, unit: '°C', trend: 'stable', icon: <Thermometer className="w-4 h-4" /> },
     { id: 'h1', label: 'Vlhkost vzduchu', value: 48, unit: '%', trend: 'down', icon: <Droplets className="w-4 h-4" /> },
-    { id: 'p1', label: 'Stav osvětlení', value: 5, unit: 'místností svítí', trend: 'stable', icon: <Lightbulb className="w-4 h-4" /> },
+    { id: 'p1', label: 'Stav osvětlení', value: isNightTime() ? 0 : 5, unit: 'místností svítí', trend: 'stable', icon: <Lightbulb className="w-4 h-4" /> },
     { id: 'a1', label: 'Kvalita vzduchu', value: 'Vynikající', unit: '', trend: 'stable', icon: <Activity className="w-4 h-4" /> },
     { id: 'n1', label: 'Stav stínění', value: 'Automatika', unit: '', trend: 'stable', icon: <Blinds className="w-4 h-4" /> },
-    { id: 'b1', label: 'Kapacita úložiště', value: 88, unit: '%', trend: 'up', icon: <Battery className="w-4 h-4" /> },
-    { id: 'w1', label: 'Průtok vody', value: 0.4, unit: 'L/h', trend: 'down', icon: <Droplet className="w-4 h-4" /> },
-    { id: 's1', label: 'Stav zabezpečení', value: 'Aktivní', unit: '', trend: 'stable', icon: <Lock className="w-4 h-4" /> },
+    { id: 'b1', label: 'Stav nabití baterie', value: 88, unit: '%', trend: 'up', icon: <Battery className="w-4 h-4" /> },
+    { id: 'w1', label: 'Spotřeba vody', value: 0.4, unit: 'L/h', trend: 'down', icon: <Droplet className="w-4 h-4" /> },
+    { id: 's1', label: 'Stav zabezpečení', value: isNightTime() ? 'Zastřeženo' : 'Odstřeženo', unit: '', trend: 'stable', icon: <Lock className="w-4 h-4" /> },
   ]);
 
   useEffect(() => {
     const interval = setInterval(() => {
+      const isNight = isNightTime();
+
       setSensors(prev => prev.map(s => {
+        // Handle security synchronization
+        if (s.id === 's1') {
+          return { ...s, value: isNight ? 'Zastřeženo' : 'Odstřeženo' };
+        }
+
         // Handle lighting simulation (integer)
         if (s.id === 'p1') {
+          if (isNight) return { ...s, value: 0, trend: 'stable' };
           const change = Math.random() > 0.8 ? (Math.random() > 0.5 ? 1 : -1) : 0;
           const newValue = Math.max(2, Math.min(8, (s.value as number) + change));
           return { ...s, value: newValue, trend: change === 0 ? 'stable' : (change > 0 ? 'up' : 'down') };
@@ -106,6 +122,9 @@ const Dashboard: React.FC<DetailProps> = ({ setView }) => {
         }
 
         if (typeof s.value === 'number') {
+          // If it's the synchronized temperature, use targetTemp
+          if (s.id === 't1') return { ...s, value: targetTemp };
+
           const change = (Math.random() - 0.5) * 0.2;
           return { ...s, value: parseFloat((s.value + change).toFixed(2)) };
         }
@@ -113,7 +132,7 @@ const Dashboard: React.FC<DetailProps> = ({ setView }) => {
       }));
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [targetTemp]);
 
   return (
     <section id="dashboard" className="pt-28 md:pt-32 pb-16 md:pb-24 relative bg-transparent transition-colors duration-500">
@@ -145,7 +164,7 @@ const Dashboard: React.FC<DetailProps> = ({ setView }) => {
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-12 md:mb-20">
           {sensors.map((sensor) => (
-            <SensorCard key={sensor.id} sensor={sensor} />
+            <SensorCard key={sensor.id} sensor={sensor.id === 't1' ? { ...sensor, value: targetTemp } : sensor} />
           ))}
         </div>
 
@@ -176,12 +195,12 @@ const Dashboard: React.FC<DetailProps> = ({ setView }) => {
             color="bg-red-600"
             statusLabel="Optimalizováno"
           >
-            <ClimateControl />
+            <ClimateControl targetTemp={targetTemp} setTargetTemp={setTargetTemp} />
           </VisualizationBox>
 
           <VisualizationBox
             icon={Palette}
-            title="RGB osvětlení"
+            title="RGBW osvětlení"
             subtitle="Správa spektrálního osvětlení"
             color="bg-[#69C350]"
             statusLabel="Manuální ovládání"

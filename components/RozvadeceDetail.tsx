@@ -16,7 +16,7 @@ interface VisualizationBoxProps {
 }
 
 const VisualizationBox: React.FC<VisualizationBoxProps> = ({ icon: Icon, title, subtitle, color, children, statusLabel = "Aktivní spojení" }) => (
-  <div className="glass-panel rounded-3xl p-5 md:p-6 border border-black/10 dark:border-white/20 overflow-hidden shadow-2xl flex flex-col transition-all group">
+  <div className="glass-panel rounded-3xl p-5 md:p-6 border border-black/10 dark:border-white/20 overflow-hidden flex flex-col transition-all group">
     <div className="mb-5 flex items-center justify-between gap-4">
       <div className="flex items-center gap-4 min-w-0">
         <div className={`w-10 h-10 md:w-12 md:h-12 ${color}/10 rounded-xl flex items-center justify-center border border-${color.split('-')[1]}-500/20 shadow-lg group-hover:bg-${color.split('-')[1]}-600 group-hover:text-white transition-all duration-500 flex-shrink-0`}>
@@ -73,34 +73,34 @@ const RozvadeceDetail: React.FC<DetailProps> = ({ setView }) => {
         </div>
 
         <div className="grid lg:grid-cols-12 gap-10 mb-10 items-stretch">
-          <div className="lg:col-span-4 space-y-6">
-            <div className="glass-panel p-8 rounded-[2rem] border border-slate-200 dark:border-white/10 bg-white/50 dark:bg-black/20 text-left h-full flex flex-col justify-center shadow-xl">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-[#69C350]/10 rounded-2xl flex items-center justify-center text-[#69C350]">
-                  <PenTool className="w-6 h-6" />
+          <div className="lg:col-span-3">
+            <div className="glass-panel p-6 rounded-[2rem] border border-slate-200 dark:border-white/10 bg-white/50 dark:bg-black/20 text-left flex flex-col">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-[#69C350]/10 rounded-xl flex items-center justify-center text-[#69C350] shrink-0">
+                  <PenTool className="w-5 h-5" />
                 </div>
-                <h3 className="text-2xl font-black uppercase tracking-tight">Dokumentace a revize</h3>
+                <h3 className="text-lg font-black uppercase tracking-tight leading-tight">Dokumentace<br />a revize</h3>
               </div>
-              <p className="text-gray-600 dark:text-gray-400 leading-relaxed font-medium mb-8 text-sm">
-                Vytváříme přehledná schémata – ať už jde o Loxone technologie nebo domovní rozvaděč. Díky promyšlenému návrhu je rozvaděč funkční, přehledný a servisovatelný.
+              <p className="text-gray-600 dark:text-gray-400 leading-snug font-medium mb-6 text-[11px]">
+                Vytváříme přehledná schémata – ať už jde o Loxone technologie nebo domovní rozvaděč.
               </p>
 
-              <div className="space-y-3">
-                <div className="flex items-center gap-3 bg-green-500/5 p-4 rounded-2xl border border-green-500/10">
-                  <ShieldCheck className="w-5 h-5 text-green-500" />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-green-700 dark:text-green-400">Podklad pro revizi a kolaudaci</span>
+              <div className="space-y-2">
+                <div className="flex items-center gap-2.5 bg-green-500/5 p-3 rounded-xl border border-green-500/10 mb-2">
+                  <ShieldCheck className="w-4 h-4 text-green-500 shrink-0" />
+                  <span className="text-[9px] font-black uppercase tracking-widest text-green-700 dark:text-green-400 leading-tight">Podklad pro revizi</span>
                 </div>
                 {whyUs.map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 bg-[#69C350]/5 p-3 rounded-xl border border-[#69C350]/10 opacity-80 hover:opacity-100 transition-opacity">
-                    <div className="text-[#69C350] dark:text-[#95E87D]">{item.icon}</div>
-                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-500 dark:text-gray-300">{item.label}</span>
+                  <div key={i} className="flex items-center gap-2.5 bg-[#69C350]/5 p-2.5 rounded-xl border border-[#69C350]/5 hover:border-[#69C350]/20 transition-all group/item">
+                    <div className="text-[#69C350] group-hover/item:scale-110 transition-transform">{item.icon}</div>
+                    <span className="text-[8.5px] font-bold uppercase tracking-wider text-slate-500 dark:text-gray-400 group-hover/item:text-gray-900 dark:group-hover/item:text-white transition-colors">{item.label}</span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
 
-          <div className="lg:col-span-8 min-w-0 overflow-hidden">
+          <div className="lg:col-span-9 min-w-0 overflow-hidden">
             <VisualizationBox
               icon={Cpu}
               title="Centrální rozvaděč"
