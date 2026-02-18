@@ -51,7 +51,11 @@ const PowerNode: React.FC<PowerNodeProps> = ({ icon: Icon, label, value, unit, c
   );
 };
 
-const SolarSystem = React.memo(() => {
+interface SolarSystemProps {
+  onStatusChange?: (status: string) => void;
+}
+
+const SolarSystem = React.memo(({ onStatusChange }: SolarSystemProps) => {
   const [metrics, setMetrics] = useState(() => {
     const now = new Date();
     const hour = now.getHours();
@@ -131,6 +135,19 @@ const SolarSystem = React.memo(() => {
 
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (onStatusChange) {
+      const status = metrics.production > 0
+        ? "Vysoký výtěžek"
+        : metrics.batteryPower < 0
+          ? "Provoz na baterii"
+          : metrics.gridImport > 0
+            ? "Provoz ze sítě"
+            : "Aktivní";
+      onStatusChange(status);
+    }
+  }, [metrics.production, metrics.batteryPower, metrics.gridImport, onStatusChange]);
 
   return (
     <div className="w-full h-full bg-transparent transition-colors duration-500 p-2 md:p-6 select-none overflow-visible flex flex-col items-center justify-center">
@@ -247,15 +264,7 @@ const SolarSystem = React.memo(() => {
                   value={metrics.production}
                   unit="kWp"
                   color="green"
-                  subValue={
-                    metrics.production > 0
-                      ? "Vysoký výtěžek"
-                      : metrics.batteryPower < 0
-                        ? "Provoz na baterii"
-                        : metrics.gridImport > 0
-                          ? "Provoz ze sítě"
-                          : "Výkon"
-                  }
+                  subValue="Výkon"
                   className="flex-1 justify-center"
                 />
                 <PowerNode icon={LoxoneBatteryIcon as any} label="Baterie" value={metrics.batteryPower} unit="kW" color="yellow" subValue={`${metrics.battery.toFixed(0)}%`} className="flex-1 justify-start" />

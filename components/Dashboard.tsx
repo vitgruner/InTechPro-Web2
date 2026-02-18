@@ -134,6 +134,8 @@ const Dashboard: React.FC<DetailProps> = ({ setView }) => {
     return () => clearInterval(interval);
   }, [targetTemp]);
 
+  const [solarStatus, setSolarStatus] = useState("Aktivní");
+
   return (
     <section id="dashboard" className="pt-28 md:pt-32 pb-16 md:pb-24 relative bg-transparent transition-colors duration-500">
       <div className="max-w-7xl mx-auto px-6">
@@ -183,9 +185,9 @@ const Dashboard: React.FC<DetailProps> = ({ setView }) => {
             title="Stav systému FVE"
             subtitle="Energetické toky v reálném čase"
             color="bg-yellow-500"
-            statusLabel="Vysoký výtěžek"
+            statusLabel={solarStatus}
           >
-            <SolarSystem />
+            <SolarSystem onStatusChange={setSolarStatus} />
           </VisualizationBox>
 
           <VisualizationBox

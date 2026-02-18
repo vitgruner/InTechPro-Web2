@@ -1,5 +1,5 @@
 ﻿
-import React from 'react';
+import React, { useState } from 'react';
 import { Thermometer, Wind, Sun, ArrowLeft, CheckCircle2, Zap, Snowflake, Briefcase, Settings, ShieldCheck, Activity, TrendingUp } from 'lucide-react';
 import SolarSystem from './SolarSystem';
 import { DetailProps } from '../types';
@@ -39,6 +39,7 @@ const VisualizationBox: React.FC<{ icon: React.ElementType; title: string; subti
 };
 
 const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
+  const [solarStatus, setSolarStatus] = useState("Aktivní");
   const techCards = [
     {
       title: 'Vytápění',
@@ -97,9 +98,9 @@ const TechnologieDetail: React.FC<DetailProps> = ({ setView }) => {
                 title="Stav systému FVE"
                 subtitle="Energetické toky v reálném čase"
                 color="bg-yellow-500"
-                statusLabel="Vysoký výtěžek"
+                statusLabel={solarStatus}
               >
-                <SolarSystem />
+                <SolarSystem onStatusChange={setSolarStatus} />
               </VisualizationBox>
             </div>
 
