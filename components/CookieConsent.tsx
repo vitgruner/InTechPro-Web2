@@ -1,6 +1,6 @@
 ﻿
 import React, { useState, useEffect } from 'react';
-import { Cookie, ShieldCheck, ChevronDown, ChevronUp, Check, X, Info, Sparkles } from 'lucide-react';
+import { Cookie, ShieldCheck, ChevronDown, ChevronUp, Check, X, Info, Bot } from 'lucide-react';
 
 type ConsentType = {
   necessary: boolean;
@@ -148,14 +148,14 @@ const CookieConsent = () => {
         {/* AI Act Disclosure */}
         <div className="mb-6 p-4 rounded-2xl bg-purple-500/5 border border-purple-500/10 dark:border-purple-500/20">
           <div className="flex items-center gap-2 mb-2">
-            <Sparkles className="w-4 h-4 text-purple-500" />
+            <Bot className="w-4 h-4 text-purple-500" />
             <h4 className="text-[10px] font-black text-purple-600 dark:text-purple-400 uppercase tracking-widest">
               Oznámení dle AI Act (čl. 50)
             </h4>
           </div>
           <p className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
-            Tento web je z velké části <span className="font-bold">generován pomocí umělé inteligence</span> — včetně textů, grafických prvků a kódu.
-            Náš scanner využívá AI (Claude, Anthropic) pro klasifikaci nalezených systémů. Veškerý AI-generovaný obsah prochází lidskou kontrolou.
+            Tento web <span className="font-bold">používá umělou inteligenci ke komunikaci s vámi.</span>
+            Využíváme AI pro zodpovídání vašich dotazů a poskytování informací. Veškerá komunikace prochází lidskou kontrolou.
           </p>
           <button
             onClick={() => setShowAISystems(!showAISystems)}
@@ -165,7 +165,7 @@ const CookieConsent = () => {
           </button>
           {showAISystems && (
             <div className="mt-2 pt-2 border-t border-purple-500/10 text-[10px] text-gray-500 dark:text-gray-500 font-medium animate-in fade-in slide-in-from-top-1 duration-300">
-              AI systémy na tomto webu: gemini flash, chatbot
+              AI systémy na tomto webu: Gemini 3 Flash
             </div>
           )}
         </div>
