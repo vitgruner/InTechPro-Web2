@@ -184,7 +184,7 @@ const SolarSystem = React.memo(() => {
               <line x1="89" y1="89" x2="50" y2="50" stroke="#6366f1" strokeWidth="0.3" strokeOpacity="0.15" />
 
               {/* Animated Particles */}
-              {[0, 2.2].map((d, i) => (
+              {metrics.production > 0 && [0, 2.2].map((d, i) => (
                 <circle key={`pv-${i}`} r="1.0" fill="#69C350" filter="url(#packetGlow)">
                   <animateMotion path="M 50 11 L 50 50" dur="4.4s" begin={`${d}s`} repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
                 </circle>
@@ -209,7 +209,7 @@ const SolarSystem = React.memo(() => {
                   <animateMotion path="M 89 11 L 50 50" dur="4.4s" begin={`${d}s`} repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
                 </circle>
               ))}
-              {[0, 2.0].map((d, i) => (
+              {metrics.load > 0 && [0, 2.0].map((d, i) => (
                 <circle key={`hs-${i}`} r="1.0" fill="#3b82f6" filter="url(#packetGlow)">
                   <animateMotion path="M 50 50 L 11 50" dur="4s" begin={`${d}s`} repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
                 </circle>
@@ -219,12 +219,16 @@ const SolarSystem = React.memo(() => {
                   <animateMotion path="M 50 50 L 89 50" dur="4s" begin={`${d}s`} repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
                 </circle>
               ))}
-              <circle r="1.0" fill="#0ea5e9" filter="url(#packetGlow)">
-                <animateMotion path="M 50 50 L 11 89" dur="4.8s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
-              </circle>
-              <circle r="1.0" fill="#06b6d4" filter="url(#packetGlow)">
-                <animateMotion path="M 50 50 L 50 89" dur="4s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
-              </circle>
+              {metrics.heatPump > 0 && (
+                <circle r="1.0" fill="#0ea5e9" filter="url(#packetGlow)">
+                  <animateMotion path="M 50 50 L 11 89" dur="4.8s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
+                </circle>
+              )}
+              {metrics.hotWater > 0 && (
+                <circle r="1.0" fill="#06b6d4" filter="url(#packetGlow)">
+                  <animateMotion path="M 50 50 L 50 89" dur="4s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
+                </circle>
+              )}
               {metrics.wallbox > 0 && (
                 <circle r="1.0" fill="#6366f1" filter="url(#packetGlow)">
                   <animateMotion path="M 50 50 L 89 89" dur="4.8s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
