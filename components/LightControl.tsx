@@ -149,9 +149,9 @@ const LightControl = React.memo(() => {
           }}
         />
 
-        <div className="flex gap-4 md:gap-8 relative z-10">
+        <div className="flex gap-2 md:gap-8 relative z-10">
           {[0, 1, 2].map((i) => (
-            <div key={i} className={`flex flex-col items-center gap-4`}>
+            <div key={i} className={`flex flex-col items-center gap-3 md:gap-4`}>
               <div className="relative group">
                 {/* Glow - NO TRANSITION for performance */}
                 <div
@@ -162,9 +162,9 @@ const LightControl = React.memo(() => {
                     willChange: 'transform'
                   }}
                 />
-                <div className="relative w-24 h-24 md:w-36 md:h-36 glass-panel rounded-[2.5rem] md:rounded-[3rem] border-2 border-white/20 flex items-center justify-center bg-white/5 md:backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)]">
+                <div className="relative w-20 h-20 md:w-36 md:h-36 glass-panel rounded-3xl md:rounded-[3rem] border-2 border-white/20 flex items-center justify-center bg-white/5 md:backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)]">
                   <Lightbulb
-                    className="w-12 h-12 md:w-20 md:h-20"
+                    className="w-10 h-10 md:w-20 md:h-20"
                     style={{
                       color: visualColor,
                       opacity: bulbOpacity,
