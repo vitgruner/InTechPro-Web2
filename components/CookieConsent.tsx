@@ -13,6 +13,7 @@ const COOKIE_NAME = 'intechpro_cookie_consent_v1';
 const CookieConsent = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+  const [showAIDisclosure, setShowAIDisclosure] = useState(false);
   const [showAISystems, setShowAISystems] = useState(false);
   const [consent, setConsent] = useState<ConsentType>({
     necessary: true,
@@ -146,26 +147,37 @@ const CookieConsent = () => {
         </div>
 
         {/* AI Act Disclosure */}
-        <div className="mb-6 p-4 rounded-2xl bg-purple-500/5 border border-purple-500/10 dark:border-purple-500/20">
-          <div className="flex items-center gap-2 mb-2">
-            <Bot className="w-4 h-4 text-purple-500" />
-            <h4 className="text-[10px] font-black text-purple-600 dark:text-purple-400 uppercase tracking-widest">
-              Oznámení dle AI Act (čl. 50)
-            </h4>
-          </div>
-          <p className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
-            Tento web <span className="font-bold">používá umělou inteligenci ke komunikaci s vámi.</span>
-            Využíváme AI pro zodpovídání vašich dotazů a poskytování informací. Veškerá komunikace prochází lidskou kontrolou.
-          </p>
+        <div className="mb-6 rounded-2xl bg-purple-500/5 border border-purple-500/10 dark:border-purple-500/20 overflow-hidden transition-all duration-300">
           <button
-            onClick={() => setShowAISystems(!showAISystems)}
-            className="mt-2 text-[10px] font-bold text-purple-500 hover:text-purple-600 transition-colors flex items-center gap-1"
+            onClick={() => setShowAIDisclosure(!showAIDisclosure)}
+            className="w-full flex items-center justify-between p-4 hover:bg-purple-500/10 transition-colors"
           >
-            {showAISystems ? 'Méně' : 'Více'}
+            <div className="flex items-center gap-2">
+              <Bot className="w-4 h-4 text-purple-500" />
+              <h4 className="text-[10px] font-black text-purple-600 dark:text-purple-400 uppercase tracking-widest text-left">
+                Oznámení dle AI Act (čl. 50)
+              </h4>
+            </div>
+            {showAIDisclosure ? <ChevronUp className="w-3 h-3 text-purple-500" /> : <ChevronDown className="w-3 h-3 text-purple-500" />}
           </button>
-          {showAISystems && (
-            <div className="mt-2 pt-2 border-t border-purple-500/10 text-[10px] text-gray-500 dark:text-gray-500 font-medium animate-in fade-in slide-in-from-top-1 duration-300">
-              AI systémy na tomto webu: Gemini 3 Flash
+
+          {showAIDisclosure && (
+            <div className="px-4 pb-4 animate-in fade-in slide-in-from-top-2 duration-300">
+              <p className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
+                Tento web <span className="font-bold">používá umělou inteligenci ke komunikaci s vámi.</span>
+                Využíváme AI pro zodpovídání vašich dotazů a poskytování informací. Veškerá komunikace prochází lidskou kontrolou.
+              </p>
+              <button
+                onClick={() => setShowAISystems(!showAISystems)}
+                className="mt-2 text-[10px] font-bold text-purple-500 hover:text-purple-600 transition-colors flex items-center gap-1"
+              >
+                {showAISystems ? 'Méně technických detailů' : 'Více technických detailů'}
+              </button>
+              {showAISystems && (
+                <div className="mt-2 pt-2 border-t border-purple-500/10 text-[10px] text-gray-500 dark:text-gray-500 font-medium animate-in fade-in slide-in-from-top-1 duration-300">
+                  AI systémy na tomto webu: Gemini 3 Flash
+                </div>
+              )}
             </div>
           )}
         </div>
