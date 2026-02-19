@@ -103,9 +103,11 @@ const AboutUs = ({ setView }: { setView?: (view: any) => void }) => {
           </div>
         </div>
       </section>
+      {/* 
       <div className="bg-white dark:bg-[#050505] pb-12">
         <Partners />
       </div>
+      */}
     </>
   );
 };
