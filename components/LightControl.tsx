@@ -94,14 +94,14 @@ const LightControl = React.memo(() => {
             </div>
             <span className="text-[11px] font-black text-[#69C350] tabular-nums">{intensity}%</span>
           </div>
-          <div className="relative flex items-center h-4">
+          <div className="relative flex items-center h-8">
             <input
               type="range"
               min="0"
               max="100"
               value={intensity}
               onChange={(e) => setIntensity(parseInt(e.target.value))}
-              className="w-full h-1.5 bg-gray-200 dark:bg-white/10 rounded-full appearance-none cursor-pointer accent-[#69C350]"
+              className="premium-slider bg-gray-200 dark:bg-white/10"
             />
           </div>
         </div>
@@ -115,7 +115,7 @@ const LightControl = React.memo(() => {
             </div>
             <span className="text-[11px] font-black text-[#69C350] tabular-nums">{whiteTemp}K</span>
           </div>
-          <div className="relative flex items-center h-4">
+          <div className="relative flex items-center h-8">
             <input
               type="range"
               min="2000"
@@ -126,10 +126,9 @@ const LightControl = React.memo(() => {
                 setWhiteTemp(parseInt(e.target.value));
                 setColor('#ffffff');
               }}
-              className="w-full h-1.5 rounded-full appearance-none cursor-pointer border border-black/5 dark:border-white/10"
+              className="premium-slider border border-black/5 dark:border-white/10"
               style={{
-                background: 'linear-gradient(to right, #ff8c00, #fff4e6, #f0f8ff)',
-                WebkitAppearance: 'none'
+                background: 'linear-gradient(to right, #ff8c00, #fff4e6, #f0f8ff)'
               }}
             />
           </div>

@@ -20,6 +20,7 @@ import AdminReferenceList from './components/AdminReferenceList';
 import Breadcrumbs from './components/Breadcrumbs';
 import SectionHeader from './components/SectionHeader';
 import { isAdminWhitelisted } from './src/auth/adminGuard';
+import ErrorBoundary from './components/ErrorBoundary';
 
 // Add smooth scroll helper
 const scrollToTop = () => {
@@ -214,7 +215,19 @@ const App = () => {
       const timer = setTimeout(() => setShowMainContent(true), 600);
       return () => clearTimeout(timer);
     }
-    return () => clearInterval(interval);
+
+    // Hard timeout fallback: if data isn't loaded in 10s (e.g. slow network), force proceed
+    const safetyTimer = setTimeout(() => {
+      if (isLoadingData) {
+        console.warn("Loading timeout reached. Forcing application start with fallback data.");
+        setIsLoadingData(false);
+      }
+    }, 10000);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(safetyTimer);
+    };
   }, [isLoadingData]);
 
   useEffect(() => {
@@ -404,106 +417,108 @@ const App = () => {
     }
 
     return (
-      <Suspense fallback={<LoadingScreen progress={loadingProgress} />}>
-        {(() => {
-          switch (view) {
-            case 'home':
-              return (
-                <>
-                  <Hero setView={navigateTo} />
-                  <Services setView={navigateTo} />
-                  <References projects={referenceProjects} setView={navigateTo} />
-                  <Process />
-                  <ContactForm />
-                </>
-              );
-            case 'sluzby':
-              return (
-                <>
-                  <Services setView={navigateTo} isStandalone={true} />
-                  <Process />
-                </>
-              );
-            case 'reference':
-              return <References projects={referenceProjects} isStandalone={true} setView={navigateTo} />;
-            case 'kontakt':
-              return <ContactForm isStandalone={true} setView={navigateTo} />;
-            case 'online-showroom':
-              return <Dashboard setView={navigateTo} />;
-            case 'o-nas':
-              return <AboutUs setView={navigateTo} />;
-            case 'ochrana-soukromi':
-              return <PrivacyPolicy setView={navigateTo} />;
-            case 'impresum':
-              return <Impresum setView={navigateTo} />;
-            case 'admin-dashboard':
-              return (
-                <div className="pt-28 md:pt-32 pb-24 bg-[#f4f7f9] dark:bg-[#050505]">
-                  <div className="max-w-7xl mx-auto px-6 text-left">
-                    <Breadcrumbs
-                      items={[{ label: 'ADMIN DASHBOARD' }]}
-                      setView={navigateTo}
-                    />
-                    <SectionHeader
-                      variant="page"
-                      align="left"
-                      eyebrow="Zabezpečená správa databáze"
-                      title="Databáze"
-                      highlight="Projektů"
-                      description="Kompletní správa vašich projektových referencí synchronizovaná s cloudovou databází Supabase."
-                    />
+      <ErrorBoundary>
+        <Suspense fallback={<LoadingScreen progress={loadingProgress} />}>
+          {(() => {
+            switch (view) {
+              case 'home':
+                return (
+                  <>
+                    <Hero setView={navigateTo} />
+                    <Services setView={navigateTo} />
+                    <References projects={referenceProjects} setView={navigateTo} />
+                    <Process />
+                    <ContactForm />
+                  </>
+                );
+              case 'sluzby':
+                return (
+                  <>
+                    <Services setView={navigateTo} isStandalone={true} />
+                    <Process />
+                  </>
+                );
+              case 'reference':
+                return <References projects={referenceProjects} isStandalone={true} setView={navigateTo} />;
+              case 'kontakt':
+                return <ContactForm isStandalone={true} setView={navigateTo} />;
+              case 'online-showroom':
+                return <Dashboard setView={navigateTo} />;
+              case 'o-nas':
+                return <AboutUs setView={navigateTo} />;
+              case 'ochrana-soukromi':
+                return <PrivacyPolicy setView={navigateTo} />;
+              case 'impresum':
+                return <Impresum setView={navigateTo} />;
+              case 'admin-dashboard':
+                return (
+                  <div className="pt-28 md:pt-32 pb-24 bg-[#f4f7f9] dark:bg-[#050505]">
+                    <div className="max-w-7xl mx-auto px-6 text-left">
+                      <Breadcrumbs
+                        items={[{ label: 'ADMIN DASHBOARD' }]}
+                        setView={navigateTo}
+                      />
+                      <SectionHeader
+                        variant="page"
+                        align="left"
+                        eyebrow="Zabezpečená správa databáze"
+                        title="Databáze"
+                        highlight="Projektů"
+                        description="Kompletní správa vašich projektových referencí synchronizovaná s cloudovou databází Supabase."
+                      />
 
-                    <div className="flex justify-between items-center mb-6 -mt-4">
-                      <div className="flex items-center gap-4">
-                        {isSyncing && <div className="flex items-center gap-2 text-[#69C350] animate-pulse text-[10px] font-black uppercase tracking-widest bg-[#69C350]/10 px-3 py-1 rounded-full"><CloudUpload className="w-3 h-3" /> Syncing</div>}
-                        {!isAdmin && (
-                          <div className="text-[10px] font-bold text-red-500 uppercase tracking-widest bg-red-500/10 px-3 py-1 rounded-full">Neautorizovaný přístup</div>
-                        )}
-                        {isAdmin && userEmail && (
-                          <div className="text-[10px] font-bold text-[#69C350] uppercase tracking-widest bg-[#69C350]/10 px-3 py-1 rounded-full">Přihlášen jako: {userEmail}</div>
-                        )}
+                      <div className="flex justify-between items-center mb-6 -mt-4">
+                        <div className="flex items-center gap-4">
+                          {isSyncing && <div className="flex items-center gap-2 text-[#69C350] animate-pulse text-[10px] font-black uppercase tracking-widest bg-[#69C350]/10 px-3 py-1 rounded-full"><CloudUpload className="w-3 h-3" /> Syncing</div>}
+                          {!isAdmin && (
+                            <div className="text-[10px] font-bold text-red-500 uppercase tracking-widest bg-red-500/10 px-3 py-1 rounded-full">Neautorizovaný přístup</div>
+                          )}
+                          {isAdmin && userEmail && (
+                            <div className="text-[10px] font-bold text-[#69C350] uppercase tracking-widest bg-[#69C350]/10 px-3 py-1 rounded-full">Přihlášen jako: {userEmail}</div>
+                          )}
+                        </div>
+                        <button type="button" onClick={handleLogout} className="px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest bg-slate-200 dark:bg-white/10 transition-all hover:bg-red-500 hover:text-white">Odhlásit se</button>
                       </div>
-                      <button type="button" onClick={handleLogout} className="px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest bg-slate-200 dark:bg-white/10 transition-all hover:bg-red-500 hover:text-white">Odhlásit se</button>
-                    </div>
 
-                    <div className="space-y-8">
-                      <section>
-                        <ReferenceForm
-                          initialData={editingReference || undefined}
-                          onAdd={handleSaveReference}
-                          onCancel={() => {
-                            setEditingReference(null);
-                            if (!editingReference) navigateTo('home');
-                          }}
-                        />
-                      </section>
+                      <div className="space-y-8">
+                        <section>
+                          <ReferenceForm
+                            initialData={editingReference || undefined}
+                            onAdd={handleSaveReference}
+                            onCancel={() => {
+                              setEditingReference(null);
+                              if (!editingReference) navigateTo('home');
+                            }}
+                          />
+                        </section>
 
-                      <section className="pt-6 border-t border-black/5 dark:border-white/5">
-                        <AdminReferenceList
-                          references={referenceProjects}
-                          onEdit={(ref: Reference) => {
-                            setEditingReference(ref);
-                            scrollToTop();
-                          }}
-                          onDelete={handleDeleteReference}
-                        />
-                      </section>
+                        <section className="pt-6 border-t border-black/5 dark:border-white/5">
+                          <AdminReferenceList
+                            references={referenceProjects}
+                            onEdit={(ref: Reference) => {
+                              setEditingReference(ref);
+                              scrollToTop();
+                            }}
+                            onDelete={handleDeleteReference}
+                          />
+                        </section>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            case 'admin-login':
-              return <AdminLogin onLogin={handleAdminLoginSuccess} />;
-            case 'loxone-smart-home': return <LoxoneDetail setView={navigateTo} />;
-            case 'navrh-osvetleni': return <OsvetleniDetail setView={navigateTo} />;
-            case 'vyroba-rozvadecu': return <RozvadeceDetail setView={navigateTo} />;
-            case 'moderni-technologie': return <TechnologieDetail setView={navigateTo} />;
-            case 'projekce-elektro': return <ProjekceDetail setView={navigateTo} />;
-            default:
-              return <Hero setView={navigateTo} />;
-          }
-        })()}
-      </Suspense>
+                );
+              case 'admin-login':
+                return <AdminLogin onLogin={handleAdminLoginSuccess} />;
+              case 'loxone-smart-home': return <LoxoneDetail setView={navigateTo} />;
+              case 'navrh-osvetleni': return <OsvetleniDetail setView={navigateTo} />;
+              case 'vyroba-rozvadecu': return <RozvadeceDetail setView={navigateTo} />;
+              case 'moderni-technologie': return <TechnologieDetail setView={navigateTo} />;
+              case 'projekce-elektro': return <ProjekceDetail setView={navigateTo} />;
+              default:
+                return <Hero setView={navigateTo} />;
+            }
+          })()}
+        </Suspense>
+      </ErrorBoundary>
     );
   };
 

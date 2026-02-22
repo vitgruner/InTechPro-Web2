@@ -191,43 +191,43 @@ const SolarSystem = React.memo(({ onStatusChange }: SolarSystemProps) => {
               </defs>
 
               {/* Radial Lines from SolaX (50, 50) to 8 Nodes */}
-              <line x1="11" y1="11" x2="50" y2="50" stroke="#a855f7" strokeWidth="0.3" strokeOpacity="0.15" />
-              <line x1="50" y1="11" x2="50" y2="50" stroke="#69C350" strokeWidth="0.3" strokeOpacity="0.15" />
-              <line x1="89" y1="11" x2="50" y2="50" stroke="#eab308" strokeWidth="0.3" strokeOpacity="0.15" />
-              <line x1="11" y1="50" x2="50" y2="50" stroke="#3b82f6" strokeWidth="0.3" strokeOpacity="0.15" />
+              <line x1="11" y1="11" x2="50" y2="50" stroke="#f87171" strokeWidth="0.3" strokeOpacity="0.15" />
+              <line x1="50" y1="11" x2="50" y2="50" stroke="#facc15" strokeWidth="0.3" strokeOpacity="0.15" />
+              <line x1="89" y1="11" x2="50" y2="50" stroke="#3b82f6" strokeWidth="0.3" strokeOpacity="0.15" />
+              <line x1="11" y1="50" x2="50" y2="50" stroke="#69C350" strokeWidth="0.3" strokeOpacity="0.15" />
               <line x1="89" y1="50" x2="50" y2="50" stroke="#f97316" strokeWidth="0.3" strokeOpacity="0.15" />
-              <line x1="11" y1="89" x2="50" y2="50" stroke="#0ea5e9" strokeWidth="0.3" strokeOpacity="0.15" />
-              <line x1="50" y1="89" x2="50" y2="50" stroke="#06b6d4" strokeWidth="0.3" strokeOpacity="0.15" />
-              <line x1="89" y1="89" x2="50" y2="50" stroke="#6366f1" strokeWidth="0.3" strokeOpacity="0.15" />
+              <line x1="11" y1="89" x2="50" y2="50" stroke="#14b8a6" strokeWidth="0.3" strokeOpacity="0.15" />
+              <line x1="50" y1="89" x2="50" y2="50" stroke="#f97316" strokeWidth="0.3" strokeOpacity="0.15" />
+              <line x1="89" y1="89" x2="50" y2="50" stroke="#a855f7" strokeWidth="0.3" strokeOpacity="0.15" />
 
               {/* Animated Particles */}
               {metrics.production > 0 && [0, 2.2].map((d, i) => (
-                <circle key={`pv-${i}`} r="1.0" fill="#69C350" filter="url(#packetGlow)">
+                <circle key={`pv-${i}`} r="1.0" fill="#facc15" filter="url(#packetGlow)">
                   <animateMotion path="M 50 11 L 50 50" dur="4.4s" begin={`${d}s`} repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
                 </circle>
               ))}
               {metrics.gridExport > 0 && [0, 2.2].map((d, i) => (
-                <circle key={`gexp-${i}`} r="1.0" fill="#a855f7" filter="url(#packetGlow)">
+                <circle key={`gexp-${i}`} r="1.0" fill="#f87171" filter="url(#packetGlow)">
                   <animateMotion path="M 50 50 L 11 11" dur="4.4s" begin={`${d}s`} repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
                 </circle>
               ))}
               {metrics.gridImport > 0 && [0, 2.2].map((d, i) => (
-                <circle key={`gimp-${i}`} r="1.0" fill="#a855f7" filter="url(#packetGlow)">
+                <circle key={`gimp-${i}`} r="1.0" fill="#f87171" filter="url(#packetGlow)">
                   <animateMotion path="M 11 11 L 50 50" dur="4.4s" begin={`${d}s`} repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
                 </circle>
               ))}
               {metrics.batteryPower > 0 && [0, 2.2].map((d, i) => (
-                <circle key={`batch-${i}`} r="1.0" fill="#eab308" filter="url(#packetGlow)">
+                <circle key={`batch-${i}`} r="1.0" fill="#3b82f6" filter="url(#packetGlow)">
                   <animateMotion path="M 50 50 L 89 11" dur="4.4s" begin={`${d}s`} repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
                 </circle>
               ))}
               {metrics.batteryPower < 0 && [0, 2.2].map((d, i) => (
-                <circle key={`batdis-${i}`} r="1.0" fill="#eab308" filter="url(#packetGlow)">
+                <circle key={`batdis-${i}`} r="1.0" fill="#3b82f6" filter="url(#packetGlow)">
                   <animateMotion path="M 89 11 L 50 50" dur="4.4s" begin={`${d}s`} repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
                 </circle>
               ))}
               {metrics.load > 0 && [0, 2.0].map((d, i) => (
-                <circle key={`hs-${i}`} r="1.0" fill="#3b82f6" filter="url(#packetGlow)">
+                <circle key={`hs-${i}`} r="1.0" fill="#69C350" filter="url(#packetGlow)">
                   <animateMotion path="M 50 50 L 11 50" dur="4s" begin={`${d}s`} repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
                 </circle>
               ))}
@@ -237,17 +237,17 @@ const SolarSystem = React.memo(({ onStatusChange }: SolarSystemProps) => {
                 </circle>
               ))}
               {metrics.heatPump > 0 && (
-                <circle r="1.0" fill="#0ea5e9" filter="url(#packetGlow)">
+                <circle r="1.0" fill="#14b8a6" filter="url(#packetGlow)">
                   <animateMotion path="M 50 50 L 11 89" dur="4.8s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
                 </circle>
               )}
               {metrics.hotWater > 0 && (
-                <circle r="1.0" fill="#06b6d4" filter="url(#packetGlow)">
+                <circle r="1.0" fill="#f97316" filter="url(#packetGlow)">
                   <animateMotion path="M 50 50 L 50 89" dur="4s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
                 </circle>
               )}
               {metrics.wallbox > 0 && (
-                <circle r="1.0" fill="#6366f1" filter="url(#packetGlow)">
+                <circle r="1.0" fill="#a855f7" filter="url(#packetGlow)">
                   <animateMotion path="M 50 50 L 89 89" dur="4.8s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1" />
                 </circle>
               )}
@@ -257,21 +257,21 @@ const SolarSystem = React.memo(({ onStatusChange }: SolarSystemProps) => {
             <div className="flex flex-col gap-6 md:gap-10 relative z-10 w-full">
               {/* Grid Rows */}
               <div className="flex items-center justify-center gap-3 md:gap-7 w-full h-[95px]">
-                <PowerNode icon={LoxoneGridIcon as any} label="Veřejná síť" value={Math.abs(metrics.gridExport - metrics.gridImport)} unit="kW" color="purple" subValue={metrics.gridExport > 0 ? "Přetok" : "Odběr"} className="flex-1 justify-end" />
+                <PowerNode icon={LoxoneGridIcon as any} label="Veřejná síť" value={Math.abs(metrics.gridExport - metrics.gridImport)} unit="kW" color="red" subValue={metrics.gridExport > 0 ? "Přetok" : "Odběr"} className="flex-1 justify-end" />
                 <PowerNode
                   icon={LoxoneEnergyIcon as any}
                   label="Fotovoltaika"
                   value={metrics.production}
                   unit="kWp"
-                  color="green"
+                  color="yellow"
                   subValue="Výkon"
                   className="flex-1 justify-center"
                 />
-                <PowerNode icon={LoxoneBatteryIcon as any} label="Baterie" value={metrics.batteryPower} unit="kW" color="yellow" subValue={`${metrics.battery.toFixed(0)}%`} className="flex-1 justify-start" />
+                <PowerNode icon={LoxoneBatteryIcon as any} label="Baterie" value={metrics.batteryPower} unit="kW" color="blue" subValue={`${metrics.battery.toFixed(0)}%`} className="flex-1 justify-start" />
               </div>
 
               <div className="flex items-center justify-center gap-3 md:gap-7 w-full h-[95px]">
-                <PowerNode icon={LoxoneHouseIcon as any} label="Dům" value={metrics.load} unit="kW" color="blue" subValue="Spotřeba" className="flex-1 justify-end" />
+                <PowerNode icon={LoxoneHouseIcon as any} label="Dům" value={metrics.load} unit="kW" color="[#69C350]" subValue="Spotřeba" className="flex-1 justify-end" />
                 <div className="flex-1 flex justify-center items-center relative min-h-[76px] md:min-h-[95px]">
                   <div className="absolute inset-0 bg-[#E62E2D]/5 blur-[60px] rounded-full scale-110 animate-pulse" />
                   <img src={solaxInverter} alt="SolaX" className="w-22 h-22 md:w-30 md:h-30 object-contain drop-shadow-2xl z-20 transition-transform duration-500" />
@@ -280,9 +280,9 @@ const SolarSystem = React.memo(({ onStatusChange }: SolarSystemProps) => {
               </div>
 
               <div className="flex items-center justify-center gap-3 md:gap-7 w-full h-[95px]">
-                <PowerNode icon={LoxoneTemperatureIcon as any} label="Čerpadlo" value={metrics.heatPump} unit="kW" color="sky" subValue="Vytápění" className="flex-1 justify-end" />
-                <PowerNode icon={LoxoneHotWaterIcon as any} label="Ohřev TUV" value={metrics.hotWater} unit="kW" color="cyan" subValue="Bojler" className="flex-1 justify-center" />
-                <PowerNode icon={LoxoneEVIcon as any} label="EV Nabíječka" value={metrics.wallbox} unit="kW" color="indigo" subValue={metrics.wallbox > 0 ? "Nabíjení" : "Odpojeno"} className="flex-1 justify-start" />
+                <PowerNode icon={LoxoneTemperatureIcon as any} label="Čerpadlo" value={metrics.heatPump} unit="kW" color="teal" subValue="Vytápění" className="flex-1 justify-end" />
+                <PowerNode icon={LoxoneHotWaterIcon as any} label="Ohřev TUV" value={metrics.hotWater} unit="kW" color="orange" subValue="Bojler" className="flex-1 justify-center" />
+                <PowerNode icon={LoxoneEVIcon as any} label="EV Nabíječka" value={metrics.wallbox} unit="kW" color="purple" subValue={metrics.wallbox > 0 ? "Nabíjení" : "Odpojeno"} className="flex-1 justify-start" />
               </div>
             </div>
           </div>

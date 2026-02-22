@@ -171,7 +171,19 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView,
               {isAdmin ? <Unlock className="w-5 h-5" aria-hidden="true" /> : <Lock className="w-5 h-5" aria-hidden="true" />}
             </button>
             <button
-              onClick={toggleTheme}
+              onClick={(e) => {
+                const x = e.clientX;
+                const y = e.clientY;
+                if (!(document as any).startViewTransition) {
+                  toggleTheme();
+                  return;
+                }
+                document.documentElement.style.setProperty('--x', `${x}px`);
+                document.documentElement.style.setProperty('--y', `${y}px`);
+                (document as any).startViewTransition(() => {
+                  toggleTheme();
+                });
+              }}
               className="p-2.5 rounded-2xl hover:bg-black/5 dark:hover:bg-white/10 transition-all active:scale-95"
               aria-label="Přepnout režim"
             >
@@ -192,7 +204,23 @@ const Navbar: React.FC<NavProps> = ({ isDark, toggleTheme, setView, currentView,
               <Unlock className="w-5 h-5" aria-hidden="true" />
             </button>
           )}
-          <button onClick={toggleTheme} className="p-2 text-gray-600 dark:text-gray-400 transition-all active:scale-90" aria-label={isDark ? "Přepnout na světlý režim" : "Přepnout na tmavý režim"}>
+          <button
+            onClick={(e) => {
+              const x = e.clientX;
+              const y = e.clientY;
+              if (!(document as any).startViewTransition) {
+                toggleTheme();
+                return;
+              }
+              document.documentElement.style.setProperty('--x', `${x}px`);
+              document.documentElement.style.setProperty('--y', `${y}px`);
+              (document as any).startViewTransition(() => {
+                toggleTheme();
+              });
+            }}
+            className="p-2 text-gray-600 dark:text-gray-400 transition-all active:scale-90"
+            aria-label={isDark ? "Přepnout na světlý režim" : "Přepnout na tmavý režim"}
+          >
             {isDark ? <Sun className="w-5 h-5" aria-hidden="true" /> : <Moon className="w-5 h-5" aria-hidden="true" />}
           </button>
           <div className="w-[1px] h-5 bg-black/5 dark:bg-white/10 mx-0.5" />
